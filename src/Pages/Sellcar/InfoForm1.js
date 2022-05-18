@@ -1,8 +1,19 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
 const InfoForm1 = () => {
+  //주행거리 값 관리하는 상태값
   const [inputValue, setInputValue] = useState("");
+
+  //옵션 값 관리하는 상태값
+  const [options, setOptions] = useState({
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+    6: false,
+  });
 
   //input에 숫자만 입력 및 세 자리수 마다 콤마 찍는 함수
   const checkNumber = (e) => {
@@ -12,6 +23,15 @@ const InfoForm1 = () => {
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     setInputValue(commaNumber);
+  };
+
+  //click시 옵션값 저장하는 함수
+  const clickOptions = (e) => {
+    // setOptions([...options, e.target.value]);
+    const value = e.target.value;
+    console.log("beforeChange>>", options);
+    setOptions({ ...options, [value]: !options[value] });
+    console.log("afterChange>>", options);
   };
 
   return (
@@ -36,14 +56,50 @@ const InfoForm1 = () => {
         <Name>옵션</Name>
         <OptionBox>
           <OptionLine>
-            <OptionButton>네비게이션</OptionButton>
-            <OptionButton>선루프</OptionButton>
-            <OptionButton>통풍시트</OptionButton>
+            <OptionButton
+              value={1}
+              onClick={clickOptions}
+              isClicked={options[1]}
+            >
+              네비게이션
+            </OptionButton>
+            <OptionButton
+              value={2}
+              onClick={clickOptions}
+              isClicked={options[2]}
+            >
+              선루프
+            </OptionButton>
+            <OptionButton
+              value={3}
+              onClick={clickOptions}
+              isClicked={options[3]}
+            >
+              통풍시트
+            </OptionButton>
           </OptionLine>
           <OptionLine>
-            <OptionButton>디지털키</OptionButton>
-            <OptionButton>옵션명</OptionButton>
-            <OptionButton>옵션명</OptionButton>
+            <OptionButton
+              value={4}
+              onClick={clickOptions}
+              isClicked={options[4]}
+            >
+              디지털키
+            </OptionButton>
+            <OptionButton
+              value={5}
+              onClick={clickOptions}
+              isClicked={options[5]}
+            >
+              옵션명
+            </OptionButton>
+            <OptionButton
+              value={6}
+              onClick={clickOptions}
+              isClicked={options[6]}
+            >
+              옵션명
+            </OptionButton>
           </OptionLine>
         </OptionBox>
         <NoOptionCheck>
@@ -124,9 +180,15 @@ const OptionButton = styled.button`
   font-size: 16px;
   font-weight: 600;
   box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.1);
-  :hover {
-    cursor: pointer;
-  }
+  ${({ isClicked }) => {
+    return isClicked
+      ? `
+        background-color: rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        box-shadow: inset 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+      `
+      : null;
+  }}
 `;
 
 const NoOptionCheck = styled.div``;
