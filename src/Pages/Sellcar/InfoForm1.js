@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 const InfoForm1 = () => {
@@ -27,11 +27,19 @@ const InfoForm1 = () => {
 
   //click시 옵션값 저장하는 함수
   const clickOptions = (e) => {
-    // setOptions([...options, e.target.value]);
     const value = e.target.value;
-    console.log("beforeChange>>", options);
     setOptions({ ...options, [value]: !options[value] });
-    console.log("afterChange>>", options);
+    console.log("options>>", options);
+  };
+
+  //옵션이 없어요 체크
+  const noOptionCheck = (e) => {
+    if (!e.target.checked) {
+      for (let i in options) {
+        options[i] = false;
+      }
+    }
+    console.log("noOptions>>", options);
   };
 
   return (
@@ -102,9 +110,10 @@ const InfoForm1 = () => {
             </OptionButton>
           </OptionLine>
         </OptionBox>
-        <NoOptionCheck>
-          <CheckBoxInfo></CheckBoxInfo>
-        </NoOptionCheck>
+        <NoOptionWrapper>
+          <NoOptionCheck type="checkbox" onClick={noOptionCheck} />
+          <CheckBoxInfo>옵션이 없어요.</CheckBoxInfo>
+        </NoOptionWrapper>
       </OptionWrapper>
     </InfoContainer>
   );
@@ -191,8 +200,21 @@ const OptionButton = styled.button`
   }}
 `;
 
-const NoOptionCheck = styled.div``;
+const NoOptionWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
-const CheckBoxInfo = styled.span``;
+const NoOptionCheck = styled.input`
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  box-shadow: 2px 2px 3px 1px rgba(0, 0, 0, 0.1);
+`;
+
+const CheckBoxInfo = styled.span`
+  margin-left: 10px;
+  font-size: 15px;
+`;
 
 export default InfoForm1;
