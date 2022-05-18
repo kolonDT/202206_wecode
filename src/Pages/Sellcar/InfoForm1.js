@@ -21,8 +21,8 @@ const InfoForm1 = () => {
         <br />
         추가 정보를 입력해주세요
       </Announcement>
-      <DrivingDistanceBox>
-        <DrivingDistance>주행거리</DrivingDistance>
+      <DrivingDistanceWrapper>
+        <Name>주행거리</Name>
         <InputBox>
           <DistanceInput
             placeholder="1,500"
@@ -31,7 +31,25 @@ const InfoForm1 = () => {
           />
           <Measurements>km</Measurements>
         </InputBox>
-      </DrivingDistanceBox>
+      </DrivingDistanceWrapper>
+      <OptionWrapper>
+        <Name>옵션</Name>
+        <OptionBox>
+          <OptionLine>
+            <OptionButton>네비게이션</OptionButton>
+            <OptionButton>선루프</OptionButton>
+            <OptionButton>통풍시트</OptionButton>
+          </OptionLine>
+          <OptionLine>
+            <OptionButton>디지털키</OptionButton>
+            <OptionButton>옵션명</OptionButton>
+            <OptionButton>옵션명</OptionButton>
+          </OptionLine>
+        </OptionBox>
+        <NoOptionCheck>
+          <CheckBoxInfo></CheckBoxInfo>
+        </NoOptionCheck>
+      </OptionWrapper>
     </InfoContainer>
   );
 };
@@ -49,14 +67,14 @@ const Announcement = styled.h1`
   line-height: 25px;
 `;
 
-const DrivingDistanceBox = styled.div`
+const DrivingDistanceWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   margin: 20px 0;
 `;
 
-const DrivingDistance = styled.span`
+const Name = styled.span`
   margin-right: 20px;
   letter-spacing: 0.7px;
 `;
@@ -84,5 +102,35 @@ const DistanceInput = styled.input`
 const Measurements = styled.span`
   padding-right: 7px;
 `;
+
+const OptionWrapper = styled.div``;
+
+const OptionLine = styled.div`
+  margin-bottom: 15px;
+`;
+
+const OptionBox = styled.div`
+  padding: 10px;
+  margin-top: 20px;
+`;
+
+const OptionButton = styled.button`
+  padding: 13px 20px;
+  margin-right: 30px;
+  color: rgba(0, 0, 0, 0.8);
+  background-color: white;
+  border: 0px solid black;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.1);
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const NoOptionCheck = styled.div``;
+
+const CheckBoxInfo = styled.span``;
 
 export default InfoForm1;
