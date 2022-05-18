@@ -3,6 +3,7 @@ import { Routes, BrowserRouter, Route } from "react-router-dom";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Login from "./Pages/Login/Login";
+import LoginMain from "./Pages/Login/LoginMain";
 import CompleteForm from "./Pages/Complete/CompleteForm";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/login" element={<LoginMain />} />
           <Route path="/complete" element={<CompleteForm />} />
           {/* <Route path='/' element={}/>
               <Route path='/' element={}/>

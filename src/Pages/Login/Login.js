@@ -17,6 +17,8 @@ function Login() {
     // console.log("handleLogin");
   };
 
+  const handleWrite = () => {};
+
   function isValidId(str) {
     const regId = /\d{2}[가-힣]{1}\d{4}/g;
     let ret = regId.test(str);
@@ -25,19 +27,22 @@ function Login() {
   }
   return (
     <LoginBox>
-      <LoginTitle>바로지금,</LoginTitle>
-      <LoginSubTitle>똑똑하게 내 차를 파는 가장 빠른시간</LoginSubTitle>
-      <LoginInput
-        onChange={handleInput}
-        type="text"
-        id="id"
-        name="id"
-        placeholder="12가 3456"
-        required
-      />
-      <LoginButton disabled={!isLogin} onClick={handleLogin}>
-        견적확인
-      </LoginButton>
+      <LoginWrap>
+        <LoginTitle>바로지금,</LoginTitle>
+        <LoginSubTitle>똑똑하게 내 차를 파는 가장 빠른시간</LoginSubTitle>
+        <LoginInput
+          onChange={handleInput}
+          type="text"
+          id="id"
+          name="id"
+          placeholder="12가 3456"
+          required
+        />
+        <LoginButton disabled={!isLogin} onClick={handleLogin}>
+          등록하기
+        </LoginButton>
+      </LoginWrap>
+      <LoginNone onClick={handleWrite}>작성하신 견적서가 있으신가요?</LoginNone>
     </LoginBox>
   );
 }
@@ -45,13 +50,26 @@ function Login() {
 export default Login;
 
 const LoginBox = styled.div`
-  width: 640px;
+  /* @media only screen and (max-width: 640px) {
+    width: 100%;
+    height: 100%;
+  } */
   margin: auto;
+  width: 640px;
+  padding: 20px 0px;
+  border: 1px solid gray;
+`;
+
+const LoginWrap = styled.div`
+  @media only screen and (max-width: 640px) {
+    width: 90%;
+    margin: 0px auto;
+    /* justify-content: center; */
+  }
+  margin: 50px 0px 100px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 120px 5px 250px 5px;
-  border: 1px solid gray;
 `;
 
 const LoginTitle = styled.p`
@@ -93,4 +111,10 @@ const LoginButton = styled.button`
     opacity: 0.5;
     background-color: #5c1049;
   }
+`;
+
+const LoginNone = styled.span`
+  margin: 50px 0px 0px 75px;
+  cursor: pointer;
+  color: #ababab;
 `;
