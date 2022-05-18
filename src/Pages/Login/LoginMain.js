@@ -1,13 +1,48 @@
 // modules
 // import React, { useState } from "react";
+import Slider from "react-slick";
 
 //styles
 import styled from "styled-components";
 
 function LoginMain() {
+  const settings = {
+    dots: true,
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    speed: 1000,
+    autoplaySpeed: 1000,
+    cssEase: "linear",
+  };
   return (
     <LoginMainWrap>
-      <LoginMainBox></LoginMainBox>
+      <LoginMainBox>
+        <div>
+          <h2>Auto Play</h2>
+          <Slider {...settings}>
+            <div>
+              <h3>1</h3>
+            </div>
+            <div>
+              <h3>2</h3>
+            </div>
+            <div>
+              <h3>3</h3>
+            </div>
+            <div>
+              <h3>4</h3>
+            </div>
+            <div>
+              <h3>5</h3>
+            </div>
+            <div>
+              <h3>6</h3>
+            </div>
+          </Slider>
+        </div>
+      </LoginMainBox>
       <LoginMainInfo>
         <InfoTitle>
           <p>OOO님의</p>
