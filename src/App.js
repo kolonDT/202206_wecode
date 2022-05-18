@@ -1,18 +1,18 @@
 import './App.css';
 import { Routes, BrowserRouter, Route } from 'react-router-dom';
-import Header from './Components/Header';
+import Sellcar from './Pages/Sellcar/Sellcar';
 import Footer from './Components/Footer';
+import Header from './Components/Header';
 
 function App() {
   return (
-  <>
+    <>
   <Header/>
   <BrowserRouter>
     <Routes>
-      {/* <Route path='/' element={}/>
-      <Route path='/' element={}/>
-      <Route path='/sellcar' element={}/>
-      <Route path='/confirm' element={}/>
+      {/* <Route path='/' element={}/> */}
+      <Route path='/sellcar' element={<Sellcar/>}/>
+      {/* <Route path='/confirm' element={}/>
       <Route path='/complete' element={}/>
       <Route path='/requestform' element={}/>
       <Route path='/admin' element={}/> */}

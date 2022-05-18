@@ -32,9 +32,9 @@ const Footer = () => {
 };
 
 const FooterContainer = styled.div`
+    width: 640px;
     margin: 30px auto;
     padding-top: 30px;
-    width: 640px;
     border-top: 1px solid rgba(0,0,0,0.2);
 `
 

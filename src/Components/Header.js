@@ -24,8 +24,8 @@ const Header = () => {
 };
 
 const HeaderContainer = styled.div`
-    margin: 0px auto;
     width: 640px;
+    margin: 0px auto;
 `
 
 const HeaderWrapper = styled.div`
