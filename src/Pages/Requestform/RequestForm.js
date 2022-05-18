@@ -8,7 +8,7 @@ import "./slide.css";
 import styled from "styled-components";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
-function CompleteForm() {
+function RequestForm() {
   const [fold, setFold] = useState(false);
   const [data, setData] = useState();
   let process = {
@@ -242,4 +242,4 @@ const DetailOption = styled.div`
   flex-wrap: wrap;
 `;
 
-export default CompleteForm;
+export default RequestForm;
