@@ -1,7 +1,5 @@
 // modules
-// import React, { useState } from "react";
 import Slider from "react-slick";
-
 //styles
 import styled from "styled-components";
 
@@ -9,36 +7,30 @@ function LoginMain() {
   const settings = {
     dots: true,
     infinite: true,
-    slidesToShow: 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    speed: 1000,
-    autoplaySpeed: 1000,
+    speed: 3000,
+    autoplaySpeed: 2000,
     cssEase: "linear",
   };
+  // const handleShow = () =>{};
   return (
     <LoginMainWrap>
       <LoginMainBox>
         <div>
-          <h2>Auto Play</h2>
           <Slider {...settings}>
             <div>
-              <h3>1</h3>
+              <img src="/Images/Thumb/main1.png" alt="메인이미지1" />
             </div>
             <div>
-              <h3>2</h3>
+              <img src="/Images/Thumb/main2.png" alt="메인이미지2" />
             </div>
             <div>
-              <h3>3</h3>
+              <img src="/Images/Thumb/main3.png" alt="메인이미지3" />
             </div>
             <div>
-              <h3>4</h3>
-            </div>
-            <div>
-              <h3>5</h3>
-            </div>
-            <div>
-              <h3>6</h3>
+              <img src="/Images/Thumb/main4.png" alt="메인이미지4" />
             </div>
           </Slider>
         </div>
@@ -59,29 +51,38 @@ function LoginMain() {
             연식: <span>2022년 출시</span>
           </div>
         </InfoCar>
-        <InfoButton>시세확인</InfoButton>
+        <InfoButton
+        // onClick={handleShow}
+        >
+          시세확인
+        </InfoButton>
       </LoginMainInfo>
     </LoginMainWrap>
   );
 }
 
 const LoginMainWrap = styled.div`
-  /* @media only screen and (max-width: 640px) {
+  @media only screen and (max-width: 640px) {
     width: 100%;
     margin: 0px auto;
-
-  } */
+  }
   width: 640px;
   margin: 0px auto;
   padding: 20px;
   border: 1px solid black;
 `;
-const LoginMainBox = styled.div``;
+const LoginMainBox = styled.div`
+  img {
+    width: 100%;
+    height: 200px;
+  }
+`;
 const LoginMainInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 50px 10px;
+  margin-top: 20px;
   border-top: 1px solid #adadad;
 `;
 const InfoTitle = styled.div`
