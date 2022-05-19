@@ -180,10 +180,15 @@ const InfoContainer = styled.div`
   width: 640px;
   margin: 0px auto;
   padding-left: 50px;
+  @media only screen and (max-width: 640px) {
+    width: 85%;
+    margin: 0px auto;
+    padding-left: 0;
+  }
 `;
 
 const Announcement = styled.h1`
-  font-size: 20px;
+  font-size: 1.2em;
   font-weight: 800;
   letter-spacing: 1px;
   line-height: 25px;
@@ -193,11 +198,11 @@ const DrivingDistanceWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  margin: 20px 0;
+  margin: 1.4em 0;
 `;
 
 const Name = styled.span`
-  margin-right: 20px;
+  margin-right: 1.4em;
   letter-spacing: 0.7px;
 `;
 
@@ -208,13 +213,13 @@ const InputBox = styled.div`
 const DistanceInput = styled.input`
   margin-bottom: 5px;
   margin-right: 5px;
-  padding: 3px 150px 3px 10px;
+  padding: 3px 1em 3px 10px;
   border: 0 solid black;
-  font-size: 16px;
+  font-size: 0.8em;
   font-weight: 600;
   ::placeholder {
     color: rgba(0, 0, 0, 0.2);
-    font-size: 16px;
+    font-size: 1.2em;
   }
   :focus {
     outline: 0px solid black;
@@ -232,18 +237,22 @@ const OptionLine = styled.div`
 `;
 
 const OptionBox = styled.div`
-  padding: 10px;
-  margin-top: 20px;
+  padding: 1em;
+  margin-top: 1em;
+  @media only screen and (max-width: 640px) {
+    padding: 0;
+    margin-bottom: 1.8em;
+  }
 `;
 
 const OptionButton = styled.button`
-  padding: 13px 20px;
-  margin-right: 30px;
+  padding: 1em 1.4em;
+  margin-right: 1.8em;
   color: rgba(0, 0, 0, 0.8);
   background-color: white;
   border: 0px solid black;
-  border-radius: 30px;
-  font-size: 16px;
+  border-radius: 1.8em;
+  font-size: 1em;
   font-weight: 600;
   box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.1);
   ${({ isClicked }) => {
@@ -255,6 +264,9 @@ const OptionButton = styled.button`
       `
       : null;
   }}
+  @media only screen and (max-width: 640px) {
+    padding: 0.8em 0.8em;
+  }
 `;
 
 const NoOptionWrapper = styled.div`
@@ -276,6 +288,10 @@ const CheckBoxInfo = styled.span`
 
 const AddInfoWrapper = styled.div`
   margin-top: 20px;
+  width: 90%;
+  @media only screen and (max-width: 640px) {
+    width: 100%;
+  }
 `;
 
 const AddInfoBox = styled.div`
@@ -297,7 +313,7 @@ const DescriptionInput = styled.input`
   border-bottom: none;
   ::placeholder {
     color: rgba(0, 0, 0, 0.3);
-    font-size: 14px;
+    font-size: 1em;
   }
 `;
 
