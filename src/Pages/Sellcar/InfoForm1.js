@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { AiOutlinePlus } from "react-icons/ai";
 
 const InfoForm1 = () => {
   //주행거리 값 관리하는 상태값
@@ -15,6 +16,15 @@ const InfoForm1 = () => {
     6: false,
   });
 
+  //옵션 선택 안할 시 버튼 디자인 관리할 상태값
+  const [noOption, setNoOption] = useState(false);
+
+  //추가 정보 글 관리 상태값
+  const [addInfo, setAddInfo] = useState("");
+
+  //photoInput 버튼 ref
+  const photoInput = useRef();
+
   //input에 숫자만 입력 및 세 자리수 마다 콤마 찍는 함수
   const checkNumber = (e) => {
     const value = e.target.value;
@@ -29,17 +39,34 @@ const InfoForm1 = () => {
   const clickOptions = (e) => {
     const value = e.target.value;
     setOptions({ ...options, [value]: !options[value] });
-    console.log("options>>", options);
   };
 
   //옵션이 없어요 체크
+  let _options = {
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+    6: false,
+  };
   const noOptionCheck = (e) => {
-    if (!e.target.checked) {
-      for (let i in options) {
-        options[i] = false;
-      }
+    if (e.target.checked) {
+      setOptions(_options);
+      setNoOption(true);
+    } else {
+      setNoOption(false);
     }
-    console.log("noOptions>>", options);
+  };
+
+  //사진등록 버튼을 누르면 사진 등록할 수 있는 모달창 띄우기
+  const clickPhotoInput = () => {
+    photoInput.current.click();
+  };
+
+  //추가 정보 글 저장하는 함수
+  const writeInfo = (e) => {
+    setAddInfo(e.target.value);
   };
 
   return (
@@ -68,6 +95,7 @@ const InfoForm1 = () => {
               value={1}
               onClick={clickOptions}
               isClicked={options[1]}
+              disabled={noOption ? true : false}
             >
               네비게이션
             </OptionButton>
@@ -75,6 +103,8 @@ const InfoForm1 = () => {
               value={2}
               onClick={clickOptions}
               isClicked={options[2]}
+              noOption={noOption}
+              disabled={noOption ? true : false}
             >
               선루프
             </OptionButton>
@@ -82,6 +112,8 @@ const InfoForm1 = () => {
               value={3}
               onClick={clickOptions}
               isClicked={options[3]}
+              noOption={noOption}
+              disabled={noOption ? true : false}
             >
               통풍시트
             </OptionButton>
@@ -91,6 +123,8 @@ const InfoForm1 = () => {
               value={4}
               onClick={clickOptions}
               isClicked={options[4]}
+              noOption={noOption}
+              disabled={noOption ? true : false}
             >
               디지털키
             </OptionButton>
@@ -98,6 +132,8 @@ const InfoForm1 = () => {
               value={5}
               onClick={clickOptions}
               isClicked={options[5]}
+              noOption={noOption}
+              disabled={noOption ? true : false}
             >
               옵션명
             </OptionButton>
@@ -105,6 +141,8 @@ const InfoForm1 = () => {
               value={6}
               onClick={clickOptions}
               isClicked={options[6]}
+              noOption={noOption}
+              disabled={noOption ? true : false}
             >
               옵션명
             </OptionButton>
@@ -115,6 +153,25 @@ const InfoForm1 = () => {
           <CheckBoxInfo>옵션이 없어요.</CheckBoxInfo>
         </NoOptionWrapper>
       </OptionWrapper>
+      <AddInfoWrapper>
+        <Name>추가 정보</Name>
+        <AddInfoBox>
+          <InfoInputBox>
+            <ThumbnailBox>
+              <Thumbnail></Thumbnail>
+            </ThumbnailBox>
+            <DescriptionInput
+              onChange={writeInfo}
+              placeholder="차량 상태, 수리 필요 여부, 보험 이력 등 상세한 내용을 알려주세요."
+            />
+            <SelectButton onClick={clickPhotoInput}>
+              <AiOutlinePlus />
+              <ButtonName>사진 등록</ButtonName>
+            </SelectButton>
+            <PhotoInput type="file" ref={photoInput} />
+          </InfoInputBox>
+        </AddInfoBox>
+      </AddInfoWrapper>
     </InfoContainer>
   );
 };
@@ -215,6 +272,52 @@ const NoOptionCheck = styled.input`
 const CheckBoxInfo = styled.span`
   margin-left: 10px;
   font-size: 15px;
+`;
+
+const AddInfoWrapper = styled.div`
+  margin-top: 20px;
+`;
+
+const AddInfoBox = styled.div`
+  margin-top: 15px;
+`;
+
+const InfoInputBox = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ThumbnailBox = styled.div``;
+
+const Thumbnail = styled.image``;
+
+const DescriptionInput = styled.input`
+  padding: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-bottom: none;
+  ::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 14px;
+  }
+`;
+
+const SelectButton = styled.div`
+  display: flex;
+  justify-content: center;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const ButtonName = styled.span`
+  margin-left: 4px;
+`;
+
+const PhotoInput = styled.input`
+  display: none;
 `;
 
 export default InfoForm1;
