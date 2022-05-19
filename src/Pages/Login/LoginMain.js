@@ -1,9 +1,11 @@
 // modules
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 //styles
 import styled from "styled-components";
 
 function LoginMain() {
+  const navigate = useNavigate();
   const settings = {
     dots: true,
     infinite: true,
@@ -14,7 +16,9 @@ function LoginMain() {
     autoplaySpeed: 2000,
     cssEase: "linear",
   };
-  // const handleShow = () =>{};
+  const handleAdd = () => {
+    navigate("/sellcar");
+  };
   return (
     <LoginMainWrap>
       <LoginMainBox>
@@ -51,11 +55,7 @@ function LoginMain() {
             연식: <span>2022년 출시</span>
           </div>
         </InfoCar>
-        <InfoButton
-        // onClick={handleShow}
-        >
-          시세확인
-        </InfoButton>
+        <InfoButton onClick={handleAdd}>시세확인</InfoButton>
       </LoginMainInfo>
     </LoginMainWrap>
   );
@@ -68,8 +68,7 @@ const LoginMainWrap = styled.div`
   }
   width: 640px;
   margin: 0px auto;
-  padding: 20px;
-  border: 1px solid black;
+  padding: 20px 0px;
 `;
 const LoginMainBox = styled.div`
   img {
@@ -81,16 +80,15 @@ const LoginMainInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px 10px;
+  padding: 50px 0px 25px 0px;
   margin-top: 20px;
-  border-top: 1px solid #adadad;
 `;
 const InfoTitle = styled.div`
   margin-bottom: 10px;
   font-size: 34px;
 `;
 const InfoCar = styled.div`
-  margin: 20px 210px 20px 0px;
+  margin: 20px 210px 30px 0px;
   div {
     font-size: 18px;
     margin-bottom: 10px;
@@ -103,11 +101,13 @@ const InfoButton = styled.button`
   width: 200px;
   padding: 12px 15px;
   border-radius: 5px;
+  border: 1px solid #000;
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
   color: white;
   background-color: #5c1049;
+  box-shadow: 3px 3px 5px #d8d8d8;
 `;
 
 export default LoginMain;
