@@ -200,9 +200,11 @@ const InfoForm1 = () => {
 const InfoContainer = styled.div`
   width: 640px;
   margin: 0px auto;
-  padding-left: 50px;
+  padding: 10px;
+  box-sizing: border-box;
   @media only screen and (max-width: 640px) {
-    width: 85%;
+    width: 90%;
+    padding: 0px;
     margin: 0px auto;
     padding-left: 0;
   }
@@ -309,7 +311,7 @@ const CheckBoxInfo = styled.span`
 
 const AddInfoWrapper = styled.div`
   margin-top: 20px;
-  width: 90%;
+  width: 100%;
   @media only screen and (max-width: 640px) {
     width: 100%;
   }
