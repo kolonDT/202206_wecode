@@ -8,7 +8,6 @@ import CompleteForm from "./Pages/Complete/CompleteForm";
 import RequestForm from "./Pages/Requestform/RequestForm";
 import Reconfirm from "./Pages/Sellcar/Reconfirm";
 import SellCar from "./Pages/Sellcar/Sellcar";
-import Reconfirm from "./Pages/Sellcar/Reconfirm";
 function App() {
   return (
     <>
