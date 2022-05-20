@@ -20,7 +20,6 @@ function App() {
           <Route path="/sellcar" element={<SellCar />} />
           {/* <Route path='/' element={}/>
               <Route path='/' element={}/>
-              <Route path='/sellcar' element={}/>
               <Route path='/confirm' element={}/>
               <Route path='/requestform' element={}/>
               <Route path='/admin' element={}/> */}
