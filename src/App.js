@@ -6,6 +6,7 @@ import Login from "./Pages/Login/Login";
 import LoginMain from "./Pages/Login/LoginMain";
 import CompleteForm from "./Pages/Complete/CompleteForm";
 import RequestForm from "./Pages/Requestform/RequestForm";
+import Reconfirm from "./Pages/Sellcar/Reconfirm";
 import SellCar from "./Pages/Sellcar/Sellcar";
 import Reconfirm from "./Pages/Sellcar/Reconfirm";
 function App() {
