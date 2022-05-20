@@ -3,8 +3,10 @@ import { Routes, BrowserRouter, Route } from "react-router-dom";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Login from "./Pages/Login/Login";
-// import CompleteForm from "./Pages/Complete/CompleteForm";
+import LoginMain from "./Pages/Login/LoginMain";
+import CompleteForm from "./Pages/Complete/CompleteForm";
 import RequestForm from "./Pages/Requestform/RequestForm";
+import SellCar from "./Pages/Sellcar/Sellcar";
 function App() {
   return (
     <>
@@ -12,11 +14,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
-          {/* <Route path="/complete" element={<CompleteForm />} /> */}
+          <Route path="/login" element={<LoginMain />} />
+          <Route path="/complete" element={<CompleteForm />} />
           <Route path="/requestform" element={<RequestForm />} />
+          <Route path="/sellcar" element={<SellCar />} />
           {/* <Route path='/' element={}/>
               <Route path='/' element={}/>
-              <Route path='/sellcar' element={}/>
               <Route path='/confirm' element={}/>
               <Route path='/requestform' element={}/>
               <Route path='/admin' element={}/> */}
