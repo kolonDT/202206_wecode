@@ -341,10 +341,12 @@ const ThumbnailLine = styled.div`
 const Thumbnail = styled.div`
   display: flex;
   align-items: center;
+  width: 50%;
   border: 2px solid rgba(0, 0, 0, 0.1);
-  padding: 1em;
   overflow: hidden;
   @media only screen and (max-width: 640px) {
+    width: 35%;
+    height: 10em;
     margin: 0 auto;
     margin-bottom: 3px;
     border: 2px solid rgba(0, 0, 0, 0.1);
@@ -354,14 +356,6 @@ const Thumbnail = styled.div`
 const CarImage = styled.img`
   width: 100%;
   object-fit: cover;
-`;
-
-const ImageMention = styled.p`
-  padding: 5px;
-  color: rgba(0, 0, 0, 0.4);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 18px;
 `;
 
 const DescriptionInput = styled.input`
