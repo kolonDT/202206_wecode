@@ -6,6 +6,7 @@ import Login from "./Pages/Login/Login";
 import LoginMain from "./Pages/Login/LoginMain";
 import CompleteForm from "./Pages/Complete/CompleteForm";
 import RequestForm from "./Pages/Requestform/RequestForm";
+import Sellcar from "./Pages/Sellcar/Sellcar";
 function App() {
   return (
     <>
@@ -16,9 +17,10 @@ function App() {
           <Route path="/login" element={<LoginMain />} />
           <Route path="/complete" element={<CompleteForm />} />
           <Route path="/requestform" element={<RequestForm />} />
+          <Route path="/sellcar" element={<Sellcar />} />
+
           {/* <Route path='/' element={}/>
               <Route path='/' element={}/>
-              <Route path='/sellcar' element={}/>
               <Route path='/confirm' element={}/>
               <Route path='/requestform' element={}/>
               <Route path='/admin' element={}/> */}
