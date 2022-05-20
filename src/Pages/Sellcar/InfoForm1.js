@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { AiOutlinePlus } from "react-icons/ai";
+import { BsCardImage } from "react-icons/bs";
 
 const InfoForm1 = () => {
   //주행거리 값 관리하는 상태값
@@ -22,6 +23,12 @@ const InfoForm1 = () => {
   //추가 정보 글 관리 상태값
   const [addInfo, setAddInfo] = useState("");
 
+  //사진 관리하는 상태값
+  const [carImages, setCarImages] = useState([]);
+
+  //사진 url 관리하는 상태값
+  const [carUrlImages, setCarUrlImages] = useState([]);
+
   //photoInput 버튼 ref
   const photoInput = useRef();
 
@@ -41,17 +48,17 @@ const InfoForm1 = () => {
     setOptions({ ...options, [value]: !options[value] });
   };
 
-  //옵션이 없어요 체크
-  let _options = {
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-    5: false,
-    6: false,
-  };
   const noOptionCheck = (e) => {
     if (e.target.checked) {
+      //옵션을 초기화
+      let _options = {
+        1: false,
+        2: false,
+        3: false,
+        4: false,
+        5: false,
+        6: false,
+      };
       setOptions(_options);
       setNoOption(true);
     } else {
@@ -64,9 +71,17 @@ const InfoForm1 = () => {
     photoInput.current.click();
   };
 
-  //추가 정보 글 저장하는 함수
+  ///추가 정보 글 저장하는 함수
   const writeInfo = (e) => {
     setAddInfo(e.target.value);
+  };
+
+  //사진을 상태값에 저장하는 함수
+  const onLoadFile = (e) => {
+    const newImage = e.target.files;
+    setCarImages([...carImages, newImage[0]]);
+    const newURL = URL.createObjectURL(newImage[0]);
+    setCarUrlImages([...carUrlImages, newURL]);
   };
 
   return (
@@ -158,7 +173,13 @@ const InfoForm1 = () => {
         <AddInfoBox>
           <InfoInputBox>
             <ThumbnailBox>
-              <Thumbnail></Thumbnail>
+              <ThumbnailLine>
+                {carUrlImages.map((imageSrc, index) => (
+                  <Thumbnail key={index}>
+                    <CarImage src={imageSrc} />
+                  </Thumbnail>
+                ))}
+              </ThumbnailLine>
             </ThumbnailBox>
             <DescriptionInput
               onChange={writeInfo}
@@ -168,7 +189,7 @@ const InfoForm1 = () => {
               <AiOutlinePlus />
               <ButtonName>사진 등록</ButtonName>
             </SelectButton>
-            <PhotoInput type="file" ref={photoInput} />
+            <PhotoInput type="file" ref={photoInput} onChange={onLoadFile} />
           </InfoInputBox>
         </AddInfoBox>
       </AddInfoWrapper>
@@ -179,9 +200,11 @@ const InfoForm1 = () => {
 const InfoContainer = styled.div`
   width: 640px;
   margin: 0px auto;
-  padding-left: 50px;
+  padding: 10px;
+  box-sizing: border-box;
   @media only screen and (max-width: 640px) {
-    width: 85%;
+    width: 90%;
+    padding: 0px;
     margin: 0px auto;
     padding-left: 0;
   }
@@ -288,7 +311,7 @@ const CheckBoxInfo = styled.span`
 
 const AddInfoWrapper = styled.div`
   margin-top: 20px;
-  width: 90%;
+  width: 100%;
   @media only screen and (max-width: 640px) {
     width: 100%;
   }
@@ -305,10 +328,44 @@ const InfoInputBox = styled.div`
 
 const ThumbnailBox = styled.div``;
 
-const Thumbnail = styled.image``;
+const ThumbnailLine = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.7em;
+  @media only screen and (max-width: 640px) {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+`;
+
+const Thumbnail = styled.div`
+  display: flex;
+  align-items: center;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  padding: 1em;
+  overflow: hidden;
+  @media only screen and (max-width: 640px) {
+    margin: 0 auto;
+    margin-bottom: 3px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const CarImage = styled.img`
+  width: 100%;
+  object-fit: cover;
+`;
+
+const ImageMention = styled.p`
+  padding: 5px;
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+`;
 
 const DescriptionInput = styled.input`
-  padding: 20px;
+  padding: 3em;
   border: 2px solid rgba(0, 0, 0, 0.1);
   border-bottom: none;
   ::placeholder {
