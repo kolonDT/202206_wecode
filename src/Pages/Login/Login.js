@@ -65,7 +65,7 @@ export default Login;
 
 const LoginBox = styled.div`
   @media only screen and (max-width: 640px) {
-    width: 90%;
+    width: 100%;
     margin: 30px auto;
   }
   margin: 30px auto;
