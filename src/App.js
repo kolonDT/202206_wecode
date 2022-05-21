@@ -8,6 +8,7 @@ import CompleteForm from "./Pages/Complete/CompleteForm";
 import RequestForm from "./Pages/Requestform/RequestForm";
 import Reconfirm from "./Pages/Sellcar/Reconfirm";
 import SellCar from "./Pages/Sellcar/Sellcar";
+import Graph from "./Pages/Sellcar/Graph";
 function App() {
   return (
     <>
@@ -20,6 +21,7 @@ function App() {
           <Route path="/requestform" element={<RequestForm />} />
           <Route path="/reconfirm" element={<Reconfirm />} />
           <Route path="/sellcar" element={<SellCar />} />
+          <Route path="/graph" element={<Graph />} />
           {/* <Route path='/' element={}/>
               <Route path='/' element={}/>
               <Route path='/confirm' element={}/>
