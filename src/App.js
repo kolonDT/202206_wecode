@@ -7,6 +7,7 @@ import LoginMain from "./Pages/Login/LoginMain";
 import CompleteForm from "./Pages/Complete/CompleteForm";
 import RequestForm from "./Pages/Requestform/RequestForm";
 import SellCar from "./Pages/Sellcar/Sellcar";
+import Admin from "./Pages/Admin/Admin";
 function App() {
   return (
     <>
@@ -18,11 +19,12 @@ function App() {
           <Route path="/complete" element={<CompleteForm />} />
           <Route path="/requestform" element={<RequestForm />} />
           <Route path="/sellcar" element={<SellCar />} />
+          <Route path="/admin" element={<Admin />} />
           {/* <Route path='/' element={}/>
               <Route path='/' element={}/>
               <Route path='/confirm' element={}/>
               <Route path='/requestform' element={}/>
-              <Route path='/admin' element={}/> */}
+               */}
         </Routes>
       </BrowserRouter>
       <Footer />
