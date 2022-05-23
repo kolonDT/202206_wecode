@@ -14,7 +14,7 @@ WORKDIR /data
 COPY package*.json ./
 
 # 설치정보를 읽어 들여서 패키지를 설치
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 ## Copy all src files
 # 현재 경로에 존재하는 모든 소스파일을 이미지에 복사
