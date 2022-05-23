@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FaChevronRight } from "react-icons/fa";
 
-const CarCard = () => {
+const CarCard = ({ car }) => {
   //클릭 시 요청내역 관리 숨김-열기 상태값
   const [isShow, setIsShow] = useState(false);
 
@@ -45,92 +45,64 @@ const CarCard = () => {
 
   return (
     <div>
-      <ListContainer>
-        <ListWrapper>
-          <Car>
-            <CarWrapper>
-              <CarInfo onClick={clickShow}>
-                <CarNumber>12가 3456</CarNumber>
-                <FaChevronRight />
-              </CarInfo>
-              <ManangeProcess isShow={isShow}>
-                <QuoteRequested>
-                  <CheckInput
-                    type="checkbox"
-                    onClick={clickCheckBox}
-                    disabled={steps[1]}
-                    value={1}
-                  />
-                  <InputMessage>판매 완료</InputMessage>
-                </QuoteRequested>
-                <DealerAssigned>
-                  <CheckInput
-                    type="checkbox"
-                    onClick={clickCheckBox}
-                    disabled={steps[2]}
-                    value={2}
-                  />
-                  <InputMessage>판매 요청</InputMessage>
-                </DealerAssigned>
-                <DealerConsulting>
-                  <CheckInput
-                    type="checkbox"
-                    onClick={clickCheckBox}
-                    disabled={steps[3]}
-                    value={3}
-                  />
-                  <InputMessage>딜러 방문 상담</InputMessage>
-                </DealerConsulting>
-                <SellingRequested>
-                  <CheckInput
-                    type="checkbox"
-                    onClick={clickCheckBox}
-                    disabled={steps[4]}
-                    value={4}
-                  />
-                  <InputMessage>담당 딜러 배정</InputMessage>
-                </SellingRequested>
-                <SellingComplete>
-                  <CheckInput
-                    type="checkbox"
-                    onClick={clickCheckBox}
-                    disabled={steps[5]}
-                    value={5}
-                  />
-                  <InputMessage>견적요청 접수</InputMessage>
-                </SellingComplete>
-              </ManangeProcess>
-            </CarWrapper>
-          </Car>
-        </ListWrapper>
-      </ListContainer>
+      <Car>
+        <CarInfo onClick={clickShow}>
+          <CarNumber>{car.car_number}</CarNumber>
+          <FaChevronRight />
+        </CarInfo>
+        <ManangeProcess isShow={isShow}>
+          <QuoteRequested>
+            <CheckInput
+              type="checkbox"
+              onClick={clickCheckBox}
+              disabled={steps[1]}
+              value={1}
+            />
+            <InputMessage>판매 완료</InputMessage>
+          </QuoteRequested>
+          <DealerAssigned>
+            <CheckInput
+              type="checkbox"
+              onClick={clickCheckBox}
+              disabled={steps[2]}
+              value={2}
+            />
+            <InputMessage>판매 요청</InputMessage>
+          </DealerAssigned>
+          <DealerConsulting>
+            <CheckInput
+              type="checkbox"
+              onClick={clickCheckBox}
+              disabled={steps[3]}
+              value={3}
+            />
+            <InputMessage>딜러 방문 상담</InputMessage>
+          </DealerConsulting>
+          <SellingRequested>
+            <CheckInput
+              type="checkbox"
+              onClick={clickCheckBox}
+              disabled={steps[4]}
+              value={4}
+            />
+            <InputMessage>담당 딜러 배정</InputMessage>
+          </SellingRequested>
+          <SellingComplete>
+            <CheckInput
+              type="checkbox"
+              onClick={clickCheckBox}
+              disabled={steps[5]}
+              value={5}
+            />
+            <InputMessage>견적요청 접수</InputMessage>
+          </SellingComplete>
+        </ManangeProcess>
+      </Car>
     </div>
   );
 };
 
-const ListContainer = styled.div`
-  width: 640px;
-  margin: 0px auto;
-  margin-top: 30px;
-  padding: 10px;
-  box-sizing: border-box;
-  @media only screen and (max-width: 640px) {
-    width: 90%;
-    padding: 0px;
-    margin: 0px auto;
-    padding-left: 0;
-  }
-`;
-
-const ListWrapper = styled.div``;
-
 const Car = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-`;
-
-const CarWrapper = styled.div`
   margin-bottom: 30px;
   border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 12px;
@@ -155,6 +127,7 @@ const ManangeProcess = styled.div`
   visibility: ${(props) => (props.isShow ? "visible" : "hidden")};
   opacity: ${(props) => (props.isShow ? "1" : "0")};
   height: ${(props) => (props.isShow ? "30vh" : "0vh")};
+  margin: ${(props) => (props.isShow ? "1.2em" : "0")};
   flex-direction: column;
   justify-content: center;
   padding: 10px;

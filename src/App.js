@@ -7,7 +7,7 @@ import LoginMain from "./Pages/Login/LoginMain";
 import CompleteForm from "./Pages/Complete/CompleteForm";
 import RequestForm from "./Pages/Requestform/RequestForm";
 import SellCar from "./Pages/Sellcar/Sellcar";
-import Admin from "./Pages/Admin/CarCard";
+import Admin from "./Pages/Admin/Admin";
 function App() {
   return (
     <>
