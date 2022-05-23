@@ -3,31 +3,47 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 //styles
 import styled from "styled-components";
-
 function Login() {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [isLogin, setLogin] = useState(false);
+  // const [show, setShow] = useState(false);
+  const currentUser = localStorage.getItem("user");
+  localStorage.setItem(
+    "user",
+    JSON.stringify({
+      car_number: "12가1234",
+      car_name: "SM5",
+      car_birth: "2014",
+      // driving_distance: "34,560",
+      // option: [1, 2, 3],
+    })
+  );
+
   const handleInput = (e) => {
     let ret = isValidId(e.target.value);
     setLogin(ret);
     setId(e.target.value);
   };
-
   const handleLogin = (str) => {
     navigate("/login");
   };
-
   const handleWrite = () => {
-    navigate("/sellcar");
+    // const currentUser = localStorage.getItem("user");
+    // if (!currentUser) {
+    //   alert("로그인을 해주세요.");
+    // }
+    // return navigate("/sellcar");
+    // if (currentUser) {
+    //   setShow(true);
+    // }
+    // return setShow(false);
   };
-
   function isValidId(str) {
     const regId = /\d{2,3}[가-힣]{1}?([0-9]{4})$/g;
     let ret = regId.test(str);
     return ret;
   }
-
   return (
     <LoginBox>
       <LoginWrap>
@@ -49,7 +65,10 @@ function Login() {
         >
           등록하기
         </LoginButton>
-        <LoginNone onClick={handleWrite}>
+        <LoginNone
+          onClick={handleWrite}
+          style={currentUser ? { display: "block" } : { display: "none" }}
+        >
           이미 작성중인 견적서가 있으신가요?
         </LoginNone>
       </LoginWrap>

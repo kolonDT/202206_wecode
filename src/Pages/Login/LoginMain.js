@@ -41,18 +41,19 @@ function LoginMain() {
       </LoginMainBox>
       <LoginMainInfo>
         <InfoTitle>
-          <p>OOO님의</p>
+          {/* <p>OOO님의</p> */}
+          <p>{localStorage.getItem("car_number")}</p>
           <p>차량 시세를 확인해볼까요?</p>
         </InfoTitle>
         <InfoCar>
           <div>
-            차량번호: <span>12가1234</span>
+            차량번호: <span>{localStorage.getItem("car_number")}</span>
           </div>
           <div>
-            모델명: <span>아우디</span>
+            모델명: <span>{localStorage.getItem("car_name")}</span>
           </div>
           <div>
-            연식: <span>2022년 출시</span>
+            연식: <span>{localStorage.getItem("car_birth")}</span>
           </div>
         </InfoCar>
         <InfoButton onClick={handleAdd}>시세확인</InfoButton>
