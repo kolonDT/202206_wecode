@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useTransition } from "react";
 import styled from "styled-components";
 import { AiOutlinePlus } from "react-icons/ai";
-import { BsCardImage } from "react-icons/bs";
 
 const InfoForm1 = () => {
   //주행거리 값 관리하는 상태값
@@ -29,6 +28,9 @@ const InfoForm1 = () => {
   //사진 url 관리하는 상태값
   const [carUrlImages, setCarUrlImages] = useState([]);
 
+  //삭제 hover를 관리하는 상태값
+  const [isHoverDelete, setIsHoverDelete] = useState(false);
+
   //photoInput 버튼 ref
   const photoInput = useRef();
 
@@ -40,6 +42,7 @@ const InfoForm1 = () => {
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     setInputValue(commaNumber);
+    localStorage.setItem("driving_distance", commaNumber);
   };
 
   //click시 옵션값 저장하는 함수
@@ -61,6 +64,7 @@ const InfoForm1 = () => {
       };
       setOptions(_options);
       setNoOption(true);
+      localStorage.setItem("options", []);
     } else {
       setNoOption(false);
     }
@@ -74,15 +78,97 @@ const InfoForm1 = () => {
   ///추가 정보 글 저장하는 함수
   const writeInfo = (e) => {
     setAddInfo(e.target.value);
+    localStorage.setItem("additional_info", e.target.value);
   };
 
   //사진을 상태값에 저장하는 함수
   const onLoadFile = (e) => {
     const newImage = e.target.files;
     setCarImages([...carImages, newImage[0]]);
-    const newURL = URL.createObjectURL(newImage[0]);
-    setCarUrlImages([...carUrlImages, newURL]);
+    if (carImages.length < 4) {
+      const newURL = URL.createObjectURL(newImage[0]);
+      setCarUrlImages([...carUrlImages, newURL]);
+    }
   };
+
+  const tmp = (arr) => {
+    let _options = {
+      1: false,
+      2: false,
+      3: false,
+      4: false,
+      5: false,
+      6: false,
+    };
+    for (let i in arr) {
+      _options[arr[i]] = true;
+      setOptions(_options);
+    }
+  };
+
+  const deleteImage = (index) => {
+    setCarImages((prev) => {
+      const arr = [...prev];
+      arr.splice(index, 1);
+      return arr;
+    });
+    setCarUrlImages((prev) => {
+      const arr = [...prev];
+      arr.splice(index, 1);
+      return arr;
+    });
+  };
+
+  //초기에 localStorage에 정보가 있다면 값 넣어주기
+  useEffect(() => {
+    //주행거리 입력
+    const drivingDistance = localStorage.getItem("driving_distance");
+    setInputValue(drivingDistance);
+
+    //옵션 클릭 다루기
+    const localOptions = localStorage.getItem("options");
+    if (localOptions.length === 0) {
+      setNoOption(true);
+    } else {
+      const tmp = JSON.parse(localOptions);
+      let tmpOption = {
+        1: false,
+        2: false,
+        3: false,
+        4: false,
+        5: false,
+        6: false,
+      };
+      tmp.forEach((element) => (tmpOption[element] = true));
+      setOptions(tmpOption);
+    }
+
+    //추가 정보 입력
+    const addInfo = localStorage.getItem("additional_info");
+    setAddInfo(addInfo);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("image", JSON.stringify(carUrlImages));
+  }, [carUrlImages]);
+
+  useEffect(() => {
+    if (carImages.length > 4) {
+      alert("사진을 4개 이상 초과할 수 없어요");
+      carImages.pop();
+    }
+  }, [carImages]);
+
+  let arr = [];
+  useEffect(() => {
+    //for문 돌아서 true면 배열에 담기
+    for (let i in options) {
+      if (options[i] === true) {
+        arr.push(i);
+        localStorage.setItem("options", JSON.stringify(arr));
+      }
+    }
+  }, [options]);
 
   return (
     <InfoContainer>
@@ -164,7 +250,11 @@ const InfoForm1 = () => {
           </OptionLine>
         </OptionBox>
         <NoOptionWrapper>
-          <NoOptionCheck type="checkbox" onClick={noOptionCheck} />
+          <NoOptionCheck
+            type="checkbox"
+            onClick={noOptionCheck}
+            checked={noOption}
+          />
           <CheckBoxInfo>옵션이 없어요.</CheckBoxInfo>
         </NoOptionWrapper>
       </OptionWrapper>
@@ -176,7 +266,17 @@ const InfoForm1 = () => {
               <ThumbnailLine>
                 {carUrlImages.map((imageSrc, index) => (
                   <Thumbnail key={index}>
-                    <CarImage src={imageSrc} />
+                    <DeleteLayer key={index}>
+                      <DeleteButton
+                        key={index}
+                        onClick={() => {
+                          deleteImage(index);
+                        }}
+                      >
+                        삭제
+                      </DeleteButton>
+                    </DeleteLayer>
+                    <CarImage src={imageSrc} index={index} />
                   </Thumbnail>
                 ))}
               </ThumbnailLine>
@@ -184,6 +284,7 @@ const InfoForm1 = () => {
             <DescriptionInput
               onChange={writeInfo}
               placeholder="차량 상태, 수리 필요 여부, 보험 이력 등 상세한 내용을 알려주세요."
+              value={addInfo}
             />
             <SelectButton onClick={clickPhotoInput}>
               <AiOutlinePlus />
@@ -340,16 +441,51 @@ const ThumbnailLine = styled.div`
 
 const Thumbnail = styled.div`
   display: flex;
+  position: relative;
   align-items: center;
   width: 50%;
   border: 2px solid rgba(0, 0, 0, 0.1);
   overflow: hidden;
+
   @media only screen and (max-width: 640px) {
     width: 35%;
     height: 10em;
     margin: 0 auto;
     margin-bottom: 3px;
     border: 2px solid rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const DeleteLayer = styled.div`
+  visibility: hidden;
+  ${Thumbnail}:hover & {
+    visibility: visible;
+  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+`;
+
+const DeleteButton = styled.div`
+  width: 40%;
+  padding: 1rem;
+  color: lightgray;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.2rem;
+  border-radius: 1em;
+  background-color: rgba(0, 0, 0, 0.8);
+  :hover {
+    cursor: pointer;
+    background-color: white;
+    color: darkgray;
   }
 `;
 
