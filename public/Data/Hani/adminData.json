@@ -1,0 +1,47 @@
+[
+  {
+    "car_id": 1,
+    "car_number": "32모 2902",
+    "quote_requested": null,
+    "dealer_assigned": null,
+    "dealer_consulting": null,
+    "selling_requested": null,
+    "selling_completede": null
+  },
+  {
+    "car_id": 2,
+    "car_number": "12가 1234",
+    "quote_requested": "2022-05-19",
+    "dealer_assigned": null,
+    "dealer_consulting": null,
+    "selling_requested": null,
+    "selling_completede": null
+  },
+  {
+    "car_id": 3,
+    "car_number": "33나 8765",
+    "quote_requested": "2022-05-19",
+    "dealer_assigned": "2022-06-27",
+    "dealer_consulting": null,
+    "selling_requested": null,
+    "selling_completede": null
+  },
+  {
+    "car_id": 4,
+    "car_number": "98바 9976",
+    "quote_requested": "2022-05-28",
+    "dealer_assigned": "2022-05-28",
+    "dealer_consulting": "2022-05-28",
+    "selling_requested": "2022-05-28",
+    "selling_completede": null
+  },
+  {
+    "car_id": 5,
+    "car_number": "77타 1116",
+    "quote_requested": "2022-05-28",
+    "dealer_assigned": "2022-05-28",
+    "dealer_consulting": "2022-05-28",
+    "selling_requested": "2022-05-28",
+    "selling_completede": "2022-05-28"
+  }
+]

@@ -1,9 +1,15 @@
 // modules
-
+import { useNavigate } from "react-router-dom";
 //styles
 import styled from "styled-components";
 
 function Reconfirm() {
+  const navigate = useNavigate();
+
+  const handleRequest = () => {
+    navigate("/requestform");
+  };
+
   return (
     <ReconfirmWrap>
       <ReconfirmTitle>입력하신 추가 정보를 확인해주세요.</ReconfirmTitle>
@@ -23,7 +29,7 @@ function Reconfirm() {
           <span>서울시 강남구</span>
         </ReconfirmBoxInfo>
       </ReconfirmBox>
-      <ReconfirmBtn>견적신청</ReconfirmBtn>
+      <ReconfirmBtn onClick={handleRequest}>견적신청</ReconfirmBtn>
     </ReconfirmWrap>
   );
 }
