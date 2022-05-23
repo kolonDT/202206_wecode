@@ -10,6 +10,13 @@ function Login() {
   const [id, setId] = useState("");
   const [isLogin, setLogin] = useState(false);
 
+  function isValidId(str) {
+    // const regId = /\d{2,3}[가-힣]{1}\d{4}/g;
+    const regId = /\d{2,3}[가-힣]{1}?([0-9]{4})$/g;
+    let ret = regId.test(str);
+    return ret;
+  }
+
   const handleInput = (e) => {
     let ret = isValidId(e.target.value);
     setLogin(ret);
@@ -27,11 +34,6 @@ function Login() {
     navigate("/sellcar");
   };
 
-  function isValidId(str) {
-    const regId = /\d{2,3}[가-힣]{1}\d{4}/g;
-    let ret = regId.test(str);
-    return ret;
-  }
   return (
     <LoginBox>
       <LoginWrap>
