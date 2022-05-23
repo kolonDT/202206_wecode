@@ -1,7 +1,6 @@
 // modules
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 //styles
 import styled from "styled-components";
 
@@ -9,7 +8,6 @@ function Login() {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [isLogin, setLogin] = useState(false);
-
   const handleInput = (e) => {
     let ret = isValidId(e.target.value);
     setLogin(ret);
@@ -17,9 +15,6 @@ function Login() {
   };
 
   const handleLogin = (str) => {
-    if (isValidId(str) === "" || isValidId(str)) {
-      return alert("차량번호를 다시 확인해주세요.");
-    }
     navigate("/login");
   };
 
@@ -28,10 +23,11 @@ function Login() {
   };
 
   function isValidId(str) {
-    const regId = /\d{2,3}[가-힣]{1}\d{4}/g;
+    const regId = /\d{2,3}[가-힣]{1}?([0-9]{4})$/g;
     let ret = regId.test(str);
     return ret;
   }
+
   return (
     <LoginBox>
       <LoginWrap>
@@ -60,38 +56,32 @@ function Login() {
     </LoginBox>
   );
 }
-
 export default Login;
-
 const LoginBox = styled.div`
   @media only screen and (max-width: 640px) {
-    width: 100%;
+    width: 90%;
     margin: 30px auto;
   }
   margin: 30px auto;
   width: 640px;
   padding: 10px 0px;
 `;
-
 const LoginWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
-
 const LoginTitle = styled.p`
   color: #5c1049;
   margin-bottom: 10px;
   font-weight: 600;
   font-size: 35px;
 `;
-
 const LoginSubTitle = styled.p`
   font-size: 30px;
   font-weight: 500;
   margin-bottom: 40px;
 `;
-
 const LoginInput = styled.input`
   width: 450px;
   padding: 20px;
@@ -102,7 +92,6 @@ const LoginInput = styled.input`
     font-size: 18px;
   }
 `;
-
 const LoginButton = styled.button`
   width: 180px;
   margin: 20px 0px 0px 310px;
@@ -120,7 +109,6 @@ const LoginButton = styled.button`
     background-color: #5c1049;
   }
 `;
-
 const LoginNone = styled.span`
   display: block;
   margin-top: 100px;
