@@ -1,5 +1,6 @@
 // modules
 import { useNavigate } from "react-router-dom";
+import Sellcar from "../Sellcar/Sellcar";
 import Slider from "react-slick";
 //styles
 import styled from "styled-components";
@@ -16,8 +17,9 @@ function LoginMain() {
     autoplaySpeed: 2000,
     cssEase: "linear",
   };
-  const handleAdd = () => {
-    navigate("/sellcar");
+  const handleSellcar = () => {
+    <Sellcar />;
+    // navigate("/sellcar");
   };
   return (
     <LoginMainWrap>
@@ -56,7 +58,7 @@ function LoginMain() {
             연식: <span>{localStorage.getItem("car_birth")}</span>
           </div>
         </InfoCar>
-        <InfoButton onClick={handleAdd}>시세확인</InfoButton>
+        <InfoButton onClick={handleSellcar}>시세확인</InfoButton>
       </LoginMainInfo>
     </LoginMainWrap>
   );

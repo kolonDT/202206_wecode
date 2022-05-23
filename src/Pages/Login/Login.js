@@ -7,7 +7,7 @@ function Login() {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [isLogin, setLogin] = useState(false);
-  // const [show, setShow] = useState(false);
+
   const currentUser = localStorage.getItem("user");
   localStorage.setItem(
     "user",
@@ -15,8 +15,8 @@ function Login() {
       car_number: "12가1234",
       car_name: "SM5",
       car_birth: "2014",
-      // driving_distance: "34,560",
-      // option: [1, 2, 3],
+      driving_distance: "34,560",
+      option: [1, 2, 3],
     })
   );
 
@@ -25,19 +25,16 @@ function Login() {
     setLogin(ret);
     setId(e.target.value);
   };
+
   const handleLogin = (str) => {
     navigate("/login");
   };
+
   const handleWrite = () => {
-    // const currentUser = localStorage.getItem("user");
-    // if (!currentUser) {
-    //   alert("로그인을 해주세요.");
-    // }
-    // return navigate("/sellcar");
-    // if (currentUser) {
-    //   setShow(true);
-    // }
-    // return setShow(false);
+    if (currentUser) {
+      navigate("/sellcar");
+    }
+    return null;
   };
   function isValidId(str) {
     const regId = /\d{2,3}[가-힣]{1}?([0-9]{4})$/g;
@@ -76,6 +73,7 @@ function Login() {
   );
 }
 export default Login;
+
 const LoginBox = styled.div`
   @media only screen and (max-width: 640px) {
     width: 90%;
