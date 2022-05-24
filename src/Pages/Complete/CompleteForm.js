@@ -13,6 +13,27 @@ function CompleteForm() {
     setToastStatus(true);
     setAlarmStatus(!alarmStatus);
   };
+  const setAlarm = (status) => {
+    fetch(`/history/notification/2`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ notificationStatus: status }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+  useEffect(() => {
+    if (alarmStatus) {
+      setAlarm(1);
+    } else {
+      setAlarm(-1);
+    }
+  }, [alarmStatus]);
+
   useEffect(() => {
     if (toastStatus) {
       setTimeout(() => setToastStatus(false), 1000);

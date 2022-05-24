@@ -1,4 +1,6 @@
 //module
+import { useState } from "react";
+import Sellcar from "../Sellcar/Sellcar";
 import { ResponsiveLine } from "@nivo/line";
 //styles
 import styled from "styled-components";
@@ -95,45 +97,55 @@ const MyResponsiveLine = ({ data }) => (
 );
 
 function Graph() {
+  const [add, setAdd] = useState(false);
+
   return (
     <GraphWrap>
       <GraphTitle>
-        <p>예상 시세는</p>
-        <p> 2,000 만 원 입니다.</p>
+        예상 시세는
+        <br />
+        2,000 만 원 입니다.
       </GraphTitle>
       <GraphBox>
-        <div style={{ width: 400, height: 310 }}>
+        <div style={{ width: 480, height: 350 }}>
           <MyResponsiveLine data={data} />
         </div>
       </GraphBox>
-      <GraphButton>추가 정보 입력</GraphButton>
+      <GraphButton
+        onClick={() => {
+          setAdd(!add);
+        }}
+        style={{ display: add === false ? "block" : "none" }}
+      >
+        <>추가 정보 입력</>
+      </GraphButton>
+      <>{add === true ? <Sellcar active={add} /> : null}</>
     </GraphWrap>
   );
 }
 const GraphWrap = styled.div`
+  border-top: 1px dotted #adadad;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   @media only screen and (max-width: 640px) {
     width: 90%;
     margin: 30px auto;
   }
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 640px;
   margin: 30px auto;
-  padding: 10px;
 `;
 
-const GraphTitle = styled.div`
-  p {
-    font-size: 20px;
-    font-weight: 500;
-    margin-bottom: 5px;
-  }
+const GraphTitle = styled.h1`
+  margin-top: 25px;
+  font-size: 1.2em;
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 25px;
 `;
 
 const GraphBox = styled.div`
-  margin: 10px 0px 20px 0px;
-  /* border: 1px solid gray; */
+  margin: 10px 0px 30px 0px;
 `;
 
 const GraphButton = styled.button`
