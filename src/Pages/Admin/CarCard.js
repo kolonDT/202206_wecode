@@ -41,11 +41,10 @@ const CarCard = ({ car }) => {
 
     const progressStep = progress[num - 1];
     //fetch 함수
-    fetch(``, {
+    fetch(`/history/${car.car_id}`, {
       method: "GET",
       headers: { "Content-type": "application/json" },
       body: {
-        car_id: car.car_id,
         progress: progressStep,
       },
     })
