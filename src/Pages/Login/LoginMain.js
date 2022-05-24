@@ -4,9 +4,27 @@ import Graph from "../Sellcar/Graph";
 import Slider from "react-slick";
 //styles
 import styled from "styled-components";
+import { useLocation } from "react-router-dom";
 
 function LoginMain() {
   const [show, setShow] = useState(false);
+  const { state } = useLocation();
+
+  // const getCarInfo = () => {
+  //   fetch(`/car?carNumber=201누9290/3`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //     });
+  // };
+
+  function useLocation({ state }) {}
+
   const settings = {
     dots: true,
     infinite: true,
@@ -44,13 +62,13 @@ function LoginMain() {
         </InfoTitle>
         <InfoCar>
           <div>
-            차량번호: <span>{localStorage.getItem("car_number")}</span>
+            차량번호: <span>{state}</span>
           </div>
           <div>
-            모델명: <span>{localStorage.getItem("car_name")}</span>
+            모델명: <span>{}</span>
           </div>
           <div>
-            연식: <span>{localStorage.getItem("car_birth")}</span>
+            연식: <span>{}</span>
           </div>
         </InfoCar>
         <InfoButton
