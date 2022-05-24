@@ -1,14 +1,19 @@
 // modules
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 //styles
 import styled from "styled-components";
+import moment from "moment";
+
 function Login() {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [isLogin, setLogin] = useState(false);
+  //방문 기록이 있는지 관리하는 상태값
+  const [hasQuote, setHasQuote] = useState(false);
 
   const currentUser = localStorage.getItem("user");
+
   localStorage.setItem(
     "user",
     JSON.stringify({
@@ -19,6 +24,35 @@ function Login() {
       option: [1, 2, 3],
     })
   );
+
+  //방문 기록 확인 및 관리하는 함수
+  const checkExpiry = () => {
+    const timeStamp = localStorage.getItem("time_stamp");
+    //  timeStamp에서 시간과 분을 나눈다.
+    const month = moment().month();
+    const hour = moment().hour();
+    const date = moment().date();
+    //timestamp가 없는 경우
+    if (!timeStamp) {
+      localStorage.setItem(
+        "time_stamp",
+        JSON.stringify({
+          month: month,
+          date: date,
+          hour: hour,
+        })
+      );
+      return false;
+    } else {
+      const saved = localStorage.getItem("time_stamp");
+      const isExpired =
+        month >= saved.month && date > saved.date && hour > saved.hour;
+      if (isExpired) {
+        localStorage.clear();
+        return false;
+      } else return true;
+    }
+  };
 
   const handleInput = (e) => {
     let ret = isValidId(e.target.value);
@@ -41,6 +75,13 @@ function Login() {
     let ret = regId.test(str);
     return ret;
   }
+
+  useEffect(() => {
+    const isVisited = checkExpiry();
+    const isWriting = localStorage.length > 2;
+    const result = isVisited && isWriting;
+    setHasQuote(result);
+  }, []);
   return (
     <LoginBox>
       <LoginWrap>
