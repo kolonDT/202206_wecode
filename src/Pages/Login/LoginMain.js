@@ -1,12 +1,12 @@
 // modules
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import Sellcar from "../Sellcar/Sellcar";
 import Slider from "react-slick";
 //styles
 import styled from "styled-components";
 
 function LoginMain() {
-  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
   const settings = {
     dots: true,
     infinite: true,
@@ -16,10 +16,6 @@ function LoginMain() {
     speed: 3000,
     autoplaySpeed: 2000,
     cssEase: "linear",
-  };
-  const handleSellcar = () => {
-    <Sellcar />;
-    // navigate("/sellcar");
   };
   return (
     <LoginMainWrap>
@@ -58,8 +54,15 @@ function LoginMain() {
             연식: <span>{localStorage.getItem("car_birth")}</span>
           </div>
         </InfoCar>
-        <InfoButton onClick={handleSellcar}>시세확인</InfoButton>
+        <InfoButton
+          onClick={() => {
+            setShow(!show);
+          }}
+        >
+          {show === false ? <>시세확인</> : null}
+        </InfoButton>
       </LoginMainInfo>
+      <Sell>{show === true ? <Sellcar active={show} /> : null}</Sell>
     </LoginMainWrap>
   );
 }
@@ -112,5 +115,11 @@ const InfoButton = styled.button`
   background-color: #5c1049;
   box-shadow: 3px 3px 5px #d8d8d8;
 `;
-
+const Sell = styled.div`
+  /* opacity: ${(props) => (props.active ? "1" : "0")};
+  max-height: ${(props) => (props.active ? "100%" : "0")};
+  overflow: hidden;
+  padding: ${(props) => (props.active ? "15px" : "0 15px")};
+  transition: all 0.5s; */
+`;
 export default LoginMain;
