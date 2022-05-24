@@ -7,6 +7,8 @@ import "slick-carousel/slick/slick-theme.css";
 import "./slide.css";
 import styled from "styled-components";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
+import moment from "moment";
+let PORT = process.env.REACT_APP_PORT;
 
 function RequestForm() {
   const [fold, setFold] = useState(false);
@@ -16,11 +18,12 @@ function RequestForm() {
     "판매 요청": "",
     "딜러 방문 상담": "",
     "담당 딜러 배정": "",
-    "견적 요청 접수": "",
+    "견적요청 접수": "",
   };
 
   const getData = () => {
-    fetch(`/Data/Lisa/RequestForm.json`, {
+    //fetch(`/Data/Lisa/RequestForm.json`, {
+    fetch(`/car/2`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +31,8 @@ function RequestForm() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setData(data);
+        setData(data["registeredCarInfo"][0]);
+        console.log(data["registeredCarInfo"][0]);
       });
   };
 
@@ -37,10 +41,22 @@ function RequestForm() {
   }, []);
 
   if (data === undefined) return null;
-  for (let i = 0; i < data.progress.length; i++) {
-    process[data.progress[i]] = data.updateDate[i];
-  }
-
+  process["견적요청 접수"] = moment(data.quote_requested)
+    .utc()
+    .format("YYYY-MM-DD HH:mm:ss");
+  process["담당 딜러 배정"] = moment(data.dealer_assigned)
+    .utc()
+    .format("YYYY-MM-DD HH:mm:ss");
+  process["딜러 방문 상담"] = moment(data.dealer_consulting)
+    .utc()
+    .format("YYYY-MM-DD HH:mm:ss");
+  process["판매 요청"] = moment(data.selling_requested)
+    .utc()
+    .format("YYYY-MM-DD HH:mm:ss");
+  process["판매 완료"] = moment(data.selling_completede)
+    .utc()
+    .format("YYYY-MM-DD HH:mm:ss");
+  console.log(typeof process["견적요청 접수"]);
   return (
     <>
       <Box>
@@ -86,15 +102,15 @@ function RequestForm() {
           </DetailLine>
           <DetailOption>
             <OptionText>옵션</OptionText>
-            {data.option.map((opt, index) => {
+            {data.options.split(",").map((opt, index) => {
               return <Option>{opt}</Option>;
             })}
           </DetailOption>
 
           <Map
             center={{
-              lat: data.lat,
-              lng: data.long,
+              lat: Number(data.lat),
+              lng: Number(data.lon),
             }}
             style={{
               width: "90%",
@@ -106,8 +122,8 @@ function RequestForm() {
           >
             <MapMarker
               position={{
-                lat: data.lat,
-                lng: data.long,
+                lat: Number(data.lat),
+                lng: Number(data.lon),
               }}
             />
           </Map>
@@ -119,7 +135,7 @@ function RequestForm() {
 
 function ProcessArray({ process }) {
   return Object.entries(process).map(([key, value]) =>
-    value !== "" ? (
+    value !== "Invalid date" ? (
       <Line>
         <P>{key}</P>
         <P>{value}</P>
@@ -144,7 +160,7 @@ function ImageSlide({ data }) {
   return (
     <Wrap>
       <Slider {...settings}>
-        {data.image.map((imgUrl, index) => {
+        {data.image.split(",").map((imgUrl, index) => {
           return (
             <ImgDiv>
               <Img src={imgUrl} alt="car_image" />

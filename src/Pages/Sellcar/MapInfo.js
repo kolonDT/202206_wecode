@@ -1,7 +1,7 @@
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useState, useEffect } from "react";
 
-function MapInfo({ addr, setAddr, detailAddr }) {
+function MapInfo({ addr, setAddr, postcodeAddr }) {
   const [coords, setCoords] = useState();
   const [state, setState] = useState({
     center: {
@@ -13,10 +13,11 @@ function MapInfo({ addr, setAddr, detailAddr }) {
   });
 
   useEffect(() => {
-    if (detailAddr !== undefined) {
-      AddrToMap(detailAddr, setCoords, coords);
+    if (postcodeAddr !== undefined) {
+      AddrToMap(postcodeAddr, setCoords, coords);
+      console.log(coords);
     }
-  }, [detailAddr]);
+  }, [postcodeAddr]);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -71,10 +72,10 @@ function MapInfo({ addr, setAddr, detailAddr }) {
   );
 }
 
-function AddrToMap(detailAddr, setCoords, coords) {
+function AddrToMap(postcodeAddr, setCoords, coords) {
   const { kakao } = window;
   let geocoder = new kakao.maps.services.Geocoder();
-  geocoder.addressSearch(detailAddr, function (result, status) {
+  geocoder.addressSearch(postcodeAddr, function (result, status) {
     if (status === kakao.maps.services.Status.OK) {
       let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
       setCoords(coords);
