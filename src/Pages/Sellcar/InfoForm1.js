@@ -126,23 +126,25 @@ const InfoForm1 = () => {
     setInputValue(drivingDistance);
 
     //옵션 클릭 다루기
-    const localOptions = localStorage.getItem("options");
-    if (localOptions.length === 0) {
-      setNoOption(true);
-    } else {
-      const tmp = JSON.parse(localOptions);
-      let tmpOption = {
-        1: false,
-        2: false,
-        3: false,
-        4: false,
-        5: false,
-        6: false,
-      };
-      tmp.forEach((element) => (tmpOption[element] = true));
-      setOptions(tmpOption);
-    }
 
+    const localOptions = localStorage.getItem("options");
+    if (localOptions) {
+      if (localOptions.length === 0) {
+        setNoOption(true);
+      } else {
+        const tmp = JSON.parse(localOptions);
+        let tmpOption = {
+          1: false,
+          2: false,
+          3: false,
+          4: false,
+          5: false,
+          6: false,
+        };
+        tmp.forEach((element) => (tmpOption[element] = true));
+        setOptions(tmpOption);
+      }
+    }
     //추가 정보 입력
     const addInfo = localStorage.getItem("additional_info");
     setAddInfo(addInfo);
