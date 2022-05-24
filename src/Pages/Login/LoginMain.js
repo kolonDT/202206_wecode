@@ -40,7 +40,7 @@ function LoginMain() {
       </LoginMainBox>
       <LoginMainInfo>
         <InfoTitle>
-          <p>{localStorage.getItem("car_number")}</p>
+          {/* <p>{localStorage.getItem("car_number")}</p> */}
           <p>차량 시세를 확인해볼까요?</p>
         </InfoTitle>
         <InfoCar>
@@ -93,6 +93,9 @@ const LoginMainInfo = styled.div`
 const InfoTitle = styled.div`
   margin-bottom: 10px;
   font-size: 34px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 25px;
 `;
 const InfoCar = styled.div`
   margin: 20px 210px 30px 0px;

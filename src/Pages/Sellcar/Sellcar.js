@@ -35,7 +35,6 @@ const Wrap = styled.div`
   width: 640px;
   text-align: center;
   @media only screen and (max-width: 640px) {
-    width: 90%;
     margin: 0px auto;
   }
 `;
