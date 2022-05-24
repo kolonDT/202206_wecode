@@ -3,11 +3,23 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 //styles
 import styled from "styled-components";
-
 function Login() {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [isLogin, setLogin] = useState(false);
+
+  const currentUser = localStorage.getItem("user");
+  localStorage.setItem(
+    "user",
+    JSON.stringify({
+      car_number: "12가1234",
+      car_name: "SM5",
+      car_birth: "2014",
+      driving_distance: "34,560",
+      option: [1, 2, 3],
+    })
+  );
+
   const handleInput = (e) => {
     let ret = isValidId(e.target.value);
     setLogin(ret);
@@ -19,15 +31,16 @@ function Login() {
   };
 
   const handleWrite = () => {
-    navigate("/sellcar");
+    if (currentUser) {
+      navigate("/sellcar");
+    }
+    return null;
   };
-
   function isValidId(str) {
     const regId = /\d{2,3}[가-힣]{1}?([0-9]{4})$/g;
     let ret = regId.test(str);
     return ret;
   }
-
   return (
     <LoginBox>
       <LoginWrap>
@@ -49,7 +62,10 @@ function Login() {
         >
           등록하기
         </LoginButton>
-        <LoginNone onClick={handleWrite}>
+        <LoginNone
+          onClick={handleWrite}
+          style={currentUser ? { display: "block" } : { display: "none" }}
+        >
           이미 작성중인 견적서가 있으신가요?
         </LoginNone>
       </LoginWrap>
@@ -57,6 +73,7 @@ function Login() {
   );
 }
 export default Login;
+
 const LoginBox = styled.div`
   @media only screen and (max-width: 640px) {
     width: 90%;
