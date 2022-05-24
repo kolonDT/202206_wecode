@@ -5,7 +5,7 @@ function WarningModal({ setModal }) {
   return (
     <Overlay>
       <Content>
-        <P>위치정보 수집에 동의하십니까?</P>
+        <P>입력이 완료되지 않았습니다</P>
         <Button
           onClick={() => {
             setModal(false);
