@@ -1,11 +1,12 @@
 // modules
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import Graph from "../Sellcar/Graph";
 import Slider from "react-slick";
 //styles
 import styled from "styled-components";
 
 function LoginMain() {
-  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
   const settings = {
     dots: true,
     infinite: true,
@@ -16,9 +17,7 @@ function LoginMain() {
     autoplaySpeed: 2000,
     cssEase: "linear",
   };
-  const handleAdd = () => {
-    navigate("/sellcar");
-  };
+
   return (
     <LoginMainWrap>
       <LoginMainBox>
@@ -41,21 +40,29 @@ function LoginMain() {
       </LoginMainBox>
       <LoginMainInfo>
         <InfoTitle>
-          <p>OOO님의</p>
+          {/* <p>{localStorage.getItem("car_number")}</p> */}
           <p>차량 시세를 확인해볼까요?</p>
         </InfoTitle>
         <InfoCar>
           <div>
-            차량번호: <span>12가1234</span>
+            차량번호: <span>{localStorage.getItem("car_number")}</span>
           </div>
           <div>
-            모델명: <span>아우디</span>
+            모델명: <span>{localStorage.getItem("car_name")}</span>
           </div>
           <div>
-            연식: <span>2022년 출시</span>
+            연식: <span>{localStorage.getItem("car_birth")}</span>
           </div>
         </InfoCar>
-        <InfoButton onClick={handleAdd}>시세확인</InfoButton>
+        <InfoButton
+          onClick={() => {
+            setShow(!show);
+          }}
+          style={{ display: show === false ? "block" : "none" }}
+        >
+          <>시세확인</>
+        </InfoButton>
+        <>{show === true ? <Graph active={show} /> : null}</>
       </LoginMainInfo>
     </LoginMainWrap>
   );
@@ -86,6 +93,9 @@ const LoginMainInfo = styled.div`
 const InfoTitle = styled.div`
   margin-bottom: 10px;
   font-size: 34px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 25px;
 `;
 const InfoCar = styled.div`
   margin: 20px 210px 30px 0px;
@@ -109,5 +119,4 @@ const InfoButton = styled.button`
   background-color: #5c1049;
   box-shadow: 3px 3px 5px #d8d8d8;
 `;
-
 export default LoginMain;

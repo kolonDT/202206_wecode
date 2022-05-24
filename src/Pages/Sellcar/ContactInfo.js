@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
-import WarningModal from "../../Components/Modal/WarningModal";
+import { useEffect, useState } from "react";
 import MapInfo from "./MapInfo";
 import DaumPostcode from "react-daum-postcode";
 
@@ -9,17 +8,47 @@ function ContactInfo() {
   const [isModal, setModal] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [addr, setAddr] = useState();
-  const [detailAddr, setDetailAddr] = useState();
+  const [postcodeAddr, setPostcodeAddr] = useState();
   const [isFindAddr, setFindAddr] = useState(false);
 
   const handleInput = (text) => {
     let regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
     if (regPhone.test(text) === true) {
       setPhone(text);
+      localStorage.setItem("contact", text);
     } else {
       if (phone) setPhone();
     }
   };
+  const onChange = (e) => {
+    localStorage.setItem("detailAddress", e.target.value);
+  };
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("address") === undefined ||
+      localStorage.getItem("address") === null ||
+      localStorage.getItem("address") === "undefined"
+    ) {
+      console.log("test", addr);
+      localStorage.setItem("address", addr);
+    } else if (postcodeAddr !== "undefined" && postcodeAddr !== undefined) {
+      localStorage.setItem("address", postcodeAddr);
+      setAddr(postcodeAddr);
+    } else {
+      if (
+        localStorage.getItem("address") !== undefined &&
+        localStorage.getItem("address") !== "undefined"
+      ) {
+        console.log("aavb", localStorage.getItem("address"));
+        setAddr(localStorage.getItem("address"));
+        setPostcodeAddr(localStorage.getItem("address"));
+      } else {
+        console.log("hey");
+      }
+    }
+  }, [postcodeAddr, addr]);
+  console.log("111 , ", addr);
   return (
     <Box>
       <P>딜러의 방문상담을 위해</P>
@@ -32,6 +61,7 @@ function ContactInfo() {
           onChange={(e) => {
             handleInput(e.target.value);
           }}
+          value={localStorage.getItem("contact")}
         ></Input>
       </Contact>
       <Location>
@@ -47,16 +77,16 @@ function ContactInfo() {
       </Location>
       {showMap ? (
         <>
-          <MapInfo addr={addr} setAddr={setAddr} detailAddr={detailAddr} />
+          <MapInfo addr={addr} setAddr={setAddr} postcodeAddr={postcodeAddr} />
           <Address>
             <Text>주소</Text>
-            {detailAddr === undefined ? (
-              <AddrText>{addr}</AddrText>
-            ) : (
-              <AddrText>{detailAddr}</AddrText>
-            )}
+            <AddrText>{addr}</AddrText>
+
             <Text>상세주소</Text>
-            <AddrInput />
+            <AddrInput
+              onChange={onChange}
+              value={localStorage.getItem("detailAddress")}
+            />
             {!isFindAddr ? (
               <FindBtn
                 onClick={() => {
@@ -66,16 +96,16 @@ function ContactInfo() {
                 주소검색
               </FindBtn>
             ) : null}
-            {isFindAddr ? <Postcode setDetailAddr={setDetailAddr} /> : null}
+            {isFindAddr ? (
+              <Postcode setAddr={setAddr} setPostcodeAddr={setPostcodeAddr} />
+            ) : null}
           </Address>
         </>
       ) : null}
-      {/* {isModal ? <WarningModal setModal={setModal} /> : null} */}
     </Box>
   );
 }
-const Postcode = ({ setDetailAddr }) => {
-  console.log("ddd");
+const Postcode = ({ setAddr, setPostcodeAddr }) => {
   const handleComplete = (data) => {
     let fullAddress = data.address;
     let extraAddress = "";
@@ -89,7 +119,8 @@ const Postcode = ({ setDetailAddr }) => {
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
-    setDetailAddr(fullAddress);
+    setAddr(fullAddress);
+    setPostcodeAddr(fullAddress);
   };
 
   return <DaumPostcode onComplete={handleComplete} />;
@@ -198,7 +229,6 @@ const Box = styled.div`
   margin: 0px auto;
   margin-top: 40px;
   text-align: center;
-  padding: 10px;
   @media only screen and (max-width: 640px) {
     width: 90%;
     padding: 0px;
