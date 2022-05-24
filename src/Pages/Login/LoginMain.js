@@ -1,6 +1,6 @@
 // modules
 import { useState } from "react";
-import Sellcar from "../Sellcar/Sellcar";
+import Graph from "../Sellcar/Graph";
 import Slider from "react-slick";
 //styles
 import styled from "styled-components";
@@ -17,6 +17,7 @@ function LoginMain() {
     autoplaySpeed: 2000,
     cssEase: "linear",
   };
+
   return (
     <LoginMainWrap>
       <LoginMainBox>
@@ -61,7 +62,7 @@ function LoginMain() {
         >
           <>시세확인</>
         </InfoButton>
-        <>{show === true ? <Sellcar active={show} /> : null}</>
+        <>{show === true ? <Graph active={show} /> : null}</>
       </LoginMainInfo>
     </LoginMainWrap>
   );
