@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useTransition } from "react";
 import styled from "styled-components";
 import { AiOutlinePlus } from "react-icons/ai";
 
-const InfoForm1 = () => {
+const AddInfo = () => {
   //주행거리 값 관리하는 상태값
   const [inputValue, setInputValue] = useState("");
 
@@ -303,11 +303,9 @@ const InfoForm1 = () => {
 const InfoContainer = styled.div`
   width: 640px;
   margin: 0px auto;
-  padding: 10px;
   box-sizing: border-box;
   @media only screen and (max-width: 640px) {
     width: 90%;
-    padding: 0px;
     margin: 0px auto;
     padding-left: 0;
   }
@@ -530,4 +528,4 @@ const PhotoInput = styled.input`
   display: none;
 `;
 
-export default InfoForm1;
+export default AddInfo;

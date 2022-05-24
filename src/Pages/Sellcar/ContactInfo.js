@@ -229,7 +229,6 @@ const Box = styled.div`
   margin: 0px auto;
   margin-top: 40px;
   text-align: center;
-  padding: 10px;
   @media only screen and (max-width: 640px) {
     width: 90%;
     padding: 0px;
