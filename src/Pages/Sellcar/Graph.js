@@ -103,22 +103,24 @@ function Graph() {
     <GraphWrap>
       <GraphTitle>
         <p>예상 시세는</p>
-        <p> 2,000 만 원 입니다.</p>
+        <span> 2,000 만 원 입니다.</span>
       </GraphTitle>
-      <GraphBox>
-        <div style={{ width: 400, height: 310 }}>
-          <MyResponsiveLine data={data} />
-        </div>
-      </GraphBox>
-      <GraphButton
-        onClick={() => {
-          setAdd(!add);
-        }}
-        style={{ display: add === false ? "block" : "none" }}
-      >
-        <>추가 정보 입력</>
-      </GraphButton>
-      <>{add === true ? <Sellcar active={add} /> : null}</>
+      <GraphArea>
+        <GraphBox>
+          <div style={{ width: 500, height: 350 }}>
+            <MyResponsiveLine data={data} />
+          </div>
+        </GraphBox>
+        <GraphButton
+          onClick={() => {
+            setAdd(!add);
+          }}
+          style={{ display: add === false ? "block" : "none" }}
+        >
+          <>추가 정보 입력</>
+        </GraphButton>
+        <>{add === true ? <Sellcar active={add} /> : null}</>
+      </GraphArea>
     </GraphWrap>
   );
 }
@@ -127,21 +129,20 @@ const GraphWrap = styled.div`
     width: 90%;
     margin: 30px auto;
   }
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 640px;
   margin: 30px auto;
 `;
 
 const GraphTitle = styled.div`
-  p {
-    font-size: 20px;
-    font-weight: 500;
-    margin-bottom: 5px;
-  }
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 5px;
 `;
-
+const GraphArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 const GraphBox = styled.div`
   margin: 10px 0px 30px 0px;
 `;
