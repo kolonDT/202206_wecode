@@ -15,8 +15,6 @@ function Login() {
       car_number: "12가1234",
       car_name: "SM5",
       car_birth: "2014",
-      driving_distance: "34,560",
-      option: [1, 2, 3],
     })
   );
 
@@ -36,6 +34,12 @@ function Login() {
     }
     return null;
   };
+
+  const handleEnter = (e) => {
+    if (e.keyCode === 13) {
+      handleLogin();
+    }
+  };
   function isValidId(str) {
     const regId = /\d{2,3}[가-힣]{1}?([0-9]{4})$/g;
     let ret = regId.test(str);
@@ -48,6 +52,7 @@ function Login() {
         <LoginSubTitle>똑똑하게 내 차를 파는 가장 빠른시간</LoginSubTitle>
         <LoginInput
           onChange={handleInput}
+          onKeyDown={handleEnter}
           type="text"
           id="id"
           name="id"

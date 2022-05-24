@@ -40,7 +40,6 @@ function LoginMain() {
       </LoginMainBox>
       <LoginMainInfo>
         <InfoTitle>
-          {/* <p>{localStorage.getItem("car_number")}</p> */}
           <p>차량 시세를 확인해볼까요?</p>
         </InfoTitle>
         <InfoCar>

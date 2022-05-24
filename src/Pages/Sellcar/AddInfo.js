@@ -177,7 +177,7 @@ const AddInfo = () => {
       <Announcement>
         보다 정확한 견적을 위해
         <br />
-        추가 정보를 입력해주세요
+        추가 정보를 입력해주세요.
       </Announcement>
       <DrivingDistanceWrapper>
         <Name>주행거리</Name>
