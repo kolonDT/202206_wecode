@@ -102,29 +102,32 @@ function Graph() {
   return (
     <GraphWrap>
       <GraphTitle>
-        <p>예상 시세는</p>
-        <span> 2,000 만 원 입니다.</span>
+        예상 시세는
+        <br />
+        2,000 만 원 입니다.
       </GraphTitle>
-      <GraphArea>
-        <GraphBox>
-          <div style={{ width: 500, height: 350 }}>
-            <MyResponsiveLine data={data} />
-          </div>
-        </GraphBox>
-        <GraphButton
-          onClick={() => {
-            setAdd(!add);
-          }}
-          style={{ display: add === false ? "block" : "none" }}
-        >
-          <>추가 정보 입력</>
-        </GraphButton>
-        <>{add === true ? <Sellcar active={add} /> : null}</>
-      </GraphArea>
+      <GraphBox>
+        <div style={{ width: 480, height: 350 }}>
+          <MyResponsiveLine data={data} />
+        </div>
+      </GraphBox>
+      <GraphButton
+        onClick={() => {
+          setAdd(!add);
+        }}
+        style={{ display: add === false ? "block" : "none" }}
+      >
+        <>추가 정보 입력</>
+      </GraphButton>
+      <>{add === true ? <Sellcar active={add} /> : null}</>
     </GraphWrap>
   );
 }
 const GraphWrap = styled.div`
+  border-top: 1px dotted #adadad;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   @media only screen and (max-width: 640px) {
     width: 90%;
     margin: 30px auto;
@@ -133,16 +136,14 @@ const GraphWrap = styled.div`
   margin: 30px auto;
 `;
 
-const GraphTitle = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 5px;
+const GraphTitle = styled.h1`
+  margin-top: 25px;
+  font-size: 1.2em;
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 25px;
 `;
-const GraphArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+
 const GraphBox = styled.div`
   margin: 10px 0px 30px 0px;
 `;
