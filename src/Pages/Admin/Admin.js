@@ -14,9 +14,8 @@ const Admin = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setCars(data);
+        setCars(data.myCarsInfo);
       });
-    console.log("cars", cars);
   }, []);
   return (
     <CarContainer>
