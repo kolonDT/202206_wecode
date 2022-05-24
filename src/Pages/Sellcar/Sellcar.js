@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InfoForm1 from "./InfoForm1";
+import AddInfo from "./AddInfo";
 import ContactInfo from "./ContactInfo";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ const Sellcar = () => {
   };
   return (
     <>
-      <InfoForm1 />
+      <AddInfo />
       <ContactInfo />
       <Wrap>
         <Button onClick={gotoReconfirm}>견적 받기</Button>
