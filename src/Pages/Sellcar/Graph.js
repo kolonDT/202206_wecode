@@ -1,4 +1,6 @@
 //module
+import { useState } from "react";
+import Sellcar from "../Sellcar/Sellcar";
 import { ResponsiveLine } from "@nivo/line";
 //styles
 import styled from "styled-components";
@@ -95,6 +97,8 @@ const MyResponsiveLine = ({ data }) => (
 );
 
 function Graph() {
+  const [add, setAdd] = useState(false);
+
   return (
     <GraphWrap>
       <GraphTitle>
@@ -106,7 +110,15 @@ function Graph() {
           <MyResponsiveLine data={data} />
         </div>
       </GraphBox>
-      <GraphButton>추가 정보 입력</GraphButton>
+      <GraphButton
+        onClick={() => {
+          setAdd(!add);
+        }}
+        style={{ display: add === false ? "block" : "none" }}
+      >
+        <>추가 정보 입력</>
+      </GraphButton>
+      <>{add === true ? <Sellcar active={add} /> : null}</>
     </GraphWrap>
   );
 }
@@ -120,7 +132,6 @@ const GraphWrap = styled.div`
   align-items: center;
   width: 640px;
   margin: 30px auto;
-  padding: 10px;
 `;
 
 const GraphTitle = styled.div`
@@ -132,8 +143,7 @@ const GraphTitle = styled.div`
 `;
 
 const GraphBox = styled.div`
-  margin: 10px 0px 20px 0px;
-  /* border: 1px solid gray; */
+  margin: 10px 0px 30px 0px;
 `;
 
 const GraphButton = styled.button`
