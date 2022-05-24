@@ -7,7 +7,7 @@ function Reconfirm() {
   const navigate = useNavigate();
 
   const handleRequest = () => {
-    navigate("/requestform");
+    navigate("/complete");
   };
 
   return (

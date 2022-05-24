@@ -39,7 +39,6 @@ function LoginMain() {
       </LoginMainBox>
       <LoginMainInfo>
         <InfoTitle>
-          {/* <p>OOO님의</p> */}
           <p>{localStorage.getItem("car_number")}</p>
           <p>차량 시세를 확인해볼까요?</p>
         </InfoTitle>
@@ -58,11 +57,12 @@ function LoginMain() {
           onClick={() => {
             setShow(!show);
           }}
+          style={{ display: show === false ? "block" : "none" }}
         >
-          {show === false ? <>시세확인</> : null}
+          <>시세확인</>
         </InfoButton>
+        <>{show === true ? <Sellcar active={show} /> : null}</>
       </LoginMainInfo>
-      <Sell>{show === true ? <Sellcar active={show} /> : null}</Sell>
     </LoginMainWrap>
   );
 }
@@ -114,12 +114,5 @@ const InfoButton = styled.button`
   color: white;
   background-color: #5c1049;
   box-shadow: 3px 3px 5px #d8d8d8;
-`;
-const Sell = styled.div`
-  /* opacity: ${(props) => (props.active ? "1" : "0")};
-  max-height: ${(props) => (props.active ? "100%" : "0")};
-  overflow: hidden;
-  padding: ${(props) => (props.active ? "15px" : "0 15px")};
-  transition: all 0.5s; */
 `;
 export default LoginMain;
