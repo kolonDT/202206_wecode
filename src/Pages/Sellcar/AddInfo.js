@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useTransition } from "react";
 import styled from "styled-components";
 import { AiOutlinePlus } from "react-icons/ai";
 
-const InfoForm1 = () => {
+const AddInfo = () => {
   //주행거리 값 관리하는 상태값
   const [inputValue, setInputValue] = useState("");
 
@@ -303,11 +303,9 @@ const InfoForm1 = () => {
 const InfoContainer = styled.div`
   width: 640px;
   margin: 0px auto;
-  padding: 10px;
   box-sizing: border-box;
   @media only screen and (max-width: 640px) {
     width: 90%;
-    padding: 0px;
     margin: 0px auto;
     padding-left: 0;
   }
@@ -359,7 +357,10 @@ const Measurements = styled.span`
 const OptionWrapper = styled.div``;
 
 const OptionLine = styled.div`
-  margin-bottom: 15px;
+  margin-bottom: 1.4em;
+  @media only screen and (max-width: 640px) {
+    margin-bottom: 1em;
+  }
 `;
 
 const OptionBox = styled.div`
@@ -372,13 +373,13 @@ const OptionBox = styled.div`
 `;
 
 const OptionButton = styled.button`
-  padding: 1em 1.4em;
-  margin-right: 1.8em;
+  padding: 1.2em 2.4em;
+  margin-right: 2em;
   color: rgba(0, 0, 0, 0.8);
   background-color: white;
   border: 0px solid black;
   border-radius: 1.8em;
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: 600;
   box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.1);
   ${({ isClicked }) => {
@@ -391,6 +392,8 @@ const OptionButton = styled.button`
       : null;
   }}
   @media only screen and (max-width: 640px) {
+    margin-right: 1.2em;
+    font-size: 1em;
     padding: 0.8em 0.8em;
   }
 `;
@@ -525,4 +528,4 @@ const PhotoInput = styled.input`
   display: none;
 `;
 
-export default InfoForm1;
+export default AddInfo;
