@@ -62,8 +62,26 @@ const CarCard = ({ car }) => {
       5: car.selling_completede !== null,
     };
     setChecked(checked);
+    setAlarm(1);
   }, []);
 
+  const setAlarm = (status) => {
+    //fetch(`/history/notification/2`, {
+    fetch(
+      `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ notificationStatus: status }),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
   return (
     <div>
       <Car>

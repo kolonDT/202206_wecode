@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CarCard from "./CarCard";
 
-const Admin = () => {
+const Admin = ({ isNew, setNew }) => {
   const [cars, setCars] = useState([]);
 
   useEffect(() => {
@@ -15,8 +15,27 @@ const Admin = () => {
       .then((res) => res.json())
       .then((data) => {
         setCars(data.myCarsInfo);
+        setAlarm(1);
       });
   }, []);
+
+  const setAlarm = (status) => {
+    //fetch(`/history/notification/2`, {
+    fetch(
+      `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ notificationStatus: status }),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
   return (
     <CarContainer>
       <CarWrapper>
