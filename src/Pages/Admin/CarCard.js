@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FaChevronRight } from "react-icons/fa";
 
-const CarCard = ({ car }) => {
+const CarCard = ({ car, isNew, setNew }) => {
   //클릭 시 요청내역 관리 숨김-열기 상태값
   const [isShow, setIsShow] = useState(false);
-
   //
   const [checked, setChecked] = useState({
     1: false,
@@ -40,8 +39,15 @@ const CarCard = ({ car }) => {
     setChecked({ ...checked, [num]: true });
 
     const progressStep = progress[num - 1];
+
+    console.log("test---", isNew);
+    if (isNew !== -1) {
+      console.log("test");
+      setAlarm(1);
+    }
     //fetch 함수
-    fetch(`/history/${car.car_id}`, {
+    //fetch(`/history/${car.car_id}`, {
+    fetch(`/history/2`, {
       method: "PATCH",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
@@ -62,11 +68,26 @@ const CarCard = ({ car }) => {
       5: car.selling_completede !== null,
     };
     setChecked(checked);
-    setAlarm(1);
-  }, []);
+    getAlarm();
+  }, [isNew]);
+
+  const getAlarm = async () => {
+    //await fetch(`/car/2`, {
+    await fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setNew(data["registeredCarInfo"][0].is_new);
+
+        console.log("isnew :", isNew);
+      });
+  };
 
   const setAlarm = (status) => {
-    //fetch(`/history/notification/2`, {
     fetch(
       `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
       {
@@ -79,7 +100,7 @@ const CarCard = ({ car }) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log("update.........");
       });
   };
   return (
