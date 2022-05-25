@@ -10,6 +10,33 @@ function Reconfirm() {
     navigate("/complete");
   };
 
+  let options = [
+    "네비게이션",
+    "선루프",
+    "통풍시트",
+    "디지털키",
+    "옵션명",
+    "옵션명",
+  ];
+  let option = "";
+  for (let i = 0; i < JSON.parse(localStorage.getItem("options")).length; i++) {
+    option = option.concat(",", options[i]);
+  }
+  option = option.substr(1);
+  console.log(option);
+
+  // const [list, setList] = useState([]);
+
+  // useEffect(() => {
+  //   fetch(``, {
+  //     method: "POST",
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setList(data);
+  //     });
+  // }, []);
+
   return (
     <ReconfirmWrap>
       <ReconfirmTitle>입력하신 추가 정보를 확인해주세요.</ReconfirmTitle>
@@ -20,13 +47,15 @@ function Reconfirm() {
           <span>추가정보</span>
           <span>연락처</span>
           <span>지역</span>
+          <span>상세주소</span>
         </ReconfirmBoxTitle>
         <ReconfirmBoxInfo>
-          <span>1,500km</span>
-          <span>네비게이션</span>
-          <span>좌측 사이드미러 교체 필요</span>
-          <span>010-1234-5678</span>
-          <span>서울시 강남구</span>
+          <span>{localStorage.getItem("driving_distance")}</span>
+          <span>{option}</span>
+          <span>{localStorage.getItem("additional_info")}</span>
+          <span>{localStorage.getItem("contact")}</span>
+          <span>{localStorage.getItem("address")}</span>
+          <span>{localStorage.getItem("detailAddress")}</span>
         </ReconfirmBoxInfo>
       </ReconfirmBox>
       <ReconfirmBtn onClick={handleRequest}>견적신청</ReconfirmBtn>
