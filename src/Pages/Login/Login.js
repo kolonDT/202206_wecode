@@ -33,7 +33,7 @@ function Login() {
     navigate("/login", { state: id });
     return "123";
   };
-  console.log("t", handleLogin("123"));
+  //console.log("t", handleLogin("123"));
 
   const handleWrite = () => {
     if (getCar) {
