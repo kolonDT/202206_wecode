@@ -28,8 +28,6 @@ function LoginMain() {
   };
   useEffect(() => {
     getCarInfo();
-
-    if (data1) localStorage.setItem("id", data1.id);
   }, [cnt.current]);
 
   if (cnt.current === 0) cnt.current += 1;
