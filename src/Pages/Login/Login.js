@@ -13,9 +13,10 @@ function Login() {
   const [isLogin, setLogin] = useState(false);
   //방문 기록이 있는지 관리하는 상태값
   const [hasQuote, setHasQuote] = useState(false);
+  const [show, setShow] = useState(false);
 
-  const getCar = () => {
-    fetch(`/car?carNumber=201누9290`, {
+  const getCar = (carNumber) => {
+    fetch(`/car?carNumber=${carNumber}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -23,7 +24,8 @@ function Login() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log("tttt", data);
+        if (data.message !== "INVALID_CAR_NUMBER") setShow(true);
       });
   };
 
@@ -60,15 +62,10 @@ function Login() {
     let ret = isValidId(e.target.value);
     setLogin(ret);
     setId(e.target.value);
+    getCar(e.target.value);
   };
 
   const handleLogin = (str) => {
-    // state.then((result) => {
-    //   const { message } = result;
-    //   if (message === "error") {
-    //     alert("차량 등록을 먼저 해주세요.");
-    //   }
-    // });
     console.log("hi", hi.state);
     navigate("/login", { state: id });
     return "123";
@@ -91,10 +88,6 @@ function Login() {
     let ret = regId.test(str);
     return ret;
   }
-
-  const test = () => {
-    return getCar() ? { display: "block" } : { display: "none" };
-  };
 
   useEffect(() => {
     const isVisited = checkExpiry();
@@ -125,9 +118,11 @@ function Login() {
         >
           등록하기
         </LoginButton>
-        <LoginNone onClick={handleWrite} style={test}>
-          이미 작성중인 견적서가 있으신가요?
-        </LoginNone>
+        {show ? (
+          <LoginNone onClick={handleWrite}>
+            이미 작성중인 견적서가 있으신가요?
+          </LoginNone>
+        ) : null}
       </LoginWrap>
     </LoginBox>
   );
