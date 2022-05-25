@@ -20,9 +20,10 @@ const Admin = () => {
   return (
     <CarContainer>
       <CarWrapper>
-        {cars.map((car) => {
-          return <CarCard key={car.id} car={car} />;
-        })}
+        {cars.length !== 0 &&
+          cars.map((car) => {
+            return <CarCard key={car.id} car={car} />;
+          })}
       </CarWrapper>
     </CarContainer>
   );

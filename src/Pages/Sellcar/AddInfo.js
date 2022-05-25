@@ -152,7 +152,7 @@ const AddInfo = () => {
 
   useEffect(() => {
     if (carImages.length !== 0) {
-      localStorage.setItem("image", JSON.stringify(carImages));
+      localStorage.setItem("image", carImages);
     }
   }, [carImages]);
 
