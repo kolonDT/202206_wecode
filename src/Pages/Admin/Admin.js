@@ -6,7 +6,7 @@ const Admin = () => {
   const [cars, setCars] = useState([]);
 
   useEffect(() => {
-    fetch("/Data/Hani/adminData.json", {
+    fetch("/car/myCars", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -14,7 +14,7 @@ const Admin = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setCars(data);
+        setCars(data.myCarsInfo);
       });
   }, []);
   return (
