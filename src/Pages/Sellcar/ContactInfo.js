@@ -10,6 +10,7 @@ function ContactInfo() {
   const [addr, setAddr] = useState();
   const [postcodeAddr, setPostcodeAddr] = useState();
   const [isFindAddr, setFindAddr] = useState(false);
+  const [detailAddr, setDetailAddr] = useState();
 
   const handleInput = (text) => {
     let regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
@@ -21,8 +22,13 @@ function ContactInfo() {
     }
   };
   const onChange = (e) => {
+    setDetailAddr(e.target.value);
     localStorage.setItem("detailAddress", e.target.value);
   };
+  useEffect(() => {
+    setDetailAddr(localStorage.getItem("detailAddress"));
+    setPhone(localStorage.getItem("contact"));
+  }, []);
 
   useEffect(() => {
     if (
@@ -30,8 +36,7 @@ function ContactInfo() {
       localStorage.getItem("address") === null ||
       localStorage.getItem("address") === "undefined"
     ) {
-      console.log("test", addr);
-      localStorage.setItem("address", addr);
+      if (addr !== undefined) localStorage.setItem("address", addr);
     } else if (postcodeAddr !== "undefined" && postcodeAddr !== undefined) {
       localStorage.setItem("address", postcodeAddr);
       setAddr(postcodeAddr);
@@ -48,7 +53,7 @@ function ContactInfo() {
       }
     }
   }, [postcodeAddr, addr]);
-  console.log("111 , ", addr);
+
   return (
     <Box>
       <P>딜러의 방문상담을 위해</P>
@@ -61,7 +66,7 @@ function ContactInfo() {
           onChange={(e) => {
             handleInput(e.target.value);
           }}
-          value={localStorage.getItem("contact")}
+          value={phone}
         ></Input>
       </Contact>
       <Location>
@@ -83,10 +88,7 @@ function ContactInfo() {
             <AddrText>{addr}</AddrText>
 
             <Text>상세주소</Text>
-            <AddrInput
-              onChange={onChange}
-              value={localStorage.getItem("detailAddress")}
-            />
+            <AddrInput onChange={onChange} value={detailAddr} />
             {!isFindAddr ? (
               <FindBtn
                 onClick={() => {

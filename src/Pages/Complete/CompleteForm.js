@@ -1,38 +1,70 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
-function CompleteForm() {
+function CompleteForm({ isNew, setNew }) {
   const navigate = useNavigate();
   const gotoRequest = () => {
     navigate("/requestform");
   };
   const [toastStatus, setToastStatus] = useState(false);
   const [alarmStatus, setAlarmStatus] = useState(false);
+  const temp = useRef(0);
+
   const handleToast = () => {
     setToastStatus(true);
     setAlarmStatus(!alarmStatus);
+    if (alarmStatus) {
+      setAlarm(1);
+      setNew(1);
+    } else {
+      setAlarm(-1);
+      setNew(-1);
+    }
   };
-  const setAlarm = (status) => {
-    fetch(`/history/notification/2`, {
-      method: "PATCH",
+
+  useEffect(() => {
+    getAlarm();
+    if (isNew === 1 || isNew === 0) {
+      setAlarmStatus(false);
+    } else {
+      setAlarmStatus(true);
+    }
+  }, [isNew]);
+
+  const getAlarm = async () => {
+    //await fetch(`/car/2`, {
+    await fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ notificationStatus: status }),
     })
+      .then((res) => res.json())
+      .then((data) => {
+        setNew(data["registeredCarInfo"][0].is_new);
+
+        console.log("isnew :", isNew);
+      });
+  };
+
+  const setAlarm = (status) => {
+    //fetch(`/history/notification/2`, {
+    fetch(
+      `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ notificationStatus: status }),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
       });
   };
-  useEffect(() => {
-    if (alarmStatus) {
-      setAlarm(1);
-    } else {
-      setAlarm(-1);
-    }
-  }, [alarmStatus]);
 
   useEffect(() => {
     if (toastStatus) {
@@ -53,7 +85,7 @@ function CompleteForm() {
       </Wrap>
       <OptionField>
         <Button onClick={gotoRequest}>요청내역 보기</Button>
-        {alarmStatus ? (
+        {!alarmStatus ? (
           <Button onClick={handleToast}>Push 알림 해제</Button>
         ) : (
           <Button onClick={handleToast}>Push 알림 설정</Button>
@@ -61,7 +93,7 @@ function CompleteForm() {
       </OptionField>
       {toastStatus && (
         <>
-          {alarmStatus ? (
+          {!alarmStatus ? (
             <Toast>알람 설정 되었습니다 </Toast>
           ) : (
             <Toast>알람 해제 되었습니다 </Toast>
