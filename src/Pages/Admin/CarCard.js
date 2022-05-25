@@ -41,13 +41,12 @@ const CarCard = ({ car }) => {
 
     const progressStep = progress[num - 1];
     //fetch 함수
-    fetch(``, {
-      method: "GET",
+    fetch(`/history/${car.car_id}`, {
+      method: "PATCH",
       headers: { "Content-type": "application/json" },
-      body: {
-        car_id: car.car_id,
+      body: JSON.stringify({
         progress: progressStep,
-      },
+      }),
     })
       .then((res) => res.json())
       .then((res) => console.log(res));
@@ -81,7 +80,7 @@ const CarCard = ({ car }) => {
               value={1}
               checked={checked[1]}
             />
-            <InputMessage>판매 완료</InputMessage>
+            <InputMessage>견적 요청 접수</InputMessage>
           </QuoteRequested>
           <DealerAssigned>
             <CheckInput
@@ -91,7 +90,7 @@ const CarCard = ({ car }) => {
               value={2}
               checked={checked[2]}
             />
-            <InputMessage>판매 요청</InputMessage>
+            <InputMessage>담당 딜러 배정</InputMessage>
           </DealerAssigned>
           <DealerConsulting>
             <CheckInput
@@ -111,7 +110,7 @@ const CarCard = ({ car }) => {
               value={4}
               checked={checked[4]}
             />
-            <InputMessage>담당 딜러 배정</InputMessage>
+            <InputMessage>판매 요청</InputMessage>
           </SellingRequested>
           <SellingComplete>
             <CheckInput
@@ -121,7 +120,7 @@ const CarCard = ({ car }) => {
               value={5}
               checked={checked[5]}
             />
-            <InputMessage>견적요청 접수</InputMessage>
+            <InputMessage>판매 완료</InputMessage>
           </SellingComplete>
         </ManangeProcess>
       </Car>

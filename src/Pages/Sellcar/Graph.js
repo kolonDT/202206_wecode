@@ -101,11 +101,7 @@ function Graph() {
 
   return (
     <GraphWrap>
-      <GraphTitle>
-        예상 시세는
-        <br />
-        2,000 만 원 입니다.
-      </GraphTitle>
+      <GraphTitle>예상 시세는 2,000 만 원 입니다.</GraphTitle>
       <GraphBox>
         <div style={{ width: 480, height: 350 }}>
           <MyResponsiveLine data={data} />
