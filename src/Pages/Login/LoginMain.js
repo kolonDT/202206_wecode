@@ -1,12 +1,39 @@
 // modules
-import { useState } from "react";
-import Graph from "../Sellcar/Graph";
+import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Slider from "react-slick";
+import Graph from "../Sellcar/Graph";
+
 //styles
 import styled from "styled-components";
 
 function LoginMain() {
   const [show, setShow] = useState(false);
+  const { state } = useLocation();
+  const [data1, setData] = useState();
+  const cnt = useRef(0);
+  const getCarInfo = async () => {
+    await fetch(`/car?carNumber=${state}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("ddd :", data);
+        setData(data["infoByCarNumber"][0]);
+        console.log(data1);
+      });
+  };
+  useEffect(() => {
+    getCarInfo();
+
+    if (data1) localStorage.setItem("id", data1.id);
+  }, [cnt.current]);
+
+  if (cnt.current === 0) cnt.current += 1;
+
   const settings = {
     dots: true,
     infinite: true,
@@ -18,6 +45,7 @@ function LoginMain() {
     cssEase: "linear",
   };
 
+  if (data1 === undefined) return null;
   return (
     <LoginMainWrap>
       <LoginMainBox>
@@ -40,18 +68,17 @@ function LoginMain() {
       </LoginMainBox>
       <LoginMainInfo>
         <InfoTitle>
-          {/* <p>{localStorage.getItem("car_number")}</p> */}
           <p>차량 시세를 확인해볼까요?</p>
         </InfoTitle>
         <InfoCar>
           <div>
-            차량번호: <span>{localStorage.getItem("car_number")}</span>
+            차량번호: <span>{state}</span>
           </div>
           <div>
-            모델명: <span>{localStorage.getItem("car_name")}</span>
+            모델명: <span>{data1.model_name}</span>
           </div>
           <div>
-            연식: <span>{localStorage.getItem("car_birth")}</span>
+            연식: <span>{data1.model_year}</span>
           </div>
         </InfoCar>
         <InfoButton

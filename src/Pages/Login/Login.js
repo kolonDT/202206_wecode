@@ -12,18 +12,18 @@ function Login() {
   //방문 기록이 있는지 관리하는 상태값
   const [hasQuote, setHasQuote] = useState(false);
 
-  const currentUser = localStorage.getItem("user");
-
-  localStorage.setItem(
-    "user",
-    JSON.stringify({
-      car_number: "12가1234",
-      car_name: "SM5",
-      car_birth: "2014",
-      driving_distance: "34,560",
-      option: [1, 2, 3],
+  const getCar = () => {
+    fetch(`/car?carNumber=201누9290`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
-  );
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
 
   //방문 기록 확인 및 관리하는 함수
   const checkExpiry = () => {
@@ -61,14 +61,23 @@ function Login() {
   };
 
   const handleLogin = (str) => {
-    navigate("/login");
+    console.log("test");
+    navigate("/login", { state: id });
+    return "123";
   };
+  //console.log("t", handleLogin("123"));
 
   const handleWrite = () => {
-    if (currentUser) {
+    if (getCar) {
       navigate("/sellcar");
     }
     return null;
+  };
+
+  const handleEnter = (e) => {
+    if (e.keyCode === 13) {
+      handleLogin();
+    }
   };
   function isValidId(str) {
     const regId = /\d{2,3}[가-힣]{1}?([0-9]{4})$/g;
@@ -76,12 +85,17 @@ function Login() {
     return ret;
   }
 
+  const test = () => {
+    return getCar() ? { display: "block" } : { display: "none" };
+  };
+
   useEffect(() => {
     const isVisited = checkExpiry();
     const isWriting = localStorage.length > 2;
     const result = isVisited && isWriting;
     setHasQuote(result);
   }, []);
+
   return (
     <LoginBox>
       <LoginWrap>
@@ -89,6 +103,7 @@ function Login() {
         <LoginSubTitle>똑똑하게 내 차를 파는 가장 빠른시간</LoginSubTitle>
         <LoginInput
           onChange={handleInput}
+          onKeyDown={handleEnter}
           type="text"
           id="id"
           name="id"
@@ -103,10 +118,7 @@ function Login() {
         >
           등록하기
         </LoginButton>
-        <LoginNone
-          onClick={handleWrite}
-          style={currentUser ? { display: "block" } : { display: "none" }}
-        >
+        <LoginNone onClick={handleWrite} style={test}>
           이미 작성중인 견적서가 있으신가요?
         </LoginNone>
       </LoginWrap>
