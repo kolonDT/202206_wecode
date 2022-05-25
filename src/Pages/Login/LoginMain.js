@@ -12,6 +12,7 @@ function LoginMain() {
   const { state } = useLocation();
   const [data1, setData] = useState();
   const cnt = useRef(0);
+  localStorage.setItem("carNumber", state);
   const getCarInfo = async () => {
     await fetch(`/car?carNumber=${state}`, {
       method: "GET",
@@ -129,6 +130,8 @@ const InfoCar = styled.div`
   div {
     font-size: 18px;
     margin-bottom: 10px;
+    font-weight: 500;
+    color: gray;
   }
   span {
     margin-left: 5px;
