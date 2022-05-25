@@ -1,11 +1,13 @@
 // modules
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 //styles
 import styled from "styled-components";
 import moment from "moment";
 
 function Login() {
+  const hi = useLocation();
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [isLogin, setLogin] = useState(false);
@@ -61,7 +63,13 @@ function Login() {
   };
 
   const handleLogin = (str) => {
-    console.log("test");
+    // state.then((result) => {
+    //   const { message } = result;
+    //   if (message === "error") {
+    //     alert("차량 등록을 먼저 해주세요.");
+    //   }
+    // });
+    console.log("hi", hi.state);
     navigate("/login", { state: id });
     return "123";
   };
