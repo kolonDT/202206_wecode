@@ -10,7 +10,7 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 import moment from "moment";
 let PORT = process.env.REACT_APP_PORT;
 
-function RequestForm() {
+function RequestForm({ isNew, setNew }) {
   const [fold, setFold] = useState(false);
   const [data, setData] = useState();
   let process = {
@@ -22,8 +22,7 @@ function RequestForm() {
   };
 
   const getData = () => {
-    //fetch(`/Data/Lisa/RequestForm.json`, {
-    fetch(`/car/2`, {
+    fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -31,13 +30,34 @@ function RequestForm() {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setData(data["registeredCarInfo"][0]);
         console.log(data["registeredCarInfo"][0]);
+      });
+  };
+  const setAlarm = (status) => {
+    fetch(
+      `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ notificationStatus: status }),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
       });
   };
 
   useEffect(() => {
     getData();
+    if (isNew === 1) {
+      setNew(0);
+      setAlarm(0);
+    }
   }, []);
 
   if (data === undefined) return null;

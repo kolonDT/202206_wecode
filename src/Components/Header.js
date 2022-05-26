@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { GrFormPrevious } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BsCircleFill } from "react-icons/bs";
 
-const Header = () => {
+const Header = ({ isNew, setNew }) => {
   return (
     <HeaderContainer>
       <HeaderWrapper>
@@ -14,9 +14,11 @@ const Header = () => {
         <HeaderTitle>내 차 팔기</HeaderTitle>
         <HeaderMenu>
           <GiHamburgerMenu size="24" color="#383838" />
-          <Alarm>
-            <BsCircleFill color="red" size="10" />
-          </Alarm>
+          {isNew === 1 ? (
+            <Alarm>
+              <BsCircleFill color="red" size="10" />
+            </Alarm>
+          ) : null}
         </HeaderMenu>
       </HeaderWrapper>
     </HeaderContainer>
