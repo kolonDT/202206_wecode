@@ -25,7 +25,10 @@ function CompleteForm({ isNew, setNew }) {
 
   useEffect(() => {
     getAlarm();
-    if (isNew === 1 || isNew === 0) {
+    temp.current += 1;
+    if (temp.current % 2 === 1) {
+      console.log("skip..");
+    } else if (isNew === 1 || isNew === 0) {
       setAlarmStatus(false);
     } else {
       setAlarmStatus(true);
@@ -33,7 +36,6 @@ function CompleteForm({ isNew, setNew }) {
   }, [isNew]);
 
   const getAlarm = async () => {
-    //await fetch(`/car/2`, {
     await fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
       method: "GET",
       headers: {
@@ -49,7 +51,6 @@ function CompleteForm({ isNew, setNew }) {
   };
 
   const setAlarm = (status) => {
-    //fetch(`/history/notification/2`, {
     fetch(
       `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
       {
