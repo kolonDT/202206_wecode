@@ -23,7 +23,9 @@ const Admin = ({ isNew, setNew }) => {
       <CarWrapper>
         {cars.length !== 0 &&
           cars.map((car) => {
-            return <CarCard key={car.id} car={car} />;
+            return (
+              <CarCard key={car.id} car={car} isNew={isNew} setNew={setNew} />
+            );
           })}
       </CarWrapper>
     </CarContainer>

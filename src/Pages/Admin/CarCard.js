@@ -41,7 +41,7 @@ const CarCard = ({ car, isNew, setNew }) => {
     const progressStep = progress[num - 1];
 
     console.log("test---", isNew);
-    if (isNew !== -1) {
+    if (isNew === 1 || isNew === 0) {
       console.log("test");
       setAlarm(1);
     }
@@ -82,8 +82,6 @@ const CarCard = ({ car, isNew, setNew }) => {
       .then((res) => res.json())
       .then((data) => {
         setNew(data["registeredCarInfo"][0].is_new);
-
-        console.log("isnew :", isNew);
       });
   };
 

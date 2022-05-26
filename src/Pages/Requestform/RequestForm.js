@@ -30,9 +30,7 @@ function RequestForm({ isNew, setNew }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setData(data["registeredCarInfo"][0]);
-        console.log(data["registeredCarInfo"][0]);
       });
   };
   const setAlarm = (status) => {

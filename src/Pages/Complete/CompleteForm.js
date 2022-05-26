@@ -14,6 +14,7 @@ function CompleteForm({ isNew, setNew }) {
   const handleToast = () => {
     setToastStatus(true);
     setAlarmStatus(!alarmStatus);
+    console.log("-===================");
     if (alarmStatus) {
       setAlarm(1);
       setNew(1);
@@ -24,7 +25,8 @@ function CompleteForm({ isNew, setNew }) {
   };
 
   useEffect(() => {
-    getAlarm();
+    temp.current += 1;
+    if (temp.current % 2 === 1) getAlarm();
     if (isNew === 1 || isNew === 0) {
       setAlarmStatus(false);
     } else {
@@ -33,7 +35,6 @@ function CompleteForm({ isNew, setNew }) {
   }, [isNew]);
 
   const getAlarm = async () => {
-    //await fetch(`/car/2`, {
     await fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
       method: "GET",
       headers: {
@@ -43,14 +44,11 @@ function CompleteForm({ isNew, setNew }) {
       .then((res) => res.json())
       .then((data) => {
         setNew(data["registeredCarInfo"][0].is_new);
-
-        console.log("isnew :", isNew);
       });
   };
 
-  const setAlarm = (status) => {
-    //fetch(`/history/notification/2`, {
-    fetch(
+  const setAlarm = async (status) => {
+    await fetch(
       `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
       {
         method: "PATCH",
