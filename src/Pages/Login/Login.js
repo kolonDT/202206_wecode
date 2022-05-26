@@ -29,6 +29,15 @@ function Login() {
       });
   };
 
+  // useEffect(() => {
+  // 	// componentDidMount
+  // 	setPhoto(props.photo);
+
+  // 	if(photo.data && photo.data.length > 0) {
+  // 		console.log(photo.data[0]);
+  // 	}
+  // })
+
   //방문 기록 확인 및 관리하는 함수
   const checkExpiry = () => {
     const timeStamp = localStorage.getItem("time_stamp");

@@ -42,6 +42,7 @@ function CompleteForm({ isNew, setNew }) {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log("ddd :", data);
         setNew(data["registeredCarInfo"][0].is_new);
 
         console.log("isnew :", isNew);
