@@ -2,6 +2,7 @@
 import { useNavigate } from "react-router-dom";
 //styles
 import styled from "styled-components";
+import { useEffect, useState } from "react";
 
 function Reconfirm() {
   const navigate = useNavigate();
@@ -25,17 +26,22 @@ function Reconfirm() {
   option = option.substr(1);
   console.log(option);
 
-  // const [list, setList] = useState([]);
+  const [list, setList] = useState([]);
 
-  // useEffect(() => {
-  //   fetch(``, {
-  //     method: "POST",
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setList(data);
-  //     });
-  // }, []);
+  const carNumber = localStorage.getItem("carNumber");
+
+  useEffect(() => {
+    fetch(`localhost:8000/car/${carNumber}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setList(data);
+      });
+  }, []);
 
   return (
     <ReconfirmWrap>

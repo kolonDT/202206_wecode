@@ -11,9 +11,9 @@ function Login() {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [isLogin, setLogin] = useState(false);
+  const [show, setShow] = useState(false);
   //방문 기록이 있는지 관리하는 상태값
   const [hasQuote, setHasQuote] = useState(false);
-  const [show, setShow] = useState(false);
 
   const getCar = (carNumber) => {
     fetch(`/car?carNumber=${carNumber}`, {
