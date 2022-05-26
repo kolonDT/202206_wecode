@@ -85,10 +85,10 @@ function RequestForm({ isNew, setNew }) {
           }}
         >
           {fold === false ? (
-            <>
+            <div>
               내 요청내용 보기
               <RiArrowDropDownLine />
-            </>
+            </div>
           ) : null}
         </Folding>
         <Detail active={fold}>
@@ -100,7 +100,7 @@ function RequestForm({ isNew, setNew }) {
           </DetailLine>
           <DetailLine>
             <Text>모델명</Text>
-            <Text>{data.model_name}</Text>
+            <SmallText>{data.model_name}</SmallText>
           </DetailLine>
           <DetailLine>
             <Text>연식</Text>
@@ -110,22 +110,22 @@ function RequestForm({ isNew, setNew }) {
             <Text>주행거리</Text>
             <Text>{data.driving_distance}km</Text>
           </DetailLine>
-          <DetailLine>
-            <Text>연락처</Text>
-            <Text>{data.contact}</Text>
-          </DetailLine>
-          <DetailLine>
-            <Text>지역</Text>
-            <Text>
-              {data.address} {data.address_detail}
-            </Text>
-          </DetailLine>
           <DetailOption>
             <OptionText>옵션</OptionText>
             {data.options.split(",").map((opt, index) => {
               return <Option>{opt}</Option>;
             })}
           </DetailOption>
+          <DetailLine>
+            <Text>연락처</Text>
+            <Text>{data.contact}</Text>
+          </DetailLine>
+          <DetailLine>
+            <Text>지역</Text>
+            <SmallText>
+              {data.address} {data.address_detail}
+            </SmallText>
+          </DetailLine>
 
           {/* <Map
             center={{
@@ -196,6 +196,12 @@ function ImageSlide({ data }) {
     </Wrap>
   );
 }
+const SmallText = styled.p`
+  font-size: 0.8em;
+  font-weight: 400;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
 
 const Box = styled.div`
   width: 640px;
