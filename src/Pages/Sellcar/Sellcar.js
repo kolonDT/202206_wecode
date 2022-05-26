@@ -36,6 +36,7 @@ const Wrap = styled.div`
   text-align: center;
   @media only screen and (max-width: 640px) {
     margin: 0px auto;
+    width: 90%;
   }
 `;
 const Button = styled.button`
