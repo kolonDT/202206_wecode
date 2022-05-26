@@ -23,21 +23,19 @@ function MapInfo({ addr, setAddr, postcodeAddr }) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          let lat =
+            coords !== undefined ? coords.getLat() : position.coords.latitude;
+          let lng =
+            coords !== undefined ? coords.getLng() : position.coords.longitude;
           setState((prev) => ({
             ...prev,
             center: {
-              lat:
-                coords !== undefined
-                  ? coords.getLat()
-                  : position.coords.latitude, // 위도
-              lng:
-                coords !== undefined
-                  ? coords.getLng()
-                  : position.coords.longitude, // 경도
+              lat: lat,
+              lng: lng, // 경도
             },
             isLoading: false,
           }));
-          getAddr(position.coords.latitude, position.coords.longitude, setAddr);
+          getAddr(lat, lng, setAddr);
         },
         (err) => {
           setState((prev) => ({
@@ -95,6 +93,8 @@ function getAddr(lat, lng, setAddr) {
       setAddr(result[0].address.address_name);
     }
   };
+  localStorage.setItem("lng", coord.getLng());
+  localStorage.setItem("lat", coord.getLat());
   geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
 }
 export default MapInfo;
