@@ -10,20 +10,33 @@ import Reconfirm from "./Pages/Sellcar/Reconfirm";
 import SellCar from "./Pages/Sellcar/Sellcar";
 import Graph from "./Pages/Sellcar/Graph";
 import Admin from "./Pages/Admin/Admin";
+import React, { useState } from "react";
+
 function App() {
+  const [isNew, setNew] = useState(-1);
+
   return (
     <>
-      <Header />
+      <Header isNew={isNew} setNew={setNew} />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<LoginMain />} />
-          <Route path="/complete" element={<CompleteForm />} />
-          <Route path="/requestform" element={<RequestForm />} />
+          <Route
+            path="/complete"
+            element={<CompleteForm isNew={isNew} setNew={setNew} />}
+          />
+          <Route
+            path="/requestform"
+            element={<RequestForm isNew={isNew} setNew={setNew} />}
+          />
           <Route path="/reconfirm" element={<Reconfirm />} />
           <Route path="/sellcar" element={<SellCar />} />
           <Route path="/graph" element={<Graph />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route
+            path="/admin"
+            element={<Admin isNew={isNew} setNew={setNew} />}
+          />
           {/* <Route path='/' element={}/>
               <Route path='/' element={}/>
               <Route path='/confirm' element={}/>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CarCard from "./CarCard";
 
-const Admin = () => {
+const Admin = ({ isNew, setNew }) => {
   const [cars, setCars] = useState([]);
 
   useEffect(() => {
@@ -17,6 +17,7 @@ const Admin = () => {
         setCars(data.myCarsInfo);
       });
   }, []);
+
   return (
     <CarContainer>
       <CarWrapper>

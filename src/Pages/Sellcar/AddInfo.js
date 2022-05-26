@@ -88,7 +88,21 @@ const AddInfo = () => {
     if (carImages.length < 4) {
       const newURL = URL.createObjectURL(newImage[0]);
       setCarUrlImages([...carUrlImages, newURL]);
+      handleUrls();
     }
+  };
+
+  //DB에 넣을 사진을 변환하는 함수
+  const handleUrls = () => {
+    const formData = new FormData();
+    for (let i in carImages) {
+      formData.append("image", carImages[i]);
+    }
+    console.log("formDataInAddInfo", formData.values());
+    for (let value of formData.values()) {
+      console.log("Value:", value);
+    }
+    localStorage.setItem("imageResult", formData);
   };
 
   const tmp = (arr) => {
