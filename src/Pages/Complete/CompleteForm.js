@@ -9,7 +9,6 @@ function CompleteForm({ isNew, setNew }) {
   };
   const [toastStatus, setToastStatus] = useState(false);
   const [alarmStatus, setAlarmStatus] = useState(false);
-  const temp = useRef(0);
 
   const handleToast = () => {
     setToastStatus(true);
@@ -25,6 +24,9 @@ function CompleteForm({ isNew, setNew }) {
 
   useEffect(() => {
     getAlarm();
+  }, []);
+
+  useEffect(() => {
     if (isNew === 1 || isNew === 0) {
       setAlarmStatus(false);
     } else {
@@ -69,7 +71,7 @@ function CompleteForm({ isNew, setNew }) {
   }, [toastStatus]);
   return (
     <Box>
-      <H1>견적 요청이 접수됬습니다.</H1>
+      <H1>견적 요청이 접수되었습니다.</H1>
       <Wrap>
         <P>딜러 방문 전에 계약을 위한</P>
         <P>필요서류를 준비해 주세요</P>

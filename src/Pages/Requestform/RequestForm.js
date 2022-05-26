@@ -61,20 +61,20 @@ function RequestForm({ isNew, setNew }) {
   if (data === undefined) return null;
   process["견적요청 접수"] = moment(data.quote_requested)
     .utc()
-    .format("YYYY-MM-DD HH:mm:ss");
+    .format("YYYY-MM-DD"); //HH:mm:ss
   process["담당 딜러 배정"] = moment(data.dealer_assigned)
     .utc()
-    .format("YYYY-MM-DD HH:mm:ss");
+    .format("YYYY-MM-DD");
   process["딜러 방문 상담"] = moment(data.dealer_consulting)
     .utc()
-    .format("YYYY-MM-DD HH:mm:ss");
+    .format("YYYY-MM-DD");
   process["판매 요청"] = moment(data.selling_requested)
     .utc()
-    .format("YYYY-MM-DD HH:mm:ss");
+    .format("YYYY-MM-DD");
   process["판매 완료"] = moment(data.selling_completede)
     .utc()
-    .format("YYYY-MM-DD HH:mm:ss");
-  console.log(typeof process["견적요청 접수"]);
+    .format("YYYY-MM-DD");
+  console.log(data);
   return (
     <>
       <Box>
@@ -116,7 +116,9 @@ function RequestForm({ isNew, setNew }) {
           </DetailLine>
           <DetailLine>
             <Text>지역</Text>
-            <Text>{data.address}</Text>
+            <Text>
+              {data.address} {data.address_detail}
+            </Text>
           </DetailLine>
           <DetailOption>
             <OptionText>옵션</OptionText>
@@ -125,7 +127,7 @@ function RequestForm({ isNew, setNew }) {
             })}
           </DetailOption>
 
-          <Map
+          {/* <Map
             center={{
               lat: Number(data.lat),
               lng: Number(data.lon),
@@ -144,7 +146,7 @@ function RequestForm({ isNew, setNew }) {
                 lng: Number(data.lon),
               }}
             />
-          </Map>
+          </Map> */}
         </Detail>
       </Box>
     </>
@@ -158,7 +160,12 @@ function ProcessArray({ process }) {
         <P>{key}</P>
         <P>{value}</P>
       </Line>
-    ) : null
+    ) : (
+      <Line>
+        <P active={1}>{key}</P>
+        <P></P>
+      </Line>
+    )
   );
 }
 
@@ -208,6 +215,7 @@ const Box = styled.div`
 const P = styled.p`
   font-size: 1.4em;
   font-weight: bold;
+  color: ${(props) => (props.active ? "#d8d8d8" : "black")};
   margin-top: 10px;
   margin-bottom: 20px;
 `;
