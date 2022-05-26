@@ -14,7 +14,6 @@ function CompleteForm({ isNew, setNew }) {
   const handleToast = () => {
     setToastStatus(true);
     setAlarmStatus(!alarmStatus);
-    console.log("-===================");
     if (alarmStatus) {
       setAlarm(1);
       setNew(1);
@@ -25,8 +24,7 @@ function CompleteForm({ isNew, setNew }) {
   };
 
   useEffect(() => {
-    temp.current += 1;
-    if (temp.current % 2 === 1) getAlarm();
+    getAlarm();
     if (isNew === 1 || isNew === 0) {
       setAlarmStatus(false);
     } else {
@@ -60,7 +58,7 @@ function CompleteForm({ isNew, setNew }) {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log("set data", status);
       });
   };
 

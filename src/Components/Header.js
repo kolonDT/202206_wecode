@@ -3,7 +3,23 @@ import styled from "styled-components";
 import { GrFormPrevious } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BsCircleFill } from "react-icons/bs";
-
+import { BsBellSlash, BsBell, BsBellFill } from "react-icons/bs";
+function AlarmChange({ isNew }) {
+  if (isNew === 1) {
+    return (
+      <>
+        <BsBell size="24" color="#383838" />
+        <Alarm>
+          <BsCircleFill color="red" size="10" />
+        </Alarm>
+      </>
+    );
+  } else if (isNew === 0) {
+    return <BsBell size="24" color="#383838" />;
+  } else {
+    return <BsBellSlash size="24" color="#383838" />;
+  }
+}
 const Header = ({ isNew, setNew }) => {
   return (
     <HeaderContainer>
@@ -13,12 +29,13 @@ const Header = ({ isNew, setNew }) => {
         </PreviousButton>
         <HeaderTitle>내 차 팔기</HeaderTitle>
         <HeaderMenu>
-          <GiHamburgerMenu size="24" color="#383838" />
+          <AlarmChange isNew={isNew} />
+          {/* <GiHamburgerMenu size="24" color="#383838" />
           {isNew === 1 ? (
             <Alarm>
               <BsCircleFill color="red" size="10" />
             </Alarm>
-          ) : null}
+          ) : null} */}
         </HeaderMenu>
       </HeaderWrapper>
     </HeaderContainer>
