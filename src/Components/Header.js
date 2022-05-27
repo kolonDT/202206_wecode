@@ -8,21 +8,47 @@ import { BsBellSlash, BsBell, BsBellFill } from "react-icons/bs";
 
 const Header = ({ isNew, setNew, page }) => {
   const navigate = useNavigate();
+  const setAlarm = async (status) => {
+    await fetch(
+      `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ notificationStatus: status }),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("set data", status);
+      });
+  };
+  const settingAlarm = () => {
+    if (isNew === 1 || isNew === 0) {
+      setAlarm(-1);
+      setNew(-1);
+    } else {
+      setAlarm(0);
+      setNew(0);
+    }
+  };
 
   function AlarmChange({ isNew }) {
+    console.log("test", isNew);
     if (isNew === 1) {
       return (
-        <>
-          <BsBell size="24" color="#383838" />
+        <div>
+          <BsBell size="24" color="#383838" onClick={settingAlarm} />
           <Alarm>
-            <BsCircleFill color="red" size="10" />
+            <BsCircleFill color="red" size="10" onClick={settingAlarm} />
           </Alarm>
-        </>
+        </div>
       );
     } else if (isNew === 0) {
-      return <BsBell size="24" color="#383838" />;
+      return <BsBell size="24" color="#383838" onClick={settingAlarm} />;
     } else {
-      return <BsBellSlash size="24" color="#383838" />;
+      return <BsBellSlash size="24" color="#383838" onClick={settingAlarm} />;
     }
   }
   return (
