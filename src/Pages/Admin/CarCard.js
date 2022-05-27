@@ -47,7 +47,7 @@ const CarCard = ({ car, isNew, setNew }) => {
     }
     //fetch 함수
     //fetch(`/history/${car.car_id}`, {
-    fetch(`/history/${car.car_number}`, {
+    fetch(`/history?carNumber=${car.car_number}`, {
       method: "PATCH",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
