@@ -82,6 +82,7 @@ function Login() {
 
   const handleWrite = () => {
     if (getCar) {
+      alert("견적서 작성 페이지로 이동하시겠습니까?");
       navigate("/sellcar");
     }
     return null;
@@ -129,7 +130,7 @@ function Login() {
         </LoginButton>
         {show ? (
           <LoginNone onClick={handleWrite}>
-            이미 작성중인 견적서가 있으신가요?
+            이미 작성중인 견적서가 있습니다.
           </LoginNone>
         ) : null}
       </LoginWrap>
@@ -141,11 +142,12 @@ export default Login;
 const LoginBox = styled.div`
   @media only screen and (max-width: 640px) {
     width: 90%;
-    margin: 30px auto;
+    margin: 40px auto;
   }
-  margin: 30px auto;
+  margin: 40px auto;
   width: 640px;
   padding: 10px 0px;
+  text-align: center;
 `;
 const LoginWrap = styled.div`
   display: flex;
@@ -159,11 +161,18 @@ const LoginTitle = styled.p`
   font-size: 35px;
 `;
 const LoginSubTitle = styled.p`
+  @media only screen and (max-width: 640px) {
+    width: 80%;
+  }
   font-size: 30px;
   font-weight: 500;
   margin-bottom: 40px;
 `;
 const LoginInput = styled.input`
+  @media only screen and (max-width: 640px) {
+    width: 80%;
+    margin: 0px auto;
+  }
   width: 450px;
   padding: 20px;
   border: 1px solid gray;
@@ -174,9 +183,13 @@ const LoginInput = styled.input`
   }
 `;
 const LoginButton = styled.button`
+  @media only screen and (max-width: 640px) {
+    width: 60%;
+    margin: 10px auto;
+  }
   width: 180px;
   margin: 20px 0px 0px 310px;
-  padding: 12px 15px;
+  padding: 13px 15px;
   border-radius: 5px;
   border: 1px solid #adadad;
   cursor: pointer;
@@ -192,7 +205,7 @@ const LoginButton = styled.button`
 `;
 const LoginNone = styled.span`
   display: block;
-  margin-top: 100px;
+  margin-top: 80px;
   cursor: pointer;
-  color: #ababab;
+  color: gray;
 `;

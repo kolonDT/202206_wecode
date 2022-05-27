@@ -97,11 +97,10 @@ function LoginMain() {
 const LoginMainWrap = styled.div`
   @media only screen and (max-width: 640px) {
     width: 100%;
-    margin: 0px auto;
+    margin: 40px auto;
   }
   width: 640px;
-  margin: 0px auto;
-  padding: 20px 0px;
+  margin: 40px auto;
 `;
 const LoginMainBox = styled.div`
   img {
@@ -110,6 +109,10 @@ const LoginMainBox = styled.div`
   }
 `;
 const LoginMainInfo = styled.div`
+  @media only screen and (max-width: 640px) {
+    width: 90%;
+    margin: 0px auto;
+  }
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,6 +120,9 @@ const LoginMainInfo = styled.div`
   margin-top: 20px;
 `;
 const InfoTitle = styled.div`
+  @media only screen and (max-width: 640px) {
+    font-size: 30px;
+  }
   margin-bottom: 10px;
   font-size: 34px;
   font-weight: 800;
@@ -124,6 +130,10 @@ const InfoTitle = styled.div`
   line-height: 25px;
 `;
 const InfoCar = styled.div`
+  @media only screen and (max-width: 640px) {
+    /* text-align: center; */
+    margin: 20px auto;
+  }
   margin: 20px 210px 30px 0px;
   div {
     font-size: 18px;
