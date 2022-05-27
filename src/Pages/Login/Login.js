@@ -41,7 +41,9 @@ function Login({ setPage }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        setData(data["registeredCarInfo"][0]);
+        if (data["registeredCarInfo"].length !== 0)
+          setData(data["registeredCarInfo"][0]);
+        else setData(false);
       });
   };
 
@@ -98,13 +100,12 @@ function Login({ setPage }) {
     setId(e.target.value);
     if (ret === true) {
       getCar(e.target.value);
-      getData();
       localStorage.setItem("carNumber", e.target.value);
+      getData();
     }
   };
 
   const handleLogin = (str) => {
-    console.log("hi", hi.state);
     navigate("/login", { state: id });
     return "123";
   };
