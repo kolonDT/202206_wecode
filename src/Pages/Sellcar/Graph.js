@@ -96,7 +96,7 @@ const MyResponsiveLine = ({ data }) => (
   />
 );
 
-function Graph() {
+function Graph({ setPage }) {
   const [add, setAdd] = useState(false);
 
   return (
@@ -115,7 +115,7 @@ function Graph() {
       >
         <>추가 정보 입력</>
       </GraphButton>
-      <>{add === true ? <Sellcar active={add} /> : null}</>
+      <>{add === true ? <Sellcar active={add} setPage={setPage} /> : null}</>
     </GraphWrap>
   );
 }
