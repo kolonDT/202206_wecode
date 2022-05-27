@@ -7,7 +7,7 @@ import Graph from "../Sellcar/Graph";
 //styles
 import styled from "styled-components";
 
-function LoginMain() {
+function LoginMain({ setPage }) {
   const [show, setShow] = useState(false);
   const { state } = useLocation();
   const [data1, setData] = useState();
@@ -27,6 +27,11 @@ function LoginMain() {
         console.log(data1);
       });
   };
+
+  useEffect(() => {
+    setPage("default");
+  }, []);
+
   useEffect(() => {
     getCarInfo();
   }, [cnt.current]);

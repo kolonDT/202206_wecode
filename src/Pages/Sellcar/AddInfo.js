@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState, useTransition } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { AiOutlinePlus } from "react-icons/ai";
 
-const AddInfo = () => {
+const AddInfo = ({ setCarImages, carImages }) => {
   //주행거리 값 관리하는 상태값
   const [inputValue, setInputValue] = useState("");
 
@@ -22,14 +21,8 @@ const AddInfo = () => {
   //추가 정보 글 관리 상태값
   const [addInfo, setAddInfo] = useState("");
 
-  //사진 관리하는 상태값
-  const [carImages, setCarImages] = useState([]);
-
   //사진 url 관리하는 상태값
   const [carUrlImages, setCarUrlImages] = useState([]);
-
-  //삭제 hover를 관리하는 상태값
-  const [isHoverDelete, setIsHoverDelete] = useState(false);
 
   //photoInput 버튼 ref
   const photoInput = useRef();
@@ -38,11 +31,13 @@ const AddInfo = () => {
   const checkNumber = (e) => {
     const value = e.target.value;
     const onlyNumber = value.replace(/[^0-9]/g, "");
+    console.log(typeof e.target.value);
     const commaNumber = onlyNumber
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const intNumber = value.replace(/,/g, "");
+    localStorage.setItem("driving_distance", intNumber);
     setInputValue(commaNumber);
-    localStorage.setItem("driving_distance", commaNumber);
   };
 
   //click시 옵션값 저장하는 함수
@@ -81,28 +76,21 @@ const AddInfo = () => {
     localStorage.setItem("additional_info", e.target.value);
   };
 
+  // const uploadPhoto = (num, newImage) => {
+  //   setCarImages(
+  //     carImages.map((car) => (car.index === num ? (car = newImage[0]) : null))
+  //   );
+  // };
+
   //사진을 상태값에 저장하는 함수
   const onLoadFile = (e) => {
     const newImage = e.target.files;
-    setCarImages([...carImages, newImage[0]]);
+    setCarImages([...carImages, newImage]);
+    console.log("carImages", carImages);
     if (carImages.length < 4) {
       const newURL = URL.createObjectURL(newImage[0]);
       setCarUrlImages([...carUrlImages, newURL]);
-      handleUrls();
     }
-  };
-
-  //DB에 넣을 사진을 변환하는 함수
-  const handleUrls = () => {
-    const formData = new FormData();
-    for (let i in carImages) {
-      formData.append("image", carImages[i]);
-    }
-    console.log("formDataInAddInfo", formData.values());
-    for (let value of formData.values()) {
-      console.log("Value:", value);
-    }
-    localStorage.setItem("imageResult", formData);
   };
 
   const tmp = (arr) => {
@@ -200,7 +188,9 @@ const AddInfo = () => {
         <InputBox>
           <DistanceInput
             placeholder="1,500"
-            onChange={(e) => checkNumber(e)}
+            onChange={(e) => {
+              checkNumber(e);
+            }}
             value={inputValue}
           />
           <Measurements>km</Measurements>
@@ -208,7 +198,7 @@ const AddInfo = () => {
       </DrivingDistanceWrapper>
       <OptionWrapper>
         <Name>옵션</Name>
-        <OptionBox>
+        <OptionBox noOption={noOption}>
           <OptionLine>
             <OptionButton
               value={1}
@@ -254,7 +244,7 @@ const AddInfo = () => {
               noOption={noOption}
               disabled={noOption ? true : false}
             >
-              옵션명
+              후방카메라
             </OptionButton>
             <OptionButton
               value={6}
@@ -263,7 +253,7 @@ const AddInfo = () => {
               noOption={noOption}
               disabled={noOption ? true : false}
             >
-              옵션명
+              블랙박스
             </OptionButton>
           </OptionLine>
         </OptionBox>
@@ -280,38 +270,53 @@ const AddInfo = () => {
         <Name>추가 정보</Name>
         <AddInfoBox>
           <InfoInputBox>
-            <ThumbnailBox>
-              <ThumbnailLine>
-                {carUrlImages.map((imageSrc, index) => (
-                  <Thumbnail key={index}>
-                    <DeleteLayer key={index}>
-                      <DeleteButton
-                        key={index}
-                        onClick={() => {
-                          deleteImage(index);
-                        }}
-                      >
-                        삭제
-                      </DeleteButton>
-                    </DeleteLayer>
-                    <CarImage src={imageSrc} index={index} />
-                  </Thumbnail>
-                ))}
-              </ThumbnailLine>
-            </ThumbnailBox>
             <DescriptionInput
               onChange={writeInfo}
               placeholder="차량 상태, 수리 필요 여부, 보험 이력 등 상세한 내용을 알려주세요."
               value={addInfo}
             />
-            <SelectButton onClick={clickPhotoInput}>
-              <AiOutlinePlus />
-              <ButtonName>사진 등록</ButtonName>
-            </SelectButton>
-            <PhotoInput type="file" ref={photoInput} onChange={onLoadFile} />
           </InfoInputBox>
         </AddInfoBox>
       </AddInfoWrapper>
+
+      <PhotoInputContainer>
+        <Name>사진 등록</Name>
+        <PhotoInputWrapper>
+          <PhotoInputLine>
+            <PhotoInputBox onClick={clickPhotoInput}>
+              {carUrlImages[0] !== undefined ? (
+                <Thumbnail src={carUrlImages[0]} />
+              ) : (
+                <p>전면 사진 추가</p>
+              )}
+            </PhotoInputBox>
+            <PhotoInputBox onClick={clickPhotoInput}>
+              {carUrlImages[1] !== undefined ? (
+                <Thumbnail src={carUrlImages[1]} />
+              ) : (
+                <p>후면 사진 추가</p>
+              )}
+            </PhotoInputBox>
+          </PhotoInputLine>
+          <PhotoInputLine>
+            <PhotoInputBox onClick={clickPhotoInput}>
+              {carUrlImages[2] !== undefined ? (
+                <Thumbnail src={carUrlImages[2]} />
+              ) : (
+                <p>좌측 사진 추가</p>
+              )}
+            </PhotoInputBox>
+            <PhotoInputBox onClick={clickPhotoInput}>
+              {carUrlImages[3] !== undefined ? (
+                <Thumbnail src={carUrlImages[3]} />
+              ) : (
+                <p>우측 사진 추가</p>
+              )}
+            </PhotoInputBox>
+          </PhotoInputLine>
+        </PhotoInputWrapper>
+        <PhotoInput type="file" ref={photoInput} onChange={onLoadFile} />
+      </PhotoInputContainer>
     </InfoContainer>
   );
 };
@@ -391,7 +396,7 @@ const OptionBox = styled.div`
 const OptionButton = styled.button`
   padding: 1.2em 2.4em;
   margin-right: 2em;
-  color: rgba(0, 0, 0, 0.8);
+  color: rgba(0, 0, 0, 0.2);
   background-color: white;
   border: 0px solid black;
   border-radius: 1.8em;
@@ -401,9 +406,11 @@ const OptionButton = styled.button`
   ${({ isClicked }) => {
     return isClicked
       ? `
-        background-color: rgba(0, 0, 0, 0.1);
+        padding: 1em 2.2em;
+        color: rgba(92,16,73);
+        border: 4px solid rgba(92,16,73,0.8);
         cursor: pointer;
-        box-shadow: inset 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+        box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0.2);
       `
       : null;
   }}
@@ -448,91 +455,12 @@ const InfoInputBox = styled.div`
   flex-direction: column;
 `;
 
-const ThumbnailBox = styled.div``;
-
-const ThumbnailLine = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.7em;
-  @media only screen and (max-width: 640px) {
-    flex-wrap: wrap;
-    width: 100%;
-  }
-`;
-
-const Thumbnail = styled.div`
-  display: flex;
-  position: relative;
-  align-items: center;
-  width: 50%;
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-
-  @media only screen and (max-width: 640px) {
-    width: 35%;
-    height: 10em;
-    margin: 0 auto;
-    margin-bottom: 3px;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-  }
-`;
-
-const DeleteLayer = styled.div`
-  visibility: hidden;
-  ${Thumbnail}:hover & {
-    visibility: visible;
-  }
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-`;
-
-const DeleteButton = styled.div`
-  width: 40%;
-  padding: 1rem;
-  color: lightgray;
-  text-align: center;
-  font-size: 17px;
-  font-weight: 800;
-  letter-spacing: 0.2rem;
-  border-radius: 1em;
-  background-color: rgba(0, 0, 0, 0.8);
-  :hover {
-    cursor: pointer;
-    background-color: white;
-    color: darkgray;
-  }
-`;
-
-const CarImage = styled.img`
-  width: 100%;
-  object-fit: cover;
-`;
-
 const DescriptionInput = styled.input`
   padding: 3em;
   border: 2px solid rgba(0, 0, 0, 0.1);
-  border-bottom: none;
   ::placeholder {
     color: rgba(0, 0, 0, 0.3);
     font-size: 1em;
-  }
-`;
-
-const SelectButton = styled.div`
-  display: flex;
-  justify-content: center;
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  text-align: center;
-  :hover {
-    cursor: pointer;
   }
 `;
 
@@ -540,8 +468,42 @@ const ButtonName = styled.span`
   margin-left: 4px;
 `;
 
+const PhotoInputContainer = styled.div`
+  margin-top: 1.4em;
+`;
+
+const PhotoInputWrapper = styled.div`
+  margin-top: 1em;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+`;
+
+const PhotoInputLine = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const PhotoInputBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 10em;
+  font-size: 1.1em;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.5);
+  :hover {
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.8);
+    background-color: whitesmoke;
+  }
+`;
+
 const PhotoInput = styled.input`
   display: none;
+`;
+
+const Thumbnail = styled.img`
+  overflow: hidden;
 `;
 
 export default AddInfo;

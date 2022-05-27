@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 
-function CompleteForm({ isNew, setNew }) {
+function CompleteForm({ isNew, setNew, setPage }) {
   const navigate = useNavigate();
   const gotoRequest = () => {
     navigate("/requestform");
@@ -63,6 +63,10 @@ function CompleteForm({ isNew, setNew }) {
         console.log(data);
       });
   };
+
+  useEffect(() => {
+    setPage("default");
+  }, []);
 
   useEffect(() => {
     if (toastStatus) {

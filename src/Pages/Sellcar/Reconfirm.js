@@ -1,14 +1,31 @@
 // modules
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 //styles
 import styled from "styled-components";
 
-function Reconfirm() {
+function Reconfirm({ setPage, carImages }) {
   const navigate = useNavigate();
+  const state = useLocation();
 
   const handleRequest = () => {
     navigate("/complete");
   };
+
+  //DB에 넣을 사진을 변환하는 함수
+  const handleUrls = () => {
+    const formData = new FormData();
+    for (let i in carImages) {
+      formData.append("image", carImages[i]);
+    }
+    localStorage.setItem("imageResult", formData);
+  };
+
+  useEffect(() => {
+    setPage("default");
+    console.log("carImages", carImages);
+  }, []);
 
   return (
     <ReconfirmWrap>

@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 
-function Login() {
+function Login({ setPage }) {
   const hi = useLocation();
   const navigate = useNavigate();
   const [id, setId] = useState("");
@@ -28,6 +28,10 @@ function Login() {
         if (data.message !== "INVALID_CAR_NUMBER") setShow(true);
       });
   };
+
+  useEffect(() => {
+    setPage("login");
+  }, []);
 
   //방문 기록 확인 및 관리하는 함수
   const checkExpiry = () => {
@@ -94,6 +98,7 @@ function Login() {
     const isWriting = localStorage.length > 2;
     const result = isVisited && isWriting;
     setHasQuote(result);
+    // setPage("login");
   }, []);
 
   return (

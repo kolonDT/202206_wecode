@@ -3,15 +3,24 @@ import styled from "styled-components";
 import { GrFormPrevious } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BsCircleFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+const Header = ({ isNew, setNew, page }) => {
+  const navigate = useNavigate();
 
-const Header = ({ isNew, setNew }) => {
   return (
     <HeaderContainer>
       <HeaderWrapper>
-        <PreviousButton>
+        <PreviousButton
+          onClick={() => {
+            navigate(-1);
+          }}
+          page={page}
+        >
           <GrFormPrevious size="24" color="#383838" />
         </PreviousButton>
-        <HeaderTitle>내 차 팔기</HeaderTitle>
+        <HeaderTitle>
+          {page === "admin" ? "관리 페이지" : "내 차 팔기"}
+        </HeaderTitle>
         <HeaderMenu>
           <GiHamburgerMenu size="24" color="#383838" />
           {isNew === 1 ? (
@@ -46,6 +55,7 @@ const HeaderWrapper = styled.div`
 `;
 
 const PreviousButton = styled.div`
+  visibility: ${(props) => (props.page === "login" ? "hidden" : "visible")};
   :hover {
     cursor: pointer;
   }
