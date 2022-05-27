@@ -27,6 +27,7 @@ const AddInfo = ({ setCarImages, carImages }) => {
   //photoInput 버튼 ref
   const photoInput = useRef();
 
+  let carNumber = localStorage.getItem("carNumber");
   //input에 숫자만 입력 및 세 자리수 마다 콤마 찍는 함수
   const checkNumber = (e) => {
     const value = e.target.value;
@@ -36,7 +37,7 @@ const AddInfo = ({ setCarImages, carImages }) => {
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const intNumber = value.replace(/,/g, "");
-    localStorage.setItem("driving_distance", intNumber);
+    localStorage.setItem(`${carNumber}_driving_distance`, intNumber);
     setInputValue(commaNumber);
   };
 
@@ -59,7 +60,7 @@ const AddInfo = ({ setCarImages, carImages }) => {
       };
       setOptions(_options);
       setNoOption(true);
-      localStorage.setItem("options", []);
+      localStorage.setItem(`${carNumber}_options`, []);
     } else {
       setNoOption(false);
     }
@@ -73,7 +74,7 @@ const AddInfo = ({ setCarImages, carImages }) => {
   ///추가 정보 글 저장하는 함수
   const writeInfo = (e) => {
     setAddInfo(e.target.value);
-    localStorage.setItem("additional_info", e.target.value);
+    localStorage.setItem(`${carNumber}_additional_info`, e.target.value);
   };
 
   // const uploadPhoto = (num, newImage) => {
@@ -124,12 +125,14 @@ const AddInfo = ({ setCarImages, carImages }) => {
   //초기에 localStorage에 정보가 있다면 값 넣어주기
   useEffect(() => {
     //주행거리 입력
-    const drivingDistance = localStorage.getItem("driving_distance");
+    const drivingDistance = localStorage.getItem(
+      `${carNumber}_driving_distance`
+    );
     setInputValue(drivingDistance);
 
     //옵션 클릭 다루기
 
-    const localOptions = localStorage.getItem("options");
+    const localOptions = localStorage.getItem(`${carNumber}_options`);
     if (localOptions) {
       if (localOptions.length === 0) {
         setNoOption(true);
@@ -148,13 +151,13 @@ const AddInfo = ({ setCarImages, carImages }) => {
       }
     }
     //추가 정보 입력
-    const addInfo = localStorage.getItem("additional_info");
+    const addInfo = localStorage.getItem(`${carNumber}_additional_info`);
     setAddInfo(addInfo);
   }, []);
 
   useEffect(() => {
     if (carImages.length !== 0) {
-      localStorage.setItem("image", carImages);
+      localStorage.setItem(`${carNumber}_image`, carImages);
     }
   }, [carImages]);
 
@@ -171,7 +174,7 @@ const AddInfo = ({ setCarImages, carImages }) => {
     for (let i in options) {
       if (options[i] === true) {
         arr.push(i);
-        localStorage.setItem("options", JSON.stringify(arr));
+        localStorage.setItem(`${carNumber}_options`, JSON.stringify(arr));
       }
     }
   }, [options]);

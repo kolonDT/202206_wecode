@@ -43,15 +43,24 @@ function Reconfirm({ setPage }) {
     "옵션명",
   ];
   let option = "";
-  for (let i = 0; i < JSON.parse(localStorage.getItem("options")).length; i++) {
+  const carNumber = localStorage.getItem(`carNumber`);
+  for (
+    let i = 0;
+    i < JSON.parse(localStorage.getItem(`${carNumber}_options`)).length;
+    i++
+  ) {
     option = option.concat(",", options[i]);
   }
   option = option.substr(1);
   console.log(option);
 
-  const carNumber = localStorage.getItem("carNumber");
-  const distanceDB = localStorage.getItem("driving_distance");
-  const commaNumber = distanceDB.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const commaNumber = localStorage
+    .getItem(`${carNumber}_driving_distance`)
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  const distanceDB = Number(
+    localStorage.getItem(`${carNumber}_driving_distance`)
+  );
   const setCarDB = () => {
     fetch(`/car`, {
       method: "POST",
@@ -61,28 +70,28 @@ function Reconfirm({ setPage }) {
 
       body: JSON.stringify({
         carNumber: carNumber,
-        additionalInfo: localStorage.getItem("additional_info"),
+        additionalInfo: localStorage.getItem(`${carNumber}_additional_info`),
         distance: distanceDB,
-        optionIdList: localStorage.getItem("options"),
-        contact: localStorage.getItem("contact"),
-        address: localStorage.getItem("address"),
-        addressDetail: localStorage.getItem("detailAddress"),
-        lat: localStorage.getItem("lat"),
-        lon: localStorage.getItem("lon"),
+        optionIdList: JSON.parse(localStorage.getItem(`${carNumber}_options`)),
+        contact: localStorage.getItem(`${carNumber}_contact`),
+        address: localStorage.getItem(`${carNumber}_address`),
+        addressDetail: localStorage.getItem(`${carNumber}_detailAddress`),
+        lat: localStorage.getItem(`${carNumber}_lat`),
+        lon: localStorage.getItem(`${carNumber}_lng`),
       }),
     })
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        // fetch(`/image?carNumber=${carNumber}`, {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: imageResult,
-        // })
-        //   .then((res) => res.json())
-        //   .then((res) => console.log(res));
+        fetch(`/image?carNumber=${carNumber}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: imageResult,
+        })
+          .then((res) => res.json())
+          .then((res) => console.log(res));
       });
   };
 
@@ -101,10 +110,10 @@ function Reconfirm({ setPage }) {
         <ReconfirmBoxInfo>
           <span>{commaNumber}</span>
           <span>{option}</span>
-          <span>{localStorage.getItem("additional_info")}</span>
-          <span>{localStorage.getItem("contact")}</span>
-          <span>{localStorage.getItem("address")}</span>
-          <span>{localStorage.getItem("detailAddress")}</span>
+          <span>{localStorage.getItem(`${carNumber}_additional_info`)}</span>
+          <span>{localStorage.getItem(`${carNumber}_contact`)}</span>
+          <span>{localStorage.getItem(`${carNumber}_address`)}</span>
+          <span>{localStorage.getItem(`${carNumber}_detailAddress`)}</span>
           {/* <span>{localStorage.getItem("lat")}</span>
           <span>{localStorage.getItem("lon")}</span> */}
         </ReconfirmBoxInfo>
