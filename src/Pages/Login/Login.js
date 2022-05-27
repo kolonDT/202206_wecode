@@ -14,6 +14,7 @@ function Login({ setPage }) {
   const [show, setShow] = useState(false);
   //방문 기록이 있는지 관리하는 상태값
   const [hasQuote, setHasQuote] = useState(false);
+  const [data, setData] = useState(false);
 
   const getCar = (carNumber) => {
     fetch(`/car?carNumber=${carNumber}`, {
@@ -28,6 +29,19 @@ function Login({ setPage }) {
           setShow(true);
           expireCheck(carNumber);
         }
+      });
+  };
+
+  const getData = () => {
+    fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data["registeredCarInfo"][0]);
       });
   };
 
@@ -82,7 +96,10 @@ function Login({ setPage }) {
     //expireCheck(e.target.value);
     setLogin(ret);
     setId(e.target.value);
-    if (ret === true) getCar(e.target.value);
+    if (ret === true) {
+      getCar(e.target.value);
+      getData();
+    }
   };
 
   const handleLogin = (str) => {
@@ -150,14 +167,24 @@ function Login({ setPage }) {
           placeholder="12가3456"
           required
         />
-        <LoginButton
-          disabled={!isLogin}
-          onClick={(e) => {
-            handleLogin(e.target.value);
-          }}
-        >
-          등록하기
-        </LoginButton>
+        {!data ? (
+          <LoginButton
+            disabled={!isLogin}
+            onClick={(e) => {
+              handleLogin(e.target.value);
+            }}
+          >
+            등록하기
+          </LoginButton>
+        ) : (
+          <LoginButton
+            onClick={() => {
+              navigate("/requestform");
+            }}
+          >
+            조회하기
+          </LoginButton>
+        )}
         {hasQuote ? (
           <LoginNone onClick={handleWrite}>
             이미 작성중인 견적서가 있습니다.

@@ -189,6 +189,8 @@ function ImageSlide({ data }) {
     <Wrap>
       <Slider {...settings}>
         {data.image.split(",").map((imgUrl, index) => {
+          imgUrl = PORT.concat(imgUrl);
+          console.log(imgUrl);
           return (
             <ImgDiv>
               <Img src={imgUrl} alt="car_image" />
