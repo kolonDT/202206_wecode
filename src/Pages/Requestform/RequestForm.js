@@ -200,10 +200,14 @@ function ImageSlide({ data }) {
   );
 }
 const TextTitle = styled.p`
-  font-size: 0.8em;
+  font-size: 1.2em;
   font-weight: 600;
   margin-top: 10px;
   margin-bottom: 10px;
+  @media only screen and (max-width: 640px) {
+    font-size: 0.8em;
+    font-weight: 600;
+  }
 `;
 
 const Box = styled.div`

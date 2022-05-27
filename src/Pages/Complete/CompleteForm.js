@@ -35,7 +35,6 @@ function CompleteForm({ isNew, setNew, setPage }) {
   }, [isNew]);
 
   const getAlarm = async () => {
-    console.log("ddd :", localStorage.getItem("carNumber"));
     await fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
       method: "GET",
       headers: {
@@ -44,7 +43,6 @@ function CompleteForm({ isNew, setNew, setPage }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("ddd :", data);
         setNew(data["registeredCarInfo"][0].is_new);
       });
   };
