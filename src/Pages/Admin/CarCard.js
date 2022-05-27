@@ -86,6 +86,7 @@ const CarCard = ({ car, isNew, setNew }) => {
   };
 
   const setAlarm = (status) => {
+    if (car.car_number !== localStorage.getItem("carNumber")) return null;
     fetch(
       `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
       {
