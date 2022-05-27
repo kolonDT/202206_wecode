@@ -10,7 +10,7 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 import moment from "moment";
 let PORT = process.env.REACT_APP_PORT;
 
-function RequestForm({ isNew, setNew }) {
+function RequestForm({ isNew, setNew, setPage }) {
   const [fold, setFold] = useState(false);
   const [data, setData] = useState();
   let process = {
@@ -56,6 +56,7 @@ function RequestForm({ isNew, setNew }) {
       setNew(0);
       setAlarm(0);
     }
+    setPage("default");
   }, []);
 
   if (data === undefined) return null;

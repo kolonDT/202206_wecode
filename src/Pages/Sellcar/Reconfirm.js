@@ -1,16 +1,34 @@
 // modules
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 //styles
 import styled from "styled-components";
 // import { useEffect, useState } from "react";
 
-function Reconfirm() {
+function Reconfirm({ setPage }) {
   const navigate = useNavigate();
+  const carImages = useLocation().state;
 
   const handleRequest = () => {
     setCarDB();
     navigate("/complete");
   };
+
+  //DB에 넣을 사진을 변환하는 함수
+  const handleUrls = () => {
+    const formData = new FormData();
+    for (let i in carImages) {
+      formData.append("image", carImages[i]);
+    }
+    return formData;
+  };
+
+  const imageResult = handleUrls();
+
+  useEffect(() => {
+    setPage("default");
+  }, []);
 
   const handleRevise = () => {
     navigate("/sellcar");
@@ -54,8 +72,17 @@ function Reconfirm() {
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log("ss", data);
+      .then((res) => {
+        console.log(res);
+        // fetch(`/image?carNumber=${carNumber}`, {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: imageResult,
+        // })
+        //   .then((res) => res.json())
+        //   .then((res) => console.log(res));
       });
   };
 

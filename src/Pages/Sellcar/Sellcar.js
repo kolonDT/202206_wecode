@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddInfo from "./AddInfo";
 import ContactInfo from "./ContactInfo";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import WarningModal from "../../Components/Modal/WarningModal";
 
-const Sellcar = () => {
+const Sellcar = ({ setPage }) => {
   const [modal, setModal] = useState();
+  //사진 관리하는 상태값
+  const [carImages, setCarImages] = useState([]);
+  useEffect(() => {
+    console.log("carImages!!!!!", carImages);
+  }, [carImages]);
   const navigate = useNavigate();
   const gotoReconfirm = () => {
     if (
@@ -16,13 +21,18 @@ const Sellcar = () => {
       localStorage.getItem("detailAddress") &&
       localStorage.getItem("contact")
     ) {
-      navigate("/reconfirm");
+      navigate("/reconfirm", { state: carImages });
     } else setModal(true);
   };
+
+  useEffect(() => {
+    setPage("default");
+  }, []);
+
   return (
     <>
-      <AddInfo />
-      <ContactInfo />
+      <AddInfo setCarImages={setCarImages} carImages={carImages} />
+      <ContactInfo carImages={carImages} />
       <Wrap>
         <Button onClick={gotoReconfirm}>견적 받기</Button>
         {modal ? <WarningModal setModal={setModal} /> : null}

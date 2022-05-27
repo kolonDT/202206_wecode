@@ -3,31 +3,42 @@ import styled from "styled-components";
 import { GrFormPrevious } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BsCircleFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import { BsBellSlash, BsBell, BsBellFill } from "react-icons/bs";
-function AlarmChange({ isNew }) {
-  if (isNew === 1) {
-    return (
-      <>
-        <BsBell size="24" color="#383838" />
-        <Alarm>
-          <BsCircleFill color="red" size="10" />
-        </Alarm>
-      </>
-    );
-  } else if (isNew === 0) {
-    return <BsBell size="24" color="#383838" />;
-  } else {
-    return <BsBellSlash size="24" color="#383838" />;
+
+const Header = ({ isNew, setNew, page }) => {
+  const navigate = useNavigate();
+
+  function AlarmChange({ isNew }) {
+    if (isNew === 1) {
+      return (
+        <>
+          <BsBell size="24" color="#383838" />
+          <Alarm>
+            <BsCircleFill color="red" size="10" />
+          </Alarm>
+        </>
+      );
+    } else if (isNew === 0) {
+      return <BsBell size="24" color="#383838" />;
+    } else {
+      return <BsBellSlash size="24" color="#383838" />;
+    }
   }
-}
-const Header = ({ isNew, setNew }) => {
   return (
     <HeaderContainer>
       <HeaderWrapper>
-        <PreviousButton>
+        <PreviousButton
+          onClick={() => {
+            navigate(-1);
+          }}
+          page={page}
+        >
           <GrFormPrevious size="24" color="#383838" />
         </PreviousButton>
-        <HeaderTitle>내 차 팔기</HeaderTitle>
+        <HeaderTitle>
+          {page === "admin" ? "관리 페이지" : "내 차 팔기"}
+        </HeaderTitle>
         <HeaderMenu>
           <AlarmChange isNew={isNew} />
           {/* <GiHamburgerMenu size="24" color="#383838" />
@@ -63,6 +74,7 @@ const HeaderWrapper = styled.div`
 `;
 
 const PreviousButton = styled.div`
+  visibility: ${(props) => (props.page === "login" ? "hidden" : "visible")};
   :hover {
     cursor: pointer;
   }
