@@ -1,98 +1,133 @@
 //module
 import { useState } from "react";
 import Sellcar from "../Sellcar/Sellcar";
-import { ResponsiveLine } from "@nivo/line";
+// import { ResponsiveLine } from "@nivo/line";
+import { ResponsiveSwarmPlot } from "@nivo/swarmplot";
 //styles
 import styled from "styled-components";
 
 const data = [
   {
-    id: "All",
-    color: "hsl(89, 70%, 50%)",
-    data: [
-      {
-        x: "0",
-        y: 2000,
-      },
-      {
-        x: "5만km",
-        y: 1500,
-      },
-      {
-        x: "10만km",
-        y: 1000,
-      },
-      {
-        x: "15만km",
-        y: 500,
-      },
-      {
-        x: "20만km",
-        y: 0,
-      },
-    ],
+    id: "0.0",
+    group: "group A",
+    price: 375,
+    volume: 18,
+  },
+  {
+    id: "0.1",
+    group: "group A",
+    price: 135,
+    volume: 20,
+  },
+  {
+    id: "0.2",
+    group: "group A",
+    price: 351,
+    volume: 7,
+  },
+  {
+    id: "0.3",
+    group: "group A",
+    price: 446,
+    volume: 10,
+  },
+  {
+    id: "0.4",
+    group: "group A",
+    price: 205,
+    volume: 13,
+  },
+  {
+    id: "0.5",
+    group: "group A",
+    price: 228,
+    volume: 9,
+  },
+  {
+    id: "0.6",
+    group: "group A",
+    price: 97,
+    volume: 7,
+  },
+  {
+    id: "0.7",
+    group: "group A",
+    price: 376,
+    volume: 9,
+  },
+  {
+    id: "0.8",
+    group: "group A",
+    price: 331,
+    volume: 16,
+  },
+  {
+    id: "0.9",
+    group: "group A",
+    price: 308,
+    volume: 12,
   },
 ];
 
-const MyResponsiveLine = ({ data }) => (
-  <ResponsiveLine
+const MyResponsiveSwarmPlot = ({ data /* see data tab */ }) => (
+  <ResponsiveSwarmPlot
     data={data}
-    margin={{ top: 30, right: 60, bottom: 50, left: 60 }}
-    xScale={{ type: "point" }}
-    yScale={{
-      type: "linear",
-      min: "auto",
-      max: "auto",
-      stacked: true,
-      reverse: false,
+    groups={["group A", "group B", "group C"]}
+    identity="id"
+    value="price"
+    valueFormat="$.2f"
+    valueScale={{ type: "linear", min: 0, max: 500, reverse: false }}
+    size={{
+      key: "volume",
+      values: [4, 20],
+      sizes: [6, 20],
     }}
-    yFormat=" >-.2f"
-    axisTop={null}
-    axisRight={null}
-    axisBottom={{
-      orient: "bottom",
-      tickSize: 5,
+    forceStrength={4}
+    simulationIterations={100}
+    borderColor={{
+      from: "color",
+      modifiers: [
+        ["darker", 0.6],
+        ["opacity", 0.5],
+      ],
+    }}
+    margin={{ top: 80, right: 100, bottom: 80, left: 100 }}
+    axisTop={{
+      orient: "top",
+      tickSize: 10,
       tickPadding: 5,
       tickRotation: 0,
+      legend: "group if vertical, price if horizontal",
+      legendPosition: "middle",
+      legendOffset: -46,
+    }}
+    axisRight={{
+      orient: "right",
+      tickSize: 10,
+      tickPadding: 5,
+      tickRotation: 0,
+      legend: "price if vertical, group if horizontal",
+      legendPosition: "middle",
+      legendOffset: 76,
+    }}
+    axisBottom={{
+      orient: "bottom",
+      tickSize: 10,
+      tickPadding: 5,
+      tickRotation: 0,
+      legend: "group if vertical, price if horizontal",
+      legendPosition: "middle",
+      legendOffset: 46,
     }}
     axisLeft={{
       orient: "left",
-      tickSize: 5,
+      tickSize: 10,
       tickPadding: 5,
       tickRotation: 0,
+      legend: "price if vertical, group if horizontal",
+      legendPosition: "middle",
+      legendOffset: -76,
     }}
-    pointSize={5}
-    pointColor={{ theme: "background" }}
-    pointBorderWidth={2}
-    pointBorderColor={{ from: "serieColor" }}
-    pointLabelYOffset={-12}
-    useMesh={true}
-    legends={[
-      {
-        anchor: "bottom-right",
-        direction: "column",
-        justify: false,
-        translateX: 100,
-        translateY: 0,
-        itemsSpacing: 0,
-        itemDirection: "left-to-right",
-        itemWidth: 80,
-        itemHeight: 20,
-        itemOpacity: 0.75,
-        symbolSize: 12,
-        symbolShape: "circle",
-        symbolBorderColor: "rgba(0, 0, 0, .5)",
-        effects: [
-          {
-            on: "hover",
-            style: {
-              itemBackground: "rgba(0, 0, 0, .03)",
-              itemOpacity: 1,
-            },
-          },
-        ],
-      },
-    ]}
   />
 );
 
@@ -104,7 +139,7 @@ function Graph() {
       <GraphTitle>예상 시세는 2,000 만 원 입니다.</GraphTitle>
       <GraphBox>
         <div style={{ width: 480, height: 350 }}>
-          <MyResponsiveLine data={data} />
+          <ResponsiveSwarmPlot data={data} />
         </div>
       </GraphBox>
       <GraphButton

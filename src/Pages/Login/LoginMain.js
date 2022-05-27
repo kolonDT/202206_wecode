@@ -139,7 +139,7 @@ const InfoCar = styled.div`
     font-size: 18px;
     margin-bottom: 10px;
     font-weight: 500;
-    color: gray;
+    color: black;
   }
   span {
     margin-left: 5px;
