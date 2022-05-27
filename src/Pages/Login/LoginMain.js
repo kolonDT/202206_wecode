@@ -93,7 +93,7 @@ function LoginMain({ setPage }) {
         >
           <>시세확인</>
         </InfoButton>
-        <>{show === true ? <Graph active={show} /> : null}</>
+        <>{show === true ? <Graph active={show} setPage={setPage} /> : null}</>
       </LoginMainInfo>
     </LoginMainWrap>
   );

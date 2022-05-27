@@ -37,7 +37,7 @@ function App() {
           />
           <Route path="/reconfirm" element={<Reconfirm setPage={setPage} />} />
           <Route path="/sellcar" element={<SellCar setPage={setPage} />} />
-          <Route path="/graph" element={<Graph setPage={setPage} />} />
+          <Route path="/graph" element={<Graph />} />
           <Route
             path="/admin"
             element={<Admin isNew={isNew} setNew={setNew} setPage={setPage} />}
