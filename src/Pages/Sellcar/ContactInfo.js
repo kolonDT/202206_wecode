@@ -12,42 +12,44 @@ function ContactInfo() {
   const [isFindAddr, setFindAddr] = useState(false);
   const [detailAddr, setDetailAddr] = useState();
 
+  let carNumber = localStorage.getItem("carNumber");
   const handleInput = (text) => {
     let regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
     if (regPhone.test(text) === true) {
       setPhone(text);
-      localStorage.setItem("contact", text);
+      localStorage.setItem(`${carNumber}_contact`, text);
     } else {
       if (phone) setPhone();
     }
   };
   const onChange = (e) => {
     setDetailAddr(e.target.value);
-    localStorage.setItem("detailAddress", e.target.value);
+    localStorage.setItem(`${carNumber}_detailAddress`, e.target.value);
   };
   useEffect(() => {
-    setDetailAddr(localStorage.getItem("detailAddress"));
-    setPhone(localStorage.getItem("contact"));
+    setDetailAddr(localStorage.getItem(`${carNumber}_detailAddress`));
+    setPhone(localStorage.getItem(`${carNumber}_contact`));
   }, []);
 
   useEffect(() => {
     if (
-      localStorage.getItem("address") === undefined ||
-      localStorage.getItem("address") === null ||
-      localStorage.getItem("address") === "undefined"
+      localStorage.getItem(`${carNumber}_address`) === undefined ||
+      localStorage.getItem(`${carNumber}_address`) === null ||
+      localStorage.getItem(`${carNumber}_address`) === "undefined"
     ) {
-      if (addr !== undefined) localStorage.setItem("address", addr);
+      if (addr !== undefined)
+        localStorage.setItem(`${carNumber}_address`, addr);
     } else if (postcodeAddr !== "undefined" && postcodeAddr !== undefined) {
-      localStorage.setItem("address", postcodeAddr);
+      localStorage.setItem(`${carNumber}_address`, postcodeAddr);
       setAddr(postcodeAddr);
     } else {
       if (
-        localStorage.getItem("address") !== undefined &&
-        localStorage.getItem("address") !== "undefined"
+        localStorage.getItem(`${carNumber}_address`) !== undefined &&
+        localStorage.getItem(`${carNumber}_address`) !== "undefined"
       ) {
-        console.log("aavb", localStorage.getItem("address"));
-        setAddr(localStorage.getItem("address"));
-        setPostcodeAddr(localStorage.getItem("address"));
+        console.log("aavb", localStorage.getItem(`${carNumber}_address`));
+        setAddr(localStorage.getItem(`${carNumber}_address`));
+        setPostcodeAddr(localStorage.getItem(`${carNumber}_address`));
       } else {
         console.log("hey");
       }

@@ -14,12 +14,13 @@ const Sellcar = ({ setPage }) => {
   }, [carImages]);
   const navigate = useNavigate();
   const gotoReconfirm = () => {
+    let carNumber = localStorage.getItem("carNumber");
     if (
-      localStorage.getItem("driving_distance") &&
-      localStorage.getItem("additional_info") &&
-      localStorage.getItem("address") &&
-      localStorage.getItem("detailAddress") &&
-      localStorage.getItem("contact")
+      localStorage.getItem(`${carNumber}_driving_distance`) &&
+      localStorage.getItem(`${carNumber}_additional_info`) &&
+      localStorage.getItem(`${carNumber}_address`) &&
+      localStorage.getItem(`${carNumber}_detailAddress`) &&
+      localStorage.getItem(`${carNumber}_contact`)
     ) {
       navigate("/reconfirm", { state: carImages });
     } else setModal(true);

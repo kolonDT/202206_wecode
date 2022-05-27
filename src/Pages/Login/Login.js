@@ -24,8 +24,10 @@ function Login({ setPage }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("tttt", data);
-        if (data.message !== "INVALID_CAR_NUMBER") setShow(true);
+        if (data.hasOwnProperty("infoByCarNumber")) {
+          setShow(true);
+          expireCheck(carNumber);
+        }
       });
   };
 
@@ -43,29 +45,31 @@ function Login({ setPage }) {
   // })
 
   //방문 기록 확인 및 관리하는 함수
-  const checkExpiry = () => {
-    const timeStamp = localStorage.getItem("time_stamp");
+  const checkExpiry = (carNumber) => {
+    const timeStamp = localStorage.getItem(`${carNumber}_time_stamp`);
     //  timeStamp에서 시간과 분을 나눈다.
     const month = moment().month();
     const hour = moment().hour();
     const date = moment().date();
     //timestamp가 없는 경우
+    let now = new Date();
     if (!timeStamp) {
-      localStorage.setItem(
-        "time_stamp",
-        JSON.stringify({
-          month: month,
-          date: date,
-          hour: hour,
-        })
-      );
+      localStorage.setItem(`${carNumber}_time_stamp`, now);
       return false;
     } else {
-      const saved = localStorage.getItem("time_stamp");
-      const isExpired =
-        month >= saved.month && date > saved.date && hour > saved.hour;
-      if (isExpired) {
-        localStorage.clear();
+      const saved = new Date(localStorage.getItem(`${carNumber}_time_stamp`));
+      let oneday = 60 * 60 * 24;
+      console.log("11111111");
+      if (now - saved >= oneday) {
+        localStorage.removeItem(`${carNumber}_driving_distance`);
+        localStorage.removeItem(`${carNumber}_options`);
+        localStorage.removeItem(`${carNumber}_additional_info`);
+        localStorage.removeItem(`${carNumber}_contact`);
+        localStorage.removeItem(`${carNumber}_lat`);
+        localStorage.removeItem(`${carNumber}_lng`);
+        localStorage.removeItem(`${carNumber}_address`);
+        localStorage.removeItem(`${carNumber}_time_stamp`);
+        localStorage.setItem(`${carNumber}_time_stamp`, now);
         return false;
       } else return true;
     }
@@ -73,6 +77,7 @@ function Login({ setPage }) {
 
   const handleInput = (e) => {
     let ret = isValidId(e.target.value);
+    //expireCheck(e.target.value);
     setLogin(ret);
     setId(e.target.value);
     getCar(e.target.value);
@@ -103,6 +108,24 @@ function Login({ setPage }) {
     return ret;
   }
 
+  const expireCheck = (carNumber) => {
+    const isVisited = checkExpiry(carNumber);
+    let isWriting = false;
+    if (
+      localStorage.getItem(`${carNumber}_driving_distance`) ||
+      localStorage.getItem(`${carNumber}_options`) ||
+      localStorage.getItem(`${carNumber}_additional_info`) ||
+      localStorage.getItem(`${carNumber}_contact`) ||
+      localStorage.getItem(`${carNumber}_lat`) ||
+      localStorage.getItem(`${carNumber}_lng`) ||
+      localStorage.getItem(`${carNumber}_address`)
+    ) {
+      isWriting = true;
+    }
+    const result = isVisited && isWriting;
+    setHasQuote(result);
+  };
+  /*
   useEffect(() => {
     const isVisited = checkExpiry();
     const isWriting = localStorage.length > 2;
@@ -110,7 +133,7 @@ function Login({ setPage }) {
     setHasQuote(result);
     // setPage("login");
   }, []);
-
+*/
   return (
     <LoginBox>
       <LoginWrap>
@@ -133,7 +156,7 @@ function Login({ setPage }) {
         >
           등록하기
         </LoginButton>
-        {show ? (
+        {hasQuote ? (
           <LoginNone onClick={handleWrite}>
             이미 작성중인 견적서가 있습니다.
           </LoginNone>
