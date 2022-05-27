@@ -58,8 +58,8 @@ function Login({ setPage }) {
       return false;
     } else {
       const saved = new Date(localStorage.getItem(`${carNumber}_time_stamp`));
-      let oneday = 60 * 60 * 24;
-      console.log("11111111");
+      let oneday = 1000 * 60 * 60 * 24;
+      console.log("date :", now - saved, now, saved, oneday);
       if (now - saved >= oneday) {
         localStorage.removeItem(`${carNumber}_driving_distance`);
         localStorage.removeItem(`${carNumber}_options`);
@@ -69,6 +69,8 @@ function Login({ setPage }) {
         localStorage.removeItem(`${carNumber}_lng`);
         localStorage.removeItem(`${carNumber}_address`);
         localStorage.removeItem(`${carNumber}_time_stamp`);
+        localStorage.removeItem(`${carNumber}_image`);
+        localStorage.removeItem(`${carNumber}_detailAddress`);
         localStorage.setItem(`${carNumber}_time_stamp`, now);
         return false;
       } else return true;
@@ -80,7 +82,7 @@ function Login({ setPage }) {
     //expireCheck(e.target.value);
     setLogin(ret);
     setId(e.target.value);
-    getCar(e.target.value);
+    if (ret === true) getCar(e.target.value);
   };
 
   const handleLogin = (str) => {

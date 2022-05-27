@@ -72,7 +72,7 @@ function RequestForm({ isNew, setNew, setPage }) {
   process["판매 요청"] = moment(data.selling_requested)
     .utc()
     .format("YYYY-MM-DD");
-  process["판매 완료"] = moment(data.selling_completede)
+  process["판매 완료"] = moment(data.selling_completed)
     .utc()
     .format("YYYY-MM-DD");
   console.log(data);
