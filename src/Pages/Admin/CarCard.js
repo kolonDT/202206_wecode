@@ -20,7 +20,7 @@ const CarCard = ({ car, isNew, setNew }) => {
     "dealer_assigned",
     "dealer_consulting",
     "selling_requested",
-    "selling_completede",
+    "selling_completed",
   ]);
 
   //요청내역 보기 관리 함수
@@ -47,7 +47,7 @@ const CarCard = ({ car, isNew, setNew }) => {
     }
     //fetch 함수
     //fetch(`/history/${car.car_id}`, {
-    fetch(`/history/2`, {
+    fetch(`/history?carNumber=${car.car_number}`, {
       method: "PATCH",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
@@ -65,7 +65,7 @@ const CarCard = ({ car, isNew, setNew }) => {
       2: car.dealer_assigned !== null,
       3: car.dealer_consulting !== null,
       4: car.selling_requested !== null,
-      5: car.selling_completede !== null,
+      5: car.selling_completed !== null,
     };
     setChecked(checked);
     getAlarm();
