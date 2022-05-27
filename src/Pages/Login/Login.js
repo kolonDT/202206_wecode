@@ -99,6 +99,7 @@ function Login({ setPage }) {
     if (ret === true) {
       getCar(e.target.value);
       getData();
+      localStorage.setItem("carNumber", e.target.value);
     }
   };
 

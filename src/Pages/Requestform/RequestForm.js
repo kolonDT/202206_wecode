@@ -33,6 +33,18 @@ function RequestForm({ isNew, setNew, setPage }) {
         setData(data["registeredCarInfo"][0]);
       });
   };
+  const getAlarm = async () => {
+    await fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setNew(data["registeredCarInfo"][0].is_new);
+      });
+  };
   const setAlarm = (status) => {
     fetch(
       `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
@@ -52,12 +64,13 @@ function RequestForm({ isNew, setNew, setPage }) {
 
   useEffect(() => {
     getData();
+    getAlarm();
     if (isNew === 1) {
       setNew(0);
       setAlarm(0);
     }
     setPage("default");
-  }, []);
+  }, [isNew]);
 
   if (data === undefined) return null;
   process["견적요청 접수"] = moment(data.quote_requested)
@@ -183,7 +196,6 @@ function ImageSlide({ data }) {
   if (!data.hasOwnProperty("image")) {
     return null;
   }
-  console.log(data.image);
   if (data.image === null) return null;
   return (
     <Wrap>

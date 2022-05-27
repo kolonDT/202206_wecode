@@ -15,7 +15,6 @@ import React, { useState } from "react";
 function App() {
   const [isNew, setNew] = useState(-1);
   const [page, setPage] = useState("default");
-
   return (
     <>
       <BrowserRouter>
