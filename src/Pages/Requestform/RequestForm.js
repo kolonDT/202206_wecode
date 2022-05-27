@@ -30,9 +30,7 @@ function RequestForm({ isNew, setNew }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setData(data["registeredCarInfo"][0]);
-        console.log(data["registeredCarInfo"][0]);
       });
   };
   const setAlarm = (status) => {
@@ -63,20 +61,20 @@ function RequestForm({ isNew, setNew }) {
   if (data === undefined) return null;
   process["견적요청 접수"] = moment(data.quote_requested)
     .utc()
-    .format("YYYY-MM-DD HH:mm:ss");
+    .format("YYYY-MM-DD"); //HH:mm:ss
   process["담당 딜러 배정"] = moment(data.dealer_assigned)
     .utc()
-    .format("YYYY-MM-DD HH:mm:ss");
+    .format("YYYY-MM-DD");
   process["딜러 방문 상담"] = moment(data.dealer_consulting)
     .utc()
-    .format("YYYY-MM-DD HH:mm:ss");
+    .format("YYYY-MM-DD");
   process["판매 요청"] = moment(data.selling_requested)
     .utc()
-    .format("YYYY-MM-DD HH:mm:ss");
+    .format("YYYY-MM-DD");
   process["판매 완료"] = moment(data.selling_completede)
     .utc()
-    .format("YYYY-MM-DD HH:mm:ss");
-  console.log(typeof process["견적요청 접수"]);
+    .format("YYYY-MM-DD");
+  console.log(data);
   return (
     <>
       <Box>
@@ -87,10 +85,10 @@ function RequestForm({ isNew, setNew }) {
           }}
         >
           {fold === false ? (
-            <>
+            <div>
               내 요청내용 보기
               <RiArrowDropDownLine />
-            </>
+            </div>
           ) : null}
         </Folding>
         <Detail active={fold}>
@@ -102,7 +100,7 @@ function RequestForm({ isNew, setNew }) {
           </DetailLine>
           <DetailLine>
             <Text>모델명</Text>
-            <Text>{data.model_name}</Text>
+            <SmallText>{data.model_name}</SmallText>
           </DetailLine>
           <DetailLine>
             <Text>연식</Text>
@@ -112,22 +110,24 @@ function RequestForm({ isNew, setNew }) {
             <Text>주행거리</Text>
             <Text>{data.driving_distance}km</Text>
           </DetailLine>
-          <DetailLine>
-            <Text>연락처</Text>
-            <Text>{data.contact}</Text>
-          </DetailLine>
-          <DetailLine>
-            <Text>지역</Text>
-            <Text>{data.address}</Text>
-          </DetailLine>
           <DetailOption>
             <OptionText>옵션</OptionText>
             {data.options.split(",").map((opt, index) => {
               return <Option>{opt}</Option>;
             })}
           </DetailOption>
+          <DetailLine>
+            <Text>연락처</Text>
+            <Text>{data.contact}</Text>
+          </DetailLine>
+          <DetailLine>
+            <Text>지역</Text>
+            <SmallText>
+              {data.address} {data.address_detail}
+            </SmallText>
+          </DetailLine>
 
-          <Map
+          {/* <Map
             center={{
               lat: Number(data.lat),
               lng: Number(data.lon),
@@ -146,7 +146,7 @@ function RequestForm({ isNew, setNew }) {
                 lng: Number(data.lon),
               }}
             />
-          </Map>
+          </Map> */}
         </Detail>
       </Box>
     </>
@@ -160,7 +160,12 @@ function ProcessArray({ process }) {
         <P>{key}</P>
         <P>{value}</P>
       </Line>
-    ) : null
+    ) : (
+      <Line>
+        <P active={1}>{key}</P>
+        <P></P>
+      </Line>
+    )
   );
 }
 
@@ -191,6 +196,12 @@ function ImageSlide({ data }) {
     </Wrap>
   );
 }
+const SmallText = styled.p`
+  font-size: 0.8em;
+  font-weight: 400;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
 
 const Box = styled.div`
   width: 640px;
@@ -210,6 +221,7 @@ const Box = styled.div`
 const P = styled.p`
   font-size: 1.4em;
   font-weight: bold;
+  color: ${(props) => (props.active ? "#d8d8d8" : "black")};
   margin-top: 10px;
   margin-bottom: 20px;
 `;

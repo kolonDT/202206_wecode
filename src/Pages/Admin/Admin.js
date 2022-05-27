@@ -21,11 +21,12 @@ const Admin = ({ isNew, setNew }) => {
   return (
     <CarContainer>
       <CarWrapper>
-        {cars.map((car) => {
-          return (
-            <CarCard key={car.id} car={car} isNew={isNew} setNew={setNew} />
-          );
-        })}
+        {cars.length !== 0 &&
+          cars.map((car) => {
+            return (
+              <CarCard key={car.id} car={car} isNew={isNew} setNew={setNew} />
+            );
+          })}
       </CarWrapper>
     </CarContainer>
   );

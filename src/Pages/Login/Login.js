@@ -11,9 +11,9 @@ function Login() {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [isLogin, setLogin] = useState(false);
+  const [show, setShow] = useState(false);
   //방문 기록이 있는지 관리하는 상태값
   const [hasQuote, setHasQuote] = useState(false);
-  const [show, setShow] = useState(false);
 
   const getCar = (carNumber) => {
     fetch(`/car?carNumber=${carNumber}`, {
@@ -28,6 +28,15 @@ function Login() {
         if (data.message !== "INVALID_CAR_NUMBER") setShow(true);
       });
   };
+
+  // useEffect(() => {
+  // 	// componentDidMount
+  // 	setPhoto(props.photo);
+
+  // 	if(photo.data && photo.data.length > 0) {
+  // 		console.log(photo.data[0]);
+  // 	}
+  // })
 
   //방문 기록 확인 및 관리하는 함수
   const checkExpiry = () => {
@@ -132,11 +141,12 @@ export default Login;
 const LoginBox = styled.div`
   @media only screen and (max-width: 640px) {
     width: 90%;
-    margin: 30px auto;
+    margin: 50px auto;
   }
-  margin: 30px auto;
+  margin: 50px auto;
   width: 640px;
   padding: 10px 0px;
+  text-align: center;
 `;
 const LoginWrap = styled.div`
   display: flex;
@@ -155,6 +165,10 @@ const LoginSubTitle = styled.p`
   margin-bottom: 40px;
 `;
 const LoginInput = styled.input`
+  @media only screen and (max-width: 640px) {
+    width: 80%;
+    margin: 0px auto;
+  }
   width: 450px;
   padding: 20px;
   border: 1px solid gray;
@@ -165,6 +179,10 @@ const LoginInput = styled.input`
   }
 `;
 const LoginButton = styled.button`
+  @media only screen and (max-width: 640px) {
+    width: 60%;
+    margin: 10px auto;
+  }
   width: 180px;
   margin: 20px 0px 0px 310px;
   padding: 12px 15px;
