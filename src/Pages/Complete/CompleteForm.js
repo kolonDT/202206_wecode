@@ -9,12 +9,10 @@ function CompleteForm({ isNew, setNew, setPage }) {
   };
   const [toastStatus, setToastStatus] = useState(false);
   const [alarmStatus, setAlarmStatus] = useState(false);
-  const temp = useRef(0);
 
   const handleToast = () => {
     setToastStatus(true);
     setAlarmStatus(!alarmStatus);
-    console.log("-===================");
     if (alarmStatus) {
       setAlarm(1);
       setNew(1);
@@ -25,8 +23,10 @@ function CompleteForm({ isNew, setNew, setPage }) {
   };
 
   useEffect(() => {
-    temp.current += 1;
-    if (temp.current % 2 === 1) getAlarm();
+    getAlarm();
+  }, []);
+
+  useEffect(() => {
     if (isNew === 1 || isNew === 0) {
       setAlarmStatus(false);
     } else {
@@ -43,6 +43,7 @@ function CompleteForm({ isNew, setNew, setPage }) {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log("ddd :", data);
         setNew(data["registeredCarInfo"][0].is_new);
       });
   };
@@ -60,7 +61,7 @@ function CompleteForm({ isNew, setNew, setPage }) {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log("set data", status);
       });
   };
 
@@ -75,7 +76,7 @@ function CompleteForm({ isNew, setNew, setPage }) {
   }, [toastStatus]);
   return (
     <Box>
-      <H1>견적 요청이 접수됬습니다.</H1>
+      <H1>견적 요청이 접수되었습니다.</H1>
       <Wrap>
         <P>딜러 방문 전에 계약을 위한</P>
         <P>필요서류를 준비해 주세요</P>

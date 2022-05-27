@@ -4,9 +4,27 @@ import { GrFormPrevious } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BsCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { BsBellSlash, BsBell, BsBellFill } from "react-icons/bs";
+
 const Header = ({ isNew, setNew, page }) => {
   const navigate = useNavigate();
 
+  function AlarmChange({ isNew }) {
+    if (isNew === 1) {
+      return (
+        <>
+          <BsBell size="24" color="#383838" />
+          <Alarm>
+            <BsCircleFill color="red" size="10" />
+          </Alarm>
+        </>
+      );
+    } else if (isNew === 0) {
+      return <BsBell size="24" color="#383838" />;
+    } else {
+      return <BsBellSlash size="24" color="#383838" />;
+    }
+  }
   return (
     <HeaderContainer>
       <HeaderWrapper>
@@ -22,12 +40,13 @@ const Header = ({ isNew, setNew, page }) => {
           {page === "admin" ? "관리 페이지" : "내 차 팔기"}
         </HeaderTitle>
         <HeaderMenu>
-          <GiHamburgerMenu size="24" color="#383838" />
+          <AlarmChange isNew={isNew} />
+          {/* <GiHamburgerMenu size="24" color="#383838" />
           {isNew === 1 ? (
             <Alarm>
               <BsCircleFill color="red" size="10" />
             </Alarm>
-          ) : null}
+          ) : null} */}
         </HeaderMenu>
       </HeaderWrapper>
     </HeaderContainer>
