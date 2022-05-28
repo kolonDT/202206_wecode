@@ -15,7 +15,7 @@ import {
   Scatter,
   ResponsiveContainer,
 } from "recharts";
-function Graph() {
+function Graph({ setPage }) {
   const [add, setAdd] = useState(false);
   const data = [
     { index: 1000, gray: 650 },
@@ -34,7 +34,7 @@ function Graph() {
     <GraphWrap>
       <GraphTitle>예상 시세는 2,000 만 원 입니다.</GraphTitle>
       <GraphBox>
-        <ResponsiveContainer minWidth={750} minHeight={500}>
+        <ResponsiveContainer minWidth={550} minHeight={400}>
           <ComposedChart
             width={500}
             height={400}
@@ -49,22 +49,8 @@ function Graph() {
             <CartesianGrid stroke="#F5F5F5" />
             <Tooltip />
             <Legend />
-            <XAxis
-              dataKey="index"
-              unit="km"
-              type="number"
-              // label={{
-              //   value: "주행거리",
-              //   position: "insideBottomRight",
-              //   offset: 0,
-              // }}
-            />
-            <YAxis
-              unit="만원"
-              type="number"
-              // label={{ angle: -90, position: "insideLeft" }}
-            />
-            {/* <Scatter name="red" dataKey="red" fill="red" /> */}
+            <XAxis dataKey="index" unit="km" type="number" />
+            <YAxis unit="만원" type="number" />
             <Scatter name="gray" dataKey="gray" fill="gray" />
             <Line
               dataKey="tomato"
@@ -84,7 +70,7 @@ function Graph() {
       >
         <>추가 정보 입력</>
       </GraphButton>
-      <>{add === true ? <Sellcar active={add} /> : null}</>
+      <>{add === true ? <Sellcar active={add} setPage={setPage} /> : null}</>
     </GraphWrap>
   );
 }
@@ -101,7 +87,7 @@ const GraphWrap = styled.div`
   margin: 30px auto;
 `;
 const GraphTitle = styled.h1`
-  margin-top: 25px;
+  margin: 55px 0px 10px 0px;
   font-size: 1.2em;
   font-weight: 800;
   letter-spacing: 1px;
@@ -110,6 +96,7 @@ const GraphTitle = styled.h1`
 const GraphBox = styled.div`
   margin: 10px 0px 30px 0px;
 `;
+
 const GraphButton = styled.button`
   width: 180px;
   padding: 12px 15px;
