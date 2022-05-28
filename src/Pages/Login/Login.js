@@ -188,7 +188,7 @@ function Login({ setPage }) {
         )}
         {hasQuote ? (
           <LoginNone onClick={handleWrite}>
-            이미 작성중인 견적서가 있습니다.
+            이미 작성중인 견적서가 있습니다
           </LoginNone>
         ) : null}
       </LoginWrap>
@@ -200,9 +200,9 @@ export default Login;
 const LoginBox = styled.div`
   @media only screen and (max-width: 640px) {
     width: 90%;
-    margin: 40px auto;
+    margin: 40px auto 100px;
   }
-  margin: 40px auto;
+  margin: 40px auto 100px;
   width: 640px;
   padding: 10px 0px;
   text-align: center;
@@ -230,11 +230,16 @@ const LoginInput = styled.input`
   @media only screen and (max-width: 640px) {
     width: 80%;
     margin: 0px auto;
+    margin-bottom: 25px;
   }
-  width: 450px;
+  width: 360px;
   padding: 20px;
-  border: 1px solid gray;
-  border-radius: 5px;
+  margin-bottom: 25px;
+  border: 0;
+  border-bottom: 1px solid gray;
+  :focus {
+    outline: none;
+  }
   ::placeholder {
     word-spacing: 2px;
     font-size: 18px;
@@ -242,11 +247,11 @@ const LoginInput = styled.input`
 `;
 const LoginButton = styled.button`
   @media only screen and (max-width: 640px) {
-    width: 60%;
+    width: 80%;
     margin: 10px auto;
   }
-  width: 180px;
-  margin: 20px 0px 0px 310px;
+  width: 400px;
+  /* margin: 20px 0px 0px 310px; */
   padding: 13px 15px;
   border-radius: 5px;
   border: 1px solid #adadad;
@@ -262,8 +267,24 @@ const LoginButton = styled.button`
   }
 `;
 const LoginNone = styled.span`
-  display: block;
   margin-top: 80px;
+  padding-bottom: 10px;
   cursor: pointer;
+  font-weight: 500;
+  font-size: 18px;
   color: gray;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  display: inline-block;
+  animation: fadein 1.2s;
+  /* -moz-animation: fadein 3s; Firefox */
+  /* -webkit-animation: fadein 3s; Safari and Chrome */
+  /* -o-animation: fadein 3s; Opera */
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
