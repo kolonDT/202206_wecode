@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Slider from "react-slick";
-import Graph from "../Sellcar/Graph";
+import Graph from "../../Components/Graph/Graph";
 
 //styles
 import styled from "styled-components";
@@ -88,7 +88,8 @@ function LoginMain() {
         >
           <>시세확인</>
         </InfoButton>
-        <>{show === true ? <Graph active={show} /> : null}</>
+        <Graph />
+        <>{show === false ? <Graph active={show} /> : null}</>
       </LoginMainInfo>
     </LoginMainWrap>
   );
