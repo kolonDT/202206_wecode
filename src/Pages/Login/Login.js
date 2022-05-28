@@ -93,7 +93,7 @@ function Login({ setPage }) {
 
   const handleInput = (e) => {
     let ret = isValidId(e.target.value);
-    //expireCheck(e.target.value);
+    expireCheck(e.target.value);
     setLogin(ret);
     setId(e.target.value);
     if (ret === true) {
@@ -104,9 +104,20 @@ function Login({ setPage }) {
   };
 
   const handleLogin = (str) => {
+    // console.log("hi", hi.state);
+    // navigate("/login", { state: id });
+    // return "123";
     console.log("hi", hi.state);
-    navigate("/login", { state: id });
-    return "123";
+    setId(id).then((result) => {
+      const { message } = result;
+      if (message === "REGISTER_SUCCESS") {
+        alert("차량등록이 완료되었습니다.");
+      } else {
+        alert("차량번호를 다시 확인해주세요.");
+      }
+      navigate("/login", { state: id });
+      return "123";
+    });
   };
 
   const handleWrite = () => {
@@ -122,6 +133,7 @@ function Login({ setPage }) {
       handleLogin();
     }
   };
+
   function isValidId(str) {
     const regId = /\d{2,3}[가-힣]{1}?([0-9]{4})$/g;
     let ret = regId.test(str);
@@ -261,10 +273,10 @@ const LoginButton = styled.button`
   color: white;
   background-color: #5c1049;
   box-shadow: 3px 3px 5px #d8d8d8;
-  &:disabled {
+  /* &:disabled {
     opacity: 0.5;
     background-color: #5c1049;
-  }
+  } */
 `;
 const LoginNone = styled.span`
   margin-top: 80px;
