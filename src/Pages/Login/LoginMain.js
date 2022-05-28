@@ -93,6 +93,7 @@ function LoginMain({ setPage }) {
         >
           <>시세확인</>
         </InfoButton>
+        {/* <>{show === false ? <Graph active={show} /> : null}</> */}
         <>{show === true ? <Graph active={show} setPage={setPage} /> : null}</>
       </LoginMainInfo>
     </LoginMainWrap>
@@ -154,7 +155,7 @@ const InfoButton = styled.button`
   width: 200px;
   padding: 12px 15px;
   border-radius: 5px;
-  border: 1px solid #000;
+  border: 1px solid #adadad;
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
