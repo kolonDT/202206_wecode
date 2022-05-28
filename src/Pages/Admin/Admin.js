@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CarCard from "./CarCard";
 
-const Admin = ({ isNew, setNew }) => {
+const Admin = ({ isNew, setNew, setPage }) => {
   const [cars, setCars] = useState([]);
 
   useEffect(() => {
@@ -16,6 +16,7 @@ const Admin = ({ isNew, setNew }) => {
       .then((data) => {
         setCars(data.myCarsInfo);
       });
+    setPage("admin");
   }, []);
 
   return (

@@ -7,7 +7,7 @@ import Graph from "../../Components/Graph/Graph";
 //styles
 import styled from "styled-components";
 
-function LoginMain() {
+function LoginMain({ setPage }) {
   const [show, setShow] = useState(false);
   const { state } = useLocation();
   const [data1, setData] = useState();
@@ -27,6 +27,11 @@ function LoginMain() {
         console.log(data1);
       });
   };
+
+  useEffect(() => {
+    setPage("default");
+  }, []);
+
   useEffect(() => {
     getCarInfo();
   }, [cnt.current]);
@@ -89,7 +94,8 @@ function LoginMain() {
           <>시세확인</>
         </InfoButton>
         <Graph />
-        <>{show === false ? <Graph active={show} /> : null}</>
+        {/* <>{show === false ? <Graph active={show} /> : null}</> */}
+        <>{show === true ? <Graph active={show} setPage={setPage} /> : null}</>
       </LoginMainInfo>
     </LoginMainWrap>
   );

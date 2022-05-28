@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 
-function CompleteForm({ isNew, setNew }) {
+function CompleteForm({ isNew, setNew, setPage }) {
   const navigate = useNavigate();
   const gotoRequest = () => {
     navigate("/requestform");
@@ -43,7 +43,6 @@ function CompleteForm({ isNew, setNew }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("ddd :", data);
         setNew(data["registeredCarInfo"][0].is_new);
       });
   };
@@ -66,6 +65,10 @@ function CompleteForm({ isNew, setNew }) {
   };
 
   useEffect(() => {
+    setPage("default");
+  }, []);
+
+  useEffect(() => {
     if (toastStatus) {
       setTimeout(() => setToastStatus(false), 1000);
     }
@@ -75,7 +78,7 @@ function CompleteForm({ isNew, setNew }) {
       <H1>견적 요청이 접수되었습니다.</H1>
       <Wrap>
         <P>딜러 방문 전에 계약을 위한</P>
-        <P>필요서류를 준비해 주세요</P>
+        <P>필요서류를 준비해 주세요.</P>
       </Wrap>
       <Wrap>
         <P>Push 알림 설정을 켜주시면</P>
@@ -135,6 +138,9 @@ const H1 = styled.h1`
   font-weight: 600;
   font-size: 2.5em;
   margin-top: 50px;
+  @media only screen and (max-width: 640px) {
+    font-size: 1.8em;
+  }
 `;
 
 const P = styled.p`
@@ -142,10 +148,13 @@ const P = styled.p`
   font-weight: 300;
   font-size: 1.6em;
   margin: 10px;
+  @media only screen and (max-width: 640px) {
+    font-size: 1.4em;
+  }
 `;
 const Wrap = styled.div`
   wdith: 100%;
-  margin-top: 70px;
+  margin-top: 50px;
 `;
 
 const OptionField = styled.div`
@@ -154,21 +163,27 @@ const OptionField = styled.div`
 `;
 
 const Button = styled.button`
-  width: 35%;
+  width: 220px;
+  font-weight: 600;
   background-color: #5c1049;
   color: white;
   border: 0px;
   box-shadow: 5px 5px 10px #d8d8d8;
   border-radius: 20px;
   text-align: center;
-  padding: 15px;
-  margin: 5px;
+  padding: 17px;
+  margin: 0px;
   margin-top: 40px;
   font-size: 1em;
   cursor: pointer;
   &:hover {
     background-color: #ffffff;
     color: black;
+  }
+  @media only screen and (max-width: 640px) {
+    width: 150px;
+    margin: 5px;
+    padding: 15px;
   }
 `;
 export default CompleteForm;

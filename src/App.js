@@ -14,34 +14,33 @@ import React, { useState } from "react";
 
 function App() {
   const [isNew, setNew] = useState(-1);
-
+  const [page, setPage] = useState("default");
   return (
     <>
-      <Header isNew={isNew} setNew={setNew} />
       <BrowserRouter>
+        <Header isNew={isNew} setNew={setNew} page={page} />
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<LoginMain />} />
+          <Route path="/" element={<Login setPage={setPage} />} />
+          <Route path="/login" element={<LoginMain setPage={setPage} />} />
           <Route
             path="/complete"
-            element={<CompleteForm isNew={isNew} setNew={setNew} />}
+            element={
+              <CompleteForm isNew={isNew} setNew={setNew} setPage={setPage} />
+            }
           />
           <Route
             path="/requestform"
-            element={<RequestForm isNew={isNew} setNew={setNew} />}
+            element={
+              <RequestForm isNew={isNew} setNew={setNew} setPage={setPage} />
+            }
           />
-          <Route path="/reconfirm" element={<Reconfirm />} />
-          <Route path="/sellcar" element={<SellCar />} />
+          <Route path="/reconfirm" element={<Reconfirm setPage={setPage} />} />
+          <Route path="/sellcar" element={<SellCar setPage={setPage} />} />
           <Route path="/graph" element={<Graph />} />
           <Route
             path="/admin"
-            element={<Admin isNew={isNew} setNew={setNew} />}
+            element={<Admin isNew={isNew} setNew={setNew} setPage={setPage} />}
           />
-          {/* <Route path='/' element={}/>
-              <Route path='/' element={}/>
-              <Route path='/confirm' element={}/>
-              <Route path='/requestform' element={}/>
-               */}
         </Routes>
       </BrowserRouter>
       <Footer />

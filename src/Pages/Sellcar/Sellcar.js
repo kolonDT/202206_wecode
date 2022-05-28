@@ -1,28 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddInfo from "./AddInfo";
 import ContactInfo from "./ContactInfo";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import WarningModal from "../../Components/Modal/WarningModal";
 
-const Sellcar = () => {
+const Sellcar = ({ setPage }) => {
   const [modal, setModal] = useState();
+  //사진 관리하는 상태값
+  const [carImages, setCarImages] = useState([]);
+  useEffect(() => {
+    console.log("carImages!!!!!", carImages);
+  }, [carImages]);
   const navigate = useNavigate();
   const gotoReconfirm = () => {
+    let carNumber = localStorage.getItem("carNumber");
     if (
-      localStorage.getItem("driving_distance") &&
-      localStorage.getItem("additional_info") &&
-      localStorage.getItem("address") &&
-      localStorage.getItem("detailAddress") &&
-      localStorage.getItem("contact")
+      localStorage.getItem(`${carNumber}_driving_distance`) &&
+      localStorage.getItem(`${carNumber}_additional_info`) &&
+      localStorage.getItem(`${carNumber}_address`) &&
+      localStorage.getItem(`${carNumber}_detailAddress`) &&
+      localStorage.getItem(`${carNumber}_contact`)
     ) {
-      navigate("/reconfirm");
+      navigate("/reconfirm", { state: carImages });
     } else setModal(true);
   };
+
+  useEffect(() => {
+    setPage("default");
+  }, []);
+
   return (
     <>
-      <AddInfo />
-      <ContactInfo />
+      <AddInfo setCarImages={setCarImages} carImages={carImages} />
+      <ContactInfo carImages={carImages} />
       <Wrap>
         <Button onClick={gotoReconfirm}>견적 받기</Button>
         {modal ? <WarningModal setModal={setModal} /> : null}

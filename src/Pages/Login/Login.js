@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 
-function Login() {
+function Login({ setPage }) {
   const hi = useLocation();
   const navigate = useNavigate();
   const [id, setId] = useState("");
@@ -14,6 +14,7 @@ function Login() {
   const [show, setShow] = useState(false);
   //방문 기록이 있는지 관리하는 상태값
   const [hasQuote, setHasQuote] = useState(false);
+  const [data, setData] = useState(false);
 
   const getCar = (carNumber) => {
     fetch(`/car?carNumber=${carNumber}`, {
@@ -24,10 +25,29 @@ function Login() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("tttt", data);
-        if (data.message !== "INVALID_CAR_NUMBER") setShow(true);
+        if (data.hasOwnProperty("infoByCarNumber")) {
+          setShow(true);
+          expireCheck(carNumber);
+        }
       });
   };
+
+  const getData = () => {
+    fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data["registeredCarInfo"][0]);
+      });
+  };
+
+  useEffect(() => {
+    setPage("login");
+  }, []);
 
   // useEffect(() => {
   // 	// componentDidMount
@@ -39,29 +59,33 @@ function Login() {
   // })
 
   //방문 기록 확인 및 관리하는 함수
-  const checkExpiry = () => {
-    const timeStamp = localStorage.getItem("time_stamp");
+  const checkExpiry = (carNumber) => {
+    const timeStamp = localStorage.getItem(`${carNumber}_time_stamp`);
     //  timeStamp에서 시간과 분을 나눈다.
     const month = moment().month();
     const hour = moment().hour();
     const date = moment().date();
     //timestamp가 없는 경우
+    let now = new Date();
     if (!timeStamp) {
-      localStorage.setItem(
-        "time_stamp",
-        JSON.stringify({
-          month: month,
-          date: date,
-          hour: hour,
-        })
-      );
+      localStorage.setItem(`${carNumber}_time_stamp`, now);
       return false;
     } else {
-      const saved = localStorage.getItem("time_stamp");
-      const isExpired =
-        month >= saved.month && date > saved.date && hour > saved.hour;
-      if (isExpired) {
-        localStorage.clear();
+      const saved = new Date(localStorage.getItem(`${carNumber}_time_stamp`));
+      let oneday = 1000 * 60 * 60 * 24;
+      console.log("date :", now - saved, now, saved, oneday);
+      if (now - saved >= oneday) {
+        localStorage.removeItem(`${carNumber}_driving_distance`);
+        localStorage.removeItem(`${carNumber}_options`);
+        localStorage.removeItem(`${carNumber}_additional_info`);
+        localStorage.removeItem(`${carNumber}_contact`);
+        localStorage.removeItem(`${carNumber}_lat`);
+        localStorage.removeItem(`${carNumber}_lng`);
+        localStorage.removeItem(`${carNumber}_address`);
+        localStorage.removeItem(`${carNumber}_time_stamp`);
+        localStorage.removeItem(`${carNumber}_image`);
+        localStorage.removeItem(`${carNumber}_detailAddress`);
+        localStorage.setItem(`${carNumber}_time_stamp`, now);
         return false;
       } else return true;
     }
@@ -69,9 +93,14 @@ function Login() {
 
   const handleInput = (e) => {
     let ret = isValidId(e.target.value);
+    //expireCheck(e.target.value);
     setLogin(ret);
     setId(e.target.value);
-    getCar(e.target.value);
+    if (ret === true) {
+      getCar(e.target.value);
+      getData();
+      localStorage.setItem("carNumber", e.target.value);
+    }
   };
 
   const handleLogin = (str) => {
@@ -99,13 +128,32 @@ function Login() {
     return ret;
   }
 
+  const expireCheck = (carNumber) => {
+    const isVisited = checkExpiry(carNumber);
+    let isWriting = false;
+    if (
+      localStorage.getItem(`${carNumber}_driving_distance`) ||
+      localStorage.getItem(`${carNumber}_options`) ||
+      localStorage.getItem(`${carNumber}_additional_info`) ||
+      localStorage.getItem(`${carNumber}_contact`) ||
+      localStorage.getItem(`${carNumber}_lat`) ||
+      localStorage.getItem(`${carNumber}_lng`) ||
+      localStorage.getItem(`${carNumber}_address`)
+    ) {
+      isWriting = true;
+    }
+    const result = isVisited && isWriting;
+    setHasQuote(result);
+  };
+  /*
   useEffect(() => {
     const isVisited = checkExpiry();
     const isWriting = localStorage.length > 2;
     const result = isVisited && isWriting;
     setHasQuote(result);
+    // setPage("login");
   }, []);
-
+*/
   return (
     <LoginBox>
       <LoginWrap>
@@ -120,15 +168,25 @@ function Login() {
           placeholder="12가3456"
           required
         />
-        <LoginButton
-          disabled={!isLogin}
-          onClick={(e) => {
-            handleLogin(e.target.value);
-          }}
-        >
-          등록하기
-        </LoginButton>
-        {show ? (
+        {!data ? (
+          <LoginButton
+            disabled={!isLogin}
+            onClick={(e) => {
+              handleLogin(e.target.value);
+            }}
+          >
+            등록하기
+          </LoginButton>
+        ) : (
+          <LoginButton
+            onClick={() => {
+              navigate("/requestform");
+            }}
+          >
+            조회하기
+          </LoginButton>
+        )}
+        {hasQuote ? (
           <LoginNone onClick={handleWrite}>
             이미 작성중인 견적서가 있습니다.
           </LoginNone>

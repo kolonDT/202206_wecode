@@ -10,7 +10,7 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 import moment from "moment";
 let PORT = process.env.REACT_APP_PORT;
 
-function RequestForm({ isNew, setNew }) {
+function RequestForm({ isNew, setNew, setPage }) {
   const [fold, setFold] = useState(false);
   const [data, setData] = useState();
   let process = {
@@ -33,6 +33,18 @@ function RequestForm({ isNew, setNew }) {
         setData(data["registeredCarInfo"][0]);
       });
   };
+  const getAlarm = async () => {
+    await fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setNew(data["registeredCarInfo"][0].is_new);
+      });
+  };
   const setAlarm = (status) => {
     fetch(
       `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
@@ -52,11 +64,13 @@ function RequestForm({ isNew, setNew }) {
 
   useEffect(() => {
     getData();
+    getAlarm();
     if (isNew === 1) {
       setNew(0);
       setAlarm(0);
     }
-  }, []);
+    setPage("default");
+  }, [isNew]);
 
   if (data === undefined) return null;
   process["견적요청 접수"] = moment(data.quote_requested)
@@ -71,7 +85,7 @@ function RequestForm({ isNew, setNew }) {
   process["판매 요청"] = moment(data.selling_requested)
     .utc()
     .format("YYYY-MM-DD");
-  process["판매 완료"] = moment(data.selling_completede)
+  process["판매 완료"] = moment(data.selling_completed)
     .utc()
     .format("YYYY-MM-DD");
   console.log(data);
@@ -95,19 +109,19 @@ function RequestForm({ isNew, setNew }) {
           <HR />
           <ImageSlide data={data} />
           <DetailLine>
-            <Text>차량번호</Text>
+            <TextTitle>차량번호</TextTitle>
             <Text>{data.car_number}</Text>
           </DetailLine>
           <DetailLine>
-            <Text>모델명</Text>
-            <SmallText>{data.model_name}</SmallText>
+            <TextTitle>모델명</TextTitle>
+            <Text>{data.model_name}</Text>
           </DetailLine>
           <DetailLine>
-            <Text>연식</Text>
+            <TextTitle>연식</TextTitle>
             <Text>{data.model_year}년형</Text>
           </DetailLine>
           <DetailLine>
-            <Text>주행거리</Text>
+            <TextTitle>주행거리</TextTitle>
             <Text>{data.driving_distance}km</Text>
           </DetailLine>
           <DetailOption>
@@ -117,14 +131,14 @@ function RequestForm({ isNew, setNew }) {
             })}
           </DetailOption>
           <DetailLine>
-            <Text>연락처</Text>
+            <TextTitle>연락처</TextTitle>
             <Text>{data.contact}</Text>
           </DetailLine>
           <DetailLine>
-            <Text>지역</Text>
-            <SmallText>
+            <TextTitle>지역</TextTitle>
+            <Text>
               {data.address} {data.address_detail}
-            </SmallText>
+            </Text>
           </DetailLine>
 
           {/* <Map
@@ -182,10 +196,13 @@ function ImageSlide({ data }) {
   if (!data.hasOwnProperty("image")) {
     return null;
   }
+  if (data.image === null) return null;
   return (
     <Wrap>
       <Slider {...settings}>
         {data.image.split(",").map((imgUrl, index) => {
+          imgUrl = PORT.concat(imgUrl);
+          console.log(imgUrl);
           return (
             <ImgDiv>
               <Img src={imgUrl} alt="car_image" />
@@ -196,11 +213,15 @@ function ImageSlide({ data }) {
     </Wrap>
   );
 }
-const SmallText = styled.p`
-  font-size: 0.8em;
-  font-weight: 400;
+const TextTitle = styled.p`
+  font-size: 1.2em;
+  font-weight: 600;
   margin-top: 10px;
   margin-bottom: 10px;
+  @media only screen and (max-width: 640px) {
+    font-size: 0.8em;
+    font-weight: 600;
+  }
 `;
 
 const Box = styled.div`
@@ -221,9 +242,12 @@ const Box = styled.div`
 const P = styled.p`
   font-size: 1.4em;
   font-weight: bold;
-  color: ${(props) => (props.active ? "#d8d8d8" : "black")};
+  color: ${(props) => (props.active ? "#adadad" : "black")};
   margin-top: 10px;
   margin-bottom: 20px;
+  @media only screen and (max-width: 640px) {
+    font-size: 1em;
+  }
 `;
 const Line = styled.p`
   width: 86%;
@@ -247,9 +271,14 @@ const Text = styled.p`
   font-weight: 400;
   margin-top: 10px;
   margin-bottom: 10px;
+  @media only screen and (max-width: 640px) {
+    font-size: 0.8em;
+  }
 `;
 const HR = styled.hr`
   color: #d8d8d8;
+  margin-bottom: 20px;
+  border: 1px dotted #adadad;
 `;
 const ImgDiv = styled.div``;
 const Img = styled.img`
@@ -271,10 +300,14 @@ const Detail = styled.div`
 const OptionText = styled.div`
   text-align: left;
   font-size: 1.2em;
-  font-weight: 400;
+  font-weight: 600;
   margin-top: 10px;
   margin-bottom: 10px;
   width: 100%;
+  @media only screen and (max-width: 640px) {
+    font-size: 0.8em;
+    font-weight: 600;
+  }
 `;
 const Option = styled.div`
   box-shadow: 5px 5px 10px #d8d8d8;
@@ -282,6 +315,9 @@ const Option = styled.div`
   text-align: center;
   padding: 15px;
   margin: 5px;
+  @media only screen and (max-width: 640px) {
+    font-size: 0.8em;
+  }
 `;
 const DetailOption = styled.div`
   margin: 0px auto;

@@ -34,7 +34,7 @@ function Graph() {
     <GraphWrap>
       <GraphTitle>예상 시세는 2,000 만 원 입니다.</GraphTitle>
       <GraphBox>
-        <ResponsiveContainer minWidth={780} minHeight={500}>
+        <ResponsiveContainer minWidth={750} minHeight={500}>
           <ComposedChart
             width={500}
             height={400}
