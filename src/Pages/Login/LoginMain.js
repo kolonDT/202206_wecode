@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Slider from "react-slick";
-import Graph from "../Sellcar/Graph";
+import Graph from "../../Components/Graph/Graph";
 
 //styles
 import styled from "styled-components";
@@ -93,6 +93,8 @@ function LoginMain({ setPage }) {
         >
           <>시세확인</>
         </InfoButton>
+        <Graph />
+        {/* <>{show === false ? <Graph active={show} /> : null}</> */}
         <>{show === true ? <Graph active={show} setPage={setPage} /> : null}</>
       </LoginMainInfo>
     </LoginMainWrap>
@@ -144,7 +146,7 @@ const InfoCar = styled.div`
     font-size: 18px;
     margin-bottom: 10px;
     font-weight: 500;
-    color: gray;
+    color: black;
   }
   span {
     margin-left: 5px;
