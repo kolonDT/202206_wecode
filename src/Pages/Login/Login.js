@@ -8,7 +8,7 @@ import moment from "moment";
 import { HiLightBulb } from "react-icons/hi";
 
 function Login({ setPage }) {
-  const hi = useLocation();
+  const locate = useLocation();
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [isLogin, setLogin] = useState(false);
@@ -112,14 +112,8 @@ function Login({ setPage }) {
   };
 
   const handleLogin = (str) => {
-    // console.log("hi", hi.state);
-    // navigate("/login", { state: id });
-    // return "123";
-    console.log("hi", hi.state);
-    // setId(id).then((result) => {
+    console.log("hi", locate.state);
     getCar(str);
-    // const { message } = result;
-
     if (!show) {
       alert("차량번호를 다시 확인해주세요.");
     } else {
@@ -251,10 +245,11 @@ const LoginSubTitle = styled.p`
 const LoginInput = styled.input`
   @media only screen and (max-width: 640px) {
     width: 80%;
-    margin: 0px auto;
+    margin: 10px auto;
     margin-bottom: 25px;
   }
   width: 360px;
+  margin: 10px auto;
   padding: 20px;
   margin-bottom: 25px;
   border: 0;
@@ -273,20 +268,15 @@ const LoginButton = styled.button`
     margin: 10px auto;
   }
   width: 400px;
-  /* margin: 20px 0px 0px 310px; */
-  padding: 13px 15px;
+  padding: 14px;
   border-radius: 5px;
   border: 1px solid #adadad;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: white;
   background-color: #5c1049;
   box-shadow: 3px 3px 5px #d8d8d8;
-  /* &:disabled {
-    opacity: 0.5;
-    background-color: #5c1049;
-  } */
 `;
 const LoginNone = styled.div`
   display: flex;
