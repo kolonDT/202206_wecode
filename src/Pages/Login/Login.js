@@ -296,4 +296,7 @@ const LoginNone = styled.div`
       opacity: 1;
     }
   }
+  span {
+    margin-right: 3px;
+  }
 `;
