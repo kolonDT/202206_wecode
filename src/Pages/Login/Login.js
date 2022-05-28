@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 //styles
 import styled from "styled-components";
 import moment from "moment";
+import { HiLightBulb } from "react-icons/hi";
 
 function Login({ setPage }) {
   const hi = useLocation();
@@ -33,7 +34,7 @@ function Login({ setPage }) {
   };
 
   const getData = () => {
-    fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
+    fetch(`/car?carNumber=${localStorage.getItem("carNumber")}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +42,14 @@ function Login({ setPage }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        setData(data["registeredCarInfo"][0]);
+        console.log(data);
+        if (data["infoByCarNumber"].length !== 0) {
+          setData(data["infoByCarNumber"][0]);
+          console.log("ww", data);
+        } else {
+          setData(false);
+          console.log("why");
+        }
       });
   };
 
@@ -108,16 +116,16 @@ function Login({ setPage }) {
     // navigate("/login", { state: id });
     // return "123";
     console.log("hi", hi.state);
-    setId(id).then((result) => {
-      const { message } = result;
-      if (message === "REGISTER_SUCCESS") {
-        alert("차량등록이 완료되었습니다.");
-      } else {
-        alert("차량번호를 다시 확인해주세요.");
-      }
+    // setId(id).then((result) => {
+    getCar(str);
+    // const { message } = result;
+
+    if (!show) {
+      alert("차량번호를 다시 확인해주세요.");
+    } else {
       navigate("/login", { state: id });
-      return "123";
-    });
+    }
+    return "123";
   };
 
   const handleWrite = () => {
@@ -166,6 +174,7 @@ function Login({ setPage }) {
     // setPage("login");
   }, []);
 */
+  console.log(data);
   return (
     <LoginBox>
       <LoginWrap>
@@ -200,7 +209,8 @@ function Login({ setPage }) {
         )}
         {hasQuote ? (
           <LoginNone onClick={handleWrite}>
-            이미 작성중인 견적서가 있습니다
+            <span>이미 작성중인 견적서가 있습니다</span>
+            <HiLightBulb size={20} />
           </LoginNone>
         ) : null}
       </LoginWrap>
@@ -278,19 +288,16 @@ const LoginButton = styled.button`
     background-color: #5c1049;
   } */
 `;
-const LoginNone = styled.span`
+const LoginNone = styled.div`
+  display: flex;
   margin-top: 80px;
   padding-bottom: 10px;
+  align-items: center;
   cursor: pointer;
   font-weight: 500;
   font-size: 18px;
   color: gray;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  display: inline-block;
   animation: fadein 1.2s;
-  /* -moz-animation: fadein 3s; Firefox */
-  /* -webkit-animation: fadein 3s; Safari and Chrome */
-  /* -o-animation: fadein 3s; Opera */
   @keyframes fadein {
     from {
       opacity: 0;
