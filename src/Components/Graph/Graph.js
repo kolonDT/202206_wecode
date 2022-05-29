@@ -36,7 +36,7 @@ function Graph({ setPage }) {
 
   return (
     <GraphWrap>
-      <GraphTitle>예상 시세는 2,000 ~ 2,500 만 원 입니다.</GraphTitle>
+      <GraphTitle>예상 시세는 6,000 만 원 입니다.</GraphTitle>
       <GraphBox>
         <ResponsiveContainer minWidth={550} minHeight={400}>
           <ComposedChart
