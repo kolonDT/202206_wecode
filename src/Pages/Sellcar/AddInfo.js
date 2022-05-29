@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import PhotoCard from "./PhotoCard";
 
-const AddInfo = ({ setCarImages, carImages }) => {
+const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
   //주행거리 값 관리하는 상태값
   const [inputValue, setInputValue] = useState("");
 
@@ -23,9 +24,6 @@ const AddInfo = ({ setCarImages, carImages }) => {
 
   //사진 url 관리하는 상태값
   const [carUrlImages, setCarUrlImages] = useState([]);
-
-  //photoInput 버튼 ref
-  const photoInput = useRef();
 
   let carNumber = localStorage.getItem("carNumber");
   //input에 숫자만 입력 및 세 자리수 마다 콤마 찍는 함수
@@ -66,11 +64,6 @@ const AddInfo = ({ setCarImages, carImages }) => {
     }
   };
 
-  //사진등록 버튼을 누르면 사진 등록할 수 있는 모달창 띄우기
-  const clickPhotoInput = () => {
-    photoInput.current.click();
-  };
-
   ///추가 정보 글 저장하는 함수
   const writeInfo = (e) => {
     setAddInfo(e.target.value);
@@ -82,17 +75,6 @@ const AddInfo = ({ setCarImages, carImages }) => {
   //     carImages.map((car) => (car.index === num ? (car = newImage[0]) : null))
   //   );
   // };
-
-  //사진을 상태값에 저장하는 함수
-  const onLoadFile = (e) => {
-    const newImage = e.target.files;
-    setCarImages([...carImages, newImage]);
-    console.log("carImages", carImages);
-    if (carImages.length < 4) {
-      const newURL = URL.createObjectURL(newImage[0]);
-      setCarUrlImages([...carUrlImages, newURL]);
-    }
-  };
 
   const tmp = (arr) => {
     let _options = {
@@ -286,39 +268,23 @@ const AddInfo = ({ setCarImages, carImages }) => {
         <Name>사진 등록</Name>
         <PhotoInputWrapper>
           <PhotoInputLine>
-            <PhotoInputBox onClick={clickPhotoInput}>
-              {carUrlImages[0] !== undefined ? (
-                <Thumbnail src={carUrlImages[0]} />
-              ) : (
-                <p>전면 사진 추가</p>
-              )}
-            </PhotoInputBox>
-            <PhotoInputBox onClick={clickPhotoInput}>
-              {carUrlImages[1] !== undefined ? (
-                <Thumbnail src={carUrlImages[1]} />
-              ) : (
-                <p>후면 사진 추가</p>
-              )}
-            </PhotoInputBox>
-          </PhotoInputLine>
-          <PhotoInputLine>
-            <PhotoInputBox onClick={clickPhotoInput}>
-              {carUrlImages[2] !== undefined ? (
-                <Thumbnail src={carUrlImages[2]} />
-              ) : (
-                <p>좌측 사진 추가</p>
-              )}
-            </PhotoInputBox>
-            <PhotoInputBox onClick={clickPhotoInput}>
-              {carUrlImages[3] !== undefined ? (
-                <Thumbnail src={carUrlImages[3]} />
-              ) : (
-                <p>우측 사진 추가</p>
-              )}
-            </PhotoInputBox>
+            {[
+              "전면 사진 추가",
+              "후면 사진 추가",
+              "우측 사진 추가",
+              "좌측 사진 추가",
+            ].map((value, index) => (
+              <PhotoCard
+                key={index}
+                value={value}
+                setCarImages={setCarImages}
+                carImages={carImages}
+                setThumbnails={setThumbnails}
+                thumbnails={thumbnails}
+              />
+            ))}
           </PhotoInputLine>
         </PhotoInputWrapper>
-        <PhotoInput type="file" ref={photoInput} onChange={onLoadFile} />
       </PhotoInputContainer>
     </InfoContainer>
   );
@@ -399,7 +365,7 @@ const OptionBox = styled.div`
 const OptionButton = styled.button`
   padding: 1.2em 2.4em;
   margin-right: 2em;
-  color: rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.9);
   background-color: white;
   border: 0px solid black;
   border-radius: 1.8em;
@@ -483,30 +449,6 @@ const PhotoInputWrapper = styled.div`
 const PhotoInputLine = styled.div`
   display: flex;
   justify-content: center;
-`;
-
-const PhotoInputBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50%;
-  height: 10em;
-  font-size: 1.1em;
-  font-weight: 500;
-  color: rgba(0, 0, 0, 0.5);
-  :hover {
-    cursor: pointer;
-    color: rgba(0, 0, 0, 0.8);
-    background-color: whitesmoke;
-  }
-`;
-
-const PhotoInput = styled.input`
-  display: none;
-`;
-
-const Thumbnail = styled.img`
-  overflow: hidden;
 `;
 
 export default AddInfo;
