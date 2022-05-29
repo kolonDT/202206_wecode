@@ -109,14 +109,13 @@ function Login({ setPage }) {
   };
 
   const handleLogin = (str) => {
-    console.log("hi", locate.state);
     getCar(str);
     if (!show) {
       alert("차량번호를 다시 확인해주세요.");
     } else {
       navigate("/login", { state: id });
     }
-    return "123";
+    return "return";
   };
 
   const handleWrite = () => {
