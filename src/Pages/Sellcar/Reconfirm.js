@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+
 //styles
 import styled from "styled-components";
 // import { useEffect, useState } from "react";
@@ -27,7 +28,6 @@ function Reconfirm({ setPage }) {
     }
     return formData;
   };
-
   const imageResult = handleUrls();
 
   useEffect(() => {
@@ -76,6 +76,7 @@ function Reconfirm({ setPage }) {
       },
 
       body: JSON.stringify({
+        image: localStorage.getItem(`${thumbnails}_image`),
         carNumber: carNumber,
         additionalInfo: localStorage.getItem(`${carNumber}_additional_info`),
         distance: distanceDB,
@@ -102,6 +103,11 @@ function Reconfirm({ setPage }) {
   return (
     <ReconfirmWrap>
       <ReconfirmTitle>입력하신 추가 정보를 확인해주세요.</ReconfirmTitle>
+      <ReconfirmImage>
+        {thumbnails.map((index, url) => (
+          <img key={index} src={url} width={300} height={300} />
+        ))}
+      </ReconfirmImage>
       <ReconfirmBox>
         <ReconfirmBoxTitle>
           <span>주행거리</span>
@@ -166,6 +172,8 @@ const ReconfirmBoxTitle = styled.div`
     color: gray;
   }
 `;
+
+const ReconfirmImage = styled.div``;
 
 const ReconfirmBoxInfo = styled.div`
   display: flex;

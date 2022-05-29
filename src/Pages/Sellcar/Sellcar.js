@@ -42,6 +42,10 @@ const Sellcar = ({ setPage }) => {
 
   return (
     <>
+      {/* <Routes>
+        <Route element={<LoginMain setPage={setPage} />} />
+      </Routes> */}
+      <AddInfo setCarImages={setCarImages} carImages={carImages} />
       <AddInfo
         setCarImages={setCarImages}
         carImages={carImages}
