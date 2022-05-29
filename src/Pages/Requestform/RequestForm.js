@@ -8,11 +8,13 @@ import "./slide.css";
 import styled from "styled-components";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import moment from "moment";
+import { setAlarm, getAlarm } from "../Api/Api";
 let PORT = process.env.REACT_APP_PORT;
 
 function RequestForm({ isNew, setNew, setPage }) {
   const [fold, setFold] = useState(false);
   const [data, setData] = useState();
+  let optionList = "";
   let process = {
     "판매 완료": "",
     "판매 요청": "",
@@ -33,39 +35,10 @@ function RequestForm({ isNew, setNew, setPage }) {
         setData(data["registeredCarInfo"][0]);
       });
   };
-  const getAlarm = async () => {
-    await fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("ddd", data);
-        setNew(data["registeredCarInfo"][0].is_new);
-      });
-  };
-  const setAlarm = (status) => {
-    fetch(
-      `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ notificationStatus: status }),
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
-  };
 
   useEffect(() => {
     getData();
-    getAlarm();
+    getAlarm(setNew);
     if (isNew === 1) {
       setNew(0);
       setAlarm(0);
@@ -89,7 +62,11 @@ function RequestForm({ isNew, setNew, setPage }) {
   process["판매 완료"] = moment(data.selling_completed)
     .utc()
     .format("YYYY-MM-DD");
-  console.log(data);
+
+  optionList = data.options.split(",").map((opt, index) => {
+    return optionList.concat(opt);
+  });
+  optionList = optionList.join(",");
   return (
     <>
       <Box>
@@ -106,67 +83,54 @@ function RequestForm({ isNew, setNew, setPage }) {
             </div>
           ) : null}
         </Folding>
-        <Detail active={fold}>
-          <HR />
-          <ImageSlide data={data} />
-          <DetailLine>
-            <TextTitle>차량번호</TextTitle>
-            <Text>{data.car_number}</Text>
-          </DetailLine>
-          <DetailLine>
-            <TextTitle>모델명</TextTitle>
-            <Text>{data.model_name}</Text>
-          </DetailLine>
-          <DetailLine>
-            <TextTitle>연식</TextTitle>
-            <Text>{data.model_year}년형</Text>
-          </DetailLine>
-          <DetailLine>
-            <TextTitle>주행거리</TextTitle>
-            <Text>{data.driving_distance}km</Text>
-          </DetailLine>
-          <DetailOption>
-            <OptionText>옵션</OptionText>
-            {data.options.split(",").map((opt, index) => {
-              return <Option>{opt}</Option>;
-            })}
-          </DetailOption>
-          <DetailLine>
-            <TextTitle>연락처</TextTitle>
-            <Text>{data.contact}</Text>
-          </DetailLine>
-          <DetailLine>
-            <TextTitle>지역</TextTitle>
-            <Text>
-              {data.address} {data.address_detail}
-            </Text>
-          </DetailLine>
-
-          {/* <Map
-            center={{
-              lat: Number(data.lat),
-              lng: Number(data.lon),
-            }}
-            style={{
-              width: "90%",
-              height: "250px",
-              margin: "0px auto",
-              marginTop: "20px",
-            }}
-            level={6}
-          >
-            <MapMarker
-              position={{
-                lat: Number(data.lat),
-                lng: Number(data.lon),
-              }}
-            />
-          </Map> */}
-        </Detail>
+        <DetailList
+          fold={fold}
+          data={data}
+          optionList={optionList}
+        ></DetailList>
       </Box>
     </>
   );
 }
+const DetailList = React.memo(function DetailList({ fold, data, optionList }) {
+  //function DetailList({ fold, data, optionList }) {
+  return (
+    <Detail active={fold}>
+      <HR />
+      <ImageSlide data={data} />
+      <DetailLine>
+        <TextTitle>차량번호</TextTitle>
+        <Text>{data.car_number}</Text>
+      </DetailLine>
+      <DetailLine>
+        <TextTitle>모델명</TextTitle>
+        <Text>{data.model_name}</Text>
+      </DetailLine>
+      <DetailLine>
+        <TextTitle>연식</TextTitle>
+        <Text>{data.model_year}년형</Text>
+      </DetailLine>
+      <DetailLine>
+        <TextTitle>주행거리</TextTitle>
+        <Text>{data.driving_distance}km</Text>
+      </DetailLine>
+      <DetailLine>
+        <TextTitle>옵션</TextTitle>
+        <Text>{optionList}</Text>
+      </DetailLine>
+      <DetailLine>
+        <TextTitle>연락처</TextTitle>
+        <Text>{data.contact}</Text>
+      </DetailLine>
+      <DetailLine>
+        <TextTitle>지역</TextTitle>
+        <Text>
+          {data.address} {data.address_detail}
+        </Text>
+      </DetailLine>
+    </Detail>
+  );
+});
 
 function ProcessArray({ process }) {
   return Object.entries(process).map(([key, value]) =>
@@ -214,7 +178,9 @@ function ImageSlide({ data }) {
     </Wrap>
   );
 }
+
 const TextTitle = styled.p`
+  width: 20%;
   font-size: 1.2em;
   font-weight: 600;
   margin-top: 10px;
@@ -296,29 +262,6 @@ const Detail = styled.div`
   overflow: hidden;
   padding: ${(props) => (props.active ? "15px" : "0 15px")};
   transition: all 0.5s;
-`;
-
-const OptionText = styled.div`
-  text-align: left;
-  font-size: 1.2em;
-  font-weight: 600;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  @media only screen and (max-width: 640px) {
-    font-size: 0.8em;
-    font-weight: 600;
-  }
-`;
-const Option = styled.div`
-  box-shadow: 5px 5px 10px #d8d8d8;
-  border-radius: 20px;
-  text-align: center;
-  padding: 15px;
-  margin: 5px;
-  @media only screen and (max-width: 640px) {
-    font-size: 0.8em;
-  }
 `;
 const DetailOption = styled.div`
   margin: 0px auto;

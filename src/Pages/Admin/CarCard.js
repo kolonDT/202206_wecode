@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FaChevronRight } from "react-icons/fa";
+import { getAlarm, setAlarm } from "../Api/Api";
 
 const CarCard = ({ car, isNew, setNew }) => {
   //클릭 시 요청내역 관리 숨김-열기 상태값
@@ -68,40 +69,9 @@ const CarCard = ({ car, isNew, setNew }) => {
       5: car.selling_completed !== null,
     };
     setChecked(checked);
-    getAlarm();
+    getAlarm(setNew);
   }, [isNew]);
 
-  const getAlarm = async () => {
-    //await fetch(`/car/2`, {
-    await fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setNew(data["registeredCarInfo"][0].is_new);
-      });
-  };
-
-  const setAlarm = (status) => {
-    if (car.car_number !== localStorage.getItem("carNumber")) return null;
-    fetch(
-      `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ notificationStatus: status }),
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("update.........");
-      });
-  };
   return (
     <div>
       <Car>
