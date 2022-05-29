@@ -1,7 +1,14 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
-const PhotoCard = ({ carImages, setCarImages, index, value }) => {
+const PhotoCard = ({
+  carImages,
+  setCarImages,
+  index,
+  value,
+  setThumbnails,
+  thumbnails,
+}) => {
   console.log(index);
   //사진등록 버튼을 누르면 사진 등록할 수 있는 모달창 띄우기
   const clickPhotoInput = (num) => {
@@ -20,6 +27,7 @@ const PhotoCard = ({ carImages, setCarImages, index, value }) => {
     setCarImages([...carImages, { order: index, src: newImage[0] }]);
     if (carImages.length < 4) {
       setThumbnail(URL.createObjectURL(newImage[0]));
+      setThumbnails([...thumbnails, URL.createObjectURL(newImage[0])]);
     }
   };
 

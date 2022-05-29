@@ -31,13 +31,6 @@ const Admin = ({ isNew, setNew }) => {
   return (
     <CarContainer>
       <CarWrapper>
-        {/* {cars.length !== 0 &&
-          cars.slice(offset,offset+limit).map((car) => {
-            return (
-              <CarCard key={car.id} car={car} isNew={isNew} setNew={setNew} />
-            );
-          })} */}
-        {/* <CarCard key={1} isNew={isNew} setNew={setNew} /> */}
         <CarTable>
           <TableRow>
             <TableHead>순서</TableHead>
@@ -48,7 +41,15 @@ const Admin = ({ isNew, setNew }) => {
             <TableHead>판매 요청</TableHead>
             <TableHead>판매 완료</TableHead>
           </TableRow>
-          {/* 여기서 맵 시작 */}
+          {/* {cars.length !== 0 &&
+          cars.slice(offset,offset+limit).map((car) => {
+            return (
+            <TableRow key={car.id} >
+              <CarLine car={car} isNew={isNew} setNew={setNew}  />
+            </TableRow>
+            );
+          })} */}
+          {/* 주석 처리 시작 */}
           <TableRow>
             <CarLine />
           </TableRow>
@@ -61,10 +62,7 @@ const Admin = ({ isNew, setNew }) => {
           <TableRow>
             <CarLine />
           </TableRow>
-          <TableRow>
-            <CarLine />
-          </TableRow>
-          {/* 여기서 맵 끝 */}
+          {/* 주석 처리 끝 */}
         </CarTable>
       </CarWrapper>
       <Pagination total={16} limit={limit} page={page} setPage={setPage} />

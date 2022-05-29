@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import PhotoCard from "./PhotoCard";
 
-const AddInfo = ({ setCarImages, carImages }) => {
+const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
   //주행거리 값 관리하는 상태값
   const [inputValue, setInputValue] = useState("");
 
@@ -279,6 +279,8 @@ const AddInfo = ({ setCarImages, carImages }) => {
                 value={value}
                 setCarImages={setCarImages}
                 carImages={carImages}
+                setThumbnails={setThumbnails}
+                thumbnails={thumbnails}
               />
             ))}
           </PhotoInputLine>
