@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
+import { getAlarm, setAlarm } from "../Api/Api";
+import React from "react";
 
 function CompleteForm({ isNew, setNew, setPage }) {
   const navigate = useNavigate();
@@ -23,7 +25,7 @@ function CompleteForm({ isNew, setNew, setPage }) {
   };
 
   useEffect(() => {
-    getAlarm();
+    getAlarm(setNew);
   }, []);
 
   useEffect(() => {
@@ -33,36 +35,6 @@ function CompleteForm({ isNew, setNew, setPage }) {
       setAlarmStatus(true);
     }
   }, [isNew]);
-
-  const getAlarm = async () => {
-    await fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setNew(data["registeredCarInfo"][0].is_new);
-      });
-  };
-
-  const setAlarm = async (status) => {
-    await fetch(
-      `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ notificationStatus: status }),
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("set data", status);
-      });
-  };
 
   useEffect(() => {
     setPage("default");
@@ -80,11 +52,19 @@ function CompleteForm({ isNew, setNew, setPage }) {
         <P>딜러 방문 전에 계약을 위한</P>
         <P>필요서류를 준비해 주세요.</P>
       </Wrap>
-      <Wrap>
-        <P>Push 알림 설정을 켜주시면</P>
-        <P>진행상황이 업데이트 될 때</P>
-        <P> 알림을 받을 수 있습니다.</P>
-      </Wrap>
+      {alarmStatus ? (
+        <Wrap>
+          <P>Push 알림 설정을 켜주시면</P>
+          <P>진행상황이 업데이트 될 때</P>
+          <P> 알림을 받을 수 있습니다.</P>
+        </Wrap>
+      ) : (
+        <Wrap>
+          <P>진행상황 업데이트 알림을</P>
+          <P>받고싶지 않으시다면</P>
+          <P>푸시알림 설정을 해제해 주세요</P>
+        </Wrap>
+      )}
       <OptionField>
         <Button onClick={gotoRequest}>요청내역 보기</Button>
         {!alarmStatus ? (

@@ -101,12 +101,11 @@ function Login({ setPage }) {
 
   const handleInput = (e) => {
     let ret = isValidId(e.target.value);
-    expireCheck(e.target.value);
     setLogin(ret);
     setId(e.target.value);
     if (ret === true) {
-      getCar(e.target.value);
       localStorage.setItem("carNumber", e.target.value);
+      getCar(e.target.value);
       getData();
     }
   };
