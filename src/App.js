@@ -8,14 +8,13 @@ import CompleteForm from "./Pages/Complete/CompleteForm";
 import RequestForm from "./Pages/Requestform/RequestForm";
 import Reconfirm from "./Pages/Sellcar/Reconfirm";
 import SellCar from "./Pages/Sellcar/Sellcar";
-import Graph from "./Pages/Sellcar/Graph";
+import Graph from "./Components/Graph/Graph";
 import Admin from "./Pages/Admin/Admin";
 import React, { useState } from "react";
 
 function App() {
   const [isNew, setNew] = useState(-1);
   const [page, setPage] = useState("default");
-
   return (
     <>
       <BrowserRouter>

@@ -5,15 +5,17 @@ import { useLocation } from "react-router-dom";
 //styles
 import styled from "styled-components";
 import moment from "moment";
+import { HiLightBulb } from "react-icons/hi";
 
 function Login({ setPage }) {
-  const hi = useLocation();
+  const locate = useLocation();
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [isLogin, setLogin] = useState(false);
   const [show, setShow] = useState(false);
   //방문 기록이 있는지 관리하는 상태값
   const [hasQuote, setHasQuote] = useState(false);
+  const [data, setData] = useState(false);
 
   const getCar = (carNumber) => {
     fetch(`/car?carNumber=${carNumber}`, {
@@ -27,6 +29,24 @@ function Login({ setPage }) {
         if (data.hasOwnProperty("infoByCarNumber")) {
           setShow(true);
           expireCheck(carNumber);
+        }
+      });
+  };
+
+  const getData = () => {
+    //fetch(`/car?carNumber=${localStorage.getItem("carNumber")}`, {
+    fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data["registeredCarInfo"].length !== 0) {
+          setData(data["registeredCarInfo"][0]);
+        } else {
+          setData(false);
         }
       });
   };
@@ -79,15 +99,23 @@ function Login({ setPage }) {
 
   const handleInput = (e) => {
     let ret = isValidId(e.target.value);
-    //expireCheck(e.target.value);
     setLogin(ret);
     setId(e.target.value);
-    if (ret === true) getCar(e.target.value);
+    if (ret === true) {
+      localStorage.setItem("carNumber", e.target.value);
+      getCar(e.target.value);
+      getData();
+    }
   };
 
   const handleLogin = (str) => {
-    console.log("hi", hi.state);
-    navigate("/login", { state: id });
+    console.log("hi", locate.state);
+    getCar(str);
+    if (!show) {
+      alert("차량번호를 다시 확인해주세요.");
+    } else {
+      navigate("/login", { state: id });
+    }
     return "123";
   };
 
@@ -104,6 +132,7 @@ function Login({ setPage }) {
       handleLogin();
     }
   };
+
   function isValidId(str) {
     const regId = /\d{2,3}[가-힣]{1}?([0-9]{4})$/g;
     let ret = regId.test(str);
@@ -136,6 +165,7 @@ function Login({ setPage }) {
     // setPage("login");
   }, []);
 */
+  console.log(data);
   return (
     <LoginBox>
       <LoginWrap>
@@ -150,17 +180,28 @@ function Login({ setPage }) {
           placeholder="12가3456"
           required
         />
-        <LoginButton
-          disabled={!isLogin}
-          onClick={(e) => {
-            handleLogin(e.target.value);
-          }}
-        >
-          등록하기
-        </LoginButton>
+        {!data ? (
+          <LoginButton
+            disabled={!isLogin}
+            onClick={(e) => {
+              handleLogin(e.target.value);
+            }}
+          >
+            등록하기
+          </LoginButton>
+        ) : (
+          <LoginButton
+            onClick={() => {
+              navigate("/requestform");
+            }}
+          >
+            조회하기
+          </LoginButton>
+        )}
         {hasQuote ? (
           <LoginNone onClick={handleWrite}>
-            이미 작성중인 견적서가 있습니다.
+            <span>이미 작성중인 견적서가 있습니다</span>
+            <HiLightBulb size={20} />
           </LoginNone>
         ) : null}
       </LoginWrap>
@@ -172,9 +213,9 @@ export default Login;
 const LoginBox = styled.div`
   @media only screen and (max-width: 640px) {
     width: 90%;
-    margin: 40px auto;
+    margin: 40px auto 100px;
   }
-  margin: 40px auto;
+  margin: 40px auto 100px;
   width: 640px;
   padding: 10px 0px;
   text-align: center;
@@ -201,12 +242,18 @@ const LoginSubTitle = styled.p`
 const LoginInput = styled.input`
   @media only screen and (max-width: 640px) {
     width: 80%;
-    margin: 0px auto;
+    margin: 10px auto;
+    margin-bottom: 25px;
   }
-  width: 450px;
+  width: 360px;
+  margin: 10px auto;
   padding: 20px;
-  border: 1px solid gray;
-  border-radius: 5px;
+  margin-bottom: 25px;
+  border: 0;
+  border-bottom: 1px solid gray;
+  :focus {
+    outline: none;
+  }
   ::placeholder {
     word-spacing: 2px;
     font-size: 18px;
@@ -214,28 +261,39 @@ const LoginInput = styled.input`
 `;
 const LoginButton = styled.button`
   @media only screen and (max-width: 640px) {
-    width: 60%;
+    width: 80%;
     margin: 10px auto;
   }
-  width: 180px;
-  margin: 20px 0px 0px 310px;
-  padding: 13px 15px;
+  width: 400px;
+  padding: 14px;
   border-radius: 5px;
   border: 1px solid #adadad;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: white;
   background-color: #5c1049;
   box-shadow: 3px 3px 5px #d8d8d8;
-  &:disabled {
-    opacity: 0.5;
-    background-color: #5c1049;
-  }
 `;
-const LoginNone = styled.span`
-  display: block;
+const LoginNone = styled.div`
+  display: flex;
   margin-top: 80px;
+  padding-bottom: 10px;
+  align-items: center;
   cursor: pointer;
+  font-weight: 500;
+  font-size: 18px;
   color: gray;
+  animation: fadein 1.2s;
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  span {
+    margin-right: 3px;
+  }
 `;
