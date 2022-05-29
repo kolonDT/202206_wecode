@@ -4,7 +4,7 @@ import { AiOutlineCheckCircle } from "react-icons/ai";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { TiDeleteOutline } from "react-icons/ti";
 
-const CarLine = () => {
+const CarLine = ({ car, isNew, setNew }) => {
   //   const [checkedArray, setCheckedArray] = useState([
   //     { step: 1, state: car.quote_requested !== null, },
   //     { step: 2, state: car.dealer_assigned !== null },
@@ -56,6 +56,7 @@ const CarLine = () => {
         <Text>1</Text>
       </OrderNum>
       <CarNumber>
+        {/* <Text>{car.car_number}</Text> */}
         <Text>12가 1234</Text>
         <DeleteButton>
           <TiDeleteOutline size="18" onClick={clickDelete} />

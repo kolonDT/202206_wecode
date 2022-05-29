@@ -8,7 +8,8 @@ import styled from "styled-components";
 
 function Reconfirm({ setPage }) {
   const navigate = useNavigate();
-  const carImages = useLocation().state;
+  const carImages = useLocation().state.carImages;
+  const thumbnails = useLocation().state.thumbnails;
 
   const handleRequest = () => {
     setCarDB();
