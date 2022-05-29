@@ -106,8 +106,8 @@ function Login({ setPage }) {
     setId(e.target.value);
     if (ret === true) {
       getCar(e.target.value);
-      getData();
       localStorage.setItem("carNumber", e.target.value);
+      getData();
     }
   };
 
