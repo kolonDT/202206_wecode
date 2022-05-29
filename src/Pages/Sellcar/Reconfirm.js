@@ -2,13 +2,15 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+
 //styles
 import styled from "styled-components";
 // import { useEffect, useState } from "react";
 
 function Reconfirm({ setPage }) {
   const navigate = useNavigate();
-  const carImages = useLocation().state;
+  const carImages = useLocation().state.carImages;
+  const thumbnails = useLocation().state.thumbnails;
 
   const handleRequest = () => {
     setCarDB();
@@ -21,13 +23,18 @@ function Reconfirm({ setPage }) {
     for (let i in carImages) {
       formData.append("image", carImages[i]);
     }
+    for (var value of formData) {
+      console.log("formDatavalue:", value);
+    }
     return formData;
   };
-
   const imageResult = handleUrls();
 
   useEffect(() => {
     setPage("default");
+    for (var value of imageResult.values()) {
+      console.log("value:", value);
+    }
   }, []);
 
   const handleRevise = () => {
@@ -69,6 +76,7 @@ function Reconfirm({ setPage }) {
       },
 
       body: JSON.stringify({
+        image: localStorage.getItem(`${thumbnails}_image`),
         carNumber: carNumber,
         additionalInfo: localStorage.getItem(`${carNumber}_additional_info`),
         distance: distanceDB,
@@ -85,9 +93,6 @@ function Reconfirm({ setPage }) {
         console.log(res);
         fetch(`/image?carNumber=${carNumber}`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
           body: imageResult,
         })
           .then((res) => res.json())
@@ -98,6 +103,11 @@ function Reconfirm({ setPage }) {
   return (
     <ReconfirmWrap>
       <ReconfirmTitle>입력하신 추가 정보를 확인해주세요.</ReconfirmTitle>
+      <ReconfirmImage>
+        {thumbnails.map((index, url) => (
+          <img key={index} src={url} width={300} height={300} />
+        ))}
+      </ReconfirmImage>
       <ReconfirmBox>
         <ReconfirmBoxTitle>
           <span>주행거리</span>
@@ -162,6 +172,8 @@ const ReconfirmBoxTitle = styled.div`
     color: gray;
   }
 `;
+
+const ReconfirmImage = styled.div``;
 
 const ReconfirmBoxInfo = styled.div`
   display: flex;

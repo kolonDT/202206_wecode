@@ -5,25 +5,10 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { BsCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { BsBellSlash, BsBell, BsBellFill } from "react-icons/bs";
+import { setAlarm } from "../Pages/Api/Api";
 
 const Header = ({ isNew, setNew, page }) => {
   const navigate = useNavigate();
-  const setAlarm = async (status) => {
-    await fetch(
-      `/history/notification?carNumber=${localStorage.getItem("carNumber")}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ notificationStatus: status }),
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("set data", status);
-      });
-  };
   const settingAlarm = () => {
     if (isNew === 1 || isNew === 0) {
       setAlarm(-1);
