@@ -34,7 +34,8 @@ function Login({ setPage }) {
   };
 
   const getData = () => {
-    fetch(`/car?carNumber=${localStorage.getItem("carNumber")}`, {
+    //fetch(`/car?carNumber=${localStorage.getItem("carNumber")}`, {
+    fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -42,13 +43,10 @@ function Login({ setPage }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        if (data["infoByCarNumber"].length !== 0) {
-          setData(data["infoByCarNumber"][0]);
-          console.log("ww", data);
+        if (data["registeredCarInfo"].length !== 0) {
+          setData(data["registeredCarInfo"][0]);
         } else {
           setData(false);
-          console.log("why");
         }
       });
   };

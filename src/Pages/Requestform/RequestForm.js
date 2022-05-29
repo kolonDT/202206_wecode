@@ -6,7 +6,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./slide.css";
 import styled from "styled-components";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
 import moment from "moment";
 import { setAlarm, getAlarm } from "../Api/Api";
 let PORT = process.env.REACT_APP_PORT;
@@ -15,13 +14,6 @@ function RequestForm({ isNew, setNew, setPage }) {
   const [fold, setFold] = useState(false);
   const [data, setData] = useState();
   let optionList = "";
-  let process = {
-    "판매 완료": "",
-    "판매 요청": "",
-    "딜러 방문 상담": "",
-    "담당 딜러 배정": "",
-    "견적요청 접수": "",
-  };
 
   const getData = () => {
     fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
@@ -38,39 +30,27 @@ function RequestForm({ isNew, setNew, setPage }) {
 
   useEffect(() => {
     getData();
+    setPage("default");
+  }, []);
+
+  useEffect(() => {
     getAlarm(setNew);
     if (isNew === 1) {
       setNew(0);
       setAlarm(0);
     }
-    setPage("default");
   }, [isNew]);
 
   if (data === undefined) return null;
-  process["견적요청 접수"] = moment(data.quote_requested)
-    .utc()
-    .format("YYYY-MM-DD"); //HH:mm:ss
-  process["담당 딜러 배정"] = moment(data.dealer_assigned)
-    .utc()
-    .format("YYYY-MM-DD");
-  process["딜러 방문 상담"] = moment(data.dealer_consulting)
-    .utc()
-    .format("YYYY-MM-DD");
-  process["판매 요청"] = moment(data.selling_requested)
-    .utc()
-    .format("YYYY-MM-DD");
-  process["판매 완료"] = moment(data.selling_completed)
-    .utc()
-    .format("YYYY-MM-DD");
-
   optionList = data.options.split(",").map((opt, index) => {
     return optionList.concat(opt);
   });
   optionList = optionList.join(",");
+  console.log("t------------------", isNew);
   return (
     <>
       <Box>
-        <ProcessArray process={process} />
+        <ProcessArray data={data} />
         <Folding
           onClick={() => {
             setFold(!fold);
@@ -93,7 +73,6 @@ function RequestForm({ isNew, setNew, setPage }) {
   );
 }
 const DetailList = React.memo(function DetailList({ fold, data, optionList }) {
-  //function DetailList({ fold, data, optionList }) {
   return (
     <Detail active={fold}>
       <HR />
@@ -132,7 +111,30 @@ const DetailList = React.memo(function DetailList({ fold, data, optionList }) {
   );
 });
 
-function ProcessArray({ process }) {
+const ProcessArray = React.memo(function ProcessArray({ data }) {
+  let process = {
+    "판매 완료": "",
+    "판매 요청": "",
+    "딜러 방문 상담": "",
+    "담당 딜러 배정": "",
+    "견적요청 접수": "",
+  };
+  process["견적요청 접수"] = moment(data.quote_requested)
+    .utc()
+    .format("YYYY-MM-DD"); //HH:mm:ss
+  process["담당 딜러 배정"] = moment(data.dealer_assigned)
+    .utc()
+    .format("YYYY-MM-DD");
+  process["딜러 방문 상담"] = moment(data.dealer_consulting)
+    .utc()
+    .format("YYYY-MM-DD");
+  process["판매 요청"] = moment(data.selling_requested)
+    .utc()
+    .format("YYYY-MM-DD");
+  process["판매 완료"] = moment(data.selling_completed)
+    .utc()
+    .format("YYYY-MM-DD");
+
   return Object.entries(process).map(([key, value]) =>
     value !== "Invalid date" ? (
       <Line>
@@ -146,7 +148,7 @@ function ProcessArray({ process }) {
       </Line>
     )
   );
-}
+});
 
 function ImageSlide({ data }) {
   const settings = {
