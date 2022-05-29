@@ -109,19 +109,18 @@ function Login({ setPage }) {
   };
 
   const handleLogin = (str) => {
-    console.log("hi", locate.state);
     getCar(str);
     if (!show) {
       alert("차량번호를 다시 확인해주세요.");
     } else {
       navigate("/login", { state: id });
     }
-    return "123";
+    return "return";
   };
 
   const handleWrite = () => {
     if (getCar) {
-      alert("견적서 작성 페이지로 이동하시겠습니까?");
+      alert("작성중인 견적서 페이지로 이동합니다.");
       navigate("/sellcar");
     }
     return null;
@@ -215,7 +214,7 @@ const LoginBox = styled.div`
     width: 90%;
     margin: 40px auto 100px;
   }
-  margin: 40px auto 100px;
+  margin: 50px auto 100px;
   width: 640px;
   padding: 10px 0px;
   text-align: center;
@@ -250,7 +249,7 @@ const LoginInput = styled.input`
   padding: 20px;
   margin-bottom: 25px;
   border: 0;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #5c1049;
   :focus {
     outline: none;
   }

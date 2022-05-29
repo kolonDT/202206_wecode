@@ -45,6 +45,7 @@ const Sellcar = ({ setPage }) => {
       {/* <Routes>
         <Route element={<LoginMain setPage={setPage} />} />
       </Routes> */}
+      {/* <MainWrap>{modal ? <WarningModal setModal={setModal} /> : null}</MainWrap> */}
       <AddInfo setCarImages={setCarImages} carImages={carImages} />
       <AddInfo
         setCarImages={setCarImages}
@@ -60,6 +61,16 @@ const Sellcar = ({ setPage }) => {
     </>
   );
 };
+
+// const MainWrap = styled.div`
+//   margin: 0px auto;
+//   width: 640px;
+//   text-align: center;
+//   @media only screen and (max-width: 640px) {
+//     margin: 0px auto;
+//     width: 90%;
+//   }
+// `;
 const Wrap = styled.div`
   margin: 0px auto;
   width: 640px;
