@@ -96,6 +96,7 @@ const CarCard = ({ car, isNew, setNew }) => {
   //       console.log("update.........");
   //     });
   // };
+
   return (
     <div>
       <Car>
