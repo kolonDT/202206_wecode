@@ -2,9 +2,17 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 // import CarCard from "./CarCard";
 import CarLine from "./CarLine";
+import Pagination from "./Pagination";
 
-const Admin = ({ isNew, setNew, setPage }) => {
+const Admin = ({ isNew, setNew }) => {
   const [cars, setCars] = useState([]);
+
+  //한 페이지 당 보여줄 차 목록의 개수
+  const limit = 10;
+  //현재 페이지 번호
+  const [page, setPage] = useState(1);
+  //현재 페이지의 첫 게시물 위치
+  const offset = (page - 1) * limit;
 
   // useEffect(() => {
   //   fetch("/car/myCars", {
@@ -24,7 +32,7 @@ const Admin = ({ isNew, setNew, setPage }) => {
     <CarContainer>
       <CarWrapper>
         {/* {cars.length !== 0 &&
-          cars.map((car) => {
+          cars.slice(offset,offset+limit).map((car) => {
             return (
               <CarCard key={car.id} car={car} isNew={isNew} setNew={setNew} />
             );
@@ -58,17 +66,11 @@ const Admin = ({ isNew, setNew, setPage }) => {
           </TableRow>
           {/* 여기서 맵 끝 */}
         </CarTable>
-        <PaginationWrapper>
-          <Pagination></Pagination>
-        </PaginationWrapper>
       </CarWrapper>
+      <Pagination total={16} limit={limit} page={page} setPage={setPage} />
     </CarContainer>
   );
 };
-
-const PaginationWrapper = styled.div``;
-
-const Pagination = styled.div``;
 
 const CarTable = styled.table`
   margin: 0 auto;

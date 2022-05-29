@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { AiFillCheckCircle } from "react-icons/ai";
+import { TiDeleteOutline } from "react-icons/ti";
 
 const CarLine = () => {
   //   const [checkedArray, setCheckedArray] = useState([
@@ -42,6 +43,13 @@ const CarLine = () => {
     //   .then((res) => console.log(res));
   };
 
+  const clickDelete = () => {
+    const isDelete = window.confirm("차량 정보를 삭제하시겠습니까?");
+    if (isDelete) {
+      console.log("삭제되었습니다.");
+    }
+  };
+
   return (
     <>
       <OrderNum>
@@ -49,6 +57,9 @@ const CarLine = () => {
       </OrderNum>
       <CarNumber>
         <Text>12가 1234</Text>
+        <DeleteButton>
+          <TiDeleteOutline size="18" onClick={clickDelete} />
+        </DeleteButton>
       </CarNumber>
       {checkedArray.map((checked, index) => (
         <CheckWrapper key={checked.step}>
@@ -77,9 +88,30 @@ const OrderNum = styled.td``;
 
 const Text = styled.p`
   text-align: center;
+  margin-right: 5px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
-const CarNumber = styled.td``;
+const DeleteButton = styled.div`
+  visibility: hidden;
+  color: gray;
+  font-weight: 600;
+  :hover {
+    color: black;
+  }
+`;
+
+const CarNumber = styled.td`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  :hover ${DeleteButton} {
+    visibility: visible;
+    cursor: pointer;
+  }
+`;
 
 const CheckWrapper = styled.td``;
 
