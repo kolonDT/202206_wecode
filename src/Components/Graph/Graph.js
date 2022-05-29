@@ -1,5 +1,6 @@
 //module
 import { useState } from "react";
+import { userData } from "./DummyData";
 import Sellcar from "../../Pages/Sellcar/Sellcar";
 import React from "react";
 //styles
@@ -15,30 +16,33 @@ import {
   Scatter,
   ResponsiveContainer,
 } from "recharts";
+
 function Graph({ setPage }) {
   const [add, setAdd] = useState(false);
-  const data = [
-    { index: 1000, gray: 650 },
-    { index: 2600, gray: 730 },
-    { index: 5000, gray: 500 },
-    { index: 7600, gray: 430 },
-    { index: 8000, gray: 260 },
-    // Calculation of line of best fit is not included in this demo
-    { index: 1000, tomato: 700 },
-    { index: 3000, tomato: 620 },
-    { index: 5500, tomato: 350 },
-    { index: 7000, tomato: 268 },
-    { index: 8900, tomato: 128 },
-  ];
+  // const [carData, setCarData] = useState("");
+
+  // const GraphCar = () => {
+  //   fetch("/data/PricebyDistance.json", {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log("gg", data);
+  //     });
+  // };
+
   return (
     <GraphWrap>
-      <GraphTitle>예상 시세는 2,000 만 원 입니다.</GraphTitle>
+      <GraphTitle>예상 시세는 2,000 ~ 2,500 만 원 입니다.</GraphTitle>
       <GraphBox>
         <ResponsiveContainer minWidth={550} minHeight={400}>
           <ComposedChart
             width={500}
             height={400}
-            data={data}
+            data={userData}
             margin={{
               top: 20,
               right: 80,
@@ -46,12 +50,12 @@ function Graph({ setPage }) {
               left: 20,
             }}
           >
-            <CartesianGrid stroke="#F5F5F5" />
+            <CartesianGrid stroke="#F5F5F5" strokeDasharray="5 5" />
             <Tooltip />
             <Legend />
             <XAxis dataKey="index" unit="km" type="number" />
-            <YAxis unit="만원" type="number" />
-            <Scatter name="gray" dataKey="gray" fill="gray" />
+            <YAxis dataKey="price_used" unit="만원" type="number" />
+            <Scatter name="myCar" dataKey="myCar" fill="myCar" />
             <Line
               dataKey="tomato"
               stroke="tomato"

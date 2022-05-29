@@ -21,6 +21,9 @@ function Reconfirm({ setPage }) {
     for (let i in carImages) {
       formData.append("image", carImages[i]);
     }
+    for (var value of formData) {
+      console.log("formDatavalue:", value);
+    }
     return formData;
   };
 
@@ -28,6 +31,9 @@ function Reconfirm({ setPage }) {
 
   useEffect(() => {
     setPage("default");
+    for (var value of imageResult.values()) {
+      console.log("value:", value);
+    }
   }, []);
 
   const handleRevise = () => {
@@ -85,9 +91,6 @@ function Reconfirm({ setPage }) {
         console.log(res);
         fetch(`/image?carNumber=${carNumber}`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
           body: imageResult,
         })
           .then((res) => res.json())
