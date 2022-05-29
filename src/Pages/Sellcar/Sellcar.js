@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+// import { Routes, Route } from "react-router-dom";
+// import LoginMain from "../Login/LoginMain";
 import AddInfo from "./AddInfo";
 import ContactInfo from "./ContactInfo";
 import styled from "styled-components";
@@ -32,6 +34,9 @@ const Sellcar = ({ setPage }) => {
 
   return (
     <>
+      {/* <Routes>
+        <Route element={<LoginMain />} />
+      </Routes> */}
       <AddInfo setCarImages={setCarImages} carImages={carImages} />
       <ContactInfo carImages={carImages} />
       <Wrap>
