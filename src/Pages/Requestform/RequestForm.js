@@ -168,6 +168,7 @@ function ImageSlide({ data }) {
     <Wrap>
       <Slider {...settings}>
         {data.image.split(",").map((imgUrl, index) => {
+          console.log("imgUrl", imgUrl);
           imgUrl = PORT.concat(imgUrl);
           console.log(imgUrl);
           return (
