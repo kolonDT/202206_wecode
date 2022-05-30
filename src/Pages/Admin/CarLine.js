@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { TiDeleteOutline } from "react-icons/ti";
+import { setAlarmByCarNumber, getAlarmByCarNumber } from "../Api/Api";
 
 const CarLine = ({ car, isNew, setNew }) => {
   const [checkedArray, setCheckedArray] = useState([
@@ -12,6 +13,11 @@ const CarLine = ({ car, isNew, setNew }) => {
     { step: "selling_requested", state: car.selling_requested !== null },
     { step: "selling_completed", state: car.selling_completed !== null },
   ]);
+
+  useEffect(() => {
+    getAlarmByCarNumber(setNew, "48하8111");
+    console.log("isnew :", isNew);
+  }, [isNew]);
 
   const clickCheckBox = (num, index) => {
     if (num !== 1 && checkedArray[index - 1].state === false) {
