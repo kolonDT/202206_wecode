@@ -14,19 +14,20 @@ const Admin = ({ isNew, setNew }) => {
   //현재 페이지의 첫 게시물 위치
   const offset = (page - 1) * limit;
 
-  // useEffect(() => {
-  //   fetch("/car/myCars", {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setCars(data.myCarsInfo);
-  //     });
-  //   setPage("admin");
-  // }, []);
+  useEffect(() => {
+    fetch("/car/myCars", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setCars(data.myCarsInfo);
+      });
+    setPage("admin");
+    console.log("cars", cars);
+  }, []);
 
   return (
     <CarContainer>
@@ -41,15 +42,15 @@ const Admin = ({ isNew, setNew }) => {
             <TableHead>판매 요청</TableHead>
             <TableHead>판매 완료</TableHead>
           </TableRow>
-          {/* {cars.length !== 0 &&
-          cars.slice(offset,offset+limit).map((car) => {
-            return (
-            <TableRow key={car.id} >
-              <CarLine car={car} isNew={isNew} setNew={setNew}  />
-            </TableRow>
-            );
-          })} */}
-          {/* 주석 처리 시작 */}
+          {cars.length !== 0 &&
+            cars.slice(offset, offset + limit).map((car) => {
+              return (
+                <TableRow key={car.id}>
+                  <CarLine car={car} isNew={isNew} setNew={setNew} />
+                </TableRow>
+              );
+            })}{" "}
+          {/* 주석 처리 시작
           <TableRow>
             <CarLine />
           </TableRow>

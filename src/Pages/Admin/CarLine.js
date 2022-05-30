@@ -5,20 +5,12 @@ import { AiFillCheckCircle } from "react-icons/ai";
 import { TiDeleteOutline } from "react-icons/ti";
 
 const CarLine = ({ car, isNew, setNew }) => {
-  //   const [checkedArray, setCheckedArray] = useState([
-  //     { step: 1, state: car.quote_requested !== null, },
-  //     { step: 2, state: car.dealer_assigned !== null },
-  //     { step: 3, state: car.dealer_consulting !== null },
-  //     { step: 4, state: car.selling_requested !== null },
-  //     { step: 5, state: car.selling_completed !== null },
-  //   ]);
-
   const [checkedArray, setCheckedArray] = useState([
-    { step: 1, state: false },
-    { step: 2, state: false },
-    { step: 3, state: false },
-    { step: 4, state: false },
-    { step: 5, state: false },
+    { step: "quote_requested", state: car.quote_requested !== null },
+    { step: "dealer_assigned", state: car.dealer_assigned !== null },
+    { step: "dealer_consulting", state: car.dealer_consulting !== null },
+    { step: "selling_requested", state: car.selling_requested !== null },
+    { step: "selling_completed", state: car.selling_completed !== null },
   ]);
 
   const clickCheckBox = (num, index) => {
@@ -31,33 +23,33 @@ const CarLine = ({ car, isNew, setNew }) => {
         num === checked.step ? { ...checked, state: !checked.state } : checked
       )
     );
-
-    // fetch(`/history?carNumber=${car.car_number}`, {
-    //   method: "PATCH",
-    //   headers: { "Content-type": "application/json" },
-    //   body: JSON.stringify({
-    //     progress: checkedArray[index].step,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => console.log(res));
+    console.log("progress", checkedArray[index].step);
+    fetch(`/history?carNumber=${car.car_number}`, {
+      method: "PATCH",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        progress: checkedArray[index].step,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
   };
 
   const clickDelete = () => {
     const isDelete = window.confirm("차량 정보를 삭제하시겠습니까?");
     if (isDelete) {
       console.log("삭제되었습니다.");
+      //삭제 API 완료되면 연결
     }
   };
 
   return (
     <>
       <OrderNum>
-        <Text>1</Text>
+        <Text>{car.id}</Text>
       </OrderNum>
       <CarNumber>
-        {/* <Text>{car.car_number}</Text> */}
-        <Text>12가 1234</Text>
+        <Text>{car.car_number}</Text>
         <DeleteButton>
           <TiDeleteOutline size="18" onClick={clickDelete} />
         </DeleteButton>
