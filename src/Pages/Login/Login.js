@@ -26,6 +26,7 @@ function Login({ setPage }) {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log("kkkk", data);
         if (data.hasOwnProperty("infoByCarNumber")) {
           setShow(true);
           expireCheck(carNumber);
