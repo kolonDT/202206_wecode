@@ -276,6 +276,7 @@ const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
             ].map((value, index) => (
               <PhotoCard
                 key={index}
+                index={index}
                 value={value}
                 setCarImages={setCarImages}
                 carImages={carImages}
@@ -294,6 +295,8 @@ const InfoContainer = styled.div`
   width: 640px;
   margin: 0px auto;
   box-sizing: border-box;
+  border-top: 1px dotted #adadad;
+
   @media only screen and (max-width: 640px) {
     width: 90%;
     margin: 0px auto;
@@ -302,6 +305,7 @@ const InfoContainer = styled.div`
 `;
 
 const Announcement = styled.h1`
+  margin-top: 40px;
   font-size: 1.2em;
   font-weight: 800;
   letter-spacing: 1px;
@@ -445,6 +449,7 @@ const PhotoInputWrapper = styled.div`
   margin-top: 1em;
   border: 2px solid rgba(0, 0, 0, 0.1);
   @media only screen and (max-width: 640px) {
+    border: none;
     text-align: center;
     height: 20em;
   }
@@ -452,10 +457,11 @@ const PhotoInputWrapper = styled.div`
 
 const PhotoInputLine = styled.div`
   display: flex;
-  justify-content: center;
   @media only screen and (max-width: 640px) {
+    flex-wrap: wrap;
     text-align: center;
     height: 100%;
+    width: 100%;
   }
 `;
 
