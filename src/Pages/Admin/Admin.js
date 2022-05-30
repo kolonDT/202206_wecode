@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-// import CarCard from "./CarCard";
 import CarLine from "./CarLine";
 import Pagination from "./Pagination";
 
@@ -17,7 +16,7 @@ const Admin = ({ isNew, setNew, setPage }) => {
   const offset = (pageNum - 1) * limit;
 
   useEffect(() => {
-    fetch(`${PORT}/car/myCars`, {
+    fetch(`${PORT}car/myCars`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +51,9 @@ const Admin = ({ isNew, setNew, setPage }) => {
                     car={car}
                     isNew={isNew}
                     setNew={setNew}
-                    PORT={PORT}
+                    carId={car.id}
+                    setCars={setCars}
+                    cars={cars}
                   />
                 </TableRow>
               );
@@ -60,7 +61,7 @@ const Admin = ({ isNew, setNew, setPage }) => {
         </CarTable>
       </CarWrapper>
       <Pagination
-        total={16}
+        total={cars.length}
         limit={limit}
         pageNum={pageNum}
         setPageNum={setPageNum}
