@@ -1,7 +1,7 @@
 let PORT = process.env.REACT_APP_PORT;
 const getAlarm = async (setNew) => {
   await fetch(
-    `${PORT}/car/myCar?carNumber=${localStorage.getItem("carNumber")}`,
+    `${PORT}car/myCar?carNumber=${localStorage.getItem("carNumber")}`,
     {
       method: "GET",
       headers: {
@@ -17,7 +17,7 @@ const getAlarm = async (setNew) => {
 
 const setAlarm = async (status) => {
   await fetch(
-    `${PORT}/history/notification?carNumber=${localStorage.getItem(
+    `${PORT}history/notification?carNumber=${localStorage.getItem(
       "carNumber"
     )}`,
     {
@@ -36,7 +36,7 @@ const setAlarm = async (status) => {
 
 const getAlarmByCarNumber = async (setNew, carNumber) => {
   let ret = 0;
-  await fetch(`${PORT}/car/myCar?carNumber=${carNumber}`, {
+  await fetch(`${PORT}car/myCar?carNumber=${carNumber}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -52,7 +52,7 @@ const getAlarmByCarNumber = async (setNew, carNumber) => {
 };
 
 const setAlarmByCarNumber = async (status, carNumber) => {
-  await fetch(`${PORT}/history/notification?carNumber=${carNumber}`, {
+  await fetch(`${PORT}history/notification?carNumber=${carNumber}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

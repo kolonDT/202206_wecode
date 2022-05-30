@@ -16,7 +16,7 @@ function RequestForm({ isNew, setNew, setPage }) {
   let optionList = "";
 
   const getData = () => {
-    fetch(`${PORT}/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
+    fetch(`${PORT}car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
