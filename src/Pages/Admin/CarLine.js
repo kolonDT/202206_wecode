@@ -14,12 +14,9 @@ const CarLine = ({ car, isNew, setNew }) => {
     { step: "selling_completed", state: car.selling_completed !== null },
   ]);
 
-  useEffect(() => {
-    getAlarmByCarNumber(setNew, "48하8111");
-    console.log("isnew :", isNew);
-  }, [isNew]);
+  const clickCheckBox = async (num, index) => {
+    let ret = await getAlarmByCarNumber(setNew, car.car_number);
 
-  const clickCheckBox = (num, index) => {
     if (num !== 1 && checkedArray[index - 1].state === false) {
       alert("전 단계를 완료해주세요!");
       return;
@@ -38,7 +35,9 @@ const CarLine = ({ car, isNew, setNew }) => {
       }),
     })
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => {
+        if (ret !== -1) setAlarmByCarNumber(1, car.car_number);
+      });
   };
 
   const clickDelete = () => {
