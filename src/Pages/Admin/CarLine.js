@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { TiDeleteOutline } from "react-icons/ti";
+import { setAlarmByCarNumber, getAlarmByCarNumber } from "../Api/Api";
 
 const CarLine = ({ carId, setCars, cars, car, isNew, setNew, PORT }) => {
   const [checkedArray, setCheckedArray] = useState([
@@ -13,7 +14,9 @@ const CarLine = ({ carId, setCars, cars, car, isNew, setNew, PORT }) => {
     { step: "selling_completed", state: car.selling_completed !== null },
   ]);
 
-  const clickCheckBox = (num, index) => {
+  const clickCheckBox = async (num, index) => {
+    let ret = await getAlarmByCarNumber(setNew, car.car_number);
+
     if (num !== 1 && checkedArray[index - 1].state === false) {
       alert("전 단계를 완료해주세요!");
       return;
@@ -32,7 +35,9 @@ const CarLine = ({ carId, setCars, cars, car, isNew, setNew, PORT }) => {
       }),
     })
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => {
+        if (ret !== -1) setAlarmByCarNumber(1, car.car_number);
+      });
   };
 
   const clickDelete = () => {
