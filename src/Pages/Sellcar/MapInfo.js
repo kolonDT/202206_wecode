@@ -1,7 +1,7 @@
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useState, useEffect } from "react";
 
-function MapInfo({ addr, setAddr, detailAddr }) {
+function MapInfo({ addr, setAddr, postcodeAddr }) {
   const [coords, setCoords] = useState();
   const [state, setState] = useState({
     center: {
@@ -13,30 +13,30 @@ function MapInfo({ addr, setAddr, detailAddr }) {
   });
 
   useEffect(() => {
-    if (detailAddr !== undefined) {
-      AddrToMap(detailAddr, setCoords, coords);
+    if (postcodeAddr !== undefined) {
+      AddrToMap(postcodeAddr, setCoords, coords);
+      console.log(coords);
     }
-  }, [detailAddr]);
+  }, [postcodeAddr]);
 
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          let lat =
+            coords !== undefined ? coords.getLat() : position.coords.latitude;
+          let lng =
+            coords !== undefined ? coords.getLng() : position.coords.longitude;
+
+          getAddr(lat, lng, setAddr);
           setState((prev) => ({
             ...prev,
             center: {
-              lat:
-                coords !== undefined
-                  ? coords.getLat()
-                  : position.coords.latitude, // 위도
-              lng:
-                coords !== undefined
-                  ? coords.getLng()
-                  : position.coords.longitude, // 경도
+              lat: lat,
+              lng: lng, // 경도
             },
             isLoading: false,
           }));
-          getAddr(position.coords.latitude, position.coords.longitude, setAddr);
         },
         (err) => {
           setState((prev) => ({
@@ -71,10 +71,10 @@ function MapInfo({ addr, setAddr, detailAddr }) {
   );
 }
 
-function AddrToMap(detailAddr, setCoords, coords) {
+function AddrToMap(postcodeAddr, setCoords, coords) {
   const { kakao } = window;
   let geocoder = new kakao.maps.services.Geocoder();
-  geocoder.addressSearch(detailAddr, function (result, status) {
+  geocoder.addressSearch(postcodeAddr, function (result, status) {
     if (status === kakao.maps.services.Status.OK) {
       let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
       setCoords(coords);
@@ -94,6 +94,10 @@ function getAddr(lat, lng, setAddr) {
       setAddr(result[0].address.address_name);
     }
   };
+
+  let carNumber = localStorage.getItem("carNumber");
+  localStorage.setItem(`${carNumber}_lng`, coord.getLng());
+  localStorage.setItem(`${carNumber}_lat`, coord.getLat());
   geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
 }
 export default MapInfo;

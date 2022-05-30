@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { AiOutlinePlus } from "react-icons/ai";
-import { BsCardImage } from "react-icons/bs";
+import PhotoCard from "./PhotoCard";
 
-const InfoForm1 = () => {
+const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
   //주행거리 값 관리하는 상태값
   const [inputValue, setInputValue] = useState("");
 
@@ -23,22 +22,20 @@ const InfoForm1 = () => {
   //추가 정보 글 관리 상태값
   const [addInfo, setAddInfo] = useState("");
 
-  //사진 관리하는 상태값
-  const [carImages, setCarImages] = useState([]);
-
   //사진 url 관리하는 상태값
   const [carUrlImages, setCarUrlImages] = useState([]);
 
-  //photoInput 버튼 ref
-  const photoInput = useRef();
-
+  let carNumber = localStorage.getItem("carNumber");
   //input에 숫자만 입력 및 세 자리수 마다 콤마 찍는 함수
   const checkNumber = (e) => {
     const value = e.target.value;
     const onlyNumber = value.replace(/[^0-9]/g, "");
+    console.log(typeof e.target.value);
     const commaNumber = onlyNumber
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const intNumber = value.replace(/,/g, "");
+    localStorage.setItem(`${carNumber}_driving_distance`, intNumber);
     setInputValue(commaNumber);
   };
 
@@ -61,42 +58,124 @@ const InfoForm1 = () => {
       };
       setOptions(_options);
       setNoOption(true);
+      localStorage.setItem(`${carNumber}_options`, []);
     } else {
       setNoOption(false);
     }
   };
 
-  //사진등록 버튼을 누르면 사진 등록할 수 있는 모달창 띄우기
-  const clickPhotoInput = () => {
-    photoInput.current.click();
-  };
-
   ///추가 정보 글 저장하는 함수
   const writeInfo = (e) => {
     setAddInfo(e.target.value);
+    localStorage.setItem(`${carNumber}_additional_info`, e.target.value);
   };
 
-  //사진을 상태값에 저장하는 함수
-  const onLoadFile = (e) => {
-    const newImage = e.target.files;
-    setCarImages([...carImages, newImage[0]]);
-    const newURL = URL.createObjectURL(newImage[0]);
-    setCarUrlImages([...carUrlImages, newURL]);
+  // const uploadPhoto = (num, newImage) => {
+  //   setCarImages(
+  //     carImages.map((car) => (car.index === num ? (car = newImage[0]) : null))
+  //   );
+  // };
+
+  const tmp = (arr) => {
+    let _options = {
+      1: false,
+      2: false,
+      3: false,
+      4: false,
+      5: false,
+      6: false,
+    };
+    for (let i in arr) {
+      _options[arr[i]] = true;
+      setOptions(_options);
+    }
   };
+
+  const deleteImage = (index) => {
+    setCarImages((prev) => {
+      const arr = [...prev];
+      arr.splice(index, 1);
+      return arr;
+    });
+    setCarUrlImages((prev) => {
+      const arr = [...prev];
+      arr.splice(index, 1);
+      return arr;
+    });
+  };
+
+  //초기에 localStorage에 정보가 있다면 값 넣어주기
+  useEffect(() => {
+    //주행거리 입력
+    const drivingDistance = localStorage.getItem(
+      `${carNumber}_driving_distance`
+    );
+    setInputValue(drivingDistance);
+
+    //옵션 클릭 다루기
+
+    const localOptions = localStorage.getItem(`${carNumber}_options`);
+    if (localOptions) {
+      if (localOptions.length === 0) {
+        setNoOption(true);
+      } else {
+        const tmp = JSON.parse(localOptions);
+        let tmpOption = {
+          1: false,
+          2: false,
+          3: false,
+          4: false,
+          5: false,
+          6: false,
+        };
+        tmp.forEach((element) => (tmpOption[element] = true));
+        setOptions(tmpOption);
+      }
+    }
+    //추가 정보 입력
+    const addInfo = localStorage.getItem(`${carNumber}_additional_info`);
+    setAddInfo(addInfo);
+  }, []);
+
+  useEffect(() => {
+    if (carImages.length !== 0) {
+      localStorage.setItem(`${carNumber}_image`, carImages);
+    }
+  }, [carImages]);
+
+  useEffect(() => {
+    if (carImages.length > 4) {
+      alert("사진을 4개 이상 초과할 수 없어요");
+      carImages.pop();
+    }
+  }, [carImages]);
+
+  let arr = [];
+  useEffect(() => {
+    //for문 돌아서 true면 배열에 담기
+    for (let i in options) {
+      if (options[i] === true) {
+        arr.push(i);
+        localStorage.setItem(`${carNumber}_options`, JSON.stringify(arr));
+      }
+    }
+  }, [options]);
 
   return (
     <InfoContainer>
       <Announcement>
         보다 정확한 견적을 위해
         <br />
-        추가 정보를 입력해주세요
+        추가 정보를 입력해주세요.
       </Announcement>
       <DrivingDistanceWrapper>
         <Name>주행거리</Name>
         <InputBox>
           <DistanceInput
             placeholder="1,500"
-            onChange={(e) => checkNumber(e)}
+            onChange={(e) => {
+              checkNumber(e);
+            }}
             value={inputValue}
           />
           <Measurements>km</Measurements>
@@ -104,7 +183,7 @@ const InfoForm1 = () => {
       </DrivingDistanceWrapper>
       <OptionWrapper>
         <Name>옵션</Name>
-        <OptionBox>
+        <OptionBox noOption={noOption}>
           <OptionLine>
             <OptionButton
               value={1}
@@ -150,7 +229,7 @@ const InfoForm1 = () => {
               noOption={noOption}
               disabled={noOption ? true : false}
             >
-              옵션명
+              후방카메라
             </OptionButton>
             <OptionButton
               value={6}
@@ -159,12 +238,16 @@ const InfoForm1 = () => {
               noOption={noOption}
               disabled={noOption ? true : false}
             >
-              옵션명
+              블랙박스
             </OptionButton>
           </OptionLine>
         </OptionBox>
         <NoOptionWrapper>
-          <NoOptionCheck type="checkbox" onClick={noOptionCheck} />
+          <NoOptionCheck
+            type="checkbox"
+            onClick={noOptionCheck}
+            checked={noOption}
+          />
           <CheckBoxInfo>옵션이 없어요.</CheckBoxInfo>
         </NoOptionWrapper>
       </OptionWrapper>
@@ -172,27 +255,37 @@ const InfoForm1 = () => {
         <Name>추가 정보</Name>
         <AddInfoBox>
           <InfoInputBox>
-            <ThumbnailBox>
-              <ThumbnailLine>
-                {carUrlImages.map((imageSrc, index) => (
-                  <Thumbnail key={index}>
-                    <CarImage src={imageSrc} />
-                  </Thumbnail>
-                ))}
-              </ThumbnailLine>
-            </ThumbnailBox>
             <DescriptionInput
               onChange={writeInfo}
               placeholder="차량 상태, 수리 필요 여부, 보험 이력 등 상세한 내용을 알려주세요."
+              value={addInfo}
             />
-            <SelectButton onClick={clickPhotoInput}>
-              <AiOutlinePlus />
-              <ButtonName>사진 등록</ButtonName>
-            </SelectButton>
-            <PhotoInput type="file" ref={photoInput} onChange={onLoadFile} />
           </InfoInputBox>
         </AddInfoBox>
       </AddInfoWrapper>
+
+      <PhotoInputContainer>
+        <Name>사진 등록</Name>
+        <PhotoInputWrapper>
+          <PhotoInputLine>
+            {[
+              "전면 사진 추가",
+              "후면 사진 추가",
+              "우측 사진 추가",
+              "좌측 사진 추가",
+            ].map((value, index) => (
+              <PhotoCard
+                key={index}
+                value={value}
+                setCarImages={setCarImages}
+                carImages={carImages}
+                setThumbnails={setThumbnails}
+                thumbnails={thumbnails}
+              />
+            ))}
+          </PhotoInputLine>
+        </PhotoInputWrapper>
+      </PhotoInputContainer>
     </InfoContainer>
   );
 };
@@ -200,11 +293,9 @@ const InfoForm1 = () => {
 const InfoContainer = styled.div`
   width: 640px;
   margin: 0px auto;
-  padding: 10px;
   box-sizing: border-box;
   @media only screen and (max-width: 640px) {
     width: 90%;
-    padding: 0px;
     margin: 0px auto;
     padding-left: 0;
   }
@@ -256,7 +347,10 @@ const Measurements = styled.span`
 const OptionWrapper = styled.div``;
 
 const OptionLine = styled.div`
-  margin-bottom: 15px;
+  margin-bottom: 1.4em;
+  @media only screen and (max-width: 640px) {
+    margin-bottom: 1em;
+  }
 `;
 
 const OptionBox = styled.div`
@@ -269,25 +363,29 @@ const OptionBox = styled.div`
 `;
 
 const OptionButton = styled.button`
-  padding: 1em 1.4em;
-  margin-right: 1.8em;
-  color: rgba(0, 0, 0, 0.8);
+  padding: 1.2em 2.4em;
+  margin-right: 2em;
+  color: rgba(0, 0, 0, 0.9);
   background-color: white;
   border: 0px solid black;
   border-radius: 1.8em;
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: 600;
   box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.1);
   ${({ isClicked }) => {
     return isClicked
       ? `
-        background-color: rgba(0, 0, 0, 0.1);
+        padding: 1em 2.2em;
+        color: rgba(92,16,73);
+        border: 4px solid rgba(92,16,73,0.8);
         cursor: pointer;
-        box-shadow: inset 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+        box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0.2);
       `
       : null;
   }}
   @media only screen and (max-width: 640px) {
+    margin-right: 1.2em;
+    font-size: 1em;
     padding: 0.8em 0.8em;
   }
 `;
@@ -326,56 +424,12 @@ const InfoInputBox = styled.div`
   flex-direction: column;
 `;
 
-const ThumbnailBox = styled.div``;
-
-const ThumbnailLine = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.7em;
-  @media only screen and (max-width: 640px) {
-    flex-wrap: wrap;
-    width: 100%;
-  }
-`;
-
-const Thumbnail = styled.div`
-  display: flex;
-  align-items: center;
-  width: 50%;
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  @media only screen and (max-width: 640px) {
-    width: 35%;
-    height: 10em;
-    margin: 0 auto;
-    margin-bottom: 3px;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-  }
-`;
-
-const CarImage = styled.img`
-  width: 100%;
-  object-fit: cover;
-`;
-
 const DescriptionInput = styled.input`
   padding: 3em;
   border: 2px solid rgba(0, 0, 0, 0.1);
-  border-bottom: none;
   ::placeholder {
     color: rgba(0, 0, 0, 0.3);
     font-size: 1em;
-  }
-`;
-
-const SelectButton = styled.div`
-  display: flex;
-  justify-content: center;
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  text-align: center;
-  :hover {
-    cursor: pointer;
   }
 `;
 
@@ -383,8 +437,18 @@ const ButtonName = styled.span`
   margin-left: 4px;
 `;
 
-const PhotoInput = styled.input`
-  display: none;
+const PhotoInputContainer = styled.div`
+  margin-top: 1.4em;
 `;
 
-export default InfoForm1;
+const PhotoInputWrapper = styled.div`
+  margin-top: 1em;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+`;
+
+const PhotoInputLine = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export default AddInfo;
