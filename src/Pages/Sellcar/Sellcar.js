@@ -9,11 +9,17 @@ import WarningModal from "../../Components/Modal/WarningModal";
 
 const Sellcar = ({ setPage }) => {
   const [modal, setModal] = useState();
+
+  // const [images, setImages] = useState({
+  //   carImages: [],
+  //   urlImages: [],
+  // });
+
   //사진 관리하는 상태값
   const [carImages, setCarImages] = useState([]);
-  useEffect(() => {
-    console.log("carImages!!!!!", carImages);
-  }, [carImages]);
+  //썸네일 사진 관리하는 상태값
+  const [thumbnails, setThumbnails] = useState([]);
+
   const navigate = useNavigate();
   const gotoReconfirm = () => {
     let carNumber = localStorage.getItem("carNumber");
@@ -24,7 +30,9 @@ const Sellcar = ({ setPage }) => {
       localStorage.getItem(`${carNumber}_detailAddress`) &&
       localStorage.getItem(`${carNumber}_contact`)
     ) {
-      navigate("/reconfirm", { state: carImages });
+      navigate("/reconfirm", {
+        state: { carImages: carImages, thumbnails: thumbnails },
+      });
     } else setModal(true);
   };
 
@@ -35,9 +43,16 @@ const Sellcar = ({ setPage }) => {
   return (
     <>
       {/* <Routes>
-        <Route element={<LoginMain />} />
+        <Route element={<LoginMain setPage={setPage} />} />
       </Routes> */}
+      {/* <MainWrap>{modal ? <WarningModal setModal={setModal} /> : null}</MainWrap> */}
       <AddInfo setCarImages={setCarImages} carImages={carImages} />
+      <AddInfo
+        setCarImages={setCarImages}
+        carImages={carImages}
+        setThumbnails={setThumbnails}
+        thumbnails={thumbnails}
+      />
       <ContactInfo carImages={carImages} />
       <Wrap>
         <Button onClick={gotoReconfirm}>견적 받기</Button>
@@ -46,6 +61,16 @@ const Sellcar = ({ setPage }) => {
     </>
   );
 };
+
+// const MainWrap = styled.div`
+//   margin: 0px auto;
+//   width: 640px;
+//   text-align: center;
+//   @media only screen and (max-width: 640px) {
+//     margin: 0px auto;
+//     width: 90%;
+//   }
+// `;
 const Wrap = styled.div`
   margin: 0px auto;
   width: 640px;

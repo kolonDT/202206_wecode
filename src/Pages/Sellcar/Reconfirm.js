@@ -2,13 +2,15 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import Slider from "react-slick";
 //styles
 import styled from "styled-components";
 // import { useEffect, useState } from "react";
 
 function Reconfirm({ setPage }) {
   const navigate = useNavigate();
-  const carImages = useLocation().state;
+  const carImages = useLocation().state.carImages;
+  const thumbnails = useLocation().state.thumbnails;
 
   const handleRequest = () => {
     setCarDB();
@@ -26,7 +28,6 @@ function Reconfirm({ setPage }) {
     }
     return formData;
   };
-
   const imageResult = handleUrls();
 
   useEffect(() => {
@@ -75,6 +76,7 @@ function Reconfirm({ setPage }) {
       },
 
       body: JSON.stringify({
+        image: localStorage.getItem(`${thumbnails}_image`),
         carNumber: carNumber,
         additionalInfo: localStorage.getItem(`${carNumber}_additional_info`),
         distance: distanceDB,
@@ -98,9 +100,24 @@ function Reconfirm({ setPage }) {
       });
   };
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    fade: true,
+    cssEase: "linear",
+  };
+
   return (
     <ReconfirmWrap>
       <ReconfirmTitle>입력하신 추가 정보를 확인해주세요.</ReconfirmTitle>
+      <ReconfirmImage>
+        <Slider {...settings}>
+          {thumbnails.map((index, url) => (
+            <img key={index} src={url} width={300} height={300} />
+          ))}
+        </Slider>
+      </ReconfirmImage>
       <ReconfirmBox>
         <ReconfirmBoxTitle>
           <span>주행거리</span>
@@ -121,8 +138,10 @@ function Reconfirm({ setPage }) {
           <span>{localStorage.getItem("lon")}</span> */}
         </ReconfirmBoxInfo>
       </ReconfirmBox>
-      <ReviseBtn onClick={handleRevise}>수정하기</ReviseBtn>
-      <ReconfirmBtn onClick={handleRequest}>견적신청</ReconfirmBtn>
+      <AllButton>
+        <ReviseBtn onClick={handleRevise}>수정하기</ReviseBtn>
+        <ReconfirmBtn onClick={handleRequest}>견적신청</ReconfirmBtn>
+      </AllButton>
     </ReconfirmWrap>
   );
 }
@@ -149,10 +168,8 @@ const ReconfirmTitle = styled.span`
 `;
 
 const ReconfirmBox = styled.div`
-  padding: 35px 50px;
-  margin-bottom: 30px;
-  border: 1px solid #adadad;
-  border-radius: 8px;
+  padding: 35px 40px 40px 40px;
+  border-top: 1px dotted #adadad;
 `;
 
 const ReconfirmBoxTitle = styled.div`
@@ -160,10 +177,14 @@ const ReconfirmBoxTitle = styled.div`
   display: flex;
   flex-direction: column;
   span {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
     font-weight: 500;
     color: gray;
   }
+`;
+
+const ReconfirmImage = styled.div`
+  margin: 20px auto;
 `;
 
 const ReconfirmBoxInfo = styled.div`
@@ -171,13 +192,18 @@ const ReconfirmBoxInfo = styled.div`
   flex-direction: column;
   padding-left: 80px;
   span {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
   }
 `;
+
+const AllButton = styled.div`
+  margin-bottom: 10px;
+`;
+
 const ReviseBtn = styled.button`
   width: 180px;
   padding: 12px 15px;
-  margin-bottom: 15px;
+  margin: 0px 40px 0px 0px;
   border-radius: 5px;
   border: 1px solid #adadad;
   cursor: pointer;
