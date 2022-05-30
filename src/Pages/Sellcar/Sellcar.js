@@ -46,7 +46,6 @@ const Sellcar = ({ setPage }) => {
         <Route element={<LoginMain setPage={setPage} />} />
       </Routes> */}
       {/* <MainWrap>{modal ? <WarningModal setModal={setModal} /> : null}</MainWrap> */}
-      <AddInfo setCarImages={setCarImages} carImages={carImages} />
       <AddInfo
         setCarImages={setCarImages}
         carImages={carImages}
