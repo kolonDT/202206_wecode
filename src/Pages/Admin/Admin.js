@@ -51,16 +51,16 @@ const Admin = ({ isNew, setNew }) => {
           })} */}
           {/* 주석 처리 시작 */}
           <TableRow>
-            <CarLine />
+            <CarLine isNew={isNew} setNew={setNew} />
           </TableRow>
           <TableRow>
-            <CarLine />
+            <CarLine isNew={isNew} setNew={setNew} />
           </TableRow>
           <TableRow>
-            <CarLine />
+            <CarLine isNew={isNew} setNew={setNew} />
           </TableRow>
           <TableRow>
-            <CarLine />
+            <CarLine isNew={isNew} setNew={setNew} />
           </TableRow>
           {/* 주석 처리 끝 */}
         </CarTable>

@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { TiDeleteOutline } from "react-icons/ti";
+import { setAlarmByCarNumber, getAlarmByCarNumber } from "../Api/Api";
 
 const CarLine = ({ car, isNew, setNew }) => {
   //   const [checkedArray, setCheckedArray] = useState([
@@ -21,6 +22,11 @@ const CarLine = ({ car, isNew, setNew }) => {
     { step: 5, state: false },
   ]);
 
+  useEffect(() => {
+    getAlarmByCarNumber(setNew, "48하8111");
+    console.log("isnew :", isNew);
+  }, [isNew]);
+
   const clickCheckBox = (num, index) => {
     if (num !== 1 && checkedArray[index - 1].state === false) {
       alert("전 단계를 완료해주세요!");
@@ -31,6 +37,8 @@ const CarLine = ({ car, isNew, setNew }) => {
         num === checked.step ? { ...checked, state: !checked.state } : checked
       )
     );
+
+    if (isNew !== -1) setAlarmByCarNumber(1, "48하8111");
 
     // fetch(`/history?carNumber=${car.car_number}`, {
     //   method: "PATCH",

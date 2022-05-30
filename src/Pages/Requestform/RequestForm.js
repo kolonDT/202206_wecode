@@ -35,18 +35,18 @@ function RequestForm({ isNew, setNew, setPage }) {
 
   useEffect(() => {
     getAlarm(setNew);
-    if (isNew === 1) {
+    console.log("fold", fold);
+    if (isNew === 1 && fold !== false) {
       setNew(0);
       setAlarm(0);
     }
-  }, [isNew]);
+  }, [isNew, fold]);
 
   if (data === undefined) return null;
   optionList = data.options.split(",").map((opt, index) => {
     return optionList.concat(opt);
   });
   optionList = optionList.join(",");
-  console.log("t------------------", isNew);
   return (
     <>
       <Box>

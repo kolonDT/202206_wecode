@@ -29,6 +29,7 @@ function CompleteForm({ isNew, setNew, setPage }) {
   }, []);
 
   useEffect(() => {
+    console.log("refresh.....");
     if (isNew === 1 || isNew === 0) {
       setAlarmStatus(false);
     } else {
