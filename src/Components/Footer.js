@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { GrDown } from "react-icons/gr";
 import { MdCopyright } from "react-icons/md";
 
-const Footer = () => {
+const Footer = ({ page }) => {
   return (
-    <FooterContainer>
+    <FooterContainer page={page}>
       <FooterWrapper>
         <CompanyBox>
           <CompanyName>코오롱글로벌주식회사</CompanyName>
@@ -25,7 +25,7 @@ const Footer = () => {
 };
 
 const FooterContainer = styled.div`
-  width: 640px;
+  width: ${(props) => (props.page === "admin" ? "1250px" : "640px")};
   margin: 30px auto;
   @media only screen and (max-width: 640px) {
     width: 90%;

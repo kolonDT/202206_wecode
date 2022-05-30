@@ -37,21 +37,24 @@ const Header = ({ isNew, setNew, page }) => {
     }
   }
   return (
-    <HeaderContainer>
-      <HeaderWrapper>
-        <PreviousButton
-          onClick={() => {
-            navigate(-1);
-          }}
-          page={page}
-        >
-          <GrFormPrevious size="24" color="#383838" />
-        </PreviousButton>
+    <HeaderContainer page={page}>
+      <HeaderWrapper page={page}>
+        {page === "default" && (
+          <PreviousButton
+            onClick={() => {
+              navigate(-1);
+            }}
+            page={page}
+          >
+            <GrFormPrevious size="24" color="#383838" />
+          </PreviousButton>
+        )}
+
         <HeaderTitle>
           {page === "admin" ? "관리 페이지" : "내 차 팔기"}
         </HeaderTitle>
         <HeaderMenu>
-          <AlarmChange isNew={isNew} />
+          {page === "default" && <AlarmChange isNew={isNew} />}
           {/* <GiHamburgerMenu size="24" color="#383838" />
           {isNew === 1 ? (
             <Alarm>
@@ -69,7 +72,7 @@ const Alarm = styled.div`
   right: -20px;
 `;
 const HeaderContainer = styled.div`
-  width: 640px;
+  width: ${(props) => (props.page === "admin" ? "1100px" : "640px")};
   margin: 0px auto;
   @media only screen and (max-width: 640px) {
     width: 95%;
@@ -80,7 +83,8 @@ const HeaderContainer = styled.div`
 const HeaderWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: ${(props) =>
+    props.page === "default" ? "space-between" : "center"};
   padding: 20px 20px;
 `;
 
