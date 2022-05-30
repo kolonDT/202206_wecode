@@ -103,7 +103,7 @@ function Reconfirm({ setPage }) {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 100,
     fade: true,
     cssEase: "linear",
   };
@@ -113,9 +113,9 @@ function Reconfirm({ setPage }) {
       <ReconfirmTitle>입력하신 추가 정보를 확인해주세요.</ReconfirmTitle>
       <ReconfirmImage>
         <Slider {...settings}>
-          {thumbnails.map((index, url) => (
-            <img key={index} src={url} width={300} height={300} />
-          ))}
+          {thumbnails.map((url, index) => {
+            return <img key={index} src={url} width={200} height={200} />;
+          })}
         </Slider>
       </ReconfirmImage>
       <ReconfirmBox>
