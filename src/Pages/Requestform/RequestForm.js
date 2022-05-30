@@ -35,7 +35,6 @@ function RequestForm({ isNew, setNew, setPage }) {
 
   useEffect(() => {
     getAlarm(setNew);
-    console.log("fold", fold);
     if (isNew === 1 && fold !== false) {
       setNew(0);
       setAlarm(0);

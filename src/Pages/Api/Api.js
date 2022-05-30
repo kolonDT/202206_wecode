@@ -29,6 +29,7 @@ const setAlarm = async (status) => {
 };
 
 const getAlarmByCarNumber = async (setNew, carNumber) => {
+  let ret = 0;
   await fetch(`/car/myCar?carNumber=${carNumber}`, {
     method: "GET",
     headers: {
@@ -37,9 +38,11 @@ const getAlarmByCarNumber = async (setNew, carNumber) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log("getalarm ", data["registeredCarInfo"][0].is_new);
       setNew(data["registeredCarInfo"][0].is_new);
+      ret = data["registeredCarInfo"][0].is_new;
+      console.log("getalarm ", data["registeredCarInfo"][0].is_new, carNumber);
     });
+  return ret;
 };
 
 const setAlarmByCarNumber = async (status, carNumber) => {
