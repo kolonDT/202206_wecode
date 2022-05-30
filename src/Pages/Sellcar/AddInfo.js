@@ -444,11 +444,19 @@ const PhotoInputContainer = styled.div`
 const PhotoInputWrapper = styled.div`
   margin-top: 1em;
   border: 2px solid rgba(0, 0, 0, 0.1);
+  @media only screen and (max-width: 640px) {
+    text-align: center;
+    height: 20em;
+  }
 `;
 
 const PhotoInputLine = styled.div`
   display: flex;
   justify-content: center;
+  @media only screen and (max-width: 640px) {
+    text-align: center;
+    height: 100%;
+  }
 `;
 
 export default AddInfo;

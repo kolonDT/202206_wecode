@@ -42,8 +42,8 @@ function App() {
             element={<Admin isNew={isNew} setNew={setNew} setPage={setPage} />}
           />
         </Routes>
+        <Footer page={page} />
       </BrowserRouter>
-      <Footer />
     </>
   );
 }

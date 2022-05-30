@@ -12,6 +12,8 @@ function Reconfirm({ setPage }) {
   const carImages = useLocation().state.carImages;
   const thumbnails = useLocation().state.thumbnails;
 
+  console.log(thumbnails);
+
   const handleRequest = () => {
     setCarDB();
     navigate("/complete");
@@ -113,9 +115,9 @@ function Reconfirm({ setPage }) {
       <ReconfirmTitle>입력하신 추가 정보를 확인해주세요.</ReconfirmTitle>
       <ReconfirmImage>
         <Slider {...settings}>
-          {thumbnails.map((index, url) => (
-            <img key={index} src={url} width={300} height={300} />
-          ))}
+          {thumbnails.map((url, index) => {
+            return <img key={index} src={url} width={300} height={300} />;
+          })}
         </Slider>
       </ReconfirmImage>
       <ReconfirmBox>

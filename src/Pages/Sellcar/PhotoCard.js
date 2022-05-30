@@ -43,15 +43,22 @@ const PhotoInputBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50%;
+  width: 12em;
   height: 10em;
   font-size: 1.1em;
   font-weight: 500;
   color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
   :hover {
     cursor: pointer;
     color: rgba(0, 0, 0, 0.8);
     background-color: whitesmoke;
+  }
+  @media only screen and (max-width: 640px) {
+    text-align: center;
+    border: 1px solid black;
+    width: 150px;
+    height: 10em;
   }
 `;
 
@@ -60,7 +67,9 @@ const PhotoInput = styled.input`
 `;
 
 const Thumbnail = styled.img`
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 export default PhotoCard;
