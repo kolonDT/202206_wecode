@@ -6,6 +6,7 @@ import Slider from "react-slick";
 //styles
 import styled from "styled-components";
 // import { useEffect, useState } from "react";
+let PORT = process.env.REACT_APP_PORT;
 
 function Reconfirm({ setPage }) {
   const navigate = useNavigate();
@@ -101,7 +102,7 @@ function Reconfirm({ setPage }) {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
-
+  console.log(thumbnails);
   return (
     <ReconfirmWrap>
       <ReconfirmTitle>입력하신 추가 정보를 확인해주세요.</ReconfirmTitle>
@@ -193,7 +194,6 @@ const ReconfirmBoxTitle = styled.div`
 
 const ReconfirmImage = styled.div`
   margin: 20px auto;
-  border: 1px solid red;
   width: 640px;
   height: 400px;
 `;
