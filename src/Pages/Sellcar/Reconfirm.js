@@ -6,13 +6,13 @@ import Slider from "react-slick";
 //styles
 import styled from "styled-components";
 // import { useEffect, useState } from "react";
-let PORT = process.env.REACT_APP_PORT;
+let PORT = process.env.REACT_APP_NODE_API_PORT;
+let URL = process.env.REACT_APP_NODE_API_URL;
 
 function Reconfirm({ setPage }) {
   const navigate = useNavigate();
   const carImages = useLocation().state.carImages;
   const thumbnails = useLocation().state.thumbnails;
-  let PORT = process.env.REACT_APP_PORT;
 
   console.log(thumbnails);
 
@@ -64,7 +64,7 @@ function Reconfirm({ setPage }) {
   const setCarDB = () => {
     const imageResult = handleUrls();
 
-    fetch(`${PORT}car`, {
+    fetch(`${URL}:${PORT}/car`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +86,7 @@ function Reconfirm({ setPage }) {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        fetch(`${PORT}image?carNumber=${carNumber}`, {
+        fetch(`${URL}:${PORT}/image?carNumber=${carNumber}`, {
           method: "POST",
           body: imageResult,
         })

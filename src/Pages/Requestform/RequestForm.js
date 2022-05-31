@@ -8,7 +8,8 @@ import "./slide.css";
 import styled from "styled-components";
 import moment from "moment";
 import { setAlarm, getAlarm } from "../Api/Api";
-let PORT = process.env.REACT_APP_PORT;
+let PORT = process.env.REACT_APP_NODE_API_PORT;
+let URL = process.env.REACT_APP_NODE_API_URL;
 
 function RequestForm({ isNew, setNew, setPage }) {
   const [fold, setFold] = useState(false);
@@ -16,12 +17,15 @@ function RequestForm({ isNew, setNew, setPage }) {
   let optionList = "";
 
   const getData = () => {
-    fetch(`${PORT}car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(
+      `${URL}:${PORT}/car/myCar?carNumber=${localStorage.getItem("carNumber")}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         setData(data["registeredCarInfo"][0]);

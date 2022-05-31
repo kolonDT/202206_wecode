@@ -7,7 +7,8 @@ import styled from "styled-components";
 import moment from "moment";
 import { HiLightBulb } from "react-icons/hi";
 
-let PORT = process.env.REACT_APP_PORT;
+let PORT = process.env.REACT_APP_NODE_API_PORT;
+let URL = process.env.REACT_APP_NODE_API_URL;
 function Login({ setPage }) {
   const locate = useLocation();
   const navigate = useNavigate();
@@ -19,8 +20,7 @@ function Login({ setPage }) {
   const [data, setData] = useState(false);
 
   const getCar = (carNumber) => {
-    console.log("ddeefefef", carNumber);
-    fetch(`${PORT}car?carNumber=${carNumber}`, {
+    fetch(`${URL}:${PORT}/car?carNumber=${carNumber}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -40,12 +40,15 @@ function Login({ setPage }) {
 
   const getData = () => {
     //fetch(`/car?carNumber=${localStorage.getItem("carNumber")}`, {
-    fetch(`${PORT}car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(
+      `${URL}:${PORT}/car/myCar?carNumber=${localStorage.getItem("carNumber")}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data["registeredCarInfo"].length !== 0) {

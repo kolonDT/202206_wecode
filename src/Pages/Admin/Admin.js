@@ -4,7 +4,8 @@ import CarLine from "./CarLine";
 import Pagination from "./Pagination";
 
 const Admin = ({ isNew, setNew, setPage }) => {
-  let PORT = process.env.REACT_APP_PORT;
+  let PORT = process.env.REACT_APP_NODE_API_PORT;
+  let URL = process.env.REACT_APP_NODE_API_URL;
 
   const [cars, setCars] = useState([]);
 
@@ -16,7 +17,7 @@ const Admin = ({ isNew, setNew, setPage }) => {
   const offset = (pageNum - 1) * limit;
 
   useEffect(() => {
-    fetch(`${PORT}car/myCars`, {
+    fetch(`${URL}:${PORT}/car/myCars`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -54,6 +55,7 @@ const Admin = ({ isNew, setNew, setPage }) => {
                     carId={car.id}
                     setCars={setCars}
                     cars={cars}
+                    PORT={PORT}
                   />
                 </TableRow>
               );
