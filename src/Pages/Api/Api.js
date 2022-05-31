@@ -1,14 +1,12 @@
-let PORT = process.env.REACT_APP_PORT;
+import { ALARM_API, MYCAR_API } from "../../config";
+
 const getAlarm = async (setNew) => {
-  await fetch(
-    `${PORT}car/myCar?carNumber=${localStorage.getItem("carNumber")}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  )
+  await fetch(`${MYCAR_API}?carNumber=${localStorage.getItem("carNumber")}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
     .then((res) => res.json())
     .then((data) => {
       setNew(data["registeredCarInfo"][0].is_new);
@@ -16,18 +14,13 @@ const getAlarm = async (setNew) => {
 };
 
 const setAlarm = async (status) => {
-  await fetch(
-    `${PORT}history/notification?carNumber=${localStorage.getItem(
-      "carNumber"
-    )}`,
-    {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ notificationStatus: status }),
-    }
-  )
+  await fetch(`${ALARM_API}?carNumber=${localStorage.getItem("carNumber")}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ notificationStatus: status }),
+  })
     .then((res) => res.json())
     .then((data) => {
       console.log("set data", status, data);
@@ -36,7 +29,7 @@ const setAlarm = async (status) => {
 
 const getAlarmByCarNumber = async (setNew, carNumber) => {
   let ret = 0;
-  await fetch(`${PORT}car/myCar?carNumber=${carNumber}`, {
+  await fetch(`${MYCAR_API}?carNumber=${carNumber}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -52,7 +45,7 @@ const getAlarmByCarNumber = async (setNew, carNumber) => {
 };
 
 const setAlarmByCarNumber = async (status, carNumber) => {
-  await fetch(`${PORT}history/notification?carNumber=${carNumber}`, {
+  await fetch(`${ALARM_API}?carNumber=${carNumber}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

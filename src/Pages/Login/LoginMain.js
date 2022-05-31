@@ -6,15 +6,17 @@ import Graph from "../Graph/Graph";
 
 //styles
 import styled from "styled-components";
-let PORT = process.env.REACT_APP_PORT;
+import { CAR_API } from "../../config";
+
 function LoginMain({ setPage }) {
   const [show, setShow] = useState(false);
   const { state } = useLocation();
   const [data1, setData] = useState();
   const cnt = useRef(0);
   localStorage.setItem("carNumber", state);
+
   const getCarInfo = async () => {
-    await fetch(`${PORT}car?carNumber=${state}`, {
+    await fetch(`${CAR_API}?carNumber=${state}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -22,9 +24,7 @@ function LoginMain({ setPage }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("ddd :", data);
         setData(data["infoByCarNumber"][0]);
-        console.log(data1);
       });
   };
 

@@ -17,6 +17,11 @@ RUN ls -al /data
 COPY package*.json ./
 ENV REACT_APP_PORT=http://10.133.30.31:9989/image/
 
+#ENV REACT_APP_URL=http://localhost
+#ENV REACT_APP_PORT=$REACT_APP_URL:9989
+#ENV REACT_APP_NODE_API_PORT=9989
+#ENV REACT_APP_NODE_API_URL=http://localhost
+
 # 설치정보를 읽어 들여서 패키지를 설치
 RUN npm install --legacy-peer-deps
 
@@ -34,6 +39,7 @@ RUN yarn install
 RUN yarn build
 RUN ls -al /data/build/
 
+
 ## Build for runtime
 FROM nginx:alpine
 
@@ -47,5 +53,3 @@ COPY --from=builder /data/build /usr/share/nginx/html
 
 # 3000번 포트를 외부에 개방하도록 설정
 EXPOSE 3000
-
-
