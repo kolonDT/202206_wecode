@@ -45,7 +45,7 @@ function MapInfo({ addr, setAddr, postcodeAddr }) {
         }));
       }
     );
-  }, [coords]);
+  }, [coords, postcodeAddr]);
 
   return (
     <>
