@@ -15,8 +15,8 @@ import {
   Scatter,
   ResponsiveContainer,
 } from "recharts";
+import { GRAPH_API } from "../../config";
 
-let PORT = process.env.REACT_APP_PORT;
 function Graph({ setPage }) {
   const [add, setAdd] = useState(false);
   const [graph, setGraph] = useState(true);
@@ -25,7 +25,7 @@ function Graph({ setPage }) {
   const graphCarDB = (carNumber) => {
     console.log("carData", carNumber);
 
-    fetch(`${PORT}car/priceByDistance?carNumber=${carNumber}`, {
+    fetch(`${GRAPH_API}?carNumber=${carNumber}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
