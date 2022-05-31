@@ -32,6 +32,8 @@ function Login({ setPage }) {
         if (data.hasOwnProperty("infoByCarNumber")) {
           setShow(true);
           expireCheck(carNumber);
+        } else {
+          setShow(false);
         }
       });
   };
