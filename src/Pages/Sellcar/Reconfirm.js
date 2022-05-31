@@ -111,21 +111,11 @@ function Reconfirm({ setPage }) {
           {thumbnails.map((url, index) => {
             return (
               <div>
-                <img src={url} width={640} height={400} alt="car_image" />
+                <img src={url} width={640} height={350} alt="car_image" />
               </div>
             );
           })}
         </Slider>
-        {/* <div> */}
-        {/* {thumbnails.map((url, index) => {
-              console.log("111", typeof url);
-              return (
-                <div>
-                  <img src={url} width={200} height={200} alt="car_image" />
-                </div>
-              );
-            })} */}
-        {/* </div> */}
       </ReconfirmImage>
       <ReconfirmBox>
         <ReconfirmBoxTitle>
