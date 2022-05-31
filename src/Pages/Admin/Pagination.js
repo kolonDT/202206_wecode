@@ -3,25 +3,28 @@ import styled from "styled-components";
 import { GrFormNext } from "react-icons/gr";
 import { GrFormPrevious } from "react-icons/gr";
 
-const Pagination = ({ total, limit, page, setPage }) => {
-  const numPages = Math.ceil(total / limit);
+const Pagination = ({ total, limit, pageNum, setPageNum }) => {
+  const numpageNums = Math.ceil(total / limit);
   return (
     <ButtonWrapper>
-      <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
+      <Button onClick={() => setPageNum(pageNum - 1)} disabled={pageNum === 1}>
         <GrFormPrevious />
       </Button>
-      {Array(numPages)
+      {Array(numpageNums)
         .fill()
         .map((_, i) => (
           <Button
             key={i + 1}
-            onClick={() => setPage(i + 1)}
-            aria-current={page === i + 1 ? "page" : null}
+            onClick={() => setPageNum(i + 1)}
+            aria-current={pageNum === i + 1 ? "pageNum" : null}
           >
             {i + 1}
           </Button>
         ))}
-      <Button onClick={() => setPage(page + 1)} disabled={page === numPages}>
+      <Button
+        onClick={() => setPageNum(pageNum + 1)}
+        disabled={pageNum === numpageNums}
+      >
         <GrFormNext />
       </Button>
     </ButtonWrapper>

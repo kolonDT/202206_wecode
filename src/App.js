@@ -8,7 +8,7 @@ import CompleteForm from "./Pages/Complete/CompleteForm";
 import RequestForm from "./Pages/Requestform/RequestForm";
 import Reconfirm from "./Pages/Sellcar/Reconfirm";
 import SellCar from "./Pages/Sellcar/Sellcar";
-import Graph from "./Components/Graph/Graph";
+import Graph from "./Pages/Graph/Graph";
 import Admin from "./Pages/Admin/Admin";
 import React, { useState } from "react";
 
@@ -42,8 +42,8 @@ function App() {
             element={<Admin isNew={isNew} setNew={setNew} setPage={setPage} />}
           />
         </Routes>
+        <Footer page={page} />
       </BrowserRouter>
-      <Footer />
     </>
   );
 }

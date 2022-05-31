@@ -228,6 +228,8 @@ const P = styled.p`
 `;
 
 const Box = styled.div`
+  border-top: 1px dotted #adadad;
+  padding-top: 55px;
   width: 640px;
   box-sizing: border-box;
   margin: 0px auto;
