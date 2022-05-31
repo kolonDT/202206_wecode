@@ -26,7 +26,7 @@ const Footer = ({ page }) => {
 
 const FooterContainer = styled.div`
   width: ${(props) => (props.page === "admin" ? "1250px" : "640px")};
-  margin: 30px auto;
+  margin: 20px auto;
   @media only screen and (max-width: 640px) {
     width: 90%;
     margin: 1.8em auto;

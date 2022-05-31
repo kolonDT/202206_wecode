@@ -135,6 +135,10 @@ function Login({ setPage }) {
     return null;
   };
 
+  const handleAdmin = () => {
+    navigate("/admin");
+  };
+
   const handleEnter = (e) => {
     if (e.keyCode === 13) {
       handleLogin(e.target.value);
@@ -212,6 +216,9 @@ function Login({ setPage }) {
             <HiLightBulb size={20} />
           </LoginNone>
         ) : null}
+        <GotoAdmin onClick={handleAdmin}>
+          <AdminText>관리자 페이지로 이동</AdminText>
+        </GotoAdmin>
       </LoginWrap>
     </LoginBox>
   );
@@ -303,5 +310,24 @@ const LoginNone = styled.div`
   }
   span {
     margin-right: 3px;
+  }
+`;
+
+const GotoAdmin = styled.div`
+  width: 60%;
+  margin-top: 15px;
+  text-align: right;
+  @media only screen and (max-width: 640px) {
+    margin-top: 5px;
+    width: 80%;
+  }
+`;
+
+const AdminText = styled.p`
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.2);
+  :hover {
+    color: rgba(0, 0, 0, 0.5);
   }
 `;
