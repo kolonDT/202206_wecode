@@ -1,7 +1,7 @@
 //module
 import { useState } from "react";
 import { userData } from "./DummyData";
-import Sellcar from "../../Pages/Sellcar/Sellcar";
+import Sellcar from "../Sellcar/Sellcar";
 import React from "react";
 //styles
 import styled from "styled-components";

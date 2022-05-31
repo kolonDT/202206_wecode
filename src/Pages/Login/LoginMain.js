@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Slider from "react-slick";
-import Graph from "../../Components/Graph/Graph";
+import Graph from "../Graph/Graph";
 
 //styles
 import styled from "styled-components";

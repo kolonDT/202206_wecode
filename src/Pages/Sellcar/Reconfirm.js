@@ -103,9 +103,9 @@ function Reconfirm({ setPage }) {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 100,
-    fade: true,
-    cssEase: "linear",
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
   };
 
   return (
@@ -114,9 +114,24 @@ function Reconfirm({ setPage }) {
       <ReconfirmImage>
         <Slider {...settings}>
           {thumbnails.map((url, index) => {
-            return <img key={index} src={url} width={200} height={200} />;
+            console.log("111", typeof url);
+            return (
+              <div>
+                <img src={url} width={640} height={400} alt="car_image" />
+              </div>
+            );
           })}
         </Slider>
+        {/* <div> */}
+        {/* {thumbnails.map((url, index) => {
+              console.log("111", typeof url);
+              return (
+                <div>
+                  <img src={url} width={200} height={200} alt="car_image" />
+                </div>
+              );
+            })} */}
+        {/* </div> */}
       </ReconfirmImage>
       <ReconfirmBox>
         <ReconfirmBoxTitle>
@@ -185,6 +200,9 @@ const ReconfirmBoxTitle = styled.div`
 
 const ReconfirmImage = styled.div`
   margin: 20px auto;
+  border: 1px solid red;
+  width: 640px;
+  height: 400px;
 `;
 
 const ReconfirmBoxInfo = styled.div`
