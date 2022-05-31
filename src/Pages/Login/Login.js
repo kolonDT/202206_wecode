@@ -103,6 +103,7 @@ function Login({ setPage }) {
     let ret = isValidId(e.target.value);
     setLogin(ret);
     setId(e.target.value);
+    console.log("test ,", ret);
     if (ret === true) {
       localStorage.setItem("carNumber", e.target.value);
       getCar(e.target.value);
@@ -112,8 +113,10 @@ function Login({ setPage }) {
 
   const handleLogin = (str) => {
     getCar(str);
-    if (!show) {
+    if (!show || !isLogin) {
       alert("차량번호를 다시 확인해주세요.");
+    } else if (data) {
+      navigate("/requestform");
     } else {
       navigate("/login", { state: id });
     }
@@ -192,8 +195,8 @@ function Login({ setPage }) {
           </LoginButton>
         ) : (
           <LoginButton
-            onClick={() => {
-              navigate("/requestform");
+            onClick={(e) => {
+              handleLogin(e.target.value);
             }}
           >
             조회하기
