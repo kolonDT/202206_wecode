@@ -8,7 +8,7 @@ import "./slide.css";
 import styled from "styled-components";
 import moment from "moment";
 import { setAlarm, getAlarm } from "../Api/Api";
-import { MYCAR_API, PORT } from "../../config";
+import { MYCAR_API, URI } from "../../config";
 
 function RequestForm({ isNew, setNew, setPage }) {
   const [fold, setFold] = useState(false);
@@ -169,7 +169,7 @@ function ImageSlide({ data }) {
       <Slider {...settings}>
         {data.image.split(",").map((imgUrl, index) => {
           console.log("imgUrl", imgUrl);
-          imgUrl = PORT.concat("image/" + imgUrl);
+          imgUrl = URI.concat("/image/" + imgUrl);
           console.log(imgUrl);
           return (
             <ImgDiv>
