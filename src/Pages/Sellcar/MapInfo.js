@@ -5,8 +5,8 @@ function MapInfo({ addr, setAddr, postcodeAddr }) {
   const [coords, setCoords] = useState();
   const [state, setState] = useState({
     center: {
-      lat: 33.450701,
-      lng: 126.570667,
+      lat: 37.49929244623464,
+      lng: 127.0293917149315,
     },
     errMsg: null,
     isLoading: true,
@@ -27,7 +27,7 @@ function MapInfo({ addr, setAddr, postcodeAddr }) {
             coords !== undefined ? coords.getLat() : position.coords.latitude;
           let lng =
             coords !== undefined ? coords.getLng() : position.coords.longitude;
-
+          console.log("lat, lng :", lat, lng);
           getAddr(lat, lng, setAddr);
           setState((prev) => ({
             ...prev,
