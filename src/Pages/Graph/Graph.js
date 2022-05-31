@@ -1,7 +1,8 @@
 //module
-import { useState } from "react";
-import { userData } from "./DummyData";
-import Sellcar from "../Sellcar/Sellcar";
+import { useState, useEffect } from "react";
+// import { useLocation } from "react-router-dom";
+// import { userData } from "./DummyData";
+import Sellcar from "../../Pages/Sellcar/Sellcar";
 import React from "react";
 //styles
 import styled from "styled-components";
@@ -17,12 +18,35 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+let PORT = process.env.REACT_APP_PORT;
 function Graph({ setPage }) {
   const [add, setAdd] = useState(false);
-  // const [carData, setCarData] = useState("");
-
-  // const GraphCar = () => {
-  //   fetch("/data/PricebyDistance.json", {
+  const [graph, setGraph] = useState(true);
+  // const { state } = useLocation();
+  // const [data1, setData] = useState();
+  // const cnt = useRef(0);
+  //graph
+  const graphCarDB = (carNumber) => {
+    console.log("carData", carNumber);
+    fetch(`${PORT}car/priceByDistance?carNumber=${carNumber}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("gg", data["priceByDistance"]);
+        setGraph(data["priceByDistance"]);
+      });
+  };
+  useEffect(() => {
+    console.log("tdesefddddd");
+    graphCarDB(localStorage.getItem("carNumber"));
+  }, []);
+  //distance
+  // const getCarInfo = async () => {
+  //   await fetch(`/car?carNumber=${state}`, {
   //     method: "GET",
   //     headers: {
   //       "Content-Type": "application/json",
@@ -30,13 +54,32 @@ function Graph({ setPage }) {
   //   })
   //     .then((res) => res.json())
   //     .then((data) => {
-  //       console.log("gg", data);
+  //       console.log("ddd :", data);
+  //       setData(data["infoByCarNumber"][0]);
+  //       console.log(data1);
   //     });
   // };
 
+  // useEffect(() => {
+  //   getCarInfo();
+  // }, [cnt.current]);
+
+  const userData = [
+    { index: 39000, price_used: 6900 },
+
+    { index: 10040, tomato: 7420 },
+    { index: 37260, tomato: 6220 },
+    { index: 54660, tomato: 4530 },
+    { index: 66000, tomato: 3686 },
+    { index: 79300, tomato: 2283 },
+    { index: 93200, tomato: 1283 },
+  ];
+  console.log("asasa", graph);
   return (
     <GraphWrap>
-      <GraphTitle>예상 시세는 6,000 만 원 입니다.</GraphTitle>
+      <GraphTitle>
+        {/* 예상 시세는 <span>{data1.distance}</span> 만 원 입니다. */}
+      </GraphTitle>
       <GraphBox>
         <ResponsiveContainer minWidth={550} minHeight={400}>
           <ComposedChart
@@ -49,6 +92,7 @@ function Graph({ setPage }) {
               bottom: 20,
               left: 20,
             }}
+            setPage={setPage}
           >
             <CartesianGrid stroke="#F5F5F5" strokeDasharray="5 5" />
             <Tooltip />

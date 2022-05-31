@@ -6,7 +6,7 @@ import Graph from "../Graph/Graph";
 
 //styles
 import styled from "styled-components";
-
+let PORT = process.env.REACT_APP_PORT;
 function LoginMain({ setPage }) {
   const [show, setShow] = useState(false);
   const { state } = useLocation();
@@ -14,7 +14,7 @@ function LoginMain({ setPage }) {
   const cnt = useRef(0);
   localStorage.setItem("carNumber", state);
   const getCarInfo = async () => {
-    await fetch(`/car?carNumber=${state}`, {
+    await fetch(`${PORT}car?carNumber=${state}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
