@@ -6,9 +6,8 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 import { HiLightBulb } from "react-icons/hi";
+import { CAR_API, MYCAR_API } from "../../config";
 
-let PORT = process.env.REACT_APP_NODE_API_PORT;
-let URL = process.env.REACT_APP_NODE_API_URL;
 function Login({ setPage }) {
   const locate = useLocation();
   const navigate = useNavigate();
@@ -20,7 +19,7 @@ function Login({ setPage }) {
   const [data, setData] = useState(false);
 
   const getCar = (carNumber) => {
-    fetch(`${URL}:${PORT}/car?carNumber=${carNumber}`, {
+    fetch(`${CAR_API}?carNumber=${carNumber}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -40,15 +39,13 @@ function Login({ setPage }) {
 
   const getData = () => {
     //fetch(`/car?carNumber=${localStorage.getItem("carNumber")}`, {
-    fetch(
-      `${URL}:${PORT}/car/myCar?carNumber=${localStorage.getItem("carNumber")}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+    //`${URL}:${PORT}/car/myCar?carNumber=${localStorage.getItem("carNumber")}`,
+    fetch(`${MYCAR_API}?carNumber=${localStorage.getItem("carNumber")}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data["registeredCarInfo"].length !== 0) {
