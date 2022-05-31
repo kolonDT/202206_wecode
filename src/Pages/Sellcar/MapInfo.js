@@ -20,39 +20,31 @@ function MapInfo({ addr, setAddr, postcodeAddr }) {
   }, [postcodeAddr]);
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          let lat =
-            coords !== undefined ? coords.getLat() : position.coords.latitude;
-          let lng =
-            coords !== undefined ? coords.getLng() : position.coords.longitude;
-          console.log("lat, lng :", lat, lng);
-          getAddr(lat, lng, setAddr);
-          setState((prev) => ({
-            ...prev,
-            center: {
-              lat: lat,
-              lng: lng, // 경도
-            },
-            isLoading: false,
-          }));
-        },
-        (err) => {
-          setState((prev) => ({
-            ...prev,
-            errMsg: err.message,
-            isLoading: false,
-          }));
-        }
-      );
-    } else {
-      setState((prev) => ({
-        ...prev,
-        errMsg: "geolocation을 사용할수 없습니다.",
-        isLoading: false,
-      }));
-    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        let lat =
+          coords !== undefined ? coords.getLat() : position.coords.latitude;
+        let lng =
+          coords !== undefined ? coords.getLng() : position.coords.longitude;
+        console.log("lat, lng :", lat, lng, coords);
+        getAddr(lat, lng, setAddr);
+        setState((prev) => ({
+          ...prev,
+          center: {
+            lat: lat,
+            lng: lng, // 경도
+          },
+          isLoading: false,
+        }));
+      },
+      (err) => {
+        setState((prev) => ({
+          ...prev,
+          errMsg: err.message,
+          isLoading: false,
+        }));
+      }
+    );
   }, [coords]);
 
   return (
