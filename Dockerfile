@@ -19,8 +19,8 @@ ENV REACT_APP_PORT=http://10.133.30.31:9989/image/
 
 #ENV REACT_APP_URL=http://localhost
 #ENV REACT_APP_PORT=$REACT_APP_URL:9989
-#ENV REACT_APP_NODE_API_PORT=9989
-#ENV REACT_APP_NODE_API_URL=http://localhost
+ENV REACT_APP_NODE_API_PORT=9989
+ENV REACT_APP_NODE_API_URL=http://10.133.30.30
 
 # 설치정보를 읽어 들여서 패키지를 설치
 RUN npm install --legacy-peer-deps
