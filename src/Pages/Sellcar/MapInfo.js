@@ -20,31 +20,41 @@ function MapInfo({ addr, setAddr, postcodeAddr }) {
   }, [postcodeAddr]);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        let lat =
-          coords !== undefined ? coords.getLat() : position.coords.latitude;
-        let lng =
-          coords !== undefined ? coords.getLng() : position.coords.longitude;
-        console.log("lat, lng :", lat, lng, coords);
-        getAddr(lat, lng, setAddr);
-        setState((prev) => ({
-          ...prev,
-          center: {
-            lat: lat,
-            lng: lng, // 경도
-          },
-          isLoading: false,
-        }));
-      },
-      (err) => {
-        setState((prev) => ({
-          ...prev,
-          errMsg: err.message,
-          isLoading: false,
-        }));
-      }
-    );
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          let lat =
+            coords !== undefined ? coords.getLat() : position.coords.latitude;
+          let lng =
+            coords !== undefined ? coords.getLng() : position.coords.longitude;
+          getAddr(lat, lng, setAddr);
+          setState((prev) => ({
+            ...prev,
+            center: {
+              lat: lat,
+              lng: lng, // 경도
+            },
+            isLoading: false,
+          }));
+        },
+        (err) => {
+          setState((prev) => ({
+            ...prev,
+            errMsg: err.message,
+            isLoading: false,
+          }));
+        }
+      );
+    } else if (coords !== undefined) {
+      setState((prev) => ({
+        ...prev,
+        center: {
+          lat: coords.getLat(),
+          lng: coords.getLng(), // 경도
+        },
+        isLoading: false,
+      }));
+    }
   }, [coords, postcodeAddr]);
 
   return (
