@@ -5,7 +5,7 @@ import { AiFillCheckCircle } from "react-icons/ai";
 import { TiDeleteOutline } from "react-icons/ti";
 import { setAlarmByCarNumber, getAlarmByCarNumber } from "../Api/Api";
 
-const CarLine = ({ carId, setCars, cars, car, isNew, setNew, PORT }) => {
+const CarLine = ({ carId, setCars, cars, car, isNew, setNew }) => {
   const [checkedArray, setCheckedArray] = useState([
     { step: "quote_requested", state: car.quote_requested !== null },
     { step: "dealer_assigned", state: car.dealer_assigned !== null },
@@ -13,6 +13,8 @@ const CarLine = ({ carId, setCars, cars, car, isNew, setNew, PORT }) => {
     { step: "selling_requested", state: car.selling_requested !== null },
     { step: "selling_completed", state: car.selling_completed !== null },
   ]);
+
+  let PORT = process.env.REACT_APP_PORT;
 
   const clickCheckBox = async (num, index) => {
     let ret = await getAlarmByCarNumber(setNew, car.car_number);
@@ -42,6 +44,7 @@ const CarLine = ({ carId, setCars, cars, car, isNew, setNew, PORT }) => {
 
   const clickDelete = () => {
     const isDelete = window.confirm("차량 정보를 삭제하시겠습니까?");
+    console.log("삭제가 왜 안되니????", car.car_number);
     if (isDelete) {
       //삭제 API 완료되면 연결
       fetch(`${PORT}car?carNumber=${car.car_number}`, {

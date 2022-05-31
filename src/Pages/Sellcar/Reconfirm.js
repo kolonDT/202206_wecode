@@ -11,6 +11,7 @@ function Reconfirm({ setPage }) {
   const navigate = useNavigate();
   const carImages = useLocation().state.carImages;
   const thumbnails = useLocation().state.thumbnails;
+  let PORT = process.env.REACT_APP_PORT;
 
   console.log(thumbnails);
 
@@ -23,21 +24,10 @@ function Reconfirm({ setPage }) {
   const handleUrls = () => {
     const formData = new FormData();
     for (let i in carImages) {
-      formData.append("image", carImages[i]);
-    }
-    for (var value of formData) {
-      console.log("formDatavalue:", value);
+      formData.append("image", carImages[i].src);
     }
     return formData;
   };
-  const imageResult = handleUrls();
-
-  useEffect(() => {
-    setPage("default");
-    for (var value of imageResult.values()) {
-      console.log("value:", value);
-    }
-  }, []);
 
   const handleRevise = () => {
     navigate("/sellcar");
@@ -71,7 +61,9 @@ function Reconfirm({ setPage }) {
     localStorage.getItem(`${carNumber}_driving_distance`)
   );
   const setCarDB = () => {
-    fetch(`/car`, {
+    const imageResult = handleUrls();
+
+    fetch(`${PORT}car`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -93,7 +85,7 @@ function Reconfirm({ setPage }) {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        fetch(`/image?carNumber=${carNumber}`, {
+        fetch(`${PORT}image?carNumber=${carNumber}`, {
           method: "POST",
           body: imageResult,
         })
