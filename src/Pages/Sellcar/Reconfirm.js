@@ -6,6 +6,7 @@ import Slider from "react-slick";
 //styles
 import styled from "styled-components";
 // import { useEffect, useState } from "react";
+let PORT = process.env.REACT_APP_PORT;
 
 function Reconfirm({ setPage }) {
   const navigate = useNavigate();
@@ -97,9 +98,9 @@ function Reconfirm({ setPage }) {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 10,
-    fade: true,
-    cssEase: "linear",
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
   };
   console.log(thumbnails);
   return (
@@ -108,10 +109,23 @@ function Reconfirm({ setPage }) {
       <ReconfirmImage>
         <Slider {...settings}>
           {thumbnails.map((url, index) => {
-            console.log("uysrl", url);
-            return <img key={index} src={url} width={300} height={300} />;
+            return (
+              <div>
+                <img src={url} width={640} height={400} alt="car_image" />
+              </div>
+            );
           })}
         </Slider>
+        {/* <div> */}
+        {/* {thumbnails.map((url, index) => {
+              console.log("111", typeof url);
+              return (
+                <div>
+                  <img src={url} width={200} height={200} alt="car_image" />
+                </div>
+              );
+            })} */}
+        {/* </div> */}
       </ReconfirmImage>
       <ReconfirmBox>
         <ReconfirmBoxTitle>
@@ -180,6 +194,8 @@ const ReconfirmBoxTitle = styled.div`
 
 const ReconfirmImage = styled.div`
   margin: 20px auto;
+  width: 640px;
+  height: 400px;
 `;
 
 const ReconfirmBoxInfo = styled.div`

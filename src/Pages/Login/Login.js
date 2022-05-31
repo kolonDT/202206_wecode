@@ -19,6 +19,7 @@ function Login({ setPage }) {
   const [data, setData] = useState(false);
 
   const getCar = (carNumber) => {
+    console.log("ddeefefef", carNumber);
     fetch(`${PORT}car?carNumber=${carNumber}`, {
       method: "GET",
       headers: {
@@ -121,7 +122,8 @@ function Login({ setPage }) {
   };
 
   const handleWrite = () => {
-    if (getCar) {
+    console.log("handle :", localStorage.getItem("carNumber"));
+    if (getCar(localStorage.getItem("carNumber"))) {
       alert("작성중인 견적서 페이지로 이동합니다.");
       navigate("/sellcar");
     }
@@ -130,7 +132,7 @@ function Login({ setPage }) {
 
   const handleEnter = (e) => {
     if (e.keyCode === 13) {
-      handleLogin();
+      handleLogin(e.target.value);
     }
   };
 
@@ -185,7 +187,7 @@ function Login({ setPage }) {
           <LoginButton
             disabled={!isLogin}
             onClick={(e) => {
-              handleLogin(e.target.value);
+              handleLogin(localStorage.getItem("carNumber"));
             }}
           >
             등록하기

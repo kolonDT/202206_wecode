@@ -20,7 +20,6 @@ import {
 
 let PORT = process.env.REACT_APP_PORT;
 function Graph({ setPage }) {
-  console.log("aa");
   const [add, setAdd] = useState(false);
   const [graph, setGraph] = useState(true);
   // const { state } = useLocation();
