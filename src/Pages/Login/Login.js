@@ -128,7 +128,7 @@ function Login({ setPage }) {
 
   const handleWrite = () => {
     console.log("handle :", localStorage.getItem("carNumber"));
-    if (getCar(localStorage.getItem("carNumber"))) {
+    if (show) {
       alert("작성중인 견적서 페이지로 이동합니다.");
       navigate("/sellcar");
     }
