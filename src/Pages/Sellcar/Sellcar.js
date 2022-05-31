@@ -10,11 +10,6 @@ import WarningModal from "../../Components/Modal/WarningModal";
 const Sellcar = ({ setPage }) => {
   const [modal, setModal] = useState();
 
-  // const [images, setImages] = useState({
-  //   carImages: [],
-  //   urlImages: [],
-  // });
-
   //사진 관리하는 상태값
   const [carImages, setCarImages] = useState([]);
   //썸네일 사진 관리하는 상태값
@@ -40,6 +35,7 @@ const Sellcar = ({ setPage }) => {
     setPage("default");
   }, []);
 
+  console.log("carImages", carImages);
   return (
     <>
       {/* <Routes>

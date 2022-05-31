@@ -16,7 +16,7 @@ function RequestForm({ isNew, setNew, setPage }) {
   let optionList = "";
 
   const getData = () => {
-    fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
+    fetch(`${PORT}car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -35,18 +35,17 @@ function RequestForm({ isNew, setNew, setPage }) {
 
   useEffect(() => {
     getAlarm(setNew);
-    if (isNew === 1) {
+    if (isNew === 1 && fold !== false) {
       setNew(0);
       setAlarm(0);
     }
-  }, [isNew]);
+  }, [isNew, fold]);
 
   if (data === undefined) return null;
   optionList = data.options.split(",").map((opt, index) => {
     return optionList.concat(opt);
   });
   optionList = optionList.join(",");
-  console.log("t------------------", isNew);
   return (
     <>
       <Box>
@@ -73,6 +72,7 @@ function RequestForm({ isNew, setNew, setPage }) {
   );
 }
 const DetailList = React.memo(function DetailList({ fold, data, optionList }) {
+  console.log("data", data);
   return (
     <Detail active={fold}>
       <HR />
@@ -169,7 +169,7 @@ function ImageSlide({ data }) {
       <Slider {...settings}>
         {data.image.split(",").map((imgUrl, index) => {
           console.log("imgUrl", imgUrl);
-          imgUrl = PORT.concat(imgUrl);
+          imgUrl = PORT.concat("image/" + imgUrl);
           console.log(imgUrl);
           return (
             <ImgDiv>

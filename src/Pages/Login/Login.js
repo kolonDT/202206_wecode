@@ -7,6 +7,7 @@ import styled from "styled-components";
 import moment from "moment";
 import { HiLightBulb } from "react-icons/hi";
 
+let PORT = process.env.REACT_APP_PORT;
 function Login({ setPage }) {
   const locate = useLocation();
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function Login({ setPage }) {
   const [data, setData] = useState(false);
 
   const getCar = (carNumber) => {
-    fetch(`/car?carNumber=${carNumber}`, {
+    fetch(`${PORT}car?carNumber=${carNumber}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -26,6 +27,7 @@ function Login({ setPage }) {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log("kkkk", data);
         if (data.hasOwnProperty("infoByCarNumber")) {
           setShow(true);
           expireCheck(carNumber);
@@ -35,7 +37,7 @@ function Login({ setPage }) {
 
   const getData = () => {
     //fetch(`/car?carNumber=${localStorage.getItem("carNumber")}`, {
-    fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
+    fetch(`${PORT}car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -197,7 +199,7 @@ function Login({ setPage }) {
             조회하기
           </LoginButton>
         )}
-        {hasQuote ? (
+        {hasQuote && !data ? (
           <LoginNone onClick={handleWrite}>
             <span>이미 작성중인 견적서가 있습니다</span>
             <HiLightBulb size={20} />

@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-// import CarCard from "./CarCard";
 import CarLine from "./CarLine";
 import Pagination from "./Pagination";
 
-const Admin = ({ isNew, setNew }) => {
+const Admin = ({ isNew, setNew, setPage }) => {
+  let PORT = process.env.REACT_APP_PORT;
+
   const [cars, setCars] = useState([]);
 
   //한 페이지 당 보여줄 차 목록의 개수
   const limit = 10;
   //현재 페이지 번호
-  const [page, setPage] = useState(1);
+  const [pageNum, setPageNum] = useState(1);
   //현재 페이지의 첫 게시물 위치
-  const offset = (page - 1) * limit;
+  const offset = (pageNum - 1) * limit;
 
   useEffect(() => {
-    fetch("/car/myCars", {
+    fetch(`${PORT}car/myCars`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -46,27 +47,25 @@ const Admin = ({ isNew, setNew }) => {
             cars.slice(offset, offset + limit).map((car) => {
               return (
                 <TableRow key={car.id}>
-                  <CarLine car={car} isNew={isNew} setNew={setNew} />
+                  <CarLine
+                    car={car}
+                    isNew={isNew}
+                    setNew={setNew}
+                    carId={car.id}
+                    setCars={setCars}
+                    cars={cars}
+                  />
                 </TableRow>
               );
-            })}{" "}
-          {/* 주석 처리 시작
-          <TableRow>
-            <CarLine />
-          </TableRow>
-          <TableRow>
-            <CarLine />
-          </TableRow>
-          <TableRow>
-            <CarLine />
-          </TableRow>
-          <TableRow>
-            <CarLine />
-          </TableRow>
-          {/* 주석 처리 끝 */}
+            })}
         </CarTable>
       </CarWrapper>
-      <Pagination total={16} limit={limit} page={page} setPage={setPage} />
+      <Pagination
+        total={cars.length}
+        limit={limit}
+        pageNum={pageNum}
+        setPageNum={setPageNum}
+      />
     </CarContainer>
   );
 };
