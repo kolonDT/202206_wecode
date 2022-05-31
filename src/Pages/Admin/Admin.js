@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { MYCARS_API, PORT } from "../../config";
 import CarLine from "./CarLine";
 import Pagination from "./Pagination";
 
 const Admin = ({ isNew, setNew, setPage }) => {
-  let PORT = process.env.REACT_APP_PORT;
-
   const [cars, setCars] = useState([]);
 
   //한 페이지 당 보여줄 차 목록의 개수
@@ -16,7 +15,7 @@ const Admin = ({ isNew, setNew, setPage }) => {
   const offset = (pageNum - 1) * limit;
 
   useEffect(() => {
-    fetch(`${PORT}car/myCars`, {
+    fetch(`${MYCARS_API}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -54,6 +53,7 @@ const Admin = ({ isNew, setNew, setPage }) => {
                     carId={car.id}
                     setCars={setCars}
                     cars={cars}
+                    PORT={PORT}
                   />
                 </TableRow>
               );

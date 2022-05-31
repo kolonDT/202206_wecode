@@ -8,7 +8,7 @@ import "./slide.css";
 import styled from "styled-components";
 import moment from "moment";
 import { setAlarm, getAlarm } from "../Api/Api";
-let PORT = process.env.REACT_APP_PORT;
+import { MYCAR_API, PORT } from "../../config";
 
 function RequestForm({ isNew, setNew, setPage }) {
   const [fold, setFold] = useState(false);
@@ -16,7 +16,7 @@ function RequestForm({ isNew, setNew, setPage }) {
   let optionList = "";
 
   const getData = () => {
-    fetch(`${PORT}car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
+    fetch(`${MYCAR_API}?carNumber=${localStorage.getItem("carNumber")}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
