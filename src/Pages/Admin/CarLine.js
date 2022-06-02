@@ -4,8 +4,9 @@ import { AiOutlineCheckCircle } from "react-icons/ai";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { TiDeleteOutline } from "react-icons/ti";
 import { setAlarmByCarNumber, getAlarmByCarNumber } from "../Api/Api";
+import { CAR_API, HISTORY_API } from "../../config";
 
-const CarLine = ({ carId, setCars, cars, car, isNew, setNew, PORT }) => {
+const CarLine = ({ carId, setCars, cars, car, isNew, setNew }) => {
   const [checkedArray, setCheckedArray] = useState([
     { step: "quote_requested", state: car.quote_requested !== null },
     { step: "dealer_assigned", state: car.dealer_assigned !== null },
@@ -27,7 +28,7 @@ const CarLine = ({ carId, setCars, cars, car, isNew, setNew, PORT }) => {
       )
     );
     console.log("progress", checkedArray[index].step);
-    fetch(`${PORT}history?carNumber=${car.car_number}`, {
+    fetch(`${HISTORY_API}?carNumber=${car.car_number}`, {
       method: "PATCH",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
@@ -42,9 +43,10 @@ const CarLine = ({ carId, setCars, cars, car, isNew, setNew, PORT }) => {
 
   const clickDelete = () => {
     const isDelete = window.confirm("차량 정보를 삭제하시겠습니까?");
+    console.log("삭제가 왜 안되니????", car.car_number);
     if (isDelete) {
       //삭제 API 완료되면 연결
-      fetch(`${PORT}car?carNumber=${car.car_number}`, {
+      fetch(`${CAR_API}?carNumber=${car.car_number}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

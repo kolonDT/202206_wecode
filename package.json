@@ -6,7 +6,10 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "dotenv": "^16.0.1",
+    "dotenv-webpack": "^7.1.0",
     "moment": "^2.29.3",
+    "os-browserify": "^0.3.0",
     "prop-types": "^15.8.1",
     "react": "^18.1.0",
     "react-daum-postcode": "^3.0.3",
@@ -20,7 +23,8 @@
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.5",
     "styled-reset": "^4.3.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "webpack": "^5.72.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -50,5 +54,10 @@
     "eslint": "^8.15.0",
     "prettier": "2.6.2"
   },
-  "proxy": "http://10.133.30.31:9988"
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  },
+  "proxy": "http://10.133.30.30:9989"
 }

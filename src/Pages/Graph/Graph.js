@@ -1,6 +1,5 @@
 //module
-import { useState } from "react";
-import { userData } from "./DummyData";
+import { useState, useEffect } from "react";
 import Sellcar from "../../Pages/Sellcar/Sellcar";
 import React from "react";
 //styles
@@ -16,39 +15,61 @@ import {
   Scatter,
   ResponsiveContainer,
 } from "recharts";
+import { GRAPH_API } from "../../config";
 
 function Graph({ setPage }) {
   const [add, setAdd] = useState(false);
-  // const [carData, setCarData] = useState("");
+  const [graph, setGraph] = useState(true);
+  const [price, setPrice] = useState("");
 
-  // const GraphCar = () => {
-  //   fetch("/data/PricebyDistance.json", {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log("gg", data);
-  //     });
-  // };
+  const graphCarDB = (carNumber) => {
+    console.log("carData", carNumber);
+
+    fetch(`${GRAPH_API}?carNumber=${carNumber}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const price = data["priceByDistance"];
+        price.map((data) => {
+          if (data.price_used !== undefined) {
+            data.price_used = data.price_used / 10000;
+          }
+          if (data.tomato !== undefined) {
+            data.tomato = data.tomato / 10000;
+          }
+        });
+        setGraph(price);
+        setPrice(price[0].price_used);
+      });
+  };
+
+  useEffect(() => {
+    console.log("tdesefddddd");
+    graphCarDB(localStorage.getItem("carNumber"));
+  }, []);
 
   return (
     <GraphWrap>
-      <GraphTitle>예상 시세는 6,000 만 원 입니다.</GraphTitle>
+      <GraphTitle>
+        예상 시세는 <span>{price}</span> 만 원 입니다.
+      </GraphTitle>
       <GraphBox>
         <ResponsiveContainer minWidth={550} minHeight={400}>
           <ComposedChart
             width={500}
             height={400}
-            data={userData}
+            data={graph}
             margin={{
               top: 20,
               right: 80,
               bottom: 20,
               left: 20,
             }}
+            setPage={setPage}
           >
             <CartesianGrid stroke="#F5F5F5" strokeDasharray="5 5" />
             <Tooltip />

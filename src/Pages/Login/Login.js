@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 import { HiLightBulb } from "react-icons/hi";
+import { CAR_API, MYCAR_API } from "../../config";
 
 function Login({ setPage }) {
   const locate = useLocation();
@@ -18,7 +19,7 @@ function Login({ setPage }) {
   const [data, setData] = useState(false);
 
   const getCar = (carNumber) => {
-    fetch(`/car?carNumber=${carNumber}`, {
+    fetch(`${CAR_API}?carNumber=${carNumber}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -30,13 +31,16 @@ function Login({ setPage }) {
         if (data.hasOwnProperty("infoByCarNumber")) {
           setShow(true);
           expireCheck(carNumber);
+        } else {
+          setShow(false);
         }
       });
   };
 
   const getData = () => {
     //fetch(`/car?carNumber=${localStorage.getItem("carNumber")}`, {
-    fetch(`/car/myCar?carNumber=${localStorage.getItem("carNumber")}`, {
+    //`${URL}:${PORT}/car/myCar?carNumber=${localStorage.getItem("carNumber")}`,
+    fetch(`${MYCAR_API}?carNumber=${localStorage.getItem("carNumber")}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -102,6 +106,7 @@ function Login({ setPage }) {
     let ret = isValidId(e.target.value);
     setLogin(ret);
     setId(e.target.value);
+    console.log("test ,", ret);
     if (ret === true) {
       localStorage.setItem("carNumber", e.target.value);
       getCar(e.target.value);
@@ -111,8 +116,10 @@ function Login({ setPage }) {
 
   const handleLogin = (str) => {
     getCar(str);
-    if (!show) {
+    if (!show || !isLogin) {
       alert("차량번호를 다시 확인해주세요.");
+    } else if (data) {
+      navigate("/requestform");
     } else {
       navigate("/login", { state: id });
     }
@@ -120,16 +127,21 @@ function Login({ setPage }) {
   };
 
   const handleWrite = () => {
-    if (getCar) {
+    console.log("handle :", localStorage.getItem("carNumber"));
+    if (show) {
       alert("작성중인 견적서 페이지로 이동합니다.");
       navigate("/sellcar");
     }
     return null;
   };
 
+  const handleAdmin = () => {
+    navigate("/admin");
+  };
+
   const handleEnter = (e) => {
     if (e.keyCode === 13) {
-      handleLogin();
+      handleLogin(e.target.value);
     }
   };
 
@@ -184,26 +196,29 @@ function Login({ setPage }) {
           <LoginButton
             disabled={!isLogin}
             onClick={(e) => {
-              handleLogin(e.target.value);
+              handleLogin(localStorage.getItem("carNumber"));
             }}
           >
             등록하기
           </LoginButton>
         ) : (
           <LoginButton
-            onClick={() => {
-              navigate("/requestform");
+            onClick={(e) => {
+              handleLogin(e.target.value);
             }}
           >
             조회하기
           </LoginButton>
         )}
-        {hasQuote ? (
+        {hasQuote && !data ? (
           <LoginNone onClick={handleWrite}>
             <span>이미 작성중인 견적서가 있습니다</span>
             <HiLightBulb size={20} />
           </LoginNone>
         ) : null}
+        <GotoAdmin onClick={handleAdmin}>
+          <AdminText>관리자 페이지로 이동</AdminText>
+        </GotoAdmin>
       </LoginWrap>
     </LoginBox>
   );
@@ -295,5 +310,24 @@ const LoginNone = styled.div`
   }
   span {
     margin-right: 3px;
+  }
+`;
+
+const GotoAdmin = styled.div`
+  width: 60%;
+  margin-top: 15px;
+  text-align: right;
+  @media only screen and (max-width: 640px) {
+    margin-top: 5px;
+    width: 80%;
+  }
+`;
+
+const AdminText = styled.p`
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.2);
+  :hover {
+    color: rgba(0, 0, 0, 0.5);
   }
 `;

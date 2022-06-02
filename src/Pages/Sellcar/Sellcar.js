@@ -35,6 +35,7 @@ const Sellcar = ({ setPage }) => {
     setPage("default");
   }, []);
 
+  console.log("carImages", carImages);
   return (
     <>
       {/* <Routes>

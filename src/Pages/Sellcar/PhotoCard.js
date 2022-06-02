@@ -25,7 +25,7 @@ const PhotoCard = ({
   const onLoadFile = (e) => {
     const newImage = e.target.files;
     carImages[index] = { order: index, src: newImage[0] };
-    if (carImages.length < 4) {
+    if (carImages.length < 5) {
       setThumbnail(URL.createObjectURL(newImage[0]));
       setThumbnails([...thumbnails, URL.createObjectURL(newImage[0])]);
     }

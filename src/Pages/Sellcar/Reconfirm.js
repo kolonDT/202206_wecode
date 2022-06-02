@@ -6,6 +6,7 @@ import Slider from "react-slick";
 //styles
 import styled from "styled-components";
 // import { useEffect, useState } from "react";
+import { CAR_API, IMAGE_API } from "../../config";
 
 function Reconfirm({ setPage }) {
   const navigate = useNavigate();
@@ -23,21 +24,10 @@ function Reconfirm({ setPage }) {
   const handleUrls = () => {
     const formData = new FormData();
     for (let i in carImages) {
-      formData.append("image", carImages[i]);
-    }
-    for (var value of formData) {
-      console.log("formDatavalue:", value);
+      formData.append("image", carImages[i].src);
     }
     return formData;
   };
-  const imageResult = handleUrls();
-
-  useEffect(() => {
-    setPage("default");
-    for (var value of imageResult.values()) {
-      console.log("value:", value);
-    }
-  }, []);
 
   const handleRevise = () => {
     navigate("/sellcar");
@@ -71,7 +61,9 @@ function Reconfirm({ setPage }) {
     localStorage.getItem(`${carNumber}_driving_distance`)
   );
   const setCarDB = () => {
-    fetch(`/car`, {
+    const imageResult = handleUrls();
+
+    fetch(`${CAR_API}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -93,7 +85,7 @@ function Reconfirm({ setPage }) {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        fetch(`/image?carNumber=${carNumber}`, {
+        fetch(`${IMAGE_API}?carNumber=${carNumber}`, {
           method: "POST",
           body: imageResult,
         })
@@ -106,17 +98,21 @@ function Reconfirm({ setPage }) {
     dots: true,
     infinite: true,
     speed: 500,
-    fade: true,
-    cssEase: "linear",
+    slidesToShow: 1,
+    slidesToScroll: 1,
   };
-
+  console.log(thumbnails);
   return (
     <ReconfirmWrap>
       <ReconfirmTitle>입력하신 추가 정보를 확인해주세요.</ReconfirmTitle>
       <ReconfirmImage>
         <Slider {...settings}>
           {thumbnails.map((url, index) => {
-            return <img key={index} src={url} width={300} height={300} />;
+            return (
+              <div>
+                <img src={url} width={640} height={350} alt="car_image" />
+              </div>
+            );
           })}
         </Slider>
       </ReconfirmImage>
@@ -187,6 +183,8 @@ const ReconfirmBoxTitle = styled.div`
 
 const ReconfirmImage = styled.div`
   margin: 20px auto;
+  width: 640px;
+  height: 400px;
 `;
 
 const ReconfirmBoxInfo = styled.div`

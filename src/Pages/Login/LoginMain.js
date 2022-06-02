@@ -2,10 +2,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Slider from "react-slick";
-import Graph from "../../Components/Graph/Graph";
+import Graph from "../Graph/Graph";
 
 //styles
 import styled from "styled-components";
+import { CAR_API } from "../../config";
 
 function LoginMain({ setPage }) {
   const [show, setShow] = useState(false);
@@ -13,8 +14,9 @@ function LoginMain({ setPage }) {
   const [data1, setData] = useState();
   const cnt = useRef(0);
   localStorage.setItem("carNumber", state);
+
   const getCarInfo = async () => {
-    await fetch(`/car?carNumber=${state}`, {
+    await fetch(`${CAR_API}?carNumber=${state}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -22,9 +24,7 @@ function LoginMain({ setPage }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("ddd :", data);
         setData(data["infoByCarNumber"][0]);
-        console.log(data1);
       });
   };
 
