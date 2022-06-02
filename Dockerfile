@@ -15,7 +15,7 @@ RUN ls -al /data
 ## Install packages
 # 현재 패키지 설치 정보를 도커 이미지에 복사. package-lock.json도 복사하는 것이 안전.
 COPY package*.json ./
-ENV REACT_APP_PORT=http://10.133.30.31:9989/image/
+#ENV REACT_APP_PORT=http://10.133.30.31:9989/image/
 
 ENV REACT_APP_URL=http://localhost
 ENV REACT_APP_PORT=$REACT_APP_URL:9989
