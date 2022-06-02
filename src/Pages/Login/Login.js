@@ -165,7 +165,7 @@ function Login({ setPage }) {
     // setPage("login");
   }, []);
 */
-  console.log(data);
+  console.log({ CAR_API });
   return (
     <LoginBox>
       <LoginWrap>
