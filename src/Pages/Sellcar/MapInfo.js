@@ -27,6 +27,11 @@ function MapInfo({ addr, setAddr, postcodeAddr }) {
             coords !== undefined ? coords.getLat() : position.coords.latitude;
           let lng =
             coords !== undefined ? coords.getLng() : position.coords.longitude;
+
+          if (lat === null || lng === null) {
+            lat = 37.49929244623464;
+            lng = 127.0293917149315;
+          }
           getAddr(lat, lng, setAddr);
           setState((prev) => ({
             ...prev,
@@ -98,6 +103,7 @@ function getAddr(lat, lng, setAddr) {
   };
 
   let carNumber = localStorage.getItem("carNumber");
+
   localStorage.setItem(`${carNumber}_lng`, coord.getLng());
   localStorage.setItem(`${carNumber}_lat`, coord.getLat());
   geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
