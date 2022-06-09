@@ -4,7 +4,7 @@ import { GrFormPrevious } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BsCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { BsBellSlash, BsBell, BsBellFill } from "react-icons/bs";
+import { BsBellSlash, BsBell } from "react-icons/bs";
 import { setAlarm } from "../Pages/Api/Api";
 
 const Header = ({ isNew, setNew, page }) => {
@@ -75,7 +75,7 @@ const HeaderContainer = styled.div`
   width: ${(props) => (props.page === "admin" ? "1100px" : "640px")};
   margin: 0px auto;
   @media only screen and (max-width: 640px) {
-    width: 95%;
+    width: 100%;
     margin: 0px auto;
   }
 `;

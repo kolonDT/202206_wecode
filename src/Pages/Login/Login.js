@@ -9,7 +9,7 @@ import { HiLightBulb } from "react-icons/hi";
 import { CAR_API, MYCAR_API } from "../../config";
 
 function Login({ setPage }) {
-  const locate = useLocation();
+  // const locate = useLocation();
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [isLogin, setLogin] = useState(false);
@@ -27,7 +27,6 @@ function Login({ setPage }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("kkkk", data);
         if (data.hasOwnProperty("infoByCarNumber")) {
           setShow(true);
           expireCheck(carNumber);
@@ -84,7 +83,7 @@ function Login({ setPage }) {
     } else {
       const saved = new Date(localStorage.getItem(`${carNumber}_time_stamp`));
       let oneday = 1000 * 60 * 60 * 24;
-      console.log("date :", now - saved, now, saved, oneday);
+      // console.log("date :", now - saved, now, saved, oneday);
       if (now - saved >= oneday) {
         localStorage.removeItem(`${carNumber}_driving_distance`);
         localStorage.removeItem(`${carNumber}_options`);
@@ -106,7 +105,6 @@ function Login({ setPage }) {
     let ret = isValidId(e.target.value);
     setLogin(ret);
     setId(e.target.value);
-    console.log("test ,", ret);
     if (ret === true) {
       localStorage.setItem("carNumber", e.target.value);
       getCar(e.target.value);
@@ -210,12 +208,12 @@ function Login({ setPage }) {
             조회하기
           </LoginButton>
         )}
-        {hasQuote && !data ? (
+        {hasQuote && !data && (
           <LoginNone onClick={handleWrite}>
             <span>이미 작성중인 견적서가 있습니다</span>
             <HiLightBulb size={20} />
           </LoginNone>
-        ) : null}
+        ) }
         <GotoAdmin onClick={handleAdmin}>
           <AdminText>관리자 페이지로 이동</AdminText>
         </GotoAdmin>

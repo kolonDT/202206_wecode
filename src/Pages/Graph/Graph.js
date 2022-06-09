@@ -22,8 +22,9 @@ function Graph({ setPage }) {
   const [graph, setGraph] = useState(true);
   const [price, setPrice] = useState("");
 
+
+  
   const graphCarDB = (carNumber) => {
-    console.log("carData", carNumber);
 
     fetch(`${GRAPH_API}?carNumber=${carNumber}`, {
       method: "GET",
@@ -48,9 +49,10 @@ function Graph({ setPage }) {
   };
 
   useEffect(() => {
-    console.log("tdesefddddd");
     graphCarDB(localStorage.getItem("carNumber"));
   }, []);
+
+  const screenWidth=window.screen.width
 
   return (
     <GraphWrap>
@@ -58,7 +60,7 @@ function Graph({ setPage }) {
         예상 시세는 <span>{price}</span> 만 원 입니다.
       </GraphTitle>
       <GraphBox>
-        <ResponsiveContainer minWidth={550} minHeight={400}>
+        <ResponsiveContainer minWidth={screenWidth<600?375:500} minHeight={screenWidth<600?375:500}>
           <ComposedChart
             width={500}
             height={400}
@@ -108,7 +110,7 @@ const GraphWrap = styled.div`
     width: 90%;
     margin: 30px auto;
   }
-  width: 640px;
+  width: 40rem;
   margin: 30px auto;
 `;
 const GraphTitle = styled.h1`
@@ -119,6 +121,7 @@ const GraphTitle = styled.h1`
   line-height: 25px;
 `;
 const GraphBox = styled.div`
+font-size: small;
   margin: 10px 0px 30px 0px;
 `;
 

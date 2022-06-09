@@ -62,7 +62,7 @@ function Reconfirm({ setPage }) {
   );
   const setCarDB = () => {
     const imageResult = handleUrls();
-
+    
     fetch(`${CAR_API}`, {
       method: "POST",
       headers: {
@@ -78,8 +78,8 @@ function Reconfirm({ setPage }) {
         contact: localStorage.getItem(`${carNumber}_contact`),
         address: localStorage.getItem(`${carNumber}_address`),
         addressDetail: localStorage.getItem(`${carNumber}_detailAddress`),
-        lat: localStorage.getItem(`${carNumber}_lat`),
-        lon: localStorage.getItem(`${carNumber}_lng`),
+        lat:"37.49929244623464",
+        lon:"127.0293917149315",
       }),
     })
       .then((res) => res.json())
@@ -109,7 +109,7 @@ function Reconfirm({ setPage }) {
         <Slider {...settings}>
           {thumbnails.map((url, index) => {
             return (
-              <div>
+              <div key={index}>
                 <img src={url} width={640} height={350} alt="car_image" />
               </div>
             );

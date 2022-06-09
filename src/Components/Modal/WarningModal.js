@@ -1,21 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 
-function WarningModal({ setModal }) {
+function WarningModal({ setModal , modalText }) {
+  const text = modalText==="사진을 모두 등록해주세요."?modalText:`${modalText}를 입력해주세요.`
   return (
     <Overlay>
       <Content>
-        <P>입력이 완료되지 않았습니다</P>
+        <P>{text}</P>
         <Button
           onClick={() => {
-            setModal(false);
+            setModal("");
           }}
         >
           확인
         </Button>
         <Button
           onClick={() => {
-            setModal(false);
+            setModal("");
           }}
         >
           취소

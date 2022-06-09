@@ -4,16 +4,16 @@ import MapInfo from "./MapInfo";
 import DaumPostcode from "react-daum-postcode";
 
 function ContactInfo() {
-  const [phone, setPhone] = useState();
+  const [phone, setPhone] = useState("");
   const [isModal, setModal] = useState(false);
-  const [showMap, setShowMap] = useState(false);
-  const [addr, setAddr] = useState();
-  const [postcodeAddr, setPostcodeAddr] = useState();
+  const [addr, setAddr] = useState("");
+  const [postcodeAddr, setPostcodeAddr] = useState("");
   const [isFindAddr, setFindAddr] = useState(false);
-  const [detailAddr, setDetailAddr] = useState();
+  const [detailAddr, setDetailAddr] = useState("");
 
   let carNumber = localStorage.getItem("carNumber");
-  const handleInput = (text) => {
+  const handleInput = ({target}) => {
+    const text = target.value
     let regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
     if (regPhone.test(text) === true) {
       setPhone(text);
@@ -65,51 +65,52 @@ function ContactInfo() {
         <Input
           active={phone ? true : false}
           placeholder="010-0000-0000"
-          onChange={(e) => {
-            handleInput(e.target.value);
-          }}
+          onChange={
+            handleInput
+          }
           value={phone}
         ></Input>
       </Contact>
       <Location>
-        <Text>지역</Text>
-        <FindBtn
+        {/* <FindBtn
           onClick={() => {
             setModal(true);
             setShowMap(!showMap);
           }}
         >
           주소 찾기
-        </FindBtn>
+        </FindBtn> */}
       </Location>
-      {showMap ? (
-        <>
-          <MapInfo addr={addr} setAddr={setAddr} postcodeAddr={postcodeAddr} />
+     
           <Address>
+          <Contact>
             <Text>주소</Text>
-            <AddrText>{addr}</AddrText>
-
+            <FindBtn placeholder="주소" onClick={() => {
+                  setFindAddr((prev)=>!prev);
+                  setAddr("")
+                  setPostcodeAddr("")
+                  setDetailAddr("")
+                }}>검색</FindBtn>
+          </Contact>
+      {isFindAddr && (<div>
+         <Postcode setFindAddr={setFindAddr} setAddr={setAddr} setPostcodeAddr={setPostcodeAddr} />
+         </div>
+            ) }
+           {Boolean(addr) &&
+           (<div>
+           <AddrText>{addr}</AddrText>
             <Text>상세주소</Text>
-            <AddrInput onChange={onChange} value={detailAddr} />
-            {!isFindAddr ? (
-              <FindBtn
-                onClick={() => {
-                  setFindAddr(!isFindAddr);
-                }}
-              >
-                주소검색
-              </FindBtn>
-            ) : null}
-            {isFindAddr ? (
-              <Postcode setAddr={setAddr} setPostcodeAddr={setPostcodeAddr} />
-            ) : null}
+            <AddrInput onChange={onChange} value={detailAddr||""} />
+            </div>)
+            }
+         
+          
           </Address>
-        </>
-      ) : null}
+   
     </Box>
   );
 }
-const Postcode = ({ setAddr, setPostcodeAddr }) => {
+const Postcode = ({ setAddr, setPostcodeAddr,setFindAddr }) => {
   const handleComplete = (data) => {
     let fullAddress = data.address;
     let extraAddress = "";
@@ -124,6 +125,7 @@ const Postcode = ({ setAddr, setPostcodeAddr }) => {
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
     setAddr(fullAddress);
+    setFindAddr(false);
     setPostcodeAddr(fullAddress);
   };
 
@@ -131,6 +133,7 @@ const Postcode = ({ setAddr, setPostcodeAddr }) => {
 };
 
 const AddrText = styled.p`
+font-weight: 100%;
   margin-right: 1.4em;
   letter-spacing: 0.7px;
   text-align: left;
@@ -166,22 +169,20 @@ const AddrInput = styled.input`
   }
 `;
 const FindBtn = styled.button`
-  font-size: 1em;
+   /* 
   font-weight: 600;
-  box-shadow: 5px 5px 10px #d8d8d8;
-  border: 0px;
-  background-color: white;
-  border-radius: 20px;
   text-align: center;
-  padding: 15px;
-  margin: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 20px; */
+  border: 0px;
   font-size: 1em;
+  padding: 5px 15px;
+  border-radius: 5px;
+  background-color: white;
+  border: 1px solid #5c1049;;
+  margin-left: 1em;
+  letter-spacing: 0.7px;
   cursor: pointer;
-  &:hover {
-    background-color: #5c1049;
-    color: white;
-  }
+ 
 `;
 
 const Location = styled.div`
@@ -218,6 +219,7 @@ const Text = styled.p`
   letter-spacing: 0.7px;
   text-align: left;
 `;
+
 const P = styled.p`
   font-size: 1.2em;
   font-weight: 800;

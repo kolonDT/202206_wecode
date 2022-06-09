@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PhotoCard from "./PhotoCard";
 
@@ -8,7 +8,7 @@ const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
 
   //옵션 값 관리하는 상태값
   const [options, setOptions] = useState({
-    1: false,
+    1: true,
     2: false,
     3: false,
     4: false,
@@ -30,7 +30,6 @@ const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
   const checkNumber = (e) => {
     const value = e.target.value;
     const onlyNumber = value.replace(/[^0-9]/g, "");
-    console.log(typeof e.target.value);
     const commaNumber = onlyNumber
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -42,6 +41,23 @@ const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
   //click시 옵션값 저장하는 함수
   const clickOptions = (e) => {
     const value = e.target.value;
+   const noOptionCheck=Object.keys(options).filter((key)=>
+    options[key]===true
+)
+if(noOptionCheck.length===1&&noOptionCheck[0]===value){
+  let _options = {
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+    6: false,
+  };
+  setOptions(_options);
+  setNoOption(true);
+  localStorage.setItem(`${carNumber}_options`, []);
+  return
+}
     setOptions({ ...options, [value]: !options[value] });
   };
 
@@ -60,6 +76,7 @@ const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
       setNoOption(true);
       localStorage.setItem(`${carNumber}_options`, []);
     } else {
+      setOptions({ ...options,1:true})
       setNoOption(false);
     }
   };
@@ -257,7 +274,8 @@ const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
           <InfoInputBox>
             <DescriptionInput
               onChange={writeInfo}
-              placeholder="차량 상태, 수리 필요 여부, 보험 이력 등 상세한 내용을 알려주세요."
+              placeholder={`차량 상태, 수리 필요 여부, 보험 이력 등 
+              상세한 내용을 알려주세요.`}
               value={addInfo}
             />
           </InfoInputBox>
@@ -351,10 +369,15 @@ const Measurements = styled.span`
 const OptionWrapper = styled.div``;
 
 const OptionLine = styled.div`
+display: flex;
   margin-bottom: 1.4em;
   @media only screen and (max-width: 640px) {
     margin-bottom: 1em;
+width: 23.4375rem;
+
   }
+
+ 
 `;
 
 const OptionBox = styled.div`
@@ -367,14 +390,14 @@ const OptionBox = styled.div`
 `;
 
 const OptionButton = styled.button`
-  padding: 1.2em 2.4em;
-  margin-right: 2em;
+  padding: 1rem 2rem;
+  margin-right: 2rem;
   color: rgba(0, 0, 0, 0.9);
   background-color: white;
   border: 0px solid black;
   border-radius: 1.8em;
-  font-size: 1.1em;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 500;
   box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.1);
   ${({ isClicked }) => {
     return isClicked
@@ -391,6 +414,11 @@ const OptionButton = styled.button`
     margin-right: 1.2em;
     font-size: 1em;
     padding: 0.8em 0.8em;
+  }
+
+  @media only screen and (max-width: 400px) {
+    font-size: 0.8em;
+
   }
 `;
 
@@ -415,7 +443,7 @@ const AddInfoWrapper = styled.div`
   margin-top: 20px;
   width: 100%;
   @media only screen and (max-width: 640px) {
-    width: 100%;
+    width: 23.4375rem;
   }
 `;
 
@@ -426,11 +454,13 @@ const AddInfoBox = styled.div`
 const InfoInputBox = styled.div`
   display: flex;
   flex-direction: column;
+  
 `;
 
 const DescriptionInput = styled.input`
-  padding: 3em;
+  padding: 1rem;
   border: 2px solid rgba(0, 0, 0, 0.1);
+  white-space: pre-line;
   ::placeholder {
     color: rgba(0, 0, 0, 0.3);
     font-size: 1em;
@@ -449,6 +479,7 @@ const PhotoInputWrapper = styled.div`
   margin-top: 1em;
   border: 2px solid rgba(0, 0, 0, 0.1);
   @media only screen and (max-width: 640px) {
+width: 23.4375rem;
     border: none;
     text-align: center;
     height: 20em;

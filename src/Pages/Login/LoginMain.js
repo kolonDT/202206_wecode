@@ -127,10 +127,10 @@ const LoginMainInfo = styled.div`
 `;
 const InfoTitle = styled.div`
   @media only screen and (max-width: 640px) {
-    font-size: 30px;
+    font-size: 25px;
   }
   margin-bottom: 10px;
-  font-size: 34px;
+  font-size: 28px;
   font-weight: 800;
   letter-spacing: 1px;
   line-height: 25px;
