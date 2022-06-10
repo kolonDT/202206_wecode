@@ -41,7 +41,7 @@ const PhotoCard = ({
     const isDelete = window.confirm("삭제하시겠습니까?");
     if (isDelete) {
       let result =carImages;
-      const deletedCarImages=result.filter((a)=>{console.log(a);
+      const deletedCarImages=result.filter((a)=>{
       return a.order!==index});
 
       const deletedThumbnails=thumbnails.filter((_,num)=>num!==index)
@@ -89,7 +89,7 @@ const PhotoInputBox = styled.div`
   @media only screen and (max-width: 640px) {
     text-align: center;
     border: 1px solid rgba(0, 0, 0, 0.2);
-    width: 9.7em;
+    width: 8.7em;
     height: 9em;
   }
 `;

@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { GrFormPrevious } from "react-icons/gr";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { BsCircleFill } from "react-icons/bs";
+// import { GiHamburgerMenu } from "react-icons/gi";
+// import { BsCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { BsBellSlash, BsBell } from "react-icons/bs";
-import { setAlarm } from "../Pages/Api/Api";
+// import { BsBellSlash, BsBell } from "react-icons/bs";
+// import { setAlarm } from "../Pages/Api/Api";
 import { useLocation } from "react-router-dom"
 
 const Header = ({ isNew, setNew, page }) => {
   const navigate = useNavigate();
-  const settingAlarm = () => {
-    if (isNew === 1 || isNew === 0) {
-      setAlarm(-1);
-      setNew(-1);
-    } else {
-      setAlarm(0);
-      setNew(0);
-    }
-  };
+  // const settingAlarm = () => {
+  //   if (isNew === 1 || isNew === 0) {
+  //     setAlarm(-1);
+  //     setNew(-1);
+  //   } else {
+  //     setAlarm(0);
+  //     setNew(0);
+  //   }
+  // };
 
   const location =useLocation();
 
@@ -39,7 +39,6 @@ const Header = ({ isNew, setNew, page }) => {
   //     return <BsBellSlash size="24" color="#383838" onClick={settingAlarm} />;
   //   }
   // }
-
   return (
     <HeaderContainer page={page}>
       <HeaderWrapper page={page}>
@@ -50,6 +49,7 @@ const Header = ({ isNew, setNew, page }) => {
                 navigate("/")
                 return
               }
+           
               navigate(-1);
             }}
             page={page}
@@ -57,6 +57,22 @@ const Header = ({ isNew, setNew, page }) => {
             <GrFormPrevious size="24" color="#383838" />
           </PreviousButton>
         )}
+
+        {page === "admin" && (
+          <PreviousButton
+            onClick={() => {
+            
+                navigate("/")
+              }
+           
+            }
+            page={page}
+          >
+            <GrFormPrevious size="24" color="#383838" />
+          </PreviousButton>
+        )}
+
+      
 
         <HeaderTitle>
           {page === "admin" ? "관리 페이지" : "내 차 팔기"}
@@ -74,11 +90,8 @@ const Header = ({ isNew, setNew, page }) => {
     </HeaderContainer>
   );
 };
-const Alarm = styled.div`
-  position: relative;
-  top: -40px;
-  right: -20px;
-`;
+
+
 const HeaderContainer = styled.div`
   width: ${(props) => (props.page === "admin" ? "1100px" : "640px")};
   margin: 0px auto;
@@ -92,7 +105,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: ${(props) =>
-    props.page === "default" ? "space-between" : "center"};
+    props.page === "default" ||props.page === "admin"? "space-between" : "center"};
   padding: 20px 20px;
 `;
 

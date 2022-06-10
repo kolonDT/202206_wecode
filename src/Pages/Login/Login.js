@@ -8,7 +8,6 @@ import { HiLightBulb } from "react-icons/hi";
 import { CAR_API, MYCAR_API } from "../../config";
 
 function Login({ setPage }) {
-  console.log()
   // const locate = useLocation();
   const navigate = useNavigate();
   const [id, setId] = useState("");
@@ -176,7 +175,6 @@ function Login({ setPage }) {
     // setPage("login");
   }, []);
 */
-
   return (
     <LoginBox>
       <LoginWrap>

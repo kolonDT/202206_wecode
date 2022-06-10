@@ -66,7 +66,7 @@ function ContactInfo() {
 
   return (
     <Box>
-      <P>딜러의 방문상담을 위해</P>
+      <P className="top">딜러의 방문상담을 위해</P>
       <P>연락처와 지역을 확인해 주세요.</P>
       <Contact>
         <Text>연락처</Text>
@@ -149,7 +149,7 @@ font-weight: 100%;
   letter-spacing: 0.7px;
   text-align: left;
   margin-right: 50px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `;
 const Address = styled.div`
   align-items: center;
@@ -157,10 +157,10 @@ const Address = styled.div`
 `;
 const AddrInput = styled.input`
   padding: 0px;
-  font-size: 1.3em;
+  font-size: 1.1em;
   height: 1.3em;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 20px;
   border: 0px;
   border-top: 0px;
@@ -223,9 +223,11 @@ const Contact = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  margin: 1.4em 0;
+  margin-top: 1.4em;
+  margin-bottom: 1.0em;
 `;
 const Text = styled.p`
+font-weight: 600;
   margin-right: 1.4em;
   letter-spacing: 0.7px;
   text-align: left;
@@ -236,8 +238,10 @@ const P = styled.p`
   font-weight: 800;
   letter-spacing: 1px;
   line-height: 25px;
-
   text-align: left;
+  &.top{
+    margin-top: 30px;
+  }
 `;
 
 const Box = styled.div`

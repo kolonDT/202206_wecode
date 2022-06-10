@@ -11,9 +11,6 @@ function Reconfirm({ setPage }) {
   const navigate = useNavigate();
   const carImages = useLocation().state.carImages;
   const thumbnails = useLocation().state.thumbnails;
-
-  console.log(thumbnails);
-
   const handleRequest = () => {
     setCarDB();
     navigate("/complete");
@@ -68,18 +65,7 @@ function Reconfirm({ setPage }) {
     
 
     const option =localStorage.getItem(`${carNumber}_options`)||"[]"
-console.log( JSON.stringify({
-      image: localStorage.getItem(`${thumbnails}_image`),
-      carNumber: carNumber,
-      additionalInfo: localStorage.getItem(`${carNumber}_additional_info`),
-      distance: distanceDB,
-      optionIdList: JSON.parse(option),
-      contact: localStorage.getItem(`${carNumber}_contact`),
-      address: localStorage.getItem(`${carNumber}_address`),
-      addressDetail: localStorage.getItem(`${carNumber}_detailAddress`),
-      lat:"37.49929244623464",
-      lon:"127.0293917149315",
-    }))
+
 
     fetch(`${CAR_API}`, {
       method: "POST",
@@ -106,8 +92,7 @@ console.log( JSON.stringify({
           method: "POST",
           body: imageResult,
         })
-          .then((res) => res.json())
-          .then((res) => console.log(res));
+         
       });
   };
 
@@ -127,7 +112,7 @@ console.log( JSON.stringify({
           {thumbnails.map((url, index) => {
             return (
               <div key={index}>
-                <img src={url} width={370}  alt="car_image" />
+                <Img src={url} width={370}  alt="car_image" />
               </div>
             );
           })}
@@ -160,6 +145,11 @@ console.log( JSON.stringify({
     </ReconfirmWrap>
   );
 }
+
+const Img = styled.img`
+max-height:400px;
+;
+`
 
 const ReconfirmWrap = styled.div`
   @media only screen and (max-width: 640px) {
