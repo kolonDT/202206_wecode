@@ -27,7 +27,6 @@ const CarLine = ({ carId, setCars, cars, car, isNew, setNew }) => {
         num === checked.step ? { ...checked, state: !checked.state } : checked
       )
     );
-    console.log("progress", checkedArray[index].step);
     fetch(`${HISTORY_API}?carNumber=${car.car_number}`, {
       method: "PATCH",
       headers: { "Content-type": "application/json" },
@@ -43,7 +42,6 @@ const CarLine = ({ carId, setCars, cars, car, isNew, setNew }) => {
 
   const clickDelete = () => {
     const isDelete = window.confirm("차량 정보를 삭제하시겠습니까?");
-    console.log("삭제가 왜 안되니????", car.car_number);
     if (isDelete) {
       //삭제 API 완료되면 연결
       fetch(`${CAR_API}?carNumber=${car.car_number}`, {
@@ -54,7 +52,6 @@ const CarLine = ({ carId, setCars, cars, car, isNew, setNew }) => {
       })
         .then((res) => res.json())
         .then((res) => {
-          console.log(res);
         });
       //리렌더링
       setCars(cars.filter((car) => car.id !== carId));

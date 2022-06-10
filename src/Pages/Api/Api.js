@@ -9,7 +9,7 @@ const getAlarm = async (setNew) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      setNew(data["registeredCarInfo"][0].is_new);
+      setNew(false);
     });
 };
 
@@ -23,7 +23,7 @@ const setAlarm = async (status) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log("set data", status, data);
+      // console.log("set data", status, data);
     });
 };
 
@@ -39,7 +39,7 @@ const getAlarmByCarNumber = async (setNew, carNumber) => {
     .then((data) => {
       setNew(data["registeredCarInfo"][0].is_new);
       ret = data["registeredCarInfo"][0].is_new;
-      console.log("getalarm ", data["registeredCarInfo"][0].is_new, carNumber);
+      // console.log("getalarm ", data["registeredCarInfo"][0].is_new, carNumber);
     });
   return ret;
 };
@@ -54,7 +54,7 @@ const setAlarmByCarNumber = async (status, carNumber) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log("set data", status, carNumber, data);
+      // console.log("set data", status, carNumber, data);
     });
 };
 

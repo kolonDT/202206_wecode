@@ -457,10 +457,14 @@ const InfoInputBox = styled.div`
   
 `;
 
-const DescriptionInput = styled.input`
+const DescriptionInput = styled.textarea`
   padding: 1rem;
   border: 2px solid rgba(0, 0, 0, 0.1);
   white-space: pre-line;
+  @media only screen and (max-width: 640px) {
+    width:19.5rem;
+
+  }
   ::placeholder {
     color: rgba(0, 0, 0, 0.3);
     font-size: 1em;

@@ -1,5 +1,3 @@
-import "./App.css";
-import styled from "styled-components";
 
 import { Routes, BrowserRouter, Route } from "react-router-dom";
 import Header from "./Components/Header";
@@ -22,8 +20,8 @@ function App() {
       <BrowserRouter>
         <Header isNew={isNew} setNew={setNew} page={page} />
         <Routes>
-          <Route path="/" element={<Login setPage={setPage} />} />
-          <Route path="/login" element={<LoginMain setPage={setPage} />} />
+          <Route path="/"  element={<Login setPage={setPage} />} />
+          <Route path="/login" exact element={<LoginMain setPage={setPage} />} />
           <Route
             path="/complete"
             element={
@@ -33,7 +31,7 @@ function App() {
           <Route
             path="/requestform"
             element={
-              <RequestForm isNew={isNew} setNew={setNew} setPage={setPage} />
+              <RequestForm  isNew={isNew} setNew={setNew} setPage={setPage} />
             }
           />
           <Route path="/reconfirm" element={<Reconfirm setPage={setPage} />} />

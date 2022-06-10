@@ -1,7 +1,6 @@
 // modules
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 //styles
 import styled from "styled-components";
 import moment from "moment";
@@ -9,6 +8,7 @@ import { HiLightBulb } from "react-icons/hi";
 import { CAR_API, MYCAR_API } from "../../config";
 
 function Login({ setPage }) {
+  console.log()
   // const locate = useLocation();
   const navigate = useNavigate();
   const [id, setId] = useState("");
@@ -19,6 +19,7 @@ function Login({ setPage }) {
   const [data, setData] = useState(false);
 
   const getCar = (carNumber) => {
+
     fetch(`${CAR_API}?carNumber=${carNumber}`, {
       method: "GET",
       headers: {
@@ -125,7 +126,7 @@ function Login({ setPage }) {
   };
 
   const handleWrite = () => {
-    console.log("handle :", localStorage.getItem("carNumber"));
+   
     if (show) {
       alert("작성중인 견적서 페이지로 이동합니다.");
       navigate("/sellcar");
@@ -175,7 +176,7 @@ function Login({ setPage }) {
     // setPage("login");
   }, []);
 */
-  console.log({ CAR_API });
+
   return (
     <LoginBox>
       <LoginWrap>

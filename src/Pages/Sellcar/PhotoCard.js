@@ -10,13 +10,12 @@ const PhotoCard = ({
   setThumbnails,
   thumbnails,
 }) => {
-  console.log(index);
   //사진등록 버튼을 누르면 사진 등록할 수 있는 모달창 띄우기
   const clickPhotoInput = (num) => {
     photoInput.current.click();
   };
 
-  const [thumbnail, setThumbnail] = useState();
+  const [thumbnail, setThumbnail] = useState("");
 
   //photoInput 버튼 ref
   const photoInput = useRef();
@@ -24,7 +23,12 @@ const PhotoCard = ({
   //사진을 상태값에 저장하는 함수
   const onLoadFile = (e) => {
     const newImage = e.target.files;
-    carImages[index] = { order: index, src: newImage[0] };
+    let result =carImages;
+    result[index]= { order: index, src: newImage[0] };
+
+    // carImages[index] = { order: index, src: newImage[0] };
+    setCarImages(result)
+
     if (carImages.length < 5) {
       setThumbnail(URL.createObjectURL(newImage[0]));
       setThumbnails([...thumbnails, URL.createObjectURL(newImage[0])]);
@@ -36,15 +40,22 @@ const PhotoCard = ({
     e.stopPropagation();
     const isDelete = window.confirm("삭제하시겠습니까?");
     if (isDelete) {
-      carImages[index] = null;
-      setThumbnail(undefined);
+      let result =carImages;
+      const deletedCarImages=result.filter((a)=>{console.log(a);
+      return a.order!==index});
+
+      const deletedThumbnails=thumbnails.filter((_,num)=>num!==index)
+      setThumbnails(deletedThumbnails)
+      setCarImages(deletedCarImages)
+      // carImages[index] = null;
+      setThumbnail("");
     }
+  
   };
 
-  console.log(carImages);
   return (
     <PhotoInputBox onClick={clickPhotoInput}>
-      {thumbnail !== undefined ? (
+      {thumbnail!=="" ? (
         <ThumbnailBox>
           <Thumbnail src={thumbnail} />
           <DeleteIcon>

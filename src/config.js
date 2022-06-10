@@ -1,14 +1,10 @@
 // require("dotenv").config();
 
-// export const PORT = process.env.REACT_APP_NODE_API_PORT;
-// export const URL = process.env.REACT_APP_NODE_API_URL;
-
-export const PORT = "9989"
-export const URL = "http://10.133.30.30"
+export const PORT = process.env.REACT_APP_NODE_API_PORT;
+export const URL = process.env.REACT_APP_NODE_API_URL;
 
 
 export const URI = `${URL}:${PORT}`;
-
 export const CAR_API = `${URL}:${PORT}/car`;
 export const MYCAR_API = `${URL}:${PORT}/car/myCar`;
 export const MYCARS_API = `${URL}:${PORT}/car/myCars`;

@@ -6,6 +6,7 @@ import { BsCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { BsBellSlash, BsBell } from "react-icons/bs";
 import { setAlarm } from "../Pages/Api/Api";
+import { useLocation } from "react-router-dom"
 
 const Header = ({ isNew, setNew, page }) => {
   const navigate = useNavigate();
@@ -19,29 +20,36 @@ const Header = ({ isNew, setNew, page }) => {
     }
   };
 
-  function AlarmChange({ isNew }) {
-    console.log("test", isNew);
-    if (isNew === 1) {
-      return (
-        <div>
-          <BsBell size="24" color="#383838" onClick={settingAlarm} />
-          <Alarm>
-            <BsCircleFill color="red" size="10" onClick={settingAlarm} />
-          </Alarm>
-        </div>
-      );
-    } else if (isNew === 0) {
-      return <BsBell size="24" color="#383838" onClick={settingAlarm} />;
-    } else {
-      return <BsBellSlash size="24" color="#383838" onClick={settingAlarm} />;
-    }
-  }
+  const location =useLocation();
+
+  // function AlarmChange({ isNew }) {
+  //   console.log("test", isNew);
+  //   if (isNew === 1) {
+  //     return (
+  //       <div>
+  //         <BsBell size="24" color="#383838" onClick={settingAlarm} />
+  //         <Alarm>
+  //           <BsCircleFill color="red" size="10" onClick={settingAlarm} />
+  //         </Alarm>
+  //       </div>
+  //     );
+  //   } else if (isNew === 0) {
+  //     return <BsBell size="24" color="#383838" onClick={settingAlarm} />;
+  //   } else {
+  //     return <BsBellSlash size="24" color="#383838" onClick={settingAlarm} />;
+  //   }
+  // }
+
   return (
     <HeaderContainer page={page}>
       <HeaderWrapper page={page}>
         {page === "default" && (
           <PreviousButton
             onClick={() => {
+              if(location.pathname==="/requestform"){
+                navigate("/")
+                return
+              }
               navigate(-1);
             }}
             page={page}
@@ -54,7 +62,7 @@ const Header = ({ isNew, setNew, page }) => {
           {page === "admin" ? "관리 페이지" : "내 차 팔기"}
         </HeaderTitle>
         <HeaderMenu>
-          {page === "default" && <AlarmChange isNew={isNew} />}
+          {/* {page === "default" && <AlarmChange isNew={isNew} />} */}
           {/* <GiHamburgerMenu size="24" color="#383838" />
           {isNew === 1 ? (
             <Alarm>

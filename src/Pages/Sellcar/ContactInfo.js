@@ -1,13 +1,10 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import MapInfo from "./MapInfo";
 import DaumPostcode from "react-daum-postcode";
 
 function ContactInfo() {
   const [phone, setPhone] = useState("");
-  const [isModal, setModal] = useState(false);
   const [addr, setAddr] = useState("");
-  const [postcodeAddr, setPostcodeAddr] = useState("");
   const [isFindAddr, setFindAddr] = useState(false);
   const [detailAddr, setDetailAddr] = useState("");
 
@@ -26,35 +23,46 @@ function ContactInfo() {
     setDetailAddr(e.target.value);
     localStorage.setItem(`${carNumber}_detailAddress`, e.target.value);
   };
+
   useEffect(() => {
     setDetailAddr(localStorage.getItem(`${carNumber}_detailAddress`));
     setPhone(localStorage.getItem(`${carNumber}_contact`));
   }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   console.log("1")
+  //   if (
+  //     localStorage.getItem(`${carNumber}_address`) === undefined ||
+  //     localStorage.getItem(`${carNumber}_address`) === null ||
+  //     localStorage.getItem(`${carNumber}_address`) === "undefined"
+  //   ) {
+
+  //     if (addr !== undefined)
+  //      { localStorage.setItem(`${carNumber}_address`, addr);
+  // }
+  //   } else if (postcodeAddr !== "undefined" && postcodeAddr !== undefined) {
+  //     localStorage.setItem(`${carNumber}_address`, postcodeAddr);
+  //     setAddr(postcodeAddr);
+  //   } else {
+  //     if (
+  //       localStorage.getItem(`${carNumber}_address`) !== undefined &&
+  //       localStorage.getItem(`${carNumber}_address`) !== "undefined"
+  //     ) {
+
+  //       setAddr(localStorage.getItem(`${carNumber}_address`));
+  //       setPostcodeAddr(localStorage.getItem(`${carNumber}_address`));
+  //     }
+  //   }
+  // }, [postcodeAddr, addr]);
+
+  useEffect(()=>{
     if (
-      localStorage.getItem(`${carNumber}_address`) === undefined ||
-      localStorage.getItem(`${carNumber}_address`) === null ||
-      localStorage.getItem(`${carNumber}_address`) === "undefined"
-    ) {
-      if (addr !== undefined)
-        localStorage.setItem(`${carNumber}_address`, addr);
-    } else if (postcodeAddr !== "undefined" && postcodeAddr !== undefined) {
-      localStorage.setItem(`${carNumber}_address`, postcodeAddr);
-      setAddr(postcodeAddr);
-    } else {
-      if (
-        localStorage.getItem(`${carNumber}_address`) !== undefined &&
-        localStorage.getItem(`${carNumber}_address`) !== "undefined"
-      ) {
-        console.log("aavb", localStorage.getItem(`${carNumber}_address`));
-        setAddr(localStorage.getItem(`${carNumber}_address`));
-        setPostcodeAddr(localStorage.getItem(`${carNumber}_address`));
-      } else {
-        console.log("hey");
-      }
-    }
-  }, [postcodeAddr, addr]);
+         Boolean(localStorage.getItem(`${carNumber}_address`)&&localStorage.getItem(`${carNumber}_detailAddress`)) 
+        ){
+          setAddr(localStorage.getItem(`${carNumber}_address`));
+        setDetailAddr(localStorage.getItem(`${carNumber}_detailAddress`));
+        }
+  },[])
 
   return (
     <Box>
@@ -88,12 +96,15 @@ function ContactInfo() {
             <FindBtn placeholder="주소" onClick={() => {
                   setFindAddr((prev)=>!prev);
                   setAddr("")
-                  setPostcodeAddr("")
                   setDetailAddr("")
+    localStorage.setItem(`${carNumber}_detailAddress`, "");
+    localStorage.setItem(`${carNumber}_address`, "");
+
+
                 }}>검색</FindBtn>
           </Contact>
       {isFindAddr && (<div>
-         <Postcode setFindAddr={setFindAddr} setAddr={setAddr} setPostcodeAddr={setPostcodeAddr} />
+         <Postcode carNumber={carNumber} setFindAddr={setFindAddr} setAddr={setAddr} />
          </div>
             ) }
            {Boolean(addr) &&
@@ -110,7 +121,7 @@ function ContactInfo() {
     </Box>
   );
 }
-const Postcode = ({ setAddr, setPostcodeAddr,setFindAddr }) => {
+const Postcode = ({ setAddr,setFindAddr,carNumber }) => {
   const handleComplete = (data) => {
     let fullAddress = data.address;
     let extraAddress = "";
@@ -125,8 +136,8 @@ const Postcode = ({ setAddr, setPostcodeAddr,setFindAddr }) => {
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
     setAddr(fullAddress);
+    localStorage.setItem(`${carNumber}_address`, fullAddress);
     setFindAddr(false);
-    setPostcodeAddr(fullAddress);
   };
 
   return <DaumPostcode onComplete={handleComplete} />;

@@ -15,7 +15,6 @@ function MapInfo({ addr, setAddr, postcodeAddr }) {
   useEffect(() => {
     if (postcodeAddr !== undefined) {
       AddrToMap(postcodeAddr, setCoords, coords);
-      console.log(coords);
     }
   }, [postcodeAddr]);
 

@@ -52,7 +52,7 @@ function CompleteForm({ isNew, setNew, setPage }) {
         <P>딜러 방문 전에 계약을 위한</P>
         <P>필요서류를 준비해 주세요.</P>
       </Wrap>
-      {alarmStatus ? (
+      {/* {alarmStatus ? (
         <Wrap>
           <P>Push 알림 설정을 켜주시면</P>
           <P>진행상황이 업데이트 될 때</P>
@@ -64,16 +64,16 @@ function CompleteForm({ isNew, setNew, setPage }) {
           <P>받고싶지 않으시다면</P>
           <P>푸시알림 설정을 해제해 주세요</P>
         </Wrap>
-      )}
+      )} */}
       <OptionField>
         <Button onClick={gotoRequest}>요청내역 보기</Button>
-        {!alarmStatus ? (
+        {/* {!alarmStatus ? (
           <Button onClick={handleToast}>Push 알림 해제</Button>
         ) : (
           <Button onClick={handleToast}>Push 알림 설정</Button>
-        )}
+        )} */}
       </OptionField>
-      {toastStatus && (
+      {/* {toastStatus && (
         <>
           {!alarmStatus ? (
             <Toast>알람 설정 되었습니다 </Toast>
@@ -81,7 +81,7 @@ function CompleteForm({ isNew, setNew, setPage }) {
             <Toast>알람 해제 되었습니다 </Toast>
           )}
         </>
-      )}
+      )} */}
     </Box>
   );
 }

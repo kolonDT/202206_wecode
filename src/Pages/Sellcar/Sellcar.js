@@ -116,6 +116,7 @@ const Wrap = styled.div`
   }
 `;
 const Button = styled.button`
+margin-top: 20px;
   width: 180px;
   padding: 12px 15px;
   border-radius: 5px;

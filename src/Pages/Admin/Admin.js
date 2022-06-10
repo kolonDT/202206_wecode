@@ -23,11 +23,9 @@ const Admin = ({ isNew, setNew, setPage }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
         setCars(data.myCarsInfo);
       });
     setPage("admin");
-    console.log("cars", cars);
   }, []);
 
   return (

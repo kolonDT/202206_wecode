@@ -7,12 +7,11 @@ import "slick-carousel/slick/slick-theme.css";
 import "./slide.css";
 import styled from "styled-components";
 import moment from "moment";
-import { setAlarm, getAlarm } from "../Api/Api";
 import { MYCAR_API, URI } from "../../config";
 
 function RequestForm({ isNew, setNew, setPage }) {
   const [fold, setFold] = useState(false);
-  const [data, setData] = useState();
+  const [data, setData] = useState({});
   let optionList = "";
 
   const getData = () => {
@@ -33,19 +32,19 @@ function RequestForm({ isNew, setNew, setPage }) {
     setPage("default");
   }, []);
 
-  useEffect(() => {
-    getAlarm(setNew);
-    if (isNew === 1 && fold !== false) {
-      setNew(0);
-      setAlarm(0);
-    }
-  }, [isNew, fold]);
+  // useEffect(() => {
+  //   getAlarm(setNew);
+  //   if (isNew === 1 && fold !== false) {
+  //     setNew(0);
+  //     setAlarm(0);
+  //   }
+  // }, [isNew, fold]);
 
-  if (data === undefined) return null;
-  optionList = data.options.split(",").map((opt, index) => {
-    return optionList.concat(opt);
-  });
-  optionList = optionList.join(",");
+  // if (data === undefined) return null;
+  // optionList = data.options.split(",").map((opt, index) => {
+  //   return optionList.concat(opt);
+  // });
+  // optionList = optionList.join(",");
   return (
     <>
       <Box>
@@ -72,7 +71,6 @@ function RequestForm({ isNew, setNew, setPage }) {
   );
 }
 const DetailList = React.memo(function DetailList({ fold, data, optionList }) {
-  console.log("data", data);
   return (
     <Detail active={fold}>
       <HR />
@@ -95,7 +93,7 @@ const DetailList = React.memo(function DetailList({ fold, data, optionList }) {
       </DetailLine>
       <DetailLine>
         <TextTitle>옵션</TextTitle>
-        <Text>{optionList}</Text>
+        <Text>{data.options}</Text>
       </DetailLine>
       <DetailLine>
         <TextTitle>연락처</TextTitle>
@@ -137,14 +135,13 @@ const ProcessArray = React.memo(function ProcessArray({ data }) {
 
   return Object.entries(process).map(([key, value]) =>
     value !== "Invalid date" ? (
-      <Line>
+      <Line key={key+value}>
         <P>{key}</P>
         <P>{value}</P>
       </Line>
     ) : (
-      <Line>
+      <Line key={value+key}>
         <P active={1}>{key}</P>
-        <P></P>
       </Line>
     )
   );
@@ -168,11 +165,9 @@ function ImageSlide({ data }) {
     <Wrap>
       <Slider {...settings}>
         {data.image.split(",").map((imgUrl, index) => {
-          console.log("imgUrl", imgUrl);
           imgUrl = URI.concat("/image/" + imgUrl);
-          console.log(imgUrl);
           return (
-            <ImgDiv>
+            <ImgDiv key={imgUrl}>
               <Img src={imgUrl} alt="car_image" />
             </ImgDiv>
           );
@@ -219,30 +214,35 @@ const P = styled.p`
     font-size: 1em;
   }
 `;
-const Line = styled.p`
+const Line = styled.div`
   width: 86%;
   margin: 0px auto;
   display: flex;
   justify-content: space-between;
 `;
-const Folding = styled.p`
+const Folding = styled.div`
   font-size: 1.2em;
   font-weight: 500;
   cursor: pointer;
 `;
-const DetailLine = styled.p`
+const DetailLine = styled.div`
   margin: 0px auto;
   width: 90%;
   display: flex;
   justify-content: space-between;
 `;
-const Text = styled.p`
+const Text = styled.div`
   font-size: 1.2em;
   font-weight: 400;
   margin-top: 10px;
   margin-bottom: 10px;
+  width: 300px;
+    word-wrap: break-word;
+ 
   @media only screen and (max-width: 640px) {
     font-size: 0.8em;
+    width: 200px;
+    word-wrap: break-word;
   }
 `;
 const HR = styled.hr`
