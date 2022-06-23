@@ -21,7 +21,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: kolonglobal/wecode_fr
+          images: kolonglobal/wecode_2nd
           tag-semver: |
             {{version}}
             {{major}}.{{minor}}
