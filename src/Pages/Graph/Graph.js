@@ -21,31 +21,52 @@ function Graph({ setPage }) {
   const [add, setAdd] = useState(false);
   const [graph, setGraph] = useState(true);
   const [price, setPrice] = useState("");
-
-
   
   const graphCarDB = (carNumber) => {
+    // Graph 통신
+    // fetch(`${GRAPH_API}?carNumber=${carNumber}`, {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     const price = data["priceByDistance"];
+    //     price.map((data) => {
+    //       if (data.price_used !== undefined) {
+    //         data.price_used = data.price_used / 10000;
+    //       }
+    //       if (data.tomato !== undefined) {
+    //         data.tomato = data.tomato / 10000;
+    //       }
+    //     });
+    //     setGraph(price);
+    //     setPrice(price[0].price_used);
+    //   });
 
-    fetch(`${GRAPH_API}?carNumber=${carNumber}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    // MockDB : start
+    fetch('http://localhost:3000/Data/Dino/graphData.json', {
+      method: 'GET',
+    })                      
       .then((res) => res.json())
       .then((data) => {
-        const price = data["priceByDistance"];
-        price.map((data) => {
-          if (data.price_used !== undefined) {
-            data.price_used = data.price_used / 10000;
-          }
-          if (data.tomato !== undefined) {
-            data.tomato = data.tomato / 10000;
-          }
-        });
+        console.log(data)
+        const price = data;
+        // price.map((data) => {
+        //   if (data.price_used !== undefined) {
+        //     data.price_used = data.price_used / 10000;
+        //   }
+        //   if (data.tomato !== undefined) {
+        //     data.tomato = data.tomato / 10000;
+        //   }
+        // });
         setGraph(price);
         setPrice(price[0].price_used);
+        console.log(price)
+        console.log(price[0])
       });
+      // MockDB : end
   };
 
   useEffect(() => {
@@ -57,7 +78,8 @@ function Graph({ setPage }) {
   return (
     <GraphWrap>
       <GraphTitle>
-        예상 시세는 <span>{price}</span> 만 원 입니다.
+        내 차의 예상 시세는 <br/>
+        {price} ∼ {price} 만 원 입니다.
       </GraphTitle>
       <GraphBox>
         <ResponsiveContainer minWidth={screenWidth<600?375:500} minHeight={screenWidth<600?375:500}>
@@ -76,12 +98,14 @@ function Graph({ setPage }) {
             <CartesianGrid stroke="#F5F5F5" strokeDasharray="5 5" />
             <Tooltip />
             <Legend />
-            <XAxis dataKey="index" unit="km" type="number" />
+            {/* TODO : x 축 km → 연식 */}
+            <XAxis dataKey="index" unit="연식" type="number" />
             <YAxis dataKey="price_used" unit="만원" type="number" />
-            <Scatter name="myCar" dataKey="myCar" fill="myCar" />
+            <Scatter name="내 차" dataKey="myCar" fill="#5c1049" />
             <Line
+              type="monotone"
               dataKey="tomato"
-              stroke="tomato"
+              stroke="#5c1049"
               dot={false}
               activeDot={false}
               legendType="none"
