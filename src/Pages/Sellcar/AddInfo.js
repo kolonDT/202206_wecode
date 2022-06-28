@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import PhotoCard from "./PhotoCard";
 
 const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
@@ -41,7 +41,7 @@ const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
   //click시 옵션값 저장하는 함수
   const clickOptions = (e) => {
     const value = e.target.value;
-   const noOptionCheck=Object.keys(options).filter((key)=>
+    const noOptionCheck=Object.keys(options).filter((key)=>
     options[key]===true
 )
 if(noOptionCheck.length===1&&noOptionCheck[0]===value){
@@ -178,6 +178,14 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
     }
   }, [options]);
 
+  // 색상 직접입력 선택 시 text area on/off
+  const [colorInput, setColorInput] = useState(false);
+  const showColorInput =() =>{
+    setColorInput(prev=>!prev)
+  }
+
+  console.log("colorInput", colorInput)
+
   return (
     <InfoContainer>
       <Announcement>
@@ -268,6 +276,28 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
           <CheckBoxInfo>옵션이 없어요.</CheckBoxInfo>
         </NoOptionWrapper>
       </OptionWrapper>
+      
+      <ColorInputContainer InputOpen={colorInput}>
+        <Name>색상</Name>
+        <ColorChipWrapper>
+          {COLOR_CHIP.map(({id,color,colorName})=>(
+            <ColorChip id={id} color={color}>
+            <span></span>
+            {colorName}
+          </ColorChip>
+          ))}
+          <DirectInputColor onClick={showColorInput}>
+            <span></span>
+            직접입력
+          </DirectInputColor>
+        </ColorChipWrapper>
+        <InputTextWrapper InputOpen={colorInput}>
+          <InputTextColor
+            placeholder="차량 색상을 입력해주세요"
+          />
+        </InputTextWrapper>
+      </ColorInputContainer>
+      
       <AddInfoWrapper>
         <Name>추가 정보</Name>
         <AddInfoBox>
@@ -281,7 +311,6 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
           </InfoInputBox>
         </AddInfoBox>
       </AddInfoWrapper>
-
       <PhotoInputContainer>
         <Name>사진 등록</Name>
         <PhotoInputWrapper>
@@ -308,6 +337,109 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
     </InfoContainer>
   );
 };
+
+const COLOR_CHIP = [
+  {"id" : 1 , "color" : "white", "colorName" : "흰색" },
+  {"id" : 2 , "color" : "gray", "colorName" : "회색" },
+  {"id" : 3 , "color" : "black", "colorName" : "검정색" },
+  {"id" : 4 , "color" : "silver", "colorName" : "은색" },
+  {"id" : 5 , "color" : "blue", "colorName" : "파랑" },
+  {"id" : 6 , "color" : "red", "colorName" : "빨강" },
+]
+
+const DirectInputColor = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: small;
+  margin-top: 1em;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  span {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+    border: 3px solid #eee;
+    margin-bottom: 5px;
+    background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+  }
+`
+
+const ColorChip = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: small;
+  margin: 1em 0.5em 0 0;
+  cursor: pointer;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  span {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+    border: 3px solid #eee;
+    margin-bottom: 5px;
+    background: ${props => props.color};
+  }
+`
+
+const ColorChipWrapper = styled.div`
+  display: flex;
+`
+
+const InputTextColor = styled.input`
+  width: 100%;
+  margin: 0.8em 0;
+  padding: 0;
+  border: 0;
+  font-size: medium;
+
+  ::placeholder {
+    color: rgba(0, 0, 0, 0.2);
+    font-size: medium;
+  }
+
+  :focus {
+    outline: 0px solid black;
+  }
+`;
+
+const InputTextWrapper = styled.div`
+  margin-top: 1.5em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+
+  @media only screen and (max-width: 640px) {
+    width: 19rem;
+  }
+  
+  height: ${props => (props.InputOpen ? "100%" : "0")};
+  opacity: ${props => (props.InputOpen ? "1" : "0")};
+  display: ${props => (props.InputOpen ? "" : "none")};
+  margin-bottom: ${props => (props.InputOpen ? "2em" : "0")};
+  transition: all 0.5s;
+`;
+
+const ColorInputContainer = styled.div`
+  width: 100%;
+  margin: ${props => (props.InputOpen ? "2.5em 0 3.8em 0" : "2.5em 0")};
+  transition: all 0.3s;
+
+  @media only screen and (max-width: 640px) {
+    width: 23.4375rem;
+  }
+`;
 
 const InfoContainer = styled.div`
   width: 640px;
@@ -369,15 +501,12 @@ const Measurements = styled.span`
 const OptionWrapper = styled.div``;
 
 const OptionLine = styled.div`
-display: flex;
+  display: flex;
   margin-bottom: 1.4em;
   @media only screen and (max-width: 640px) {
     margin-bottom: 1em;
-width: 23.4375rem;
-
+    width: 23.4375rem;
   }
-
- 
 `;
 
 const OptionBox = styled.div`
@@ -442,6 +571,7 @@ const CheckBoxInfo = styled.span`
 const AddInfoWrapper = styled.div`
   margin-top: 20px;
   width: 100%;
+  
   @media only screen and (max-width: 640px) {
     width: 23.4375rem;
   }
@@ -458,13 +588,12 @@ const InfoInputBox = styled.div`
 `;
 
 const DescriptionInput = styled.textarea`
-resize: none;
+  resize: none;
   padding: 1rem;
   border: 2px solid rgba(0, 0, 0, 0.1);
   white-space: pre-line;
   @media only screen and (max-width: 640px) {
     width:17rem;
-
   }
   ::placeholder {
     color: rgba(0, 0, 0, 0.3);
