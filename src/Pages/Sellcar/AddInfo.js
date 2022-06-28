@@ -130,7 +130,6 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
     setInputValue(drivingDistance);
 
     //옵션 클릭 다루기
-
     const localOptions = localStorage.getItem(`${carNumber}_options`);
     if (localOptions) {
       if (localOptions.length === 0) {
@@ -178,13 +177,29 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
     }
   }, [options]);
 
-  // 색상 직접입력 선택 시 text area on/off
-  const [colorInput, setColorInput] = useState(false);
-  const showColorInput =() =>{
-    setColorInput(prev=>!prev)
+
+  // 선택한 색상 정보
+  const [ selectColor, setSelectColor ] = useState('')
+  const selectedColor = colorName => {
+    colorInput === true && setColorInput(false)
+    inputText !== ('') && setInputText('')
+    setSelectColor(colorName)
   }
 
-  console.log("colorInput", colorInput)
+  // 직접 입력 선택 시 TEXT AREA ON/OFF
+  const [ colorInput, setColorInput ] = useState(false);
+  const showColorInput = () => {
+    selectColor !== ('') && setSelectColor('')
+    setColorInput(prev => !prev);
+  }
+  
+  // 직접 입력한 색상 정보
+  const [ inputText, setInputText ] = useState('')
+  const userInputColor = e => {
+    const userInput = e.target.value
+    setInputText(userInput)
+    setSelectColor(userInput)
+  }
 
   return (
     <InfoContainer>
@@ -281,18 +296,24 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
         <Name>색상</Name>
         <ColorChipWrapper>
           {COLOR_CHIP.map(({id,color,colorName})=>(
-            <ColorChip id={id} color={color}>
+            <ColorChip 
+              onClick={()=>selectedColor(colorName)}
+              id={id}
+              color={color}>
             <span></span>
             {colorName}
           </ColorChip>
           ))}
-          <DirectInputColor onClick={showColorInput}>
+          <DirectInputColor 
+            onClick={showColorInput}>
             <span></span>
             직접입력
           </DirectInputColor>
         </ColorChipWrapper>
         <InputTextWrapper InputOpen={colorInput}>
           <InputTextColor
+            onChange={userInputColor}
+            value={inputText}
             placeholder="차량 색상을 입력해주세요"
           />
         </InputTextWrapper>
