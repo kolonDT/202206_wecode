@@ -296,16 +296,19 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
         <Name>색상</Name>
         <ColorChipWrapper>
           {COLOR_CHIP.map(({id,color,colorName})=>(
-            <ColorChip 
-              onClick={()=>selectedColor(colorName)}
+            <ColorChip
               id={id}
-              color={color}>
+              color={color}
+              colorName={colorName}
+              selectColor={selectColor}
+              onClick={()=>selectedColor(colorName)}>
             <span></span>
             {colorName}
           </ColorChip>
           ))}
           <DirectInputColor 
-            onClick={showColorInput}>
+            onClick={showColorInput}
+            colorInput={colorInput}>
             <span></span>
             직접입력
           </DirectInputColor>
@@ -388,6 +391,17 @@ const DirectInputColor = styled.div`
     margin-bottom: 5px;
     background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
   }
+
+  ${props => props.colorInput &&
+    css`
+      color: #9e127b;
+      font-weight: 600;
+
+      span {
+        border: 3px solid #9e127b;
+      }
+    `
+  }
 `
 
 const ColorChip = styled.div`
@@ -413,6 +427,17 @@ const ColorChip = styled.div`
     border: 3px solid #eee;
     margin-bottom: 5px;
     background: ${props => props.color};
+  }
+
+  ${props => props.colorName === props.selectColor &&
+    css`
+      color: #9e127b;
+      font-weight: 600;
+      
+      span {
+        border: 3px solid #9e127b;
+      }
+    `
   }
 `
 
