@@ -326,12 +326,20 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
         <Name>추가 정보</Name>
         <AddInfoBox>
           <InfoInputBox>
-            <DescriptionInput
+            {/* 추가 정보 세분화로 text area 삭제 */}
+            {/* <DescriptionInput
               onChange={writeInfo}
               placeholder={`차량 상태, 수리 필요 여부, 보험 이력 등 
               상세한 내용을 알려주세요.`}
               value={addInfo}
-            />
+            /> */}
+            {ADDITIONAL_INFO.map(({ id, typeName, placeholder })=>(
+              <InfoType id={id}>
+                <TypeName>{typeName}</TypeName>
+                <InfoInput placeholder={placeholder} />
+              </InfoType>
+            ))}
+            
           </InfoInputBox>
         </AddInfoBox>
       </AddInfoWrapper>
@@ -362,13 +370,19 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
   );
 };
 
+const ADDITIONAL_INFO = [
+  {"id" : 1, "typeName" : "차량 상태", "placeholder" : "차량 상태에 대해 알려주세요 🚗"},
+  {"id" : 1, "typeName" : "수리 필요 여부", "placeholder" : "차량 상태에 대해 알려주세요 🚗"},
+  {"id" : 1, "typeName" : "보험 이력", "placeholder" : "차량 상태에 대해 알려주세요 🚗"},
+]
+
 const COLOR_CHIP = [
   {"id" : 1 , "color" : "white", "colorName" : "흰색" },
-  {"id" : 2 , "color" : "gray", "colorName" : "회색" },
-  {"id" : 3 , "color" : "black", "colorName" : "검정색" },
-  {"id" : 4 , "color" : "silver", "colorName" : "은색" },
-  {"id" : 5 , "color" : "blue", "colorName" : "파랑" },
-  {"id" : 6 , "color" : "red", "colorName" : "빨강" },
+  {"id" : 2 , "color" : "silver", "colorName" : "은색" },
+  {"id" : 3 , "color" : "gray", "colorName" : "회색" },
+  {"id" : 4 , "color" : "black", "colorName" : "검정색" },
+  {"id" : 5 , "color" : "#006DB2", "colorName" : "파랑" },
+  {"id" : 6 , "color" : "#D00412", "colorName" : "빨강" },
 ]
 
 const DirectInputColor = styled.div`
@@ -433,7 +447,7 @@ const ColorChip = styled.div`
     css`
       color: #9e127b;
       font-weight: 600;
-      
+
       span {
         border: 3px solid #9e127b;
       }
@@ -630,22 +644,40 @@ const AddInfoBox = styled.div`
 const InfoInputBox = styled.div`
   display: flex;
   flex-direction: column;
-  
 `;
 
-const DescriptionInput = styled.textarea`
-  resize: none;
-  padding: 1rem;
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  white-space: pre-line;
-  @media only screen and (max-width: 640px) {
-    width:17rem;
-  }
-  ::placeholder {
-    color: rgba(0, 0, 0, 0.3);
-    font-size: 1em;
-  }
-`;
+const InfoInput = styled.input`
+  width: 100%;
+  margin-bottom: 1.5em;
+  padding: 0.8em;
+`
+
+const TypeName = styled.div`
+  color: #5c1049;
+  font-weight: 600;
+  font-size: medium;
+  margin-bottom: 0.5em;
+`
+
+const InfoType = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5em;
+`
+
+// const DescriptionInput = styled.textarea`
+//   resize: none;
+//   padding: 1rem;
+//   border: 2px solid rgba(0, 0, 0, 0.1);
+//   white-space: pre-line;
+//   @media only screen and (max-width: 640px) {
+//     width:17rem;
+//   }
+//   ::placeholder {
+//     color: rgba(0, 0, 0, 0.3);
+//     font-size: 1em;
+//   }
+// `;
 
 const ButtonName = styled.span`
   margin-left: 4px;
