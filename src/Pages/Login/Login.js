@@ -1,33 +1,32 @@
 // modules
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 //styles
-import styled from "styled-components";
-import moment from "moment";
-import { HiLightBulb } from "react-icons/hi";
-import { CAR_API, MYCAR_API } from "../../config";
+import styled from 'styled-components';
+import moment from 'moment';
+import { HiLightBulb } from 'react-icons/hi';
+import { CAR_API, MYCAR_API } from '../../config';
 
 function Login({ setPage }) {
   // const locate = useLocation();
   const navigate = useNavigate();
-  const [id, setId] = useState("");
+  const [id, setId] = useState('');
   const [isLogin, setLogin] = useState(false);
   const [show, setShow] = useState(false);
   //방문 기록이 있는지 관리하는 상태값
   const [hasQuote, setHasQuote] = useState(false);
   const [data, setData] = useState(false);
 
-  const getCar = (carNumber) => {
-
+  const getCar = carNumber => {
     fetch(`${CAR_API}?carNumber=${carNumber}`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.hasOwnProperty("infoByCarNumber")) {
+      .then(res => res.json())
+      .then(data => {
+        if (data.hasOwnProperty('infoByCarNumber')) {
           setShow(true);
           expireCheck(carNumber);
         } else {
@@ -39,16 +38,16 @@ function Login({ setPage }) {
   const getData = () => {
     //fetch(`/car?carNumber=${localStorage.getItem("carNumber")}`, {
     //`${URL}:${PORT}/car/myCar?carNumber=${localStorage.getItem("carNumber")}`,
-    fetch(`${MYCAR_API}?carNumber=${localStorage.getItem("carNumber")}`, {
-      method: "GET",
+    fetch(`${MYCAR_API}?carNumber=${localStorage.getItem('carNumber')}`, {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data["registeredCarInfo"].length !== 0) {
-          setData(data["registeredCarInfo"][0]);
+      .then(res => res.json())
+      .then(data => {
+        if (data.registeredCarInfo.length !== 0) {
+          setData(data.registeredCarInfo[0]);
         } else {
           setData(false);
         }
@@ -56,7 +55,7 @@ function Login({ setPage }) {
   };
 
   useEffect(() => {
-    setPage("login");
+    setPage('login');
   }, []);
 
   // useEffect(() => {
@@ -69,7 +68,7 @@ function Login({ setPage }) {
   // })
 
   //방문 기록 확인 및 관리하는 함수
-  const checkExpiry = (carNumber) => {
+  const checkExpiry = carNumber => {
     const timeStamp = localStorage.getItem(`${carNumber}_time_stamp`);
     //  timeStamp에서 시간과 분을 나눈다.
     const month = moment().month();
@@ -101,43 +100,42 @@ function Login({ setPage }) {
     }
   };
 
-  const handleInput = (e) => {
+  const handleInput = e => {
     let ret = isValidId(e.target.value);
     setLogin(ret);
     setId(e.target.value);
     if (ret === true) {
-      localStorage.setItem("carNumber", e.target.value);
+      localStorage.setItem('carNumber', e.target.value);
       getCar(e.target.value);
       getData();
     }
   };
 
-  const handleLogin = (str) => {
+  const handleLogin = str => {
     getCar(str);
     if (!show || !isLogin) {
-      alert("차량번호를 다시 확인해주세요.");
+      alert('차량번호를 다시 확인해주세요.');
     } else if (data) {
-      navigate("/requestform");
+      navigate('/requestform');
     } else {
-      navigate("/login", { state: id });
+      navigate('/login', { state: id });
     }
-    return "return";
+    return 'return';
   };
 
   const handleWrite = () => {
-   
     if (show) {
-      alert("작성중인 견적서 페이지로 이동합니다.");
-      navigate("/sellcar");
+      alert('작성중인 견적서 페이지로 이동합니다.');
+      navigate('/sellcar');
     }
     return null;
   };
 
   const handleAdmin = () => {
-    navigate("/admin");
+    navigate('/admin');
   };
 
-  const handleEnter = (e) => {
+  const handleEnter = e => {
     if (e.keyCode === 13) {
       handleLogin(e.target.value);
     }
@@ -149,7 +147,7 @@ function Login({ setPage }) {
     return ret;
   }
 
-  const expireCheck = (carNumber) => {
+  const expireCheck = carNumber => {
     const isVisited = checkExpiry(carNumber);
     let isWriting = false;
     if (
@@ -192,15 +190,15 @@ function Login({ setPage }) {
         {!data ? (
           <LoginButton
             disabled={!isLogin}
-            onClick={(e) => {
-              handleLogin(localStorage.getItem("carNumber"));
+            onClick={e => {
+              handleLogin(localStorage.getItem('carNumber'));
             }}
           >
             등록하기
           </LoginButton>
         ) : (
           <LoginButton
-            onClick={(e) => {
+            onClick={e => {
               handleLogin(e.target.value);
             }}
           >
@@ -212,7 +210,7 @@ function Login({ setPage }) {
             <span>이미 작성중인 견적서가 있습니다</span>
             <HiLightBulb size={20} />
           </LoginNone>
-        ) }
+        )}
         <GotoAdmin onClick={handleAdmin}>
           <AdminText>관리자 페이지로 이동</AdminText>
         </GotoAdmin>

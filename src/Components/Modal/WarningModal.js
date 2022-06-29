@@ -1,22 +1,25 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-function WarningModal({ setModal , modalText }) {
-  const text = modalText==="사진을 모두 등록해주세요."?modalText:`${modalText}를 입력해주세요.`
+function WarningModal({ setModal, modalText }) {
+  const text =
+    modalText === '사진을 모두 등록해주세요.'
+      ? modalText
+      : `${modalText}를 입력해주세요.`;
   return (
     <Overlay>
       <Content>
         <P>{text}</P>
         <Button
           onClick={() => {
-            setModal("");
+            setModal('');
           }}
         >
           확인
         </Button>
         <Button
           onClick={() => {
-            setModal("");
+            setModal('');
           }}
         >
           취소

@@ -1,9 +1,9 @@
 //module
-import { useState, useEffect } from "react";
-import Sellcar from "../../Pages/Sellcar/Sellcar";
-import React from "react";
+import { useState, useEffect } from 'react';
+import Sellcar from '../../Pages/Sellcar/Sellcar';
+import React from 'react';
 //styles
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   ComposedChart,
   Line,
@@ -14,15 +14,15 @@ import {
   Legend,
   Scatter,
   ResponsiveContainer,
-} from "recharts";
-import { GRAPH_API } from "../../config";
+} from 'recharts';
+import { GRAPH_API } from '../../config';
 
 function Graph({ setPage }) {
   const [add, setAdd] = useState(false);
   const [graph, setGraph] = useState(true);
-  const [price, setPrice] = useState("");
-  
-  const graphCarDB = (carNumber) => {
+  const [price, setPrice] = useState('');
+
+  const graphCarDB = carNumber => {
     // Graph 통신
     // fetch(`${GRAPH_API}?carNumber=${carNumber}`, {
     //   method: "GET",
@@ -48,10 +48,10 @@ function Graph({ setPage }) {
     // MockDB : start
     fetch('http://localhost:3000/Data/Dino/graphData.json', {
       method: 'GET',
-    })                      
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
         const price = data;
         // price.map((data) => {
         //   if (data.price_used !== undefined) {
@@ -63,26 +63,29 @@ function Graph({ setPage }) {
         // });
         setGraph(price);
         setPrice(price[0].price_used);
-        console.log(price)
-        console.log(price[0])
+        console.log(price);
+        console.log(price[0]);
       });
-      // MockDB : end
+    // MockDB : end
   };
 
   useEffect(() => {
-    graphCarDB(localStorage.getItem("carNumber"));
+    graphCarDB(localStorage.getItem('carNumber'));
   }, []);
 
-  const screenWidth=window.screen.width
+  const screenWidth = window.screen.width;
 
   return (
     <GraphWrap>
       <GraphTitle>
-        내 차의 예상 시세는 <br/>
+        내 차의 예상 시세는 <br />
         {price} ∼ {price} 만 원 입니다.
       </GraphTitle>
       <GraphBox>
-        <ResponsiveContainer minWidth={screenWidth<600?375:500} minHeight={screenWidth<600?375:500}>
+        <ResponsiveContainer
+          minWidth={screenWidth < 600 ? 375 : 500}
+          minHeight={screenWidth < 600 ? 375 : 500}
+        >
           <ComposedChart
             width={500}
             height={400}
@@ -117,7 +120,7 @@ function Graph({ setPage }) {
         onClick={() => {
           setAdd(!add);
         }}
-        style={{ display: add === false ? "block" : "none" }}
+        style={{ display: add === false ? 'block' : 'none' }}
       >
         <>추가 정보 입력</>
       </GraphButton>
@@ -145,7 +148,7 @@ const GraphTitle = styled.h1`
   line-height: 25px;
 `;
 const GraphBox = styled.div`
-font-size: small;
+  font-size: small;
   margin: 10px 0px 30px 0px;
 `;
 

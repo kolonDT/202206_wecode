@@ -1,5 +1,5 @@
-import { Map, MapMarker } from "react-kakao-maps-sdk";
-import { useState, useEffect } from "react";
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { useState, useEffect } from 'react';
 
 function MapInfo({ addr, setAddr, postcodeAddr }) {
   const [coords, setCoords] = useState();
@@ -21,7 +21,7 @@ function MapInfo({ addr, setAddr, postcodeAddr }) {
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        position => {
           let lat =
             coords !== undefined ? coords.getLat() : position.coords.latitude;
           let lng =
@@ -32,7 +32,7 @@ function MapInfo({ addr, setAddr, postcodeAddr }) {
             lng = 127.0293917149315;
           }
           getAddr(lat, lng, setAddr);
-          setState((prev) => ({
+          setState(prev => ({
             ...prev,
             center: {
               lat: lat,
@@ -41,8 +41,8 @@ function MapInfo({ addr, setAddr, postcodeAddr }) {
             isLoading: false,
           }));
         },
-        (err) => {
-          setState((prev) => ({
+        err => {
+          setState(prev => ({
             ...prev,
             errMsg: err.message,
             isLoading: false,
@@ -50,7 +50,7 @@ function MapInfo({ addr, setAddr, postcodeAddr }) {
         }
       );
     } else if (coords !== undefined) {
-      setState((prev) => ({
+      setState(prev => ({
         ...prev,
         center: {
           lat: coords.getLat(),
@@ -62,18 +62,16 @@ function MapInfo({ addr, setAddr, postcodeAddr }) {
   }, [coords, postcodeAddr]);
 
   return (
-    <>
-      <Map
-        center={state.center}
-        style={{
-          width: "100%",
-          height: "450px",
-        }}
-        level={3}
-      >
-        {!state.isLoading && <MapMarker position={state.center}></MapMarker>}
-      </Map>
-    </>
+    <Map
+      center={state.center}
+      style={{
+        width: '100%',
+        height: '450px',
+      }}
+      level={3}
+    >
+      {!state.isLoading && <MapMarker position={state.center} />}
+    </Map>
   );
 }
 
@@ -95,13 +93,13 @@ function getAddr(lat, lng, setAddr) {
   let callback = function (result, status) {
     if (
       status === kakao.maps.services.Status.OK &&
-      result[0].hasOwnProperty("address")
+      result[0].hasOwnProperty('address')
     ) {
       setAddr(result[0].address.address_name);
     }
   };
 
-  let carNumber = localStorage.getItem("carNumber");
+  let carNumber = localStorage.getItem('carNumber');
 
   localStorage.setItem(`${carNumber}_lng`, coord.getLng());
   localStorage.setItem(`${carNumber}_lat`, coord.getLat());

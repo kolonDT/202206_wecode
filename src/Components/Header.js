@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { GrFormPrevious } from "react-icons/gr";
+import React from 'react';
+import styled from 'styled-components';
+import { GrFormPrevious } from 'react-icons/gr';
 // import { GiHamburgerMenu } from "react-icons/gi";
 // import { BsCircleFill } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 // import { BsBellSlash, BsBell } from "react-icons/bs";
 // import { setAlarm } from "../Pages/Api/Api";
-import { useLocation } from "react-router-dom"
+import { useLocation } from 'react-router-dom';
 
 const Header = ({ isNew, setNew, page }) => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const Header = ({ isNew, setNew, page }) => {
   //   }
   // };
 
-  const location =useLocation();
+  const location = useLocation();
 
   // function AlarmChange({ isNew }) {
   //   console.log("test", isNew);
@@ -42,14 +42,14 @@ const Header = ({ isNew, setNew, page }) => {
   return (
     <HeaderContainer page={page}>
       <HeaderWrapper page={page}>
-        {page === "default" && (
+        {page === 'default' && (
           <PreviousButton
             onClick={() => {
-              if(location.pathname==="/requestform"){
-                navigate("/")
-                return
+              if (location.pathname === '/requestform') {
+                navigate('/');
+                return;
               }
-           
+
               navigate(-1);
             }}
             page={page}
@@ -58,24 +58,18 @@ const Header = ({ isNew, setNew, page }) => {
           </PreviousButton>
         )}
 
-        {page === "admin" && (
+        {page === 'admin' && (
           <PreviousButton
             onClick={() => {
-            
-                navigate("/")
-              }
-           
-            }
+              navigate('/');
+            }}
             page={page}
           >
             <GrFormPrevious size="24" color="#383838" />
           </PreviousButton>
         )}
-
-      
-
         <HeaderTitle>
-          {page === "admin" ? "관리 페이지" : "내 차 팔기"}
+          {page === 'admin' ? '관리 페이지' : '내 차 팔기'}
         </HeaderTitle>
         <HeaderMenu>
           {/* {page === "default" && <AlarmChange isNew={isNew} />} */}
@@ -91,9 +85,8 @@ const Header = ({ isNew, setNew, page }) => {
   );
 };
 
-
 const HeaderContainer = styled.div`
-  width: ${(props) => (props.page === "admin" ? "1100px" : "640px")};
+  width: ${props => (props.page === 'admin' ? '1100px' : '640px')};
   margin: 0px auto;
   @media only screen and (max-width: 640px) {
     width: 100%;
@@ -104,13 +97,15 @@ const HeaderContainer = styled.div`
 const HeaderWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: ${(props) =>
-    props.page === "default" ||props.page === "admin"? "space-between" : "center"};
+  justify-content: ${props =>
+    props.page === 'default' || props.page === 'admin'
+      ? 'space-between'
+      : 'center'};
   padding: 20px 20px;
 `;
 
 const PreviousButton = styled.div`
-  visibility: ${(props) => (props.page === "login" ? "hidden" : "visible")};
+  visibility: ${props => (props.page === 'login' ? 'hidden' : 'visible')};
   :hover {
     cursor: pointer;
   }

@@ -1,35 +1,35 @@
 // modules
-import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
-import Slider from "react-slick";
-import Graph from "../Graph/Graph";
+import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import Slider from 'react-slick';
+import Graph from '../Graph/Graph';
 
 //styles
-import styled from "styled-components";
-import { CAR_API } from "../../config";
+import styled from 'styled-components';
+import { CAR_API } from '../../config';
 
 function LoginMain({ setPage }) {
   const [show, setShow] = useState(false);
   const { state } = useLocation();
   const [data1, setData] = useState();
   const cnt = useRef(0);
-  localStorage.setItem("carNumber", state);
+  localStorage.setItem('carNumber', state);
 
   const getCarInfo = async () => {
     await fetch(`${CAR_API}?carNumber=${state}`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data["infoByCarNumber"][0]);
+      .then(res => res.json())
+      .then(data => {
+        setData(data.infoByCarNumber[0]);
       });
   };
 
   useEffect(() => {
-    setPage("default");
+    setPage('default');
   }, []);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ function LoginMain({ setPage }) {
     autoplay: true,
     speed: 3000,
     autoplaySpeed: 2000,
-    cssEase: "linear",
+    cssEase: 'linear',
   };
 
   if (data1 === undefined) return null;
@@ -89,7 +89,7 @@ function LoginMain({ setPage }) {
           onClick={() => {
             setShow(!show);
           }}
-          style={{ display: show === false ? "block" : "none" }}
+          style={{ display: show === false ? 'block' : 'none' }}
         >
           <>시세확인</>
         </InfoButton>
