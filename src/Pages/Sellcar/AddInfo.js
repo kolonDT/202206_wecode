@@ -314,7 +314,7 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
           </DirectInputColor>
         </ColorChipWrapper>
         <InputTextWrapper InputOpen={colorInput}>
-          <InputTextColor
+          <InputTextElement
             onChange={userInputColor}
             value={inputText}
             placeholder="차량 색상을 입력해주세요"
@@ -333,12 +333,38 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
               상세한 내용을 알려주세요.`}
               value={addInfo}
             /> */}
-            {ADDITIONAL_INFO.map(({ id, typeName, placeholder })=>(
+            {/* {ADDITIONAL_INFO.map(({ id, typeName, placeholder })=>(
               <InfoType id={id}>
                 <TypeName>{typeName}</TypeName>
                 <InfoInput placeholder={placeholder} />
               </InfoType>
-            ))}
+            ))} */}
+
+            <InfoType>
+              <TypeName>차량 상태</TypeName>
+              🚗 전반적인 차량 상태에 대해 알려주세요.
+              <InputTextElement placeholder='차량 상태에 대해 알려주세요' />
+            </InfoType>
+
+            <InfoType>
+              <TypeName>수리 필요 여부</TypeName>
+              🛠 현재 차량에 수리가 필요한가요?
+              <ButtonWrapper>
+                <AnswerButton>예</AnswerButton>
+                <AnswerButton>아니요</AnswerButton>
+              </ButtonWrapper>
+              <InputTextElement placeholder='수리가 필요한 부분에 대해 자세히 알려주세요' />
+            </InfoType>
+
+            <InfoType>
+              <TypeName>보험 이력</TypeName>
+              🧑‍⚕️ 보험 처리를 하신 적이 있나요?
+              <ButtonWrapper>
+                <AnswerButton>예</AnswerButton>
+                <AnswerButton>아니요</AnswerButton>
+              </ButtonWrapper>
+              <InputTextElement placeholder='보험 처리한 부분에 대해 자세히 적어주세요' />
+            </InfoType>
             
           </InfoInputBox>
         </AddInfoBox>
@@ -370,11 +396,11 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
   );
 };
 
-const ADDITIONAL_INFO = [
-  {"id" : 1, "typeName" : "차량 상태", "placeholder" : "차량 상태에 대해 알려주세요 🚗"},
-  {"id" : 1, "typeName" : "수리 필요 여부", "placeholder" : "차량 상태에 대해 알려주세요 🚗"},
-  {"id" : 1, "typeName" : "보험 이력", "placeholder" : "차량 상태에 대해 알려주세요 🚗"},
-]
+// const ADDITIONAL_INFO = [
+//   {"id" : 1, "typeName" : "차량 상태", "placeholder" : "차량 상태에 대해 알려주세요 🚗"},
+//   {"id" : 1, "typeName" : "수리 필요 여부", "placeholder" : "차량 상태에 대해 알려주세요 🚗"},
+//   {"id" : 1, "typeName" : "보험 이력", "placeholder" : "차량 상태에 대해 알려주세요 🚗"},
+// ]
 
 const COLOR_CHIP = [
   {"id" : 1 , "color" : "white", "colorName" : "흰색" },
@@ -385,6 +411,22 @@ const COLOR_CHIP = [
   {"id" : 6 , "color" : "#D00412", "colorName" : "빨강" },
 ]
 
+const AnswerButton = styled.button`
+  border: 0;
+  padding: 0.8em 1.5em;
+  width: fit-content;
+  border-radius: 10em;
+  
+  &:hover {
+    opacity: 0.5;
+  }
+`
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
 const DirectInputColor = styled.div`
   display: flex;
   flex-direction: column;
@@ -394,7 +436,7 @@ const DirectInputColor = styled.div`
   cursor: pointer;
 
   &:hover {
-    opacity: 0.5;
+    opacity: 0.8;
   }
 
   span {
@@ -459,7 +501,7 @@ const ColorChipWrapper = styled.div`
   display: flex;
 `
 
-const InputTextColor = styled.input`
+const InputTextElement = styled.input`
   width: 100%;
   margin: 0.8em 0;
   padding: 0;
