@@ -38,25 +38,18 @@ const margins = {
   xxxl: calcRem(40),
   xxxxl: calcRem(50),
 };
-
+// kolon mobility의 bi 색상을 따릅니다.
 const colors = {
-  green: '#41b979',
-  red: '#ef6253',
-  black: '#222222',
-  darkGray: '#4D4D4D',
-  gray: '#8E8E8E',
-  lightGray: '#f4f4f4',
-  disabled: '#ebebeb',
+  superBlue: '#0051BA',
+  heartPink: '#F8485E',
+  blackC: '#2D2926',
   white: '#ffffff',
-  purple: '#342461',
-  mint: '#02C3BD',
-  middleGray: '#999999',
-  bgGray: '#FBFBFB',
-};
-
-const borders = {
-  gray: '1px solid #d3d3d3',
-  lightGray: '1px solid #ebebeb',
+  skyMint: '#2AD2C9',
+  green: '#009473',
+  trueGold: '#8B6F4E',
+  gray: '#A7A9AC',
+  evBlue: '#0E8CCC',
+  disabled: '#ebebeb',
 };
 
 const flex = {
@@ -74,7 +67,6 @@ const theme = {
   paddings,
   margins,
   colors,
-  borders,
   flex,
 };
 
