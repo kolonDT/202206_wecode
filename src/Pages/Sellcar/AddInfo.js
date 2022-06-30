@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import styled, { css } from 'styled-components';
+import { inputTextState } from '../../atoms';
 import PhotoCard from './PhotoCard';
 
 const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
@@ -193,12 +195,22 @@ const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
   };
 
   // 직접 입력한 색상 정보
-  const [inputText, setInputText] = useState('');
+  // const [inputText, setInputText] = useState('');
+  // const userInputColor = e => {
+  //   const userInput = e.target.value;
+  //   setInputText(userInput);
+  //   setSelectColor(userInput);
+  // };
+
+  // recoil test
+  const [inputText, setInputText] = useRecoilState(inputTextState);
   const userInputColor = e => {
     const userInput = e.target.value;
     setInputText(userInput);
     setSelectColor(userInput);
   };
+
+  console.log('inputText', inputText);
 
   return (
     <InfoContainer>

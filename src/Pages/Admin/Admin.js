@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { MYCARS_API, PORT } from "../../config";
-import CarLine from "./CarLine";
-import Pagination from "./Pagination";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { MYCARS_API, PORT } from '../../config';
+import CarLine from './CarLine';
+import Pagination from './Pagination';
 
 const Admin = ({ isNew, setNew, setPage }) => {
   const [cars, setCars] = useState([]);
@@ -16,16 +16,16 @@ const Admin = ({ isNew, setNew, setPage }) => {
 
   useEffect(() => {
     fetch(`${MYCARS_API}`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         setCars(data.myCarsInfo);
       });
-    setPage("admin");
+    setPage('admin');
   }, []);
 
   return (
@@ -42,7 +42,7 @@ const Admin = ({ isNew, setNew, setPage }) => {
             <TableHead>판매 완료</TableHead>
           </TableRow>
           {cars.length !== 0 &&
-            cars.slice(offset, offset + limit).map((car) => {
+            cars.slice(offset, offset + limit).map(car => {
               return (
                 <TableRow key={car.id}>
                   <CarLine

@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
-import styled from "styled-components";
-import { TiDeleteOutline } from "react-icons/ti";
+import React, { useRef, useState } from 'react';
+import styled from 'styled-components';
+import { TiDeleteOutline } from 'react-icons/ti';
 
 const PhotoCard = ({
   carImages,
@@ -11,23 +11,23 @@ const PhotoCard = ({
   thumbnails,
 }) => {
   //사진등록 버튼을 누르면 사진 등록할 수 있는 모달창 띄우기
-  const clickPhotoInput = (num) => {
+  const clickPhotoInput = num => {
     photoInput.current.click();
   };
 
-  const [thumbnail, setThumbnail] = useState("");
+  const [thumbnail, setThumbnail] = useState('');
 
   //photoInput 버튼 ref
   const photoInput = useRef();
 
   //사진을 상태값에 저장하는 함수
-  const onLoadFile = (e) => {
+  const onLoadFile = e => {
     const newImage = e.target.files;
-    let result =carImages;
-    result[index]= { order: index, src: newImage[0] };
+    let result = carImages;
+    result[index] = { order: index, src: newImage[0] };
 
     // carImages[index] = { order: index, src: newImage[0] };
-    setCarImages(result)
+    setCarImages(result);
 
     if (carImages.length < 5) {
       setThumbnail(URL.createObjectURL(newImage[0]));
@@ -36,26 +36,26 @@ const PhotoCard = ({
   };
 
   //사진을 삭제하는 함수
-  const deleteFile = (e) => {
+  const deleteFile = e => {
     e.stopPropagation();
-    const isDelete = window.confirm("삭제하시겠습니까?");
+    const isDelete = window.confirm('삭제하시겠습니까?');
     if (isDelete) {
-      let result =carImages;
-      const deletedCarImages=result.filter((a)=>{
-      return a.order!==index});
+      let result = carImages;
+      const deletedCarImages = result.filter(a => {
+        return a.order !== index;
+      });
 
-      const deletedThumbnails=thumbnails.filter((_,num)=>num!==index)
-      setThumbnails(deletedThumbnails)
-      setCarImages(deletedCarImages)
+      const deletedThumbnails = thumbnails.filter((_, num) => num !== index);
+      setThumbnails(deletedThumbnails);
+      setCarImages(deletedCarImages);
       // carImages[index] = null;
-      setThumbnail("");
+      setThumbnail('');
     }
-  
   };
 
   return (
     <PhotoInputBox onClick={clickPhotoInput}>
-      {thumbnail!=="" ? (
+      {thumbnail !== '' ? (
         <ThumbnailBox>
           <Thumbnail src={thumbnail} />
           <DeleteIcon>
