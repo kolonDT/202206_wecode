@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import PhotoCard from "./PhotoCard";
+import React, { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import styled, { css } from 'styled-components';
+import { inputTextState } from '../../atoms';
+import PhotoCard from './PhotoCard';
 
 const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
   //주행거리 값 관리하는 상태값
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
 
   //옵션 값 관리하는 상태값
   const [options, setOptions] = useState({
@@ -20,48 +22,48 @@ const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
   const [noOption, setNoOption] = useState(false);
 
   //추가 정보 글 관리 상태값
-  const [addInfo, setAddInfo] = useState("");
+  const [addInfo, setAddInfo] = useState('');
 
   //사진 url 관리하는 상태값
   const [carUrlImages, setCarUrlImages] = useState([]);
 
-  let carNumber = localStorage.getItem("carNumber");
+  let carNumber = localStorage.getItem('carNumber');
   //input에 숫자만 입력 및 세 자리수 마다 콤마 찍는 함수
-  const checkNumber = (e) => {
+  const checkNumber = e => {
     const value = e.target.value;
-    const onlyNumber = value.replace(/[^0-9]/g, "");
+    const onlyNumber = value.replace(/[^0-9]/g, '');
     const commaNumber = onlyNumber
       .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const intNumber = value.replace(/,/g, "");
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const intNumber = value.replace(/,/g, '');
     localStorage.setItem(`${carNumber}_driving_distance`, intNumber);
     setInputValue(commaNumber);
   };
 
   //click시 옵션값 저장하는 함수
-  const clickOptions = (e) => {
+  const clickOptions = e => {
     const value = e.target.value;
-   const noOptionCheck=Object.keys(options).filter((key)=>
-    options[key]===true
-)
-if(noOptionCheck.length===1&&noOptionCheck[0]===value){
-  let _options = {
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-    5: false,
-    6: false,
-  };
-  setOptions(_options);
-  setNoOption(true);
-  localStorage.setItem(`${carNumber}_options`, []);
-  return
-}
+    const noOptionCheck = Object.keys(options).filter(
+      key => options[key] === true
+    );
+    if (noOptionCheck.length === 1 && noOptionCheck[0] === value) {
+      let _options = {
+        1: false,
+        2: false,
+        3: false,
+        4: false,
+        5: false,
+        6: false,
+      };
+      setOptions(_options);
+      setNoOption(true);
+      localStorage.setItem(`${carNumber}_options`, []);
+      return;
+    }
     setOptions({ ...options, [value]: !options[value] });
   };
 
-  const noOptionCheck = (e) => {
+  const noOptionCheck = e => {
     if (e.target.checked) {
       //옵션을 초기화
       let _options = {
@@ -76,13 +78,13 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
       setNoOption(true);
       localStorage.setItem(`${carNumber}_options`, []);
     } else {
-      setOptions({ ...options,1:true})
+      setOptions({ ...options, 1: true });
       setNoOption(false);
     }
   };
 
   ///추가 정보 글 저장하는 함수
-  const writeInfo = (e) => {
+  const writeInfo = e => {
     setAddInfo(e.target.value);
     localStorage.setItem(`${carNumber}_additional_info`, e.target.value);
   };
@@ -93,7 +95,7 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
   //   );
   // };
 
-  const tmp = (arr) => {
+  const tmp = arr => {
     let _options = {
       1: false,
       2: false,
@@ -108,13 +110,13 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
     }
   };
 
-  const deleteImage = (index) => {
-    setCarImages((prev) => {
+  const deleteImage = index => {
+    setCarImages(prev => {
       const arr = [...prev];
       arr.splice(index, 1);
       return arr;
     });
-    setCarUrlImages((prev) => {
+    setCarUrlImages(prev => {
       const arr = [...prev];
       arr.splice(index, 1);
       return arr;
@@ -130,7 +132,6 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
     setInputValue(drivingDistance);
 
     //옵션 클릭 다루기
-
     const localOptions = localStorage.getItem(`${carNumber}_options`);
     if (localOptions) {
       if (localOptions.length === 0) {
@@ -145,7 +146,7 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
           5: false,
           6: false,
         };
-        tmp.forEach((element) => (tmpOption[element] = true));
+        tmp.forEach(element => (tmpOption[element] = true));
         setOptions(tmpOption);
       }
     }
@@ -162,7 +163,7 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
 
   useEffect(() => {
     if (carImages.length > 4) {
-      alert("사진을 4개 이상 초과할 수 없어요");
+      alert('사진을 4개 이상 초과할 수 없어요');
       carImages.pop();
     }
   }, [carImages]);
@@ -178,6 +179,39 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
     }
   }, [options]);
 
+  // 선택한 색상 정보
+  const [selectColor, setSelectColor] = useState('');
+  const selectedColor = colorName => {
+    colorInput === true && setColorInput(false);
+    inputText !== '' && setInputText('');
+    setSelectColor(colorName);
+  };
+
+  // 직접 입력 선택 시 TEXT AREA ON/OFF
+  const [colorInput, setColorInput] = useState(false);
+  const showColorInput = () => {
+    selectColor !== '' && setSelectColor('');
+    setColorInput(prev => !prev);
+  };
+
+  // 직접 입력한 색상 정보
+  // const [inputText, setInputText] = useState('');
+  // const userInputColor = e => {
+  //   const userInput = e.target.value;
+  //   setInputText(userInput);
+  //   setSelectColor(userInput);
+  // };
+
+  // recoil test
+  const [inputText, setInputText] = useRecoilState(inputTextState);
+  const userInputColor = e => {
+    const userInput = e.target.value;
+    setInputText(userInput);
+    setSelectColor(userInput);
+  };
+
+  console.log('inputText', inputText);
+
   return (
     <InfoContainer>
       <Announcement>
@@ -190,7 +224,7 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
         <InputBox>
           <DistanceInput
             placeholder="1,500"
-            onChange={(e) => {
+            onChange={e => {
               checkNumber(e);
             }}
             value={inputValue}
@@ -268,29 +302,91 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
           <CheckBoxInfo>옵션이 없어요.</CheckBoxInfo>
         </NoOptionWrapper>
       </OptionWrapper>
+
+      <ColorInputContainer InputOpen={colorInput}>
+        <Name>색상</Name>
+        <ColorChipWrapper>
+          {COLOR_CHIP.map(({ id, color, colorName }) => {
+            <ColorChip
+              id={id}
+              color={color}
+              colorName={colorName}
+              selectColor={selectColor}
+              onClick={() => selectedColor(colorName)}
+            >
+              <span />
+              {colorName}
+            </ColorChip>;
+          })}
+          <DirectInputColor onClick={showColorInput} colorInput={colorInput}>
+            <span />
+            직접입력
+          </DirectInputColor>
+        </ColorChipWrapper>
+        <InputTextWrapper InputOpen={colorInput}>
+          <InputTextElement
+            onChange={userInputColor}
+            value={inputText}
+            placeholder="차량 색상을 입력해주세요"
+          />
+        </InputTextWrapper>
+      </ColorInputContainer>
+
       <AddInfoWrapper>
         <Name>추가 정보</Name>
         <AddInfoBox>
           <InfoInputBox>
-            <DescriptionInput
+            {/* 추가 정보 세분화로 text area 삭제 */}
+            {/* <DescriptionInput
               onChange={writeInfo}
               placeholder={`차량 상태, 수리 필요 여부, 보험 이력 등 
               상세한 내용을 알려주세요.`}
               value={addInfo}
-            />
+            /> */}
+            {/* {ADDITIONAL_INFO.map(({ id, typeName, placeholder })=>(
+              <InfoType id={id}>
+                <TypeName>{typeName}</TypeName>
+                <InfoInput placeholder={placeholder} />
+              </InfoType>
+            ))} */}
+
+            <InfoType>
+              <TypeName>차량 상태</TypeName>
+              🚗 전반적인 차량 상태에 대해 알려주세요.
+              <InputTextElement placeholder="차량 상태에 대해 알려주세요" />
+            </InfoType>
+
+            <InfoType>
+              <TypeName>수리 필요 여부</TypeName>
+              🛠 현재 차량에 수리가 필요한가요?
+              <ButtonWrapper>
+                <AnswerButton>예</AnswerButton>
+                <AnswerButton>아니요</AnswerButton>
+              </ButtonWrapper>
+              <InputTextElement placeholder="수리가 필요한 부분에 대해 자세히 알려주세요" />
+            </InfoType>
+
+            <InfoType>
+              <TypeName>보험 이력</TypeName>
+              🧑‍⚕️ 보험 처리를 하신 적이 있나요?
+              <ButtonWrapper>
+                <AnswerButton>예</AnswerButton>
+                <AnswerButton>아니요</AnswerButton>
+              </ButtonWrapper>
+              <InputTextElement placeholder="보험 처리한 부분에 대해 자세히 적어주세요" />
+            </InfoType>
           </InfoInputBox>
         </AddInfoBox>
       </AddInfoWrapper>
-
       <PhotoInputContainer>
         <Name>사진 등록</Name>
         <PhotoInputWrapper>
           <PhotoInputLine>
             {[
-              "전면 사진 추가",
-              "후면 사진 추가",
-              "우측 사진 추가",
-              "좌측 사진 추가",
+              '전면 사진 추가',
+              '후면 사진 추가',
+              '우측 사진 추가',
+              '좌측 사진 추가',
             ].map((value, index) => (
               <PhotoCard
                 key={index}
@@ -308,6 +404,157 @@ if(noOptionCheck.length===1&&noOptionCheck[0]===value){
     </InfoContainer>
   );
 };
+
+// const ADDITIONAL_INFO = [
+//   {"id" : 1, "typeName" : "차량 상태", "placeholder" : "차량 상태에 대해 알려주세요 🚗"},
+//   {"id" : 1, "typeName" : "수리 필요 여부", "placeholder" : "차량 상태에 대해 알려주세요 🚗"},
+//   {"id" : 1, "typeName" : "보험 이력", "placeholder" : "차량 상태에 대해 알려주세요 🚗"},
+// ]
+
+const COLOR_CHIP = [
+  { id: 1, color: 'white', colorName: '흰색' },
+  { id: 2, color: 'silver', colorName: '은색' },
+  { id: 3, color: 'gray', colorName: '회색' },
+  { id: 4, color: 'black', colorName: '검정색' },
+  { id: 5, color: '#006DB2', colorName: '파랑' },
+  { id: 6, color: '#D00412', colorName: '빨강' },
+];
+
+const AnswerButton = styled.button`
+  border: 0;
+  padding: 0.8em 1.5em;
+  width: fit-content;
+  border-radius: 10em;
+
+  &:hover {
+    opacity: 0.5;
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const DirectInputColor = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: small;
+  margin-top: 1em;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  span {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+    border: 3px solid #eee;
+    margin-bottom: 5px;
+    background: linear-gradient(
+      0deg,
+      rgba(34, 193, 195, 1) 0%,
+      rgba(253, 187, 45, 1) 100%
+    );
+  }
+
+  ${props =>
+    props.colorInput &&
+    css`
+      color: #9e127b;
+      font-weight: 600;
+
+      span {
+        border: 3px solid #9e127b;
+      }
+    `}
+`;
+
+const ColorChip = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: small;
+  margin: 1em 0.5em 0 0;
+  cursor: pointer;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  span {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+    border: 3px solid #eee;
+    margin-bottom: 5px;
+    background: ${props => props.color};
+  }
+
+  ${props =>
+    props.colorName === props.selectColor &&
+    css`
+      color: #9e127b;
+      font-weight: 600;
+
+      span {
+        border: 3px solid #9e127b;
+      }
+    `}
+`;
+
+const ColorChipWrapper = styled.div`
+  display: flex;
+`;
+
+const InputTextElement = styled.input`
+  width: 100%;
+  margin: 0.8em 0;
+  padding: 0;
+  border: 0;
+  font-size: medium;
+
+  ::placeholder {
+    color: rgba(0, 0, 0, 0.2);
+    font-size: medium;
+  }
+
+  :focus {
+    outline: 0px solid black;
+  }
+`;
+
+const InputTextWrapper = styled.div`
+  margin-top: 1.5em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+
+  @media only screen and (max-width: 640px) {
+    width: 19rem;
+  }
+
+  height: ${props => (props.InputOpen ? '100%' : '0')};
+  opacity: ${props => (props.InputOpen ? '1' : '0')};
+  display: ${props => (props.InputOpen ? '' : 'none')};
+  margin-bottom: ${props => (props.InputOpen ? '2em' : '0')};
+  transition: all 0.5s;
+`;
+
+const ColorInputContainer = styled.div`
+  width: 100%;
+  margin: ${props => (props.InputOpen ? '2.5em 0 3.8em 0' : '2.5em 0')};
+  transition: all 0.3s;
+
+  @media only screen and (max-width: 640px) {
+    width: 23.4375rem;
+  }
+`;
 
 const InfoContainer = styled.div`
   width: 640px;
@@ -353,10 +600,12 @@ const DistanceInput = styled.input`
   border: 0 solid black;
   font-size: 0.8em;
   font-weight: 600;
+
   ::placeholder {
     color: rgba(0, 0, 0, 0.2);
     font-size: 1.2em;
   }
+
   :focus {
     outline: 0px solid black;
   }
@@ -369,20 +618,19 @@ const Measurements = styled.span`
 const OptionWrapper = styled.div``;
 
 const OptionLine = styled.div`
-display: flex;
+  display: flex;
   margin-bottom: 1.4em;
+
   @media only screen and (max-width: 640px) {
     margin-bottom: 1em;
-width: 23.4375rem;
-
+    width: 23.4375rem;
   }
-
- 
 `;
 
 const OptionBox = styled.div`
   padding: 1em;
   margin-top: 1em;
+
   @media only screen and (max-width: 640px) {
     padding: 0;
     margin-bottom: 1.8em;
@@ -399,7 +647,8 @@ const OptionButton = styled.button`
   font-size: 1rem;
   font-weight: 500;
   box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.1);
-  ${({ isClicked }) => {
+
+  /* ${({ isClicked }) => {
     return isClicked
       ? `
         padding: 1em 2.2em;
@@ -409,7 +658,8 @@ const OptionButton = styled.button`
         box-shadow:  0px 0px 0px 0px rgba(0, 0, 0, 0.2);
       `
       : null;
-  }}
+  }} */
+
   @media only screen and (max-width: 640px) {
     margin-right: 1.2em;
     font-size: 1em;
@@ -418,7 +668,6 @@ const OptionButton = styled.button`
 
   @media only screen and (max-width: 400px) {
     font-size: 0.8em;
-
   }
 `;
 
@@ -442,6 +691,7 @@ const CheckBoxInfo = styled.span`
 const AddInfoWrapper = styled.div`
   margin-top: 20px;
   width: 100%;
+
   @media only screen and (max-width: 640px) {
     width: 23.4375rem;
   }
@@ -454,23 +704,40 @@ const AddInfoBox = styled.div`
 const InfoInputBox = styled.div`
   display: flex;
   flex-direction: column;
-  
 `;
 
-const DescriptionInput = styled.textarea`
-resize: none;
-  padding: 1rem;
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  white-space: pre-line;
-  @media only screen and (max-width: 640px) {
-    width:17rem;
-
-  }
-  ::placeholder {
-    color: rgba(0, 0, 0, 0.3);
-    font-size: 1em;
-  }
+const InfoInput = styled.input`
+  width: 100%;
+  margin-bottom: 1.5em;
+  padding: 0.8em;
 `;
+
+const TypeName = styled.div`
+  color: #5c1049;
+  font-weight: 600;
+  font-size: medium;
+  margin-bottom: 0.5em;
+`;
+
+const InfoType = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5em;
+`;
+
+// const DescriptionInput = styled.textarea`
+//   resize: none;
+//   padding: 1rem;
+//   border: 2px solid rgba(0, 0, 0, 0.1);
+//   white-space: pre-line;
+//   @media only screen and (max-width: 640px) {
+//     width:17rem;
+//   }
+//   ::placeholder {
+//     color: rgba(0, 0, 0, 0.3);
+//     font-size: 1em;
+//   }
+// `;
 
 const ButtonName = styled.span`
   margin-left: 4px;
@@ -484,7 +751,7 @@ const PhotoInputWrapper = styled.div`
   margin-top: 1em;
   border: 2px solid rgba(0, 0, 0, 0.1);
   @media only screen and (max-width: 640px) {
-width: 23.4375rem;
+    width: 23.4375rem;
     border: none;
     text-align: center;
     height: 20em;

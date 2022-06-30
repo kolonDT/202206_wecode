@@ -1,35 +1,35 @@
-import React from "react";
-import { RiArrowDropDownLine } from "react-icons/ri";
-import { useEffect, useState } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import "./slide.css";
-import styled from "styled-components";
-import moment from "moment";
-import { MYCAR_API, URI } from "../../config";
+import React from 'react';
+import { RiArrowDropDownLine } from 'react-icons/ri';
+import { useEffect, useState } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import './slide.css';
+import styled from 'styled-components';
+import moment from 'moment';
+import { MYCAR_API, URI } from '../../config';
 
 function RequestForm({ isNew, setNew, setPage }) {
   const [fold, setFold] = useState(false);
   const [data, setData] = useState({});
-  let optionList = "";
+  let optionList = '';
 
   const getData = () => {
-    fetch(`${MYCAR_API}?carNumber=${localStorage.getItem("carNumber")}`, {
-      method: "GET",
+    fetch(`${MYCAR_API}?carNumber=${localStorage.getItem('carNumber')}`, {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data["registeredCarInfo"][0]);
+      .then(res => res.json())
+      .then(data => {
+        setData(data.registeredCarInfo[0]);
       });
   };
 
   useEffect(() => {
     getData();
-    setPage("default");
+    setPage('default');
   }, []);
 
   // useEffect(() => {
@@ -46,28 +46,22 @@ function RequestForm({ isNew, setNew, setPage }) {
   // });
   // optionList = optionList.join(",");
   return (
-    <>
-      <Box>
-        <ProcessArray data={data} />
-        <Folding
-          onClick={() => {
-            setFold(!fold);
-          }}
-        >
-          {fold === false ? (
-            <div>
-              내 요청내용 보기
-              <RiArrowDropDownLine />
-            </div>
-          ) : null}
-        </Folding>
-        <DetailList
-          fold={fold}
-          data={data}
-          optionList={optionList}
-        ></DetailList>
-      </Box>
-    </>
+    <Box>
+      <ProcessArray data={data} />
+      <Folding
+        onClick={() => {
+          setFold(!fold);
+        }}
+      >
+        {fold === false ? (
+          <div>
+            내 요청내용 보기
+            <RiArrowDropDownLine />
+          </div>
+        ) : null}
+      </Folding>
+      <DetailList fold={fold} data={data} optionList={optionList} />
+    </Box>
   );
 }
 const DetailList = React.memo(function DetailList({ fold, data, optionList }) {
@@ -111,36 +105,36 @@ const DetailList = React.memo(function DetailList({ fold, data, optionList }) {
 
 const ProcessArray = React.memo(function ProcessArray({ data }) {
   let process = {
-    "판매 완료": "",
-    "판매 요청": "",
-    "딜러 방문 상담": "",
-    "담당 딜러 배정": "",
-    "견적요청 접수": "",
+    '판매 완료': '',
+    '판매 요청': '',
+    '딜러 방문 상담': '',
+    '담당 딜러 배정': '',
+    '견적요청 접수': '',
   };
-  process["견적요청 접수"] = moment(data.quote_requested)
+  process['견적요청 접수'] = moment(data.quote_requested)
     .utc()
-    .format("YYYY-MM-DD"); //HH:mm:ss
-  process["담당 딜러 배정"] = moment(data.dealer_assigned)
+    .format('YYYY-MM-DD'); //HH:mm:ss
+  process['담당 딜러 배정'] = moment(data.dealer_assigned)
     .utc()
-    .format("YYYY-MM-DD");
-  process["딜러 방문 상담"] = moment(data.dealer_consulting)
+    .format('YYYY-MM-DD');
+  process['딜러 방문 상담'] = moment(data.dealer_consulting)
     .utc()
-    .format("YYYY-MM-DD");
-  process["판매 요청"] = moment(data.selling_requested)
+    .format('YYYY-MM-DD');
+  process['판매 요청'] = moment(data.selling_requested)
     .utc()
-    .format("YYYY-MM-DD");
-  process["판매 완료"] = moment(data.selling_completed)
+    .format('YYYY-MM-DD');
+  process['판매 완료'] = moment(data.selling_completed)
     .utc()
-    .format("YYYY-MM-DD");
+    .format('YYYY-MM-DD');
 
   return Object.entries(process).map(([key, value]) =>
-    value !== "Invalid date" ? (
-      <Line key={key+value}>
+    value !== 'Invalid date' ? (
+      <Line key={key + value}>
         <P>{key}</P>
         <P>{value}</P>
       </Line>
     ) : (
-      <Line key={value+key}>
+      <Line key={value + key}>
         <P active={1}>{key}</P>
       </Line>
     )
@@ -150,22 +144,22 @@ const ProcessArray = React.memo(function ProcessArray({ data }) {
 function ImageSlide({ data }) {
   const settings = {
     dots: true,
-    dotsClass: "slick-dots slick-thumb",
+    dotsClass: 'slick-dots slick-thumb',
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
   };
-  if (!data.hasOwnProperty("image")) {
+  if (!data.hasOwnProperty('image')) {
     return null;
   }
   if (data.image === null) return null;
   return (
     <Wrap>
       <Slider {...settings}>
-        {data.image.split(",").map((imgUrl, index) => {
-          imgUrl = URI.concat("/image/" + imgUrl);
+        {data.image.split(',').map((imgUrl, index) => {
+          imgUrl = URI.concat('/image/' + imgUrl);
           return (
             <ImgDiv key={imgUrl}>
               <Img src={imgUrl} alt="car_image" />
@@ -207,7 +201,7 @@ const Box = styled.div`
 const P = styled.p`
   font-size: 1.4em;
   font-weight: bold;
-  color: ${(props) => (props.active ? "#adadad" : "black")};
+  color: ${props => (props.active ? '#adadad' : 'black')};
   margin-top: 10px;
   margin-bottom: 20px;
   @media only screen and (max-width: 640px) {
@@ -237,8 +231,8 @@ const Text = styled.div`
   margin-top: 10px;
   margin-bottom: 10px;
   width: 300px;
-    word-wrap: break-word;
- 
+  word-wrap: break-word;
+
   @media only screen and (max-width: 640px) {
     font-size: 0.8em;
     width: 200px;
@@ -260,10 +254,10 @@ const Wrap = styled.div`
 `;
 
 const Detail = styled.div`
-  opacity: ${(props) => (props.active ? "1" : "0")};
-  max-height: ${(props) => (props.active ? "100%" : "0")};
+  opacity: ${props => (props.active ? '1' : '0')};
+  max-height: ${props => (props.active ? '100%' : '0')};
   overflow: hidden;
-  padding: ${(props) => (props.active ? "15px" : "0 15px")};
+  padding: ${props => (props.active ? '15px' : '0 15px')};
   transition: all 0.5s;
 `;
 const DetailOption = styled.div`

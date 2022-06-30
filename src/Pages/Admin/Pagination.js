@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { GrFormNext } from "react-icons/gr";
-import { GrFormPrevious } from "react-icons/gr";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { GrFormNext } from 'react-icons/gr';
+import { GrFormPrevious } from 'react-icons/gr';
 
 const Pagination = ({ total, limit, pageNum, setPageNum }) => {
   const numpageNums = Math.ceil(total / limit);
@@ -16,7 +16,7 @@ const Pagination = ({ total, limit, pageNum, setPageNum }) => {
           <Button
             key={i + 1}
             onClick={() => setPageNum(i + 1)}
-            aria-current={pageNum === i + 1 ? "pageNum" : null}
+            aria-current={pageNum === i + 1 ? 'pageNum' : null}
           >
             {i + 1}
           </Button>
