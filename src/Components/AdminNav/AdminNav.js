@@ -1,6 +1,6 @@
-import React from "react";
-import styled, { css } from "styled-components/macro";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import styled, { css } from 'styled-components/macro';
+import { useNavigate } from 'react-router-dom';
 
 const AdminNav = () => {
   const navigate = useNavigate();

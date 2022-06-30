@@ -1,10 +1,10 @@
-import styled from "@emotion/styled";
-import React from "react";
+import React from 'react';
+import styled, { css } from 'styled-components/macro';
 
 const AdminMenu = () => {
   return (
     <div>
-      <AdminMenuContainer></AdminMenuContainer>
+      <AdminMenuContainer />
     </div>
   );
 };
