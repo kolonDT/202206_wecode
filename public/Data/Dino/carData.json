@@ -1,0 +1,27 @@
+{
+  "owner": "박슬기",
+  "number": "116거 1700",
+  "car_name": "캐스퍼",
+  "trim": "1.0 터보 모던",
+  "model_year": 2023,
+  "color": { "실외": "티탄 그레이", "실내": "검정, 인조가죽" },
+  "first_registration_year": "2022년 3월 29일",
+  "body_shape": "승용 경차",
+  "transmission": "오토 A/T",
+  "engine": "가솔린 1,000cc",
+  "manufacturer": "Hyundai Motor Group",
+  "factory_price": "2,000 만원",
+  "transaction_history": [
+    "울산 중구에서 신차 출고 (2012년 1월)",
+    "중고차 구매 (2013년 9월)"
+  ],
+  "insurance_history": [
+    {
+      "피해 보험처리 3건": [
+        "34만원 (2017.10.26)",
+        "134만원 (2017.10.27)",
+        "334만원 (2017.10.28)"
+      ]
+    }
+  ]
+}

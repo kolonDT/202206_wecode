@@ -11,6 +11,7 @@ import SellCar from './Pages/Sellcar/Sellcar';
 import Graph from './Pages/Graph/Graph';
 import Admin from './Pages/Admin/Admin';
 import React, { useState } from 'react';
+import Estimate from './Pages/Estimate/Estimate';
 
 function App() {
   const [isNew, setNew] = useState(-1);
@@ -40,7 +41,8 @@ function App() {
             }
           />
           <Route path="/reconfirm" element={<Reconfirm setPage={setPage} />} />
-          <Route path="/sellcar" element={<SellCar setPage={setPage} />} />
+          {/* <Route path="/sellcar" element={<SellCar setPage={setPage} />} /> */}
+          <Route path="/sellcar" element={<Estimate />} />
           <Route path="/graph" element={<Graph />} />
           <Route
             path="/admin"
