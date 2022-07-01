@@ -19,6 +19,7 @@ const CheckBox = () => {
 
 const CheckBoxAlign = styled.div`
   ${props => props.theme.flex.flexBox('row', 'center', 'space-between')};
+  margin: 30px 0;
   width: 934px;
 `;
 

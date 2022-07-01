@@ -21,6 +21,7 @@ const SearchContainer = styled.div`
   width: 870px;
   height: 80px;
   background-color: orange;
+  margin: 30px 0;
 `;
 
 const UpLine = styled.div`
