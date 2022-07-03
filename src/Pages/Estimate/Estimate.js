@@ -10,6 +10,7 @@ import {
 } from '../../atoms';
 import { MdOutlineNavigateNext } from 'react-icons/md';
 import styled, { css } from 'styled-components';
+import Graph from '../Graph/Graph';
 
 const Estimate = () => {
   useEffect(() => {
@@ -159,7 +160,7 @@ const Estimate = () => {
                 <br />
                 예상시세는 다음과 같습니다.
               </ContentTitle>
-              Graph
+              <Graph />
               <ButtonSet>
                 <PrevButton onClick={prevProcess} variant="primary">
                   이전
