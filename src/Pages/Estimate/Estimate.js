@@ -123,7 +123,7 @@ const Estimate = () => {
           {currentEstimate === 1 && (
             <ContentBox currentEstimate={currentEstimate}>
               <ContentTitle>차량 정보를 확인해주세요</ContentTitle>
-              <CarInfoWrapper data-aos="fade-down">
+              <CarInfoWrapper>
                 <CarInfoTable>
                   {CAR_INFO.map(({ id, title, content }) => {
                     if (title === '거래이력') {
@@ -151,6 +151,102 @@ const Estimate = () => {
               </ButtonSet>
             </ContentBox>
           )}
+          {/* STATE 2 : 예상시세 표출 */}
+          {currentEstimate === 2 && (
+            <ContentBox>
+              <ContentTitle>
+                <OwnerTag>{owner}</OwnerTag>님의 <CarTag>{car_name}</CarTag> 🚙
+                <br />
+                예상시세는 다음과 같습니다.
+              </ContentTitle>
+              Graph
+              <ButtonSet>
+                <PrevButton onClick={prevProcess} variant="primary">
+                  이전
+                </PrevButton>
+                <NextButton onClick={nextProcess} variant="primary">
+                  다음
+                </NextButton>
+              </ButtonSet>
+            </ContentBox>
+          )}
+          {/* STATE 3 : 주행거리 입력 */}
+          {currentEstimate === 3 && (
+            <ContentBox>
+              <ContentTitle>
+                보다 정확한 견적을 위해
+                <br /> 주행거리를 입력해주세요
+              </ContentTitle>
+              <InputBox
+                placeholder="12,345 km"
+                // onChange={e => getUserInputOwner(e)}
+                // value={userInputOwner}
+              />
+              <ButtonSet>
+                <PrevButton onClick={prevProcess} variant="primary">
+                  이전
+                </PrevButton>
+                <NextButton onClick={nextProcess} variant="primary">
+                  다음
+                </NextButton>
+              </ButtonSet>
+            </ContentBox>
+          )}
+          {/* STATE 4 : 추가옵션 입력 */}
+          {currentEstimate === 4 && (
+            <ContentBox>
+              <ContentTitle>
+                차량에 포함 된
+                <br /> 옵션을 선택해주세요
+              </ContentTitle>
+              추가옵션 List
+              <ButtonSet>
+                <PrevButton onClick={prevProcess} variant="primary">
+                  이전
+                </PrevButton>
+                <NextButton onClick={nextProcess} variant="primary">
+                  다음
+                </NextButton>
+              </ButtonSet>
+            </ContentBox>
+          )}
+          {/* STATE 5 : 추가정보 입력 */}
+          {currentEstimate === 5 && (
+            <ContentBox>
+              <ContentTitle>
+                보험 외 사고 처리를
+                <br /> 하신 적이 있다면 알려주세요
+              </ContentTitle>
+              <InputBox
+                placeholder="추가입력 사항"
+                // onChange={e => getUserInputOwner(e)}
+                // value={userInputOwner}
+              />
+              <ButtonSet>
+                <PrevButton onClick={prevProcess} variant="primary">
+                  이전
+                </PrevButton>
+                <NextButton onClick={nextProcess} variant="primary">
+                  다음
+                </NextButton>
+              </ButtonSet>
+            </ContentBox>
+          )}
+          {/* STATE 6 : 사진등록 */}
+          {currentEstimate === 6 && (
+            <ContentBox>
+              <ContentTitle>차량 사진을 올려주세요</ContentTitle>
+              사진 등록 Form
+              <ButtonSet>
+                <PrevButton onClick={prevProcess} variant="primary">
+                  이전
+                </PrevButton>
+                <NextButton onClick={nextProcess} variant="primary">
+                  다음
+                </NextButton>
+              </ButtonSet>
+            </ContentBox>
+          )}
         </EstimateWrapper>
       </BodyWrapper>
     </Background>
@@ -159,8 +255,21 @@ const Estimate = () => {
 
 export default Estimate;
 
+const OwnerTag = styled.span`
+  color: ${({ theme }) => theme.colors.primaryBlue};
+  /* text-decoration: underline; */
+`;
+
+const CarTag = styled.span`
+  background-color: ${({ theme }) => theme.colors.primaryBlue};
+  color: ${({ theme }) => theme.colors.white};
+  border-radius: 0.2rem;
+  padding: 0 0.3rem;
+  font-size: 22px;
+`;
+
 const CarInfoWrapper = styled.div`
-  max-height: 75%;
+  max-height: 70%;
   overflow: scroll;
 `;
 
@@ -216,7 +325,7 @@ const InputButton = styled(Button)`
 
 const ButtonSet = styled.div`
   ${({ theme }) => theme.flex.flexBox('', '', 'space-between')}
-  margin-top: 3rem;
+  margin-top: 4rem;
 `;
 
 const NextButton = styled(Button)`
@@ -228,8 +337,8 @@ const NextButton = styled(Button)`
 
 const PrevButton = styled(Button)`
   background-color: white;
-  border: 1px solid #085ed6;
-  color: #085ed6;
+  border: 1px solid ${({ theme }) => theme.colors.primaryBlue};
+  color: ${({ theme }) => theme.colors.primaryBlue};
   width: 49%;
   height: 3rem;
   border-radius: 100rem;
@@ -265,7 +374,7 @@ const CurrentProcess = styled.button`
   ${({ active }) =>
     active &&
     css`
-      color: #085ed6;
+      color: ${({ theme }) => theme.colors.primaryBlue};
       font-weight: bold;
     `}
 `;
@@ -296,6 +405,7 @@ const ContentBox = styled.section`
 const ContentTitle = styled.h2`
   font-size: x-large;
   font-weight: 600;
+  line-height: 1.9rem;
   margin-bottom: 2.3rem;
   color: ${({ theme }) => theme.colors.blackC};
 `;

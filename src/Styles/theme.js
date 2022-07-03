@@ -52,6 +52,7 @@ const colors = {
   evBlue: '#0E8CCC',
   disabled: '#ebebeb',
   background: '#fafafa',
+  primaryBlue: '#085ed6',
 };
 
 const flex = {
