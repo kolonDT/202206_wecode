@@ -42,6 +42,7 @@ const Estimate = () => {
     transaction_history,
     insurance_history,
   } = estimateCarInfo;
+
   const getUserInputOwner = e => {
     setUserInputOwner(e.target.value);
   };
@@ -72,13 +73,15 @@ const Estimate = () => {
     { id: 3, title: '모델명', content: `${car_name}` },
     { id: 4, title: '출고등급', content: `${trim}` },
     { id: 5, title: '연식', content: `${model_year}` },
-    { id: 6, title: '색상', content: `${color.실외} / ${color.실내}` },
+    { id: 6, title: '색상', content: `${color}` },
     { id: 7, title: '최초등록', content: `${first_registration_year}` },
     { id: 8, title: '차체형태', content: `${body_shape}` },
     { id: 9, title: '변속기', content: `${transmission}` },
     { id: 10, title: '엔진', content: `${engine}` },
     { id: 11, title: '제조사', content: `${manufacturer}` },
     { id: 12, title: '출고가격', content: `${factory_price}` },
+    { id: 13, title: '거래이력', content: `${transaction_history}` },
+    { id: 14, title: '보험이력', content: `${insurance_history}` },
   ];
 
   return (
@@ -118,15 +121,25 @@ const Estimate = () => {
           )}
           {/* STATE 1 : 차량정보 확인 */}
           {currentEstimate === 1 && (
-            <ContentBox>
+            <ContentBox currentEstimate={currentEstimate}>
               <ContentTitle>차량 정보를 확인해주세요</ContentTitle>
-              <CarInfoWrapper>
-                {CAR_INFO.map(({ id, title, content }) => (
-                  <CarInfoElement key={id}>
-                    <CarInfoTitle>{title}</CarInfoTitle>
-                    <CarInfoDescription>{content}</CarInfoDescription>
-                  </CarInfoElement>
-                ))}
+              <CarInfoWrapper data-aos="fade-down">
+                <CarInfoTable>
+                  {CAR_INFO.map(({ id, title, content }) => {
+                    if (title === '거래이력') {
+                      content = transaction_history.join('\n');
+                    }
+                    if (title === '보험이력') {
+                      content = insurance_history.join('\n');
+                    }
+                    return (
+                      <CarInfoElement key={id}>
+                        <CarInfoTitle>{title}</CarInfoTitle>
+                        <CarInfoDescription>{content}</CarInfoDescription>
+                      </CarInfoElement>
+                    );
+                  })}
+                </CarInfoTable>
               </CarInfoWrapper>
               <ButtonSet>
                 <PrevButton onClick={prevProcess} variant="primary">
@@ -146,15 +159,28 @@ const Estimate = () => {
 
 export default Estimate;
 
-const CarInfoWrapper = styled.table`
+const CarInfoWrapper = styled.div`
+  max-height: 75%;
+  overflow: scroll;
+`;
+
+const CarInfoTable = styled.table`
   border-top: 1px solid ${({ theme }) => theme.colors.disabled};
   border-bottom: 1px solid ${({ theme }) => theme.colors.disabled};
+  /* TODO : 내용 overflow 됐을 때 알려줄 요소 필요 */
+  /* background: linear-gradient(
+    0deg,
+    rgba(8, 94, 214, 0.1) 0%,
+    rgba(8, 94, 214, 0) 10%
+  ); */
   margin: 0 auto;
   width: 90%;
-  padding: 5% 0;
+  padding: 3% 0;
   border-collapse: separate;
   border-spacing: 0.2rem 1rem;
   color: ${({ theme }) => theme.colors.gray};
+  white-space: pre-line;
+  vertical-align: bottom;
 `;
 
 const CarInfoElement = styled.tr`
@@ -184,12 +210,13 @@ const InputButton = styled(Button)`
   width: 100%;
   height: 3rem;
   border-radius: 100rem;
-  margin-top: 7rem;
+  margin-top: 5rem;
+  font-weight: 600;
 `;
 
 const ButtonSet = styled.div`
   ${({ theme }) => theme.flex.flexBox('', '', 'space-between')}
-  margin-top: 5rem;
+  margin-top: 3rem;
 `;
 
 const NextButton = styled(Button)`
@@ -259,8 +286,11 @@ const PercentageBar = styled(ProgressBar)`
 
 const ContentBox = styled.section`
   width: 100%;
+  height: ${({ currentEstimate }) =>
+    currentEstimate === 1 ? '95%' : 'fit-content'};
   padding: 10%;
   background-color: white;
+  position: absolute;
 `;
 
 const ContentTitle = styled.h2`
@@ -272,8 +302,9 @@ const ContentTitle = styled.h2`
 
 const EstimateWrapper = styled.div`
   width: 100%;
+  height: 80%;
   position: absolute;
-  top: 5%;
+  top: 5vh;
   box-shadow: 0px 0px 8px rgba(8, 94, 214, 0.05);
 `;
 
@@ -281,7 +312,7 @@ const BodyWrapper = styled.div`
   ${({ theme }) => theme.flex.flexBox('column')}
   position: relative;
   width: 640px;
-  height: 100vh;
+  height: 100%;
 
   @media only screen and (max-width: 640px) {
     width: 90%;
