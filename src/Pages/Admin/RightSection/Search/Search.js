@@ -20,7 +20,6 @@ const SearchContainer = styled.div`
   ${props => props.theme.flex.flexBox('column', '', 'space-between')};
   width: 870px;
   height: 80px;
-  background-color: orange;
   margin: 30px 0;
 `;
 

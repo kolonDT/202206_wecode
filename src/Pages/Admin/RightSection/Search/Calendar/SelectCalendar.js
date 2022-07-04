@@ -13,12 +13,6 @@ const SelectCalendar = () => {
   );
 };
 
-const WhiteBox = css`
-  width: 130px;
-  height: 30px;
-  background-color: white;
-`;
-
 const DateTypo = css`
   font-size: ${props => props.theme.fontSizes.small};
   font-weight: ${props => props.theme.fontWeights.bold};
@@ -26,13 +20,14 @@ const DateTypo = css`
 
 const CalendarContainer = styled.div`
   ${props => props.theme.flex.flexBox('row', 'center', '')};
+  width: 420px;
+  border: 1px solid #eaebec;
 `;
 
 const DateAlign = styled.div`
   ${props => props.theme.flex.flexBox('row', 'center', '')};
   width: 120px;
   height: 30px;
-  border: 1px solid #eaebec;
   background-color: #dbdbdb;
 `;
 

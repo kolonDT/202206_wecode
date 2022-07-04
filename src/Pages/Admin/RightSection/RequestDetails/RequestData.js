@@ -1,5 +1,5 @@
 export const REQUEST_LIST = [
-  { id: 0, title: 'no' },
+  { id: 0, title: 'No' },
   { id: 1, title: '이름' },
   { id: 2, title: '휴대폰' },
   { id: 3, title: '차량번호' },
