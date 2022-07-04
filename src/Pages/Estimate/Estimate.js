@@ -14,6 +14,7 @@ import { MdOutlineNavigateNext } from 'react-icons/md';
 import styled, { css } from 'styled-components';
 import Graph from '../Graph/Graph';
 import StateOne from './States/StateOne';
+import StateFour from './States/StateFour';
 
 const Estimate = () => {
   const [currentEstimate, setCurrentEstimate] =
@@ -155,29 +156,7 @@ const Estimate = () => {
             </ContentBox>
           )}
           {/* STATE 4 : 추가옵션 입력 */}
-          {currentEstimate === 4 && (
-            <ContentBox>
-              <ContentTitle>
-                차량에 포함 된
-                <br /> 옵션을 선택해주세요
-              </ContentTitle>
-              <OptionContainer>
-                {Object.keys(estimateCarOption).map((entrie, idx) => (
-                  <OptionBox key={idx}>
-                    <OptionText>{entrie}</OptionText>
-                  </OptionBox>
-                ))}
-              </OptionContainer>
-              <ButtonSet>
-                <PrevButton onClick={prevProcess} variant="primary">
-                  이전
-                </PrevButton>
-                <NextButton onClick={nextProcess} variant="primary">
-                  다음
-                </NextButton>
-              </ButtonSet>
-            </ContentBox>
-          )}
+          <StateFour nextProcess={nextProcess} prevProcess={prevProcess} />
           {/* STATE 5 : 추가정보 입력 */}
           {currentEstimate === 5 && (
             <ContentBox>
@@ -224,47 +203,6 @@ const Estimate = () => {
 };
 
 export default Estimate;
-
-const OptionContainer = styled.div`
-  ${({ theme }) => theme.flex.flexBox}
-  flex-wrap: wrap;
-  height: fit-content;
-`;
-
-const OptionBox = styled.div`
-  ${({ theme }) => theme.flex.flexBox}
-  width: 23%;
-  margin: 0 1.5% 1.5% 0;
-  padding: 11% 0;
-  border: 1px solid rgba(8, 94, 214, 0.2);
-  border-radius: 0.5rem;
-  text-align: center;
-  transition: border ease-in-out 150ms;
-
-  button {
-    color: rgba(8, 94, 214, 0.5);
-    transition: color ease-in-out 150ms;
-  }
-
-  &:hover {
-    border: 1px solid ${({ theme }) => theme.colors.primaryBlue};
-
-    button {
-      color: ${({ theme }) => theme.colors.primaryBlue};
-    }
-  }
-`;
-
-const OptionText = styled.button`
-  font-weight: 600;
-  position: absolute;
-  border: 0;
-  background: 0;
-
-  @media only screen and (max-width: 640px) {
-    font-size: 70%;
-  }
-`;
 
 const OwnerTag = styled.span`
   color: ${({ theme }) => theme.colors.primaryBlue};

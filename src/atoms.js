@@ -34,3 +34,29 @@ export const UserInputMileageState = atom({
   key: 'UserInputMileageState',
   default: '',
 });
+
+// export const SelectedOptionsState = atom({
+//   key: 'SelectedOptionsState',
+//   default: [
+//     { sunroof: 'False' },
+//     { navigation: 'False' },
+//     { ventilation_seat: 'False' },
+//     { heated_seat: 'False' },
+//     { smart_key: 'False' },
+//     { leather_seat: 'False' },
+//     { electric_folding_mirror: 'False' },
+//   ],
+// });
+
+export const SelectedOptionsState = atom({
+  key: 'SelectedOptionsState',
+  default: [
+    { id: 0, name: 'sunroof', state: 'False' },
+    { id: 1, name: 'navigation', state: 'False' },
+    { id: 2, name: 'ventilation_seat', state: 'False' },
+    { id: 3, name: 'heated_seat', state: 'False' },
+    { id: 4, name: 'smart_key', state: 'False' },
+    { id: 5, name: 'leather_seat', state: 'False' },
+    { id: 6, name: 'electric_folding_mirror', state: 'False' },
+  ],
+});
