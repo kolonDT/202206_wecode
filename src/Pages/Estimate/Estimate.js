@@ -7,12 +7,28 @@ import {
   lastEstimateState,
   EstimateCarInfo,
   UserInputOwnerState,
+  UserInputMileageState,
+  EstimateCarOption,
 } from '../../atoms';
 import { MdOutlineNavigateNext } from 'react-icons/md';
 import styled, { css } from 'styled-components';
 import Graph from '../Graph/Graph';
+import StateOne from './States/StateOne';
 
 const Estimate = () => {
+  const [currentEstimate, setCurrentEstimate] =
+    useRecoilState(currentEstimateState);
+  const [estimateCarInfo, setEstimateCarInfo] = useRecoilState(EstimateCarInfo);
+  const [estimateCarOption, setEstimateCarOption] =
+    useRecoilState(EstimateCarOption);
+  const [userInputOwner, setUserInputOwner] =
+    useRecoilState(UserInputOwnerState);
+  const [userInputMileage, setUserInputMileage] = useRecoilState(
+    UserInputMileageState
+  );
+  const [lastEstimate, setLastEstimate] = useRecoilState(lastEstimateState);
+  const { owner, car_name } = estimateCarInfo;
+
   useEffect(() => {
     fetch('http://localhost:3000/Data/Dino/carData.json')
       .then(res => res.json())
@@ -21,31 +37,22 @@ const Estimate = () => {
       });
   }, []);
 
-  const [currentEstimate, setCurrentEstimate] =
-    useRecoilState(currentEstimateState);
-  const [estimateCarInfo, setEstimateCarInfo] = useRecoilState(EstimateCarInfo);
-  const [userInputOwner, setUserInputOwner] =
-    useRecoilState(UserInputOwnerState);
-  const [lastEstimate, setLastEstimate] = useRecoilState(lastEstimateState);
-  const {
-    owner,
-    number,
-    car_name,
-    trim,
-    model_year,
-    color,
-    first_registration_year,
-    body_shape,
-    transmission,
-    engine,
-    manufacturer,
-    factory_price,
-    transaction_history,
-    insurance_history,
-  } = estimateCarInfo;
+  useEffect(() => {
+    fetch('http://localhost:3000/Data/Dino/carOption.json')
+      .then(res => res.json())
+      .then(data => {
+        setEstimateCarOption(data);
+      });
+  }, []);
+
+  // console.log(Object.keys(estimateCarOption));
 
   const getUserInputOwner = e => {
     setUserInputOwner(e.target.value);
+  };
+
+  const getUserInputMileage = e => {
+    setUserInputMileage(e.target.value);
   };
 
   const checkOwner = () => {
@@ -67,23 +74,6 @@ const Estimate = () => {
   const goToProcess = id => {
     id <= lastEstimate && setCurrentEstimate(id);
   };
-
-  const CAR_INFO = [
-    { id: 1, title: '차량번호', content: `${number}` },
-    { id: 2, title: '소유자명', content: `${owner}` },
-    { id: 3, title: '모델명', content: `${car_name}` },
-    { id: 4, title: '출고등급', content: `${trim}` },
-    { id: 5, title: '연식', content: `${model_year}` },
-    { id: 6, title: '색상', content: `${color}` },
-    { id: 7, title: '최초등록', content: `${first_registration_year}` },
-    { id: 8, title: '차체형태', content: `${body_shape}` },
-    { id: 9, title: '변속기', content: `${transmission}` },
-    { id: 10, title: '엔진', content: `${engine}` },
-    { id: 11, title: '제조사', content: `${manufacturer}` },
-    { id: 12, title: '출고가격', content: `${factory_price}` },
-    { id: 13, title: '거래이력', content: `${transaction_history}` },
-    { id: 14, title: '보험이력', content: `${insurance_history}` },
-  ];
 
   return (
     <Background>
@@ -121,37 +111,7 @@ const Estimate = () => {
             </ContentBox>
           )}
           {/* STATE 1 : 차량정보 확인 */}
-          {currentEstimate === 1 && (
-            <ContentBox currentEstimate={currentEstimate}>
-              <ContentTitle>차량 정보를 확인해주세요</ContentTitle>
-              <CarInfoWrapper>
-                <CarInfoTable>
-                  {CAR_INFO.map(({ id, title, content }) => {
-                    if (title === '거래이력') {
-                      content = transaction_history.join('\n');
-                    }
-                    if (title === '보험이력') {
-                      content = insurance_history.join('\n');
-                    }
-                    return (
-                      <CarInfoElement key={id}>
-                        <CarInfoTitle>{title}</CarInfoTitle>
-                        <CarInfoDescription>{content}</CarInfoDescription>
-                      </CarInfoElement>
-                    );
-                  })}
-                </CarInfoTable>
-              </CarInfoWrapper>
-              <ButtonSet>
-                <PrevButton onClick={prevProcess} variant="primary">
-                  이전
-                </PrevButton>
-                <NextButton onClick={nextProcess} variant="primary">
-                  다음
-                </NextButton>
-              </ButtonSet>
-            </ContentBox>
-          )}
+          <StateOne nextProcess={nextProcess} prevProcess={prevProcess} />
           {/* STATE 2 : 예상시세 표출 */}
           {currentEstimate === 2 && (
             <ContentBox>
@@ -179,9 +139,10 @@ const Estimate = () => {
                 <br /> 주행거리를 입력해주세요
               </ContentTitle>
               <InputBox
-                placeholder="12,345 km"
-                // onChange={e => getUserInputOwner(e)}
-                // value={userInputOwner}
+                placeholder="12,345"
+                onChange={e => getUserInputMileage(e)}
+                value={userInputMileage}
+                type="number"
               />
               <ButtonSet>
                 <PrevButton onClick={prevProcess} variant="primary">
@@ -200,7 +161,13 @@ const Estimate = () => {
                 차량에 포함 된
                 <br /> 옵션을 선택해주세요
               </ContentTitle>
-              추가옵션 List
+              <OptionContainer>
+                {Object.keys(estimateCarOption).map((entrie, idx) => (
+                  <OptionBox key={idx}>
+                    <OptionText>{entrie}</OptionText>
+                  </OptionBox>
+                ))}
+              </OptionContainer>
               <ButtonSet>
                 <PrevButton onClick={prevProcess} variant="primary">
                   이전
@@ -237,7 +204,9 @@ const Estimate = () => {
           {currentEstimate === 6 && (
             <ContentBox>
               <ContentTitle>차량 사진을 올려주세요</ContentTitle>
-              사진 등록 Form
+              필수 : 정면, 후면, 측면, 계기판
+              <br />
+              추가 : 옵션여부, 사고부위, 영역추가
               <ButtonSet>
                 <PrevButton onClick={prevProcess} variant="primary">
                   이전
@@ -256,9 +225,49 @@ const Estimate = () => {
 
 export default Estimate;
 
+const OptionContainer = styled.div`
+  ${({ theme }) => theme.flex.flexBox}
+  flex-wrap: wrap;
+  height: fit-content;
+`;
+
+const OptionBox = styled.div`
+  ${({ theme }) => theme.flex.flexBox}
+  width: 23%;
+  margin: 0 1.5% 1.5% 0;
+  padding: 11% 0;
+  border: 1px solid rgba(8, 94, 214, 0.2);
+  border-radius: 0.5rem;
+  text-align: center;
+  transition: border ease-in-out 150ms;
+
+  button {
+    color: rgba(8, 94, 214, 0.5);
+    transition: color ease-in-out 150ms;
+  }
+
+  &:hover {
+    border: 1px solid ${({ theme }) => theme.colors.primaryBlue};
+
+    button {
+      color: ${({ theme }) => theme.colors.primaryBlue};
+    }
+  }
+`;
+
+const OptionText = styled.button`
+  font-weight: 600;
+  position: absolute;
+  border: 0;
+  background: 0;
+
+  @media only screen and (max-width: 640px) {
+    font-size: 70%;
+  }
+`;
+
 const OwnerTag = styled.span`
   color: ${({ theme }) => theme.colors.primaryBlue};
-  /* text-decoration: underline; */
 `;
 
 const CarTag = styled.span`
@@ -267,45 +276,6 @@ const CarTag = styled.span`
   border-radius: 0.2rem;
   padding: 0 0.3rem;
   font-size: 22px;
-`;
-
-const CarInfoWrapper = styled.div`
-  max-height: 70%;
-  overflow: scroll;
-`;
-
-const CarInfoTable = styled.table`
-  border-top: 1px solid ${({ theme }) => theme.colors.disabled};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.disabled};
-  /* TODO : 내용 overflow 됐을 때 알려줄 요소 필요 */
-  /* background: linear-gradient(
-    0deg,
-    rgba(8, 94, 214, 0.1) 0%,
-    rgba(8, 94, 214, 0) 10%
-  ); */
-  margin: 0 auto;
-  width: 90%;
-  padding: 3% 0;
-  border-collapse: separate;
-  border-spacing: 0.2rem 1rem;
-  color: ${({ theme }) => theme.colors.gray};
-  white-space: pre-line;
-  vertical-align: bottom;
-`;
-
-const CarInfoElement = styled.tr`
-  text-align: left;
-`;
-
-const CarInfoTitle = styled.th`
-  width: 5rem;
-  text-align: left;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.darkGray};
-`;
-
-const CarInfoDescription = styled.td`
-  margin-left: 1rem;
 `;
 
 const InputBox = styled.input`
@@ -396,8 +366,6 @@ const PercentageBar = styled(ProgressBar)`
 
 const ContentBox = styled.section`
   width: 100%;
-  height: ${({ currentEstimate }) =>
-    currentEstimate === 1 ? '95%' : 'fit-content'};
   padding: 10%;
   background-color: white;
   position: absolute;
@@ -413,7 +381,6 @@ const ContentTitle = styled.h2`
 
 const EstimateWrapper = styled.div`
   width: 100%;
-  height: 80%;
   position: absolute;
   top: 5vh;
   box-shadow: 0px 0px 8px rgba(8, 94, 214, 0.05);

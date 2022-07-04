@@ -20,7 +20,17 @@ export const EstimateCarInfo = atom({
   default: [],
 });
 
+export const EstimateCarOption = atom({
+  key: 'EstimateCarOption',
+  default: {},
+});
+
 export const UserInputOwnerState = atom({
   key: 'UserInputOwnerState',
+  default: '',
+});
+
+export const UserInputMileageState = atom({
+  key: 'UserInputMileageState',
   default: '',
 });
