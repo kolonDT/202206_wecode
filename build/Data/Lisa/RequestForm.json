@@ -1,0 +1,18 @@
+{
+  "car_number": "32모 2902",
+  "model_name": "뉴 SM3",
+  "model_year": 2014,
+  "driving_distance": 101600,
+  "option": ["네비게이션", "통풍시트", "디지털키", "선루프", "좋은 옵션"],
+  "image": [
+    "/Images/Thumb/sm5_1.jpg",
+    "/Images/Thumb/sm5_2.jpg",
+    "/Images/Thumb/sm5_3.jpg"
+  ],
+  "contact": "010-9860-4388",
+  "address": "하남시 위례대로 6길 20",
+  "progress": ["견적 요청 접수", "담당 딜러 배정", "딜러 방문 상담"],
+  "updateDate": ["2022-03-01", "2022-03-02", "2022-03-03"],
+  "lat": 37.67346289906597,
+  "long": 126.9026416728719
+}

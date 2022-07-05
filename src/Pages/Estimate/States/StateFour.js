@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import {
   currentEstimateState,
   EstimateCarOption,
@@ -32,6 +32,19 @@ const StateFour = ({ nextProcess, prevProcess }) => {
     setSelectedOption(temp_selectedOptions);
   };
 
+  // const allOptionsFalse = () => {
+  //   Object.keys(selectedOptions).map((i) => (
+  //     let temp_selectedOptions = { ...selectedOptions }
+  //     let temp_element = { ...temp_selectedOptions[i] }
+  //     temp_element.state = false
+  //     temp_selectedOptions[i] = temp_element
+  //     setSelectedOption(temp_selectedOptions)
+  //   ))
+  // };
+
+  // console.log(selectedOptions);
+  // console.log('state', selectedOptions[0].state);
+
   return (
     <div>
       {currentEstimate === 4 && (
@@ -44,6 +57,7 @@ const StateFour = ({ nextProcess, prevProcess }) => {
             {Object.keys(estimateCarOption).map((entrie, idx) => (
               <OptionBox
                 key={idx}
+                active={selectedOptions[idx].state === true}
                 onClick={() => {
                   handleOption(idx, entrie);
                 }}
@@ -51,6 +65,11 @@ const StateFour = ({ nextProcess, prevProcess }) => {
                 <OptionText>{entrie}</OptionText>
               </OptionBox>
             ))}
+            <NoOption
+            // onClick={allOptionsFalse}
+            >
+              옵션이 없어요
+            </NoOption>
           </OptionContainer>
           <ButtonSet>
             <PrevButton onClick={prevProcess} variant="primary">
@@ -67,6 +86,10 @@ const StateFour = ({ nextProcess, prevProcess }) => {
 };
 
 export default StateFour;
+
+const NoOption = styled.button`
+  border: 1px solid black;
+`;
 
 const OptionContainer = styled.div`
   ${({ theme }) => theme.flex.flexBox}
@@ -96,6 +119,21 @@ const OptionBox = styled.div`
       color: ${({ theme }) => theme.colors.primaryBlue};
     }
   }
+
+  ${props =>
+    props.active &&
+    css`
+      background-color: aliceblue;
+      border: 1.5px solid ${({ theme }) => theme.colors.primaryBlue};
+
+      button {
+        color: ${({ theme }) => theme.colors.primaryBlue};
+      }
+
+      &:hover {
+        border: 1.5px solid ${({ theme }) => theme.colors.primaryBlue};
+      }
+    `}
 `;
 
 const OptionText = styled.button`

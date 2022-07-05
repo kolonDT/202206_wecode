@@ -71,26 +71,31 @@ const PhotoCard = ({
 };
 
 const PhotoInputBox = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 12em;
-  height: 10em;
-  font-size: 1.1em;
-  font-weight: 500;
+  ${({ theme }) => theme.flex.flexBox}
+  border: 1px solid rgba(8, 94, 214, 0.2);
+  border-radius: 0.5rem;
+  width: 23%;
+  margin: 0 1.5% 1.5% 0;
+  padding: 11% 0;
   color: rgba(0, 0, 0, 0.5);
   overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+  transition: border ease-in-out 150ms;
+
   :hover {
-    cursor: pointer;
-    color: rgba(0, 0, 0, 0.8);
-    background-color: whitesmoke;
+    border: 1px solid ${({ theme }) => theme.colors.primaryBlue};
   }
+
   @media only screen and (max-width: 640px) {
-    text-align: center;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    width: 8.7em;
-    height: 9em;
+    font-size: 80%;
+  }
+
+  p {
+    position: absolute;
+    color: rgba(8, 94, 214, 0.5);
+    font-weight: 600;
+    padding: 0;
   }
 `;
 

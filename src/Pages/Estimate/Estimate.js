@@ -15,6 +15,7 @@ import styled, { css } from 'styled-components';
 import Graph from '../Graph/Graph';
 import StateOne from './States/StateOne';
 import StateFour from './States/StateFour';
+import PhotoCard from '../Sellcar/PhotoCard';
 
 const Estimate = () => {
   const [currentEstimate, setCurrentEstimate] =
@@ -45,8 +46,6 @@ const Estimate = () => {
         setEstimateCarOption(data);
       });
   }, []);
-
-  // console.log(Object.keys(estimateCarOption));
 
   const getUserInputOwner = e => {
     setUserInputOwner(e.target.value);
@@ -169,6 +168,7 @@ const Estimate = () => {
                 // onChange={e => getUserInputOwner(e)}
                 // value={userInputOwner}
               />
+              <button>보험 외 사고 처리를 한 적이 없어요</button>
               <ButtonSet>
                 <PrevButton onClick={prevProcess} variant="primary">
                   이전
@@ -183,9 +183,46 @@ const Estimate = () => {
           {currentEstimate === 6 && (
             <ContentBox>
               <ContentTitle>차량 사진을 올려주세요</ContentTitle>
-              필수 : 정면, 후면, 측면, 계기판
-              <br />
-              추가 : 옵션여부, 사고부위, 영역추가
+              <PhotoInputContainer>
+                <ContentSubTitle>필수 사진</ContentSubTitle>
+                <ContentSubInfo>
+                  정면, 후면, 측면, 계기판 사진을 올려주세요
+                </ContentSubInfo>
+                <PhotoInputWrapper>
+                  <PhotoInputLine>
+                    {['정면', '후면', '측면', '계기판'].map((value, index) => (
+                      <PhotoCard
+                        key={index}
+                        index={index}
+                        value={value}
+                        // setCarImages={setCarImages}
+                        // carImages={carImages}
+                        // setThumbnails={setThumbnails}
+                        // thumbnails={thumbnails}
+                      />
+                    ))}
+                  </PhotoInputLine>
+                </PhotoInputWrapper>
+                <ContentSubTitle>참고 사진</ContentSubTitle>
+                <ContentSubInfo>
+                  옵션이나 사고부위 등 참고가 될 만한 사진을 올려주세요
+                </ContentSubInfo>
+                <PhotoInputWrapper>
+                  <PhotoInputLine>
+                    {['+', '+', '+', '+'].map((value, index) => (
+                      <PhotoCard
+                        key={index}
+                        index={index}
+                        value={value}
+                        // setCarImages={setCarImages}
+                        // carImages={carImages}
+                        // setThumbnails={setThumbnails}
+                        // thumbnails={thumbnails}
+                      />
+                    ))}
+                  </PhotoInputLine>
+                </PhotoInputWrapper>
+              </PhotoInputContainer>
               <ButtonSet>
                 <PrevButton onClick={prevProcess} variant="primary">
                   이전
@@ -203,6 +240,31 @@ const Estimate = () => {
 };
 
 export default Estimate;
+
+const ContentSubTitle = styled.h3`
+  font-size: medium;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.darkGray};
+`;
+
+const ContentSubInfo = styled.div`
+  font-size: small;
+  margin-top: 0.3rem;
+  color: ${({ theme }) => theme.colors.darkGray};
+`;
+
+const PhotoInputContainer = styled.div`
+  /* border: 1px solid black; */
+`;
+
+const PhotoInputWrapper = styled.div`
+  margin: 1rem 0;
+  /* border: 1px solid black; */
+`;
+
+const PhotoInputLine = styled.div`
+  ${({ theme }) => theme.flex.flexBox}
+`;
 
 const OwnerTag = styled.span`
   color: ${({ theme }) => theme.colors.primaryBlue};
