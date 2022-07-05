@@ -1,18 +1,17 @@
-// modules
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-//styles
 import styled from 'styled-components';
 import moment from 'moment';
 import { HiLightBulb } from 'react-icons/hi';
 import { CAR_API, MYCAR_API } from '../../config';
+import { Button } from 'react-bootstrap';
 
 function Login({ setPage }) {
-  // const locate = useLocation();
   const navigate = useNavigate();
   const [id, setId] = useState('');
   const [isLogin, setLogin] = useState(false);
   const [show, setShow] = useState(false);
+
   //방문 기록이 있는지 관리하는 상태값
   const [hasQuote, setHasQuote] = useState(false);
   const [data, setData] = useState(false);
@@ -74,6 +73,7 @@ function Login({ setPage }) {
     const month = moment().month();
     const hour = moment().hour();
     const date = moment().date();
+
     //timestamp가 없는 경우
     let now = new Date();
     if (!timeStamp) {
@@ -174,117 +174,140 @@ function Login({ setPage }) {
   }, []);
 */
   return (
-    <LoginBox>
-      <LoginWrap>
-        <LoginTitle>바로지금,</LoginTitle>
-        <LoginSubTitle>똑똑하게 내 차를 파는 가장 빠른시간</LoginSubTitle>
-        <LoginInput
-          onChange={handleInput}
-          onKeyDown={handleEnter}
-          type="text"
-          id="id"
-          name="id"
-          placeholder="12가3456"
-          required
-        />
-        {!data ? (
-          <LoginButton
-            disabled={!isLogin}
-            onClick={e => {
-              handleLogin(localStorage.getItem('carNumber'));
-            }}
-          >
-            등록하기
-          </LoginButton>
-        ) : (
-          <LoginButton
-            onClick={e => {
-              handleLogin(e.target.value);
-            }}
-          >
-            조회하기
-          </LoginButton>
-        )}
-        {hasQuote && !data && (
-          <LoginNone onClick={handleWrite}>
-            <span>이미 작성중인 견적서가 있습니다</span>
-            <HiLightBulb size={20} />
-          </LoginNone>
-        )}
-        <GotoAdmin onClick={handleAdmin}>
-          <AdminText>관리자 페이지로 이동</AdminText>
-        </GotoAdmin>
-      </LoginWrap>
-    </LoginBox>
+    <Background>
+      <BodyWrapper>
+        <LoginBox>
+          <LoginWrap>
+            <LoginTitle>차량번호 입력만으로,</LoginTitle>
+            <LoginSubTitle>
+              내 차 시세조회와 <br />
+              견적요청까지 한번에 🙌
+            </LoginSubTitle>
+            <LoginInput
+              onChange={handleInput}
+              onKeyDown={handleEnter}
+              type="text"
+              id="id"
+              name="id"
+              placeholder="12가3456"
+              required
+            />
+            {!data ? (
+              <LoginButton
+                disabled={!isLogin}
+                onClick={e => {
+                  handleLogin(localStorage.getItem('carNumber'));
+                }}
+              >
+                시작하기
+              </LoginButton>
+            ) : (
+              <LoginButton
+                onClick={e => {
+                  handleLogin(e.target.value);
+                }}
+              >
+                조회하기
+              </LoginButton>
+            )}
+            {hasQuote && !data && (
+              <LoginNone onClick={handleWrite}>
+                <span>이미 작성중인 견적서가 있습니다</span>
+                <HiLightBulb size={20} />
+              </LoginNone>
+            )}
+            <GotoAdmin onClick={handleAdmin}>
+              <AdminText>관리자 페이지로 이동</AdminText>
+            </GotoAdmin>
+          </LoginWrap>
+        </LoginBox>
+      </BodyWrapper>
+    </Background>
   );
 }
 export default Login;
 
 const LoginBox = styled.div`
+  ${({ theme }) => theme.flex.flexBox}
+  box-shadow: 0px 0px 8px rgba(8, 94, 214, 0.05);
+  width: 100%;
+  height: fit-content;
+  top: 5vh;
+  padding: 10%;
+  background-color: white;
+  position: absolute;
+  text-align: center;
+
   @media only screen and (max-width: 640px) {
     width: 90%;
-    margin: 40px auto 100px;
   }
-  margin: 50px auto 100px;
-  width: 640px;
-  padding: 10px 0px;
-  text-align: center;
 `;
 const LoginWrap = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
+
 const LoginTitle = styled.p`
-  color: #5c1049;
-  margin-bottom: 10px;
+  color: ${({ theme }) => theme.colors.primaryBlue};
+  margin-bottom: 1rem;
   font-weight: 600;
-  font-size: 35px;
-`;
-const LoginSubTitle = styled.p`
+  font-size: xx-large;
+  text-align: left;
+
   @media only screen and (max-width: 640px) {
-    width: 80%;
+    font-size: x-large;
   }
-  font-size: 30px;
+`;
+
+const LoginSubTitle = styled.p`
+  font-size: x-large;
   font-weight: 500;
   margin-bottom: 40px;
-`;
-const LoginInput = styled.input`
+  line-height: 1.5rem;
+
   @media only screen and (max-width: 640px) {
-    width: 80%;
-    margin: 10px auto;
-    margin-bottom: 25px;
+    font-size: 22px;
   }
-  width: 360px;
-  margin: 10px auto;
-  padding: 20px;
-  margin-bottom: 25px;
-  border: 0;
-  border-bottom: 1px solid #5c1049;
+`;
+
+const LoginInput = styled.input`
+  width: 70%;
+  height: 5rem;
+  margin-top: 2rem;
+  border: 1px solid ${({ theme }) => theme.colors.disabled};
+  border-radius: 5px;
+  padding: 1em;
+  font-weight: 600;
+  font-size: xx-large;
+
   :focus {
     outline: none;
   }
+
   ::placeholder {
     word-spacing: 2px;
-    font-size: 18px;
+    opacity: 0.3;
   }
-`;
-const LoginButton = styled.button`
+
   @media only screen and (max-width: 640px) {
-    width: 80%;
-    margin: 10px auto;
+    width: 100%;
   }
-  width: 400px;
-  padding: 14px;
-  border-radius: 5px;
-  border: 1px solid #adadad;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  color: white;
-  background-color: #5c1049;
-  box-shadow: 3px 3px 5px #d8d8d8;
 `;
+
+const LoginButton = styled(Button)`
+  width: 70%;
+  height: 3rem;
+  border-radius: 100rem;
+  margin-top: 5rem;
+  font-weight: 600;
+
+  @media only screen and (max-width: 640px) {
+    width: 100%;
+  }
+`;
+
 const LoginNone = styled.div`
   display: flex;
   margin-top: 80px;
@@ -309,20 +332,30 @@ const LoginNone = styled.div`
 `;
 
 const GotoAdmin = styled.div`
-  width: 60%;
-  margin-top: 15px;
-  text-align: right;
-  @media only screen and (max-width: 640px) {
-    margin-top: 5px;
-    width: 80%;
-  }
+  ${({ theme }) => theme.flex.flexBox}
+  margin-top: 2rem;
+  font-size: small;
+  cursor: pointer;
 `;
 
 const AdminText = styled.p`
-  font-size: 12px;
   font-weight: 600;
   color: rgba(0, 0, 0, 0.2);
   :hover {
     color: rgba(0, 0, 0, 0.5);
   }
+`;
+
+const BodyWrapper = styled.div`
+  ${({ theme }) => theme.flex.flexBox('column')}
+  position: relative;
+  width: 640px;
+  height: 100%;
+`;
+
+const Background = styled.div`
+  ${({ theme }) => theme.flex.flexBox}
+  width: 100vw;
+  height: 100vh;
+  background-color: aliceblue;
 `;
