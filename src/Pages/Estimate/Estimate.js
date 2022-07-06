@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { ProgressBar } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { MdOutlineNavigateNext } from 'react-icons/md';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   currentEstimateState,
@@ -8,14 +9,14 @@ import {
   EstimateCarInfo,
   EstimateCarOption,
 } from '../../atoms';
-import { MdOutlineNavigateNext } from 'react-icons/md';
 import styled, { css } from 'styled-components';
 import StateZero from './States/StateZero';
 import StateOne from './States/StateOne';
 import StateTwo from './States/StateTwo';
 import StateThree from './States/StateThree';
-import StateFour from './States/StateThree';
+import StateFour from './States/StateFour';
 import StateFive from './States/StateFive';
+import AddContactInfo from './AddContactInfo';
 
 const Estimate = () => {
   const [currentEstimate, setCurrentEstimate] =
@@ -57,23 +58,28 @@ const Estimate = () => {
     <Background>
       <BodyWrapper>
         <EstimateWrapper>
-          <ProcessBox>
-            <ProcessState>
-              {PROCESS_STATE.map(({ id, text }) => (
-                <CurrentProcess
-                  key={id}
-                  active={currentEstimate + 1 === id}
-                  onClick={() => goToProcess(id - 1)}
-                >
-                  {text}
-                  {id !== PROCESS_STATE.length && <NextIcon />}
-                </CurrentProcess>
-              ))}
-            </ProcessState>
-            <PercentageBar
-              now={5 + (currentEstimate / PROCESS_STATE.length) * 100}
-            />
-          </ProcessBox>
+          {currentEstimate < 6 && (
+            <ProcessBox>
+              <ProcessState>
+                {PROCESS_STATE.map(
+                  ({ id, step, name }) =>
+                    step === 'carInfo' && (
+                      <CurrentProcess
+                        key={id}
+                        active={currentEstimate + 1 === id}
+                        onClick={() => goToProcess(id - 1)}
+                      >
+                        {name}
+                        {id !== PROCESS_STATE.length - 1 && <NextIcon />}
+                      </CurrentProcess>
+                    )
+                )}
+              </ProcessState>
+              <PercentageBar
+                now={5 + (currentEstimate / (PROCESS_STATE.length - 1)) * 100}
+              />
+            </ProcessBox>
+          )}
           {/* STATE 0 : 차량정보 확인 */}
           {currentEstimate === 0 && <StateZero nextProcess={nextProcess} />}
           {/* STATE 1 : 예상시세 표출 */}
@@ -95,6 +101,13 @@ const Estimate = () => {
           {/* STATE 5 : 사진등록 */}
           {currentEstimate === 5 && (
             <StateFive prevProcess={prevProcess} nextProcess={nextProcess} />
+          )}
+          {/* STATE 6 : Contact Info 입력 */}
+          {currentEstimate === 6 && (
+            <AddContactInfo
+              prevProcess={prevProcess}
+              nextProcess={nextProcess}
+            />
           )}
         </EstimateWrapper>
       </BodyWrapper>
@@ -154,6 +167,7 @@ const PercentageBar = styled(ProgressBar)`
 
 const EstimateWrapper = styled.div`
   width: 100%;
+  height: fit-content;
   position: absolute;
   top: 5vh;
   box-shadow: 0px 0px 8px rgba(8, 94, 214, 0.05);
@@ -163,7 +177,7 @@ const BodyWrapper = styled.div`
   ${({ theme }) => theme.flex.flexBox('column')}
   position: relative;
   width: 640px;
-  height: 100%;
+  height: 100vh;
 
   @media only screen and (max-width: 640px) {
     width: 90%;
@@ -173,33 +187,44 @@ const BodyWrapper = styled.div`
 const Background = styled.div`
   ${({ theme }) => theme.flex.flexBox}
   width: 100vw;
-  height: 100vh;
+  height: fit-content;
   background-color: aliceblue;
 `;
 
 const PROCESS_STATE = [
   {
     id: 1,
-    text: '차량정보',
+    step: 'carInfo',
+    name: '차량정보',
   },
   {
     id: 2,
-    text: '예상시세',
+    step: 'carInfo',
+    name: '예상시세',
   },
   {
     id: 3,
-    text: '주행거리',
+    step: 'carInfo',
+    name: '주행거리',
   },
   {
     id: 4,
-    text: '추가옵션',
+    step: 'carInfo',
+    name: '추가옵션',
   },
   {
     id: 5,
-    text: '추가입력',
+    step: 'carInfo',
+    name: '추가입력',
   },
   {
     id: 6,
-    text: '사진등록',
+    step: 'carInfo',
+    name: '사진등록',
+  },
+  {
+    id: 7,
+    step: 'contactInfo',
+    name: '개인정보입력',
   },
 ];

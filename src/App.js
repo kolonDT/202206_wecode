@@ -43,6 +43,7 @@ function App() {
           <Route path="/reconfirm" element={<Reconfirm setPage={setPage} />} />
           {/* <Route path="/sellcar" element={<SellCar setPage={setPage} />} /> */}
           <Route path="/sellcar" element={<Estimate />} />
+          <Route path="/sellcar" element={<Estimate />} />
           <Route path="/graph" element={<Graph />} />
           <Route
             path="/admin"
