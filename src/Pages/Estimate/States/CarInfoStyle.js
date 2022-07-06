@@ -18,6 +18,22 @@ export const ContentBox = styled.section`
   position: absolute;
 `;
 
+export const InputBox = styled.input`
+  width: 100%;
+  height: 3rem;
+  border: 1px solid ${({ theme }) => theme.colors.disabled};
+  border-radius: 5px;
+  padding: 1em;
+`;
+
+export const InputButton = styled(Button)`
+  width: 100%;
+  height: 3rem;
+  border-radius: 100rem;
+  margin-top: 5rem;
+  font-weight: 600;
+`;
+
 export const CarInfoWrapper = styled.div`
   max-height: 70%;
   overflow: scroll;

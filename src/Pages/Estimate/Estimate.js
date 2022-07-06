@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { ProgressBar, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   currentEstimateState,
   lastEstimateState,
   EstimateCarInfo,
-  UserInputOwnerState,
   UserInputMileageState,
   EstimateCarOption,
 } from '../../atoms';
@@ -21,10 +20,7 @@ const Estimate = () => {
   const [currentEstimate, setCurrentEstimate] =
     useRecoilState(currentEstimateState);
   const [estimateCarInfo, setEstimateCarInfo] = useRecoilState(EstimateCarInfo);
-  const [estimateCarOption, setEstimateCarOption] =
-    useRecoilState(EstimateCarOption);
-  const [userInputOwner, setUserInputOwner] =
-    useRecoilState(UserInputOwnerState);
+  const setEstimateCarOption = useSetRecoilState(EstimateCarOption);
   const [userInputMileage, setUserInputMileage] = useRecoilState(
     UserInputMileageState
   );
@@ -47,19 +43,8 @@ const Estimate = () => {
       });
   }, []);
 
-  const getUserInputOwner = e => {
-    setUserInputOwner(e.target.value);
-  };
-
   const getUserInputMileage = e => {
     setUserInputMileage(e.target.value);
-  };
-
-  const checkOwner = () => {
-    userInputOwner === owner
-      ? setCurrentEstimate(prev => prev + 1)
-      : alert('소유자명을 확인해주세요');
-    lastEstimate <= currentEstimate && setLastEstimate(currentEstimate + 1);
   };
 
   const nextProcess = () => {
@@ -96,24 +81,10 @@ const Estimate = () => {
               now={5 + (currentEstimate / PROCESS_STATE.length) * 100}
             />
           </ProcessBox>
-          {/* STATE 0 : 소유자명 입력 */}
-          {currentEstimate === 0 && (
-            <ContentBox>
-              <ContentTitle>소유자명을 입력해주세요</ContentTitle>
-              <InputBox
-                placeholder="홍길동"
-                onChange={e => getUserInputOwner(e)}
-                value={userInputOwner}
-              />
-              <InputButton onClick={checkOwner} variant="primary">
-                확인
-              </InputButton>
-            </ContentBox>
-          )}
-          {/* STATE 1 : 차량정보 확인 */}
+          {/* STATE 0 : 차량정보 확인 */}
           <StateOne nextProcess={nextProcess} prevProcess={prevProcess} />
-          {/* STATE 2 : 예상시세 표출 */}
-          {currentEstimate === 2 && (
+          {/* STATE 1 : 예상시세 표출 */}
+          {currentEstimate === 1 && (
             <ContentBox>
               <ContentTitle>
                 <OwnerTag>{owner}</OwnerTag>님의 <CarTag>{car_name}</CarTag> 🚙
@@ -131,8 +102,8 @@ const Estimate = () => {
               </ButtonSet>
             </ContentBox>
           )}
-          {/* STATE 3 : 주행거리 입력 */}
-          {currentEstimate === 3 && (
+          {/* STATE 2 : 주행거리 입력 */}
+          {currentEstimate === 2 && (
             <ContentBox>
               <ContentTitle>
                 보다 정확한 견적을 위해
@@ -154,10 +125,10 @@ const Estimate = () => {
               </ButtonSet>
             </ContentBox>
           )}
-          {/* STATE 4 : 추가옵션 입력 */}
+          {/* STATE 3 : 추가옵션 입력 */}
           <StateFour nextProcess={nextProcess} prevProcess={prevProcess} />
-          {/* STATE 5 : 추가정보 입력 */}
-          {currentEstimate === 5 && (
+          {/* STATE 4 : 추가정보 입력 */}
+          {currentEstimate === 4 && (
             <ContentBox>
               <ContentTitle>
                 보험 외 사고 처리를
@@ -179,8 +150,8 @@ const Estimate = () => {
               </ButtonSet>
             </ContentBox>
           )}
-          {/* STATE 6 : 사진등록 */}
-          {currentEstimate === 6 && (
+          {/* STATE 5 : 사진등록 */}
+          {currentEstimate === 5 && (
             <ContentBox>
               <ContentTitle>차량 사진을 올려주세요</ContentTitle>
               <PhotoInputContainer>
@@ -405,32 +376,32 @@ const Background = styled.div`
 `;
 
 const PROCESS_STATE = [
+  // {
+  //   id: 1,
+  //   text: '소유자명',
+  // },
   {
     id: 1,
-    text: '소유자명',
-  },
-  {
-    id: 2,
     text: '차량정보',
   },
   {
-    id: 3,
+    id: 2,
     text: '예상시세',
   },
   {
-    id: 4,
+    id: 3,
     text: '주행거리',
   },
   {
-    id: 5,
+    id: 4,
     text: '추가옵션',
   },
   {
-    id: 6,
+    id: 5,
     text: '추가입력',
   },
   {
-    id: 7,
+    id: 6,
     text: '사진등록',
   },
 ];

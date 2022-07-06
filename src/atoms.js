@@ -63,3 +63,8 @@ export const AlarmModalState = atom({
   key: 'AlarmModalState',
   default: false,
 });
+
+export const LoginProcessState = atom({
+  key: 'LoginProcessState',
+  default: 1,
+});

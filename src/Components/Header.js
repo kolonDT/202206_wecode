@@ -5,11 +5,17 @@ import { useNavigate } from 'react-router-dom';
 // import { setAlarm } from "../Pages/Api/Api";
 import { useLocation } from 'react-router-dom';
 import { MdNotifications, MdNotificationImportant } from 'react-icons/md';
-import { isAlarmState, AlarmListState, AlarmModalState } from '../atoms';
+import {
+  LoginProcessState,
+  isAlarmState,
+  AlarmListState,
+  AlarmModalState,
+} from '../atoms';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import AlarmModal from './Modal/AlarmModal';
 
 const Header = ({ isNew, setNew, page }) => {
+  const setLoginProcess = useSetRecoilState(LoginProcessState);
   const [isAlarm, setIsAlarm] = useRecoilState(isAlarmState);
   const setAlarmList = useSetRecoilState(AlarmListState);
   const [alarmModal, setAlarmModal] = useRecoilState(AlarmModalState);
@@ -41,6 +47,7 @@ const Header = ({ isNew, setNew, page }) => {
 
   const goToHome = () => {
     navigate('/');
+    setLoginProcess(1);
   };
 
   return (

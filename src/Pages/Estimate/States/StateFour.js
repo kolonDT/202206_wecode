@@ -32,22 +32,19 @@ const StateFour = ({ nextProcess, prevProcess }) => {
     setSelectedOption(temp_selectedOptions);
   };
 
-  // const allOptionsFalse = () => {
-  //   Object.keys(selectedOptions).map((i) => (
-  //     let temp_selectedOptions = { ...selectedOptions }
-  //     let temp_element = { ...temp_selectedOptions[i] }
-  //     temp_element.state = false
-  //     temp_selectedOptions[i] = temp_element
-  //     setSelectedOption(temp_selectedOptions)
-  //   ))
-  // };
-
-  // console.log(selectedOptions);
-  // console.log('state', selectedOptions[0].state);
+  const allOptionsFalse = () => {
+    setSelectedOption(prevState => {
+      const newState = Object.keys(prevState).map(idx => {
+        let temp_element = { ...selectedOptions[idx] };
+        return { ...temp_element, state: false };
+      });
+      return newState;
+    });
+  };
 
   return (
     <div>
-      {currentEstimate === 4 && (
+      {currentEstimate === 3 && (
         <ContentBox>
           <ContentTitle>
             차량에 포함 된
@@ -65,11 +62,7 @@ const StateFour = ({ nextProcess, prevProcess }) => {
                 <OptionText>{entrie}</OptionText>
               </OptionBox>
             ))}
-            <NoOption
-            // onClick={allOptionsFalse}
-            >
-              옵션이 없어요
-            </NoOption>
+            <NoOption onClick={allOptionsFalse}>옵션이 없어요</NoOption>
           </OptionContainer>
           <ButtonSet>
             <PrevButton onClick={prevProcess} variant="primary">
