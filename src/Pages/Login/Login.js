@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import moment from 'moment';
 import { HiLightBulb } from 'react-icons/hi';
+import { RiAlertFill } from 'react-icons/ri';
+import { BsPatchCheckFill } from 'react-icons/bs';
 import { CAR_API, MYCAR_API } from '../../config';
 import { Button } from 'react-bootstrap';
 
@@ -101,6 +103,7 @@ function Login({ setPage }) {
   };
 
   const handleInput = e => {
+    setInputCarNumber(e.target.value);
     let ret = isValidId(e.target.value);
     setLogin(ret);
     setId(e.target.value);
@@ -110,6 +113,8 @@ function Login({ setPage }) {
       getData();
     }
   };
+
+  const [inputCarNumber, setInputCarNumber] = useState('');
 
   const handleLogin = str => {
     getCar(str);
@@ -178,7 +183,7 @@ function Login({ setPage }) {
       <BodyWrapper>
         <LoginBox>
           <LoginWrap>
-            <LoginTitle>차량번호 입력만으로,</LoginTitle>
+            <LoginTitle>차량번호 입력만으로</LoginTitle>
             <LoginSubTitle>
               내 차 시세조회와 <br />
               견적요청까지 한번에 🙌
@@ -190,9 +195,36 @@ function Login({ setPage }) {
               id="id"
               name="id"
               placeholder="12가3456"
-              required
+              value={inputCarNumber}
             />
-            {!data ? (
+            <MessageWrapper>
+              <InputMessage>
+                {inputCarNumber.length > 1 && !isLogin && (
+                  <>
+                    <FailIcon />
+                    유효하지 않은 차량번호입니다
+                  </>
+                )}
+                {inputCarNumber.length === 0 && (
+                  <GuideMessage>차량 번호를 입력해주세요</GuideMessage>
+                )}
+                {isLogin && (
+                  <SuccessMessage>
+                    <SuccessIcon />
+                    시작하기를 눌러보세요 !
+                  </SuccessMessage>
+                )}
+              </InputMessage>
+            </MessageWrapper>
+            <LoginButton
+              disabled={!isLogin}
+              // onClick={() => {
+              //   handleLogin(localStorage.getItem('carNumber'));
+              // }}
+            >
+              시작하기
+            </LoginButton>
+            {/* {!data ? (
               <LoginButton
                 disabled={!isLogin}
                 onClick={e => {
@@ -215,7 +247,7 @@ function Login({ setPage }) {
                 <span>이미 작성중인 견적서가 있습니다</span>
                 <HiLightBulb size={20} />
               </LoginNone>
-            )}
+            )} */}
             <GotoAdmin onClick={handleAdmin}>
               <AdminText>관리자 페이지로 이동</AdminText>
             </GotoAdmin>
@@ -257,25 +289,60 @@ const LoginTitle = styled.p`
   text-align: left;
 
   @media only screen and (max-width: 640px) {
-    font-size: x-large;
+    font-size: 28px;
   }
 `;
 
 const LoginSubTitle = styled.p`
   font-size: x-large;
   font-weight: 500;
-  margin-bottom: 40px;
-  line-height: 1.5rem;
+  margin-bottom: 3rem;
+  line-height: 1.8rem;
+  color: ${({ theme }) => theme.colors.darkGray};
 
   @media only screen and (max-width: 640px) {
     font-size: 22px;
   }
 `;
 
+const MessageWrapper = styled.div`
+  position: relative;
+  width: 70%;
+
+  @media only screen and (max-width: 640px) {
+    width: 100%;
+  }
+`;
+
+const InputMessage = styled.div`
+  ${({ theme }) => theme.flex.flexBox}
+  position: absolute;
+  left: 0;
+  margin-top: 0.5rem;
+  font-size: small;
+  color: ${({ theme }) => theme.colors.heartPink};
+`;
+
+const FailIcon = styled(RiAlertFill)`
+  margin-right: 0.2rem;
+`;
+
+const GuideMessage = styled.div`
+  color: ${({ theme }) => theme.colors.gray};
+`;
+
+const SuccessMessage = styled.div`
+  ${({ theme }) => theme.flex.flexBox}
+  color: ${({ theme }) => theme.colors.primaryBlue};
+`;
+
+const SuccessIcon = styled(BsPatchCheckFill)`
+  margin-right: 0.2rem;
+`;
+
 const LoginInput = styled.input`
   width: 70%;
   height: 5rem;
-  margin-top: 2rem;
   border: 1px solid ${({ theme }) => theme.colors.disabled};
   border-radius: 5px;
   padding: 1em;
@@ -339,10 +406,13 @@ const GotoAdmin = styled.div`
 `;
 
 const AdminText = styled.p`
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.2);
-  :hover {
-    color: rgba(0, 0, 0, 0.5);
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.skyMint};
+  opacity: 0.4;
+  transition: all ease-in-out 100ms;
+
+  &:hover {
+    opacity: 1;
   }
 `;
 

@@ -38,13 +38,28 @@ export const UserInputMileageState = atom({
 export const SelectedOptionsState = atom({
   key: 'SelectedOptionsState',
   default: [
-    { id: 0, name: 'sunroof', state: 'False' },
-    { id: 1, name: 'navigation', state: 'False' },
-    { id: 2, name: 'ventilation_seat', state: 'False' },
-    { id: 3, name: 'heated_seat', state: 'False' },
-    { id: 4, name: 'electric_seat', state: 'False' },
-    { id: 5, name: 'smart_key', state: 'False' },
-    { id: 6, name: 'leather_seat', state: 'False' },
-    { id: 7, name: 'electric_folding_mirror', state: 'False' },
+    { id: 0, name: 'sunroof', state: false },
+    { id: 1, name: 'navigation', state: false },
+    { id: 2, name: 'ventilation_seat', state: false },
+    { id: 3, name: 'heated_seat', state: false },
+    { id: 4, name: 'electric_seat', state: false },
+    { id: 5, name: 'smart_key', state: false },
+    { id: 6, name: 'leather_seat', state: false },
+    { id: 7, name: 'electric_folding_mirror', state: false },
   ],
+});
+
+export const isAlarmState = atom({
+  key: 'isAlarmState',
+  default: false,
+});
+
+export const AlarmListState = atom({
+  key: 'AlarmListState',
+  default: [],
+});
+
+export const AlarmModalState = atom({
+  key: 'AlarmModalState',
+  default: false,
 });
