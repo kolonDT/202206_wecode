@@ -132,27 +132,27 @@ function Login({ setPage }) {
 
   const [inputCarNumber, setInputCarNumber] = useState('');
 
-  const handleLogin = str => {
-    getCar(str);
-    if (!show || !isLogin) {
-      alert('차량번호를 다시 확인해주세요.');
-    } else if (data) {
-      navigate('/requestform');
-    } else {
-      navigate('/login', { state: id });
-    }
-    return 'return';
-  };
+  // const handleLogin = str => {
+  //   getCar(str);
+  //   if (!show || !isLogin) {
+  //     alert('차량번호를 다시 확인해주세요.');
+  //   } else if (data) {
+  //     navigate('/requestform');
+  //   } else {
+  //     navigate('/login', { state: id });
+  //   }
+  //   return 'return';
+  // };
 
   const handleAdmin = () => {
     navigate('/admin');
   };
 
-  const handleEnter = e => {
-    if (e.keyCode === 13) {
-      handleLogin(e.target.value);
-    }
-  };
+  // const handleEnter = e => {
+  //   if (e.keyCode === 13) {
+  //     handleLogin(e.target.value);
+  //   }
+  // };
 
   function isValidId(str) {
     const regId = /\d{2,3}[가-힣]{1}?([0-9]{4})$/g;
@@ -214,14 +214,12 @@ function Login({ setPage }) {
         //   ? { DB없을 경우 카카오 인증 : DB있을 경우 navigate('/sellcar') }
         //   : alert('소유자명을 확인해주세요');
         setEstimateCarInfo(data);
-        const { owner } = estimateCarInfo;
-        userInputOwner === owner
+        const { owner, number } = estimateCarInfo;
+        userInputOwner === owner && inputCarNumber === number
           ? navigate('/sellcar')
           : alert('소유자명을 확인해주세요');
       });
   };
-
-  console.log(estimateCarInfo);
 
   return (
     <Background>
@@ -236,7 +234,7 @@ function Login({ setPage }) {
               </LoginSubTitle>
               <LoginInput
                 onChange={handleInput}
-                onKeyDown={handleEnter}
+                // onKeyDown={handleEnter}
                 type="text"
                 id="id"
                 name="id"
@@ -282,9 +280,20 @@ function Login({ setPage }) {
                   onChange={e => getUserInputOwner(e)}
                   value={userInputOwner}
                 />
-                <InputButton onClick={checkOwner} variant="primary">
+                {/* <InputButton onClick={checkOwner} variant="primary">
                   확인
-                </InputButton>
+                </InputButton> */}
+                <ButtonSet>
+                  <PrevButton
+                    onClick={() => setLoginProcess(prev => prev - 1)}
+                    variant="primary"
+                  >
+                    이전
+                  </PrevButton>
+                  <NextButton onClick={checkOwner} variant="primary">
+                    다음
+                  </NextButton>
+                </ButtonSet>
               </ContentBox>
             </InputOwnerWrapper>
           )}

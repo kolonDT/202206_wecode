@@ -1,101 +1,50 @@
-import React, { useRef } from 'react';
+import React from 'react';
+import styled from 'styled-components';
+import Graph from '../../Graph/Graph';
 import { useRecoilValue } from 'recoil';
-import { currentEstimateState, EstimateCarInfo } from '../../../atoms';
+import { EstimateCarInfo } from '../../../atoms';
 import {
   ButtonSet,
   NextButton,
   PrevButton,
   ContentBox,
   ContentTitle,
-  CarInfoWrapper,
-  CarInfoTable,
-  CarInfoElement,
-  CarInfoTitle,
-  CarInfoDescription,
 } from './CarInfoStyle';
 
 const StateOne = ({ nextProcess, prevProcess }) => {
-  const currentEstimate = useRecoilValue(currentEstimateState);
   const estimateCarInfo = useRecoilValue(EstimateCarInfo);
-
-  const tableSection = useRef(null);
-
-  // TO DO : table scroll 구현
-  // const scrollToBottom = ref => {
-  //   ref.current.scrollIntoView({ behavior: 'smooth' });
-  // };
-
-  const {
-    owner,
-    number,
-    car_name,
-    trim,
-    model_year,
-    color,
-    first_registration_year,
-    body_shape,
-    transmission,
-    engine,
-    manufacturer,
-    factory_price,
-    transaction_history,
-    insurance_history,
-  } = estimateCarInfo;
-
-  const CAR_INFO = [
-    { id: 1, title: '차량번호', content: `${number}` },
-    { id: 2, title: '소유자명', content: `${owner}` },
-    { id: 3, title: '모델명', content: `${car_name}` },
-    { id: 4, title: '출고등급', content: `${trim}` },
-    { id: 5, title: '연식', content: `${model_year}` },
-    { id: 6, title: '색상', content: `${color}` },
-    { id: 7, title: '최초등록', content: `${first_registration_year}` },
-    { id: 8, title: '차체형태', content: `${body_shape}` },
-    { id: 9, title: '변속기', content: `${transmission}` },
-    { id: 10, title: '엔진', content: `${engine}` },
-    { id: 11, title: '제조사', content: `${manufacturer}` },
-    { id: 12, title: '출고가격', content: `${factory_price}` },
-    { id: 13, title: '거래이력', content: `${transaction_history}` },
-    { id: 14, title: '보험이력', content: `${insurance_history}` },
-  ];
+  const { owner, car_name } = estimateCarInfo;
 
   return (
-    <div>
-      {currentEstimate === 0 && (
-        <ContentBox currentEstimate={currentEstimate}>
-          <ContentTitle>차량 정보를 확인해주세요</ContentTitle>
-          {/* TO DO : table scroll 구현
-          <div onClick={() => scrollToBottom(tableSection)}>scroll</div> */}
-          <CarInfoWrapper ref={tableSection}>
-            <CarInfoTable>
-              {CAR_INFO.map(({ id, title, content }) => {
-                if (title === '거래이력') {
-                  content = transaction_history.join('\n');
-                }
-                if (title === '보험이력') {
-                  content = insurance_history.join('\n');
-                }
-                return (
-                  <CarInfoElement key={id}>
-                    <CarInfoTitle>{title}</CarInfoTitle>
-                    <CarInfoDescription>{content}</CarInfoDescription>
-                  </CarInfoElement>
-                );
-              })}
-            </CarInfoTable>
-          </CarInfoWrapper>
-          <ButtonSet currentEstimate={currentEstimate}>
-            <PrevButton onClick={prevProcess} variant="primary">
-              이전
-            </PrevButton>
-            <NextButton onClick={nextProcess} variant="primary">
-              다음
-            </NextButton>
-          </ButtonSet>
-        </ContentBox>
-      )}
-    </div>
+    <ContentBox>
+      <ContentTitle>
+        <OwnerTag>{owner}</OwnerTag>님의 <CarTag>{car_name}</CarTag> 🚙
+        <br />
+        예상시세는 다음과 같습니다.
+      </ContentTitle>
+      <Graph />
+      <ButtonSet>
+        <PrevButton onClick={prevProcess} variant="primary">
+          이전
+        </PrevButton>
+        <NextButton onClick={nextProcess} variant="primary">
+          다음
+        </NextButton>
+      </ButtonSet>
+    </ContentBox>
   );
 };
 
 export default StateOne;
+
+const OwnerTag = styled.span`
+  color: ${({ theme }) => theme.colors.primaryBlue};
+`;
+
+const CarTag = styled.span`
+  background-color: ${({ theme }) => theme.colors.primaryBlue};
+  color: ${({ theme }) => theme.colors.white};
+  border-radius: 0.2rem;
+  padding: 0 0.3rem;
+  font-size: 22px;
+`;
