@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import { BsXLg } from 'react-icons/bs';
 import CustomerInfo from './CustomerInfo';
@@ -7,6 +7,16 @@ import Estimate from './Estimate';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
 
 const Modal = ({ onClickToggleModal }) => {
+  // useEffect(() => {
+  //   fetch('Data/Sunshine/ModalData.json', {
+  //     method: 'GET',
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setModalList(data.results);
+  //     });
+  // }, []);
+
   return (
     <div>
       <ModalContainer>
@@ -56,6 +66,16 @@ const ModalContainer = styled.div`
   width: 100%;
   height: 100%;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+  }
 `;
 
 const ModalCard = styled.div`
@@ -71,7 +91,7 @@ const ModalCard = styled.div`
   background-color: white;
   z-index: 10000;
   border: 1px solid #eaebec;
-  overflow-y: scroll;
+  overflow-y: auto;
   &::-webkit-scrollbar {
     width: 8px;
     height: 8px;

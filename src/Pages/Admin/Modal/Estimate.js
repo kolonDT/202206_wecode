@@ -32,7 +32,6 @@ const Estimate = () => {
 const BoxAlign = css`
   ${props => props.theme.flex.flexBox('column', '', 'center')};
   height: 30px;
-  border: 1px solid #eaebec;
 `;
 
 const EstimateContainer = styled.div`

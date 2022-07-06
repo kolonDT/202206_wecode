@@ -6,7 +6,7 @@ const ImageInfo = () => {
 };
 
 const ImageContainer = styled.div`
-  margin-bottom: 30px;
+  margin: 30px 0;
   width: 420px;
   height: 500px;
   background-color: yellow;

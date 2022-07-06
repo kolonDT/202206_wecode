@@ -7,37 +7,49 @@ const CarInfo = () => {
   return (
     <CarInfoContainer>
       <CarInfoTitle>차량정보</CarInfoTitle>
-      <RowAlign>
-        <CarContainer>
-          {CAR_LIST.map(({ id, subject }) => {
-            return (
-              <CarSubject key={id}>
-                <CarTypo>{subject}</CarTypo>
-              </CarSubject>
-            );
-          })}
-        </CarContainer>
-        <CarDetailsContainer>
-          <CarDetails>
-            <CarTypo>123가5678</CarTypo>
-          </CarDetails>
-          <CarDetails>
-            <CarTypo>BMW</CarTypo>
-          </CarDetails>
-          <CarDetails>
-            <CarTypo>M8 그란데 쿠페</CarTypo>
-          </CarDetails>
-          <CarDetails>
-            <CarTypo>2021</CarTypo>
-          </CarDetails>
-          <CarDetails>
-            <CarTypo>1,500km</CarTypo>
-          </CarDetails>
-          <CarDetails>
-            <CarTypo>없음</CarTypo>
-          </CarDetails>
-        </CarDetailsContainer>
-      </RowAlign>
+      <BorderWrapper>
+        <RowAlign>
+          <CarContainer>
+            {CAR_LIST.map(({ id, subject }) => {
+              return (
+                <CarSubject key={id}>
+                  <CarTypo>{subject}</CarTypo>
+                </CarSubject>
+              );
+            })}
+          </CarContainer>
+          <CarDetailsContainer>
+            <CarDetails>
+              <CarTypo>123가5678</CarTypo>
+            </CarDetails>
+            <CarDetails>
+              <CarTypo>BMW</CarTypo>
+            </CarDetails>
+            <CarDetails>
+              <CarTypo>M8 그란데 쿠페</CarTypo>
+            </CarDetails>
+            <CarDetails>
+              <CarTypo>2021</CarTypo>
+            </CarDetails>
+            <CarDetails>
+              <CarTypo>1,500km</CarTypo>
+            </CarDetails>
+            <CarDetails>
+              <CarTypo>없음</CarTypo>
+            </CarDetails>
+          </CarDetailsContainer>
+        </RowAlign>
+        <AdditionalAlign>
+          <AdditionalSubject>
+            <CarTypo>추가정보</CarTypo>
+          </AdditionalSubject>
+          <AdditionalInfo>
+            <CarTypo>
+              추가 정보 확인 요망. 추가 정보 확인 요망. 추가 정보 확인 요망.
+            </CarTypo>
+          </AdditionalInfo>
+        </AdditionalAlign>
+      </BorderWrapper>
       <ImageInfo />
     </CarInfoContainer>
   );
@@ -55,6 +67,10 @@ const CarInfoContainer = styled.div`
   width: 420px;
 `;
 
+const BorderWrapper = styled.div`
+  border-top: 1px solid #eaebec;
+`;
+
 const CarInfoTitle = styled.span`
   font-size: ${props => props.theme.fontSizes.small};
   font-weight: ${props => props.theme.fontWeights.extraBold};
@@ -63,8 +79,6 @@ const CarInfoTitle = styled.span`
 
 const RowAlign = styled.div`
   ${props => props.theme.flex.flexBox('row', '', '')};
-  border: 1px solid #eaebec;
-  margin-bottom: 30px;
 `;
 
 const CarContainer = styled.div`
@@ -87,8 +101,28 @@ const CarDetails = styled.div`
   background-color: white;
 `;
 
+const AdditionalAlign = styled.div`
+  ${props => props.theme.flex.flexBox('row', 'center', 'center')};
+`;
+
+const AdditionalSubject = styled.div`
+  ${props => props.theme.flex.flexBox('column', '', 'center')};
+  height: 70px;
+  width: 120px;
+  background-color: #dbdbdb;
+  border: 1px solid #eaebec;
+`;
+
+const AdditionalInfo = styled.div`
+  ${props => props.theme.flex.flexBox('column', '', 'center')};
+  height: 70px;
+  width: 300px;
+  background-color: white;
+  border: 1px solid #eaebec;
+`;
+
 const CarTypo = styled.span`
-  padding-left: 5px;
+  padding: 5px;
   font-size: ${props => props.theme.fontSizes.small};
   font-weight: ${props => props.theme.fontWeights.bold};
 `;

@@ -1,29 +1,51 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { selector } from 'recoil';
 import { useRecoilState } from 'recoil';
 import styled, { css } from 'styled-components/macro';
-import { selectOpenState } from '../../adminAtoms';
+import { openModal, selectIdState, selectOpenState } from '../../adminAtoms';
 import Modal from '../../Modal/Modal';
 import RequestCardList from './RequestCardList';
 import { REQUEST_LIST } from './RequestData';
 
 const RequestDetails = () => {
   const [requestList, setRequestList] = useState([]);
+  const [currentId, setCurrentId] = useRecoilState(selectIdState);
   const [isOpenModal, setOpenModal] = useRecoilState(selectOpenState);
+  const [selectModal, setSelectModal] = useRecoilState(openModal);
   const totalSum = requestList.length.toLocaleString();
 
-  useEffect(() => {
-    fetch('Data/Sunshine/RequestCardData.json', {
-      method: 'GET',
-    })
-      .then(res => res.json())
-      .then(data => {
-        setRequestList(data.results);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch('Data/Sunshine/RequestCardData.json', {
+  //     method: 'GET',
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setRequestList(data.results);
+  //     });
+  // }, []);
+
+  const test = selector({
+    key: 'user',
+    get: async () => {
+      const userData = await fetch(`Data/Sunshine/RequestCardData.json`).then(
+        res => res.json()
+      );
+      return setRequestList(userData);
+    },
+  });
+
+  const modalList = selector({
+    key: 'user',
+    get: async () => {
+      const userData = await fetch(`Data/Sunshine/ModalData.json`).then(res =>
+        res.json()
+      );
+      return setSelectModal(userData);
+    },
+  });
 
   const onClickToggleModal = useCallback(
     id => {
-      console.log(`뭐가 찍히나?${id}`);
       setOpenModal(!isOpenModal);
     },
     [isOpenModal]
