@@ -76,57 +76,62 @@ const TotalRequest = styled.span`
 const RequestList = styled.ul`
   ${props => props.theme.flex.flexBox('row', 'center', 'space-between')};
   margin: 10px 10px 0 0;
-  padding: 0 119px 0 45px;
+  padding: 0 155px 0 45px;
   width: 90.188rem;
   height: 2.375rem;
   background-color: #dbdbdb;
 `;
 
 const RequestNumber = styled.li`
-  padding-right: -15px;
+  padding-right: 5px;
   ${ListTypo}
 `;
 
 const RequestName = styled.li`
-  padding-right: 10px;
+  padding-right: 20px;
   ${ListTypo}
 `;
 
 const PhoneNumber = styled.li`
-  padding-right: 10px;
+  padding-right: 20px;
   ${ListTypo}
 `;
 const CarNumber = styled.li`
-  margin-right: -28px;
+  margin-right: -15px;
   ${ListTypo}
 `;
 
 const Manufacture = styled.li`
-  margin-right: -23px;
+  margin-right: -10px;
   ${ListTypo};
 `;
 
 const ModelNumber = styled.li`
-  margin-right: -10px;
+  margin-right: -20px;
   ${ListTypo}
 `;
 const CarYear = styled.li`
-  margin-right: -10px;
+  margin-left: 20px;
+  margin-right: -15px;
   ${ListTypo}
 `;
 const RequestDate = styled.li`
+  padding-right: 20px;
   ${ListTypo}
 `;
 
 const Branch = styled.li`
+  padding-right: 20px;
   ${ListTypo}
 `;
 
 const Dealer = styled.li`
+  margin-right: -20px;
   ${ListTypo}
 `;
 
 const Status = styled.li`
+  margin-left: -5px;
   ${ListTypo}
 `;
 

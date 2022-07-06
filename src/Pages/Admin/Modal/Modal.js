@@ -36,7 +36,10 @@ const Modal = ({ onClickToggleModal }) => {
                   <CustomerInfo />
                   <CarInfo />
                 </AlignLeft>
-                <Estimate />
+                <CenterAlign>
+                  <Estimate />
+                  <SaveButton>저장</SaveButton>
+                </CenterAlign>
               </RowAlign>
             </AlignLeft>
           </SectionAll>
@@ -52,6 +55,7 @@ const ModalContainer = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
 `;
 
 const ModalCard = styled.div`
@@ -117,6 +121,22 @@ const AlignLeft = styled.div`
 
 const RowAlign = styled.div`
   ${props => props.theme.flex.flexBox('row', '', '')};
+`;
+
+const CenterAlign = styled.div`
+  ${props => props.theme.flex.flexBox('column', 'center', '')};
+`;
+
+const SaveButton = styled.button`
+  margin-top: 30px;
+  width: 83px;
+  height: 31px;
+  border: 1px solid #eaebec;
+  background-color: #dbdbdb;
+  &:hover {
+    cursor: pointer;
+    background-color: #a2a2a2;
+  }
 `;
 
 const Backdrop = styled.div`

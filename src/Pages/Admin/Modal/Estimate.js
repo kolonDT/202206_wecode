@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import DealerName from '../RightSection/Search/DealerName/DealerName';
-import ProgressStatus from '../RightSection/Search/ProgressStatus/ProgressStatus';
+import ProgressStatus from './ProgressStatus/ProgressStatus';
 
 const Estimate = () => {
   return (
@@ -18,7 +18,12 @@ const Estimate = () => {
         </BranchContainer>
         <DealerName />
         <ProgressStatus />
-        <InputEstimate type="text" placeholder="상담내용을 입력하세요" />
+        <InputEstimate
+          type="textarea"
+          cols="50"
+          rows="10"
+          placeholder="상담내용을 입력하세요"
+        />
       </EstimateContainer>
     </div>
   );
@@ -66,15 +71,12 @@ const BranchTypo = styled.span`
   font-weight: ${props => props.theme.fontWeights.bold};
 `;
 
-const InputEstimate = styled.input`
+const InputEstimate = styled.textarea`
+  margin-top: 15px;
   width: 420px;
   height: 300px;
   border: 1px solid #eaebec;
-  padding: 10px 0;
-  ::placeholder {
-    top: 10;
-    padding-left: 10px;
-  }
+  padding: 15px 15px;
 `;
 
 export default Estimate;
