@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import styled, { css } from 'styled-components/macro';
+import { selectOpenState } from '../../adminAtoms';
+import Modal from '../../Modal/Modal';
 import RequestCardList from './RequestCardList';
 import { REQUEST_LIST } from './RequestData';
 
 const RequestDetails = () => {
   const [requestList, setRequestList] = useState([]);
+  const [isOpenModal, setOpenModal] = useRecoilState(selectOpenState);
+  const totalSum = requestList.length.toLocaleString();
 
   useEffect(() => {
     fetch('Data/Sunshine/RequestCardData.json', {
@@ -16,9 +21,18 @@ const RequestDetails = () => {
       });
   }, []);
 
+  const onClickToggleModal = useCallback(
+    id => {
+      console.log(`뭐가 찍히나?${id}`);
+      setOpenModal(!isOpenModal);
+    },
+    [isOpenModal]
+  );
+
   return (
     <div>
       <RequestContainer>
+        <TotalRequest>Total {totalSum}</TotalRequest>
         <RequestList>
           {/* {REQUEST_LIST.map(({ id, title }) => (
             <RequestListDetails key={id}>{title}</RequestListDetails>
@@ -35,7 +49,13 @@ const RequestDetails = () => {
           <Dealer>담당자</Dealer>
           <Status>진행상태</Status>
         </RequestList>
-        {requestList && <RequestCardList requestList={requestList} />}
+        {requestList && (
+          <RequestCardList
+            requestList={requestList}
+            onClick={onClickToggleModal}
+          />
+        )}
+        {isOpenModal && <Modal onClickToggleModal={onClickToggleModal} />}
       </RequestContainer>
     </div>
   );
@@ -49,9 +69,13 @@ const RequestContainer = styled.div`
   height: auto;
 `;
 
+const TotalRequest = styled.span`
+  ${ListTypo}
+`;
+
 const RequestList = styled.ul`
   ${props => props.theme.flex.flexBox('row', 'center', 'space-between')};
-  margin-right: 10px;
+  margin: 10px 10px 0 0;
   padding: 0 119px 0 45px;
   width: 90.188rem;
   height: 2.375rem;

@@ -1,7 +1,7 @@
 import React from 'react';
 import RequestCard from './RequestCard';
 
-const RequestCardList = ({ requestList }) => {
+const RequestCardList = ({ requestList, onClick }) => {
   return (
     <div>
       {requestList &&
@@ -35,6 +35,7 @@ const RequestCardList = ({ requestList }) => {
                 dealer={dealer}
                 status={status}
                 statusDate={statusDate}
+                onClick={onClick}
               />
             );
           }

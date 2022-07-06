@@ -22,11 +22,12 @@ const MenuInfoTypo = css`
 const MenuInfoContainer = styled.div`
   width: 358px;
   height: 41px;
-  background-color: red;
 `;
+
 const TitleMenu = styled.span`
   ${MenuInfoTypo}
 `;
+
 const SubMenu = styled.span`
   ${MenuInfoTypo}
 `;

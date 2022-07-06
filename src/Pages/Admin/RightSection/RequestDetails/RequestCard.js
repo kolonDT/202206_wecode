@@ -14,9 +14,10 @@ const RequestCard = ({
   dealer,
   status,
   statusDate,
+  onClick,
 }) => {
   return (
-    <RequestCardContainer>
+    <RequestCardContainer onClick={() => onClick(id)}>
       <RequestCardList>{id}</RequestCardList>
       <RequestCardList>{onwer}</RequestCardList>
       <RequestCardList>{phone_number}</RequestCardList>
@@ -39,6 +40,10 @@ const RequestCardContainer = styled.ul`
   width: 90.188rem;
   height: 2.375rem;
   border: 1px solid #eaebec;
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(10, 10, 10, 0.05);
+  }
 `;
 
 const RequestCardList = styled.li`
