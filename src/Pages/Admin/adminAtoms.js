@@ -7,7 +7,7 @@ export const selectIdState = atom({
 
 export const selectOpenState = atom({
   key: 'selectOpenState',
-  default: 'false',
+  default: false,
 });
 
 export const inputEstimate = atom({
@@ -17,5 +17,20 @@ export const inputEstimate = atom({
 
 export const openModal = atom({
   key: 'openModal',
+  default: [],
+});
+
+export const setRequestListData = atom({
+  key: 'setRequestList',
+  default: [],
+});
+
+export const setModalList = atom({
+  key: 'setModalList',
+  default: [],
+});
+
+export const setSelectOption = atom({
+  key: 'setSelectOption',
   default: [],
 });

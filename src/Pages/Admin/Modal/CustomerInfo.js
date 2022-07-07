@@ -1,49 +1,41 @@
 import React from 'react';
+import { useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components/macro';
+import { setModalList } from '../adminAtoms';
 import { CUSTOMER_LIST } from '../RightSection/Search/Branch/ModalData';
+import Estimate from './Estimate';
 
 const CustomerInfo = () => {
+  const getModal = useRecoilValue(setModalList);
+  const { estimate_id } = getModal;
+
   return (
-    <div>
-      <CustomerInfoContainer>
-        <CustomerInfoTitle>고객정보</CustomerInfoTitle>
-        <RowAlign>
-          <CustomerContainer>
-            {CUSTOMER_LIST.map(({ id, subject }) => {
-              return (
-                <CustomerSubject key={id}>
-                  <CustomerTypo>{subject}</CustomerTypo>
-                </CustomerSubject>
-              );
-            })}
-          </CustomerContainer>
-          <CustomerDetailsContainer>
-            <CustomerDetails>
-              <CustomerTypo>540345</CustomerTypo>
-            </CustomerDetails>
-            <CustomerDetails>
-              <CustomerTypo>홍길동</CustomerTypo>
-            </CustomerDetails>
-            <CustomerDetails>
-              <CustomerTypo>010-3392-0580</CustomerTypo>
-            </CustomerDetails>
-            <CustomerDetails>
-              <CustomerTypo>서울특별시 강서구 화곡동</CustomerTypo>
-            </CustomerDetails>
-            <CustomerDetails>
-              <CustomerTypo>2022.07.06 23:20:35</CustomerTypo>
-            </CustomerDetails>
-          </CustomerDetailsContainer>
-        </RowAlign>
-      </CustomerInfoContainer>
-    </div>
+    <CustomerInfoContainer>
+      <CustomerInfoTitle>고객정보</CustomerInfoTitle>
+      <RowAlign>
+        <CustomerContainer>
+          {CUSTOMER_LIST.map(({ id, subject }) => {
+            return <CustomerTitle key={id}>{subject}</CustomerTitle>;
+          })}
+        </CustomerContainer>
+        <CustomerDetailsContainer>
+          <CustomerTypo>{estimate_id}</CustomerTypo>
+          <CustomerTypo>홍길동</CustomerTypo>
+          <CustomerTypo>010-3392-0580</CustomerTypo>
+          <CustomerTypo>서울특별시 강서구 화곡동</CustomerTypo>
+          <CustomerTypo>2022.07.06 23:20:35</CustomerTypo>
+        </CustomerDetailsContainer>
+      </RowAlign>
+    </CustomerInfoContainer>
   );
 };
 
 const BoxAlign = css`
   ${props => props.theme.flex.flexBox('column', '', 'center')};
   height: 30px;
-  border: 1px solid #eaebec;
+  border-bottom: 1.5px solid #eaebec;
+  border-right: 1px solid #eaebec;
+  border-left: 1px solid #eaebec;
 `;
 
 const CustomerInfoContainer = styled.div`
@@ -59,17 +51,20 @@ const CustomerInfoTitle = styled.span`
 `;
 
 const RowAlign = styled.div`
-  ${props => props.theme.flex.flexBox('row', '', '')};
-  border: 1px solid #eaebec;
+  ${props => props.theme.flex.flexBox('row', 'center', '')};
+  border-top: 1.5px solid #eaebec;
 `;
 
 const CustomerContainer = styled.div`
   ${props => props.theme.flex.flexBox('column', '', '')};
 `;
 
-const CustomerSubject = styled.div`
+const CustomerTitle = styled.div`
   ${BoxAlign}
   width: 120px;
+  padding-left: 5px;
+  font-size: ${props => props.theme.fontSizes.small};
+  font-weight: ${props => props.theme.fontWeights.bold};
   background-color: #dbdbdb;
 `;
 
@@ -77,16 +72,13 @@ const CustomerDetailsContainer = styled.div`
   ${props => props.theme.flex.flexBox('column', '', '')};
 `;
 
-const CustomerDetails = styled.div`
+const CustomerTypo = styled.div`
   ${BoxAlign}
   width: 300px;
-  background-color: white;
-`;
-
-const CustomerTypo = styled.span`
   padding-left: 5px;
   font-size: ${props => props.theme.fontSizes.small};
   font-weight: ${props => props.theme.fontWeights.bold};
+  background-color: white;
 `;
 
 export default CustomerInfo;

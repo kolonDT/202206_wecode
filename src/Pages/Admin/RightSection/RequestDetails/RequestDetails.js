@@ -1,20 +1,24 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { selector } from 'recoil';
 import { useRecoilState } from 'recoil';
 import styled, { css } from 'styled-components/macro';
-import { openModal, selectIdState, selectOpenState } from '../../adminAtoms';
+import {
+  openModal,
+  selectIdState,
+  selectOpenState,
+  setRequestListData,
+} from '../../adminAtoms';
 import Modal from '../../Modal/Modal';
 import RequestCardList from './RequestCardList';
-import { REQUEST_LIST } from './RequestData';
+// import { REQUEST_LIST } from './RequestData';
 
 const RequestDetails = () => {
-  const [requestList, setRequestList] = useState([]);
+  const [requestList, setRequestList] = useRecoilState(setRequestListData);
   const [currentId, setCurrentId] = useRecoilState(selectIdState);
   const [isOpenModal, setOpenModal] = useRecoilState(selectOpenState);
-  const [selectModal, setSelectModal] = useRecoilState(openModal);
+
   const totalSum = requestList.length.toLocaleString();
 
-  // useEffect(() => {
+  // const getRequestCardData = () => {
   //   fetch('Data/Sunshine/RequestCardData.json', {
   //     method: 'GET',
   //   })
@@ -22,64 +26,68 @@ const RequestDetails = () => {
   //     .then(data => {
   //       setRequestList(data.results);
   //     });
-  // }, []);
+  // };
 
-  const test = selector({
-    key: 'user',
-    get: async () => {
-      const userData = await fetch(`Data/Sunshine/RequestCardData.json`).then(
-        res => res.json()
-      );
-      return setRequestList(userData);
-    },
-  });
+  const getRequestCardData = () => {
+    fetch('Data/Sunshine/RequestCardData.json', {
+      method: 'GET',
+    })
+      .then(res => res.json())
+      .then(data => {
+        setRequestList(data.results);
+      });
+  };
 
-  const modalList = selector({
-    key: 'user',
-    get: async () => {
-      const userData = await fetch(`Data/Sunshine/ModalData.json`).then(res =>
-        res.json()
-      );
-      return setSelectModal(userData);
-    },
-  });
+  // 나중에 백 열리면 받아올거임
+  // const getModalData = () => {
+  //   fetch('API/admin/`${currentId}`', {
+  //     method: 'GET',
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setGetModal(data.results);
+  //     });
+  // };
 
-  const onClickToggleModal = useCallback(
-    id => {
-      setOpenModal(!isOpenModal);
-    },
-    [isOpenModal]
-  );
+  useEffect(() => {
+    getRequestCardData();
+  }, []);
+
+  const onClickToggleModal = () => {
+    // setCurrentId(id);
+    setOpenModal(!isOpenModal);
+  };
 
   return (
-    <div>
-      <RequestContainer>
-        <TotalRequest>Total {totalSum}</TotalRequest>
-        <RequestList>
-          {/* {REQUEST_LIST.map(({ id, title }) => (
+    <RequestContainer>
+      <TotalRequest>Total {totalSum}</TotalRequest>
+      <RequestList>
+        {/* {REQUEST_LIST.map(({ id, title }) => (
             <RequestListDetails key={id}>{title}</RequestListDetails>
           ))} */}
-          <RequestNumber>No</RequestNumber>
-          <RequestName>이름</RequestName>
-          <PhoneNumber>휴대폰</PhoneNumber>
-          <CarNumber>차량번호</CarNumber>
-          <Manufacture>브랜드</Manufacture>
-          <ModelNumber>모델명</ModelNumber>
-          <CarYear>연식</CarYear>
-          <RequestDate>견적요청일</RequestDate>
-          <Branch>지점</Branch>
-          <Dealer>담당자</Dealer>
-          <Status>진행상태</Status>
-        </RequestList>
-        {requestList && (
-          <RequestCardList
-            requestList={requestList}
-            onClick={onClickToggleModal}
-          />
-        )}
-        {isOpenModal && <Modal onClickToggleModal={onClickToggleModal} />}
-      </RequestContainer>
-    </div>
+        <RequestNumber>No</RequestNumber>
+        <RequestName>이름</RequestName>
+        <PhoneNumber>휴대폰</PhoneNumber>
+        <CarNumber>차량번호</CarNumber>
+        <Manufacture>브랜드</Manufacture>
+        <ModelNumber>모델명</ModelNumber>
+        <CarYear>연식</CarYear>
+        <RequestDate>견적요청일</RequestDate>
+        <Branch>지점</Branch>
+        <Dealer>담당자</Dealer>
+        <Status>진행상태</Status>
+      </RequestList>
+      {requestList && (
+        <RequestCardList
+          requestList={requestList}
+          onClick={
+            onClickToggleModal
+            // selectId(id);
+          }
+        />
+      )}
+      {isOpenModal && <Modal onClickToggleModal={onClickToggleModal} />}
+    </RequestContainer>
   );
 };
 const ListTypo = css`

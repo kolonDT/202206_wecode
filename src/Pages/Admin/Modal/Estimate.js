@@ -25,6 +25,7 @@ const Estimate = () => {
           placeholder="상담내용을 입력하세요"
         />
       </EstimateContainer>
+      <SaveButton>저장</SaveButton>
     </div>
   );
 };
@@ -76,6 +77,18 @@ const InputEstimate = styled.textarea`
   height: 300px;
   border: 1px solid #eaebec;
   padding: 15px 15px;
+`;
+
+const SaveButton = styled.button`
+  margin-top: 30px;
+  width: 83px;
+  height: 31px;
+  border: 1px solid #eaebec;
+  background-color: #dbdbdb;
+  &:hover {
+    cursor: pointer;
+    background-color: #a2a2a2;
+  }
 `;
 
 export default Estimate;

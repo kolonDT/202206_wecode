@@ -2,34 +2,34 @@ import React from 'react';
 import styled from 'styled-components/macro';
 
 const RequestCard = ({
-  id,
+  estimate_id,
   onwer,
   phone_number,
   car_number,
   manufacture,
-  car_name,
+  trim,
   model_year,
-  request_date,
+  estimate_request_date,
   name,
   dealer,
-  status,
-  statusDate,
+  sales_process_id,
+  quote_requested,
   onClick,
 }) => {
   return (
-    <RequestCardContainer onClick={() => onClick(id)}>
-      <RequestCardList>{id}</RequestCardList>
+    <RequestCardContainer onClick={onClick}>
+      <RequestCardList>{estimate_id}</RequestCardList>
       <RequestCardList>{onwer}</RequestCardList>
       <RequestCardList>{phone_number}</RequestCardList>
       <RequestCardList>{car_number}</RequestCardList>
       <RequestCardList>{manufacture}</RequestCardList>
-      <RequestCardList>{car_name}</RequestCardList>
+      <RequestCardList>{trim}</RequestCardList>
       <RequestCardList>{model_year}</RequestCardList>
-      <RequestCardList>{request_date}</RequestCardList>
+      <RequestCardList>{estimate_request_date}</RequestCardList>
       <RequestCardList>{name}</RequestCardList>
       <RequestCardList>{dealer}</RequestCardList>
-      <RequestCardList>{status}</RequestCardList>
-      <RequestCardList>{statusDate}</RequestCardList>
+      <RequestCardList>{sales_process_id}</RequestCardList>
+      <RequestCardList>{quote_requested}</RequestCardList>
     </RequestCardContainer>
   );
 };
