@@ -70,7 +70,7 @@ function ContactInfo() {
   return (
     <Box>
       <P className="top">딜러의 방문상담을 위해</P>
-      <P>연락처와 지역을 확인해 주세요.</P>
+      <P>연락처와 주소를 확인해 주세요.</P>
       <Contact>
         <Text>연락처</Text>
         <Input

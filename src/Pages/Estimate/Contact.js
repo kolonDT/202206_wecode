@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import DaumPostcode from 'react-daum-postcode';
+import styled from 'styled-components';
 import {
   ButtonSet,
   NextButton,
@@ -8,7 +8,7 @@ import {
   ContentBox,
   ContentTitle,
   InputBox,
-} from '../Estimate/States/CarInfoStyle';
+} from './Style';
 
 const AddContactInfo = ({ nextProcess, prevProcess }) => {
   const Postcode = ({ setAddr, setFindAddr, carNumber }) => {
@@ -37,7 +37,7 @@ const AddContactInfo = ({ nextProcess, prevProcess }) => {
     <ContentBox>
       <ContentTitle>
         딜러의 방문 상담을 위해
-        <br /> 연락처와 지역을 확인해주세요
+        <br /> 연락처와 주소를 확인해주세요
       </ContentTitle>
 
       <ContactInputWrapper>
@@ -46,7 +46,7 @@ const AddContactInfo = ({ nextProcess, prevProcess }) => {
       </ContactInputWrapper>
 
       <AddressInputWrapper>
-        <InputTitle>지역</InputTitle>
+        <InputTitle>주소</InputTitle>
         <Postcode
         // carNumber={carNumber}
         // setFindAddr={setFindAddr}

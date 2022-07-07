@@ -8,9 +8,9 @@ import {
   PrevButton,
   ContentBox,
   ContentTitle,
-} from './CarInfoStyle';
+} from '../Style';
 
-const StateThree = ({ nextProcess, prevProcess }) => {
+const Options = ({ nextProcess, prevProcess }) => {
   const estimateCarOption = useRecoilValue(EstimateCarOption);
   const [selectedOptions, setSelectedOption] =
     useRecoilState(SelectedOptionsState);
@@ -19,7 +19,7 @@ const StateThree = ({ nextProcess, prevProcess }) => {
     let temp_selectedOptions = { ...selectedOptions };
     let temp_element = { ...temp_selectedOptions[idx] };
 
-    temp_element.state === true
+    temp_element.state
       ? (temp_element.state = false)
       : (temp_element.state = true);
 
@@ -28,6 +28,19 @@ const StateThree = ({ nextProcess, prevProcess }) => {
   };
 
   const allOptionsFalse = () => {
+    // setSelectedOption(prevState => {
+    //   const newState = selectedOptions.map(idx => {
+    //     let temp_element = { ...selectedOptions[idx] };
+    //     return { ...temp_element, state: false };
+    //   });
+    //   return newState;
+    // });
+    //
+    // feat 망고님
+    // setSelectedOption(prev => {
+    //   const a = prev.map(list => ({ ...list, state: false }));
+    //   return a;
+    // });
     setSelectedOption(prevState => {
       const newState = Object.keys(prevState).map(idx => {
         let temp_element = { ...selectedOptions[idx] };
@@ -71,7 +84,7 @@ const StateThree = ({ nextProcess, prevProcess }) => {
   );
 };
 
-export default StateThree;
+export default Options;
 
 const NoOption = styled.button`
   border: 1px solid black;

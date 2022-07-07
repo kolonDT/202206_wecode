@@ -9,10 +9,10 @@ export const ContentTitle = styled.h2`
   color: ${({ theme }) => theme.colors.blackC};
 `;
 
-export const ContentBox = styled.section`
+export const ContentBox = styled.article`
   width: 100%;
   height: ${({ currentEstimate }) =>
-    currentEstimate === 1 ? '76vh' : 'fit-content'};
+    currentEstimate === 0 ? '76vh' : 'fit-content'};
   padding: 10%;
   background-color: white;
   position: absolute;
@@ -30,7 +30,7 @@ export const InputButton = styled(Button)`
   width: 100%;
   height: 3rem;
   border-radius: 100rem;
-  margin-top: 5rem;
+  margin-top: 3.8rem;
   font-weight: 600;
 `;
 

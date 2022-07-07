@@ -6,9 +6,9 @@ import {
   ContentBox,
   ContentTitle,
   InputBox,
-} from './CarInfoStyle';
+} from '../Style';
 
-const StateFour = ({ nextProcess, prevProcess }) => {
+const AddInfo = ({ nextProcess, prevProcess }) => {
   return (
     <ContentBox>
       <ContentTitle>
@@ -33,4 +33,4 @@ const StateFour = ({ nextProcess, prevProcess }) => {
   );
 };
 
-export default StateFour;
+export default AddInfo;

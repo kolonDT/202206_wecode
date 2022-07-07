@@ -68,3 +68,18 @@ export const LoginProcessState = atom({
   key: 'LoginProcessState',
   default: 1,
 });
+
+export const GetCarInfoState = atom({
+  key: 'GetCarInfoState',
+  default: '',
+});
+
+export const GetUserInputInfoState = atom({
+  key: 'GetUserInputInfoState',
+  default: '',
+});
+
+export const GetUserInputPhotoState = atom({
+  key: 'GetUserInputPhotoState',
+  default: '',
+});

@@ -2,9 +2,9 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { currentEstimateState, EstimateCarInfo } from '../../../atoms';
-import { InputButton, ContentBox, ContentTitle } from './CarInfoStyle';
+import { InputButton, ContentBox, ContentTitle } from '../Style';
 
-const StateZero = ({ nextProcess }) => {
+const CarInfo = ({ nextProcess }) => {
   const currentEstimate = useRecoilValue(currentEstimateState);
   const estimateCarInfo = useRecoilValue(EstimateCarInfo);
   const tableSection = useRef(null);
@@ -78,25 +78,25 @@ const StateZero = ({ nextProcess }) => {
   );
 };
 
-export default StateZero;
+export default CarInfo;
 
-export const CarInfoWrapper = styled.div`
-  max-height: 70%;
+const CarInfoWrapper = styled.div`
+  height: 70%;
   overflow: scroll;
 `;
 
-export const CarInfoTitle = styled.th`
+const CarInfoTitle = styled.th`
   width: 5rem;
   text-align: left;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.darkGray};
 `;
 
-export const CarInfoDescription = styled.td`
+const CarInfoDescription = styled.td`
   margin-left: 1rem;
 `;
 
-export const CarInfoTable = styled.table`
+const CarInfoTable = styled.table`
   border-top: 1px solid ${({ theme }) => theme.colors.disabled};
   border-bottom: 1px solid ${({ theme }) => theme.colors.disabled};
   /* TODO : 내용 overflow 됐을 때 알려줄 요소 필요 */

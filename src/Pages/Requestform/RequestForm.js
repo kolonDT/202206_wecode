@@ -94,7 +94,7 @@ const DetailList = React.memo(function DetailList({ fold, data, optionList }) {
         <Text>{data.contact}</Text>
       </DetailLine>
       <DetailLine>
-        <TextTitle>지역</TextTitle>
+        <TextTitle>주소</TextTitle>
         <Text>
           {data.address} {data.address_detail}
         </Text>

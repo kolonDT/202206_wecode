@@ -5,13 +5,15 @@ import Footer from './Components/Footer';
 import Login from './Pages/Login/Login';
 import LoginMain from './Pages/Login/LoginMain';
 import CompleteForm from './Pages/Complete/CompleteForm';
-import RequestForm from './Pages/Requestform/RequestForm';
-import Reconfirm from './Pages/Sellcar/Reconfirm';
-import SellCar from './Pages/Sellcar/Sellcar';
-import Graph from './Pages/Graph/Graph';
+// import RequestForm from './Pages/Requestform/RequestForm';
+// import Reconfirm from './Pages/Sellcar/Reconfirm';
+// // import SellCar from './Pages/Sellcar/Sellcar';
+// import Graph from './Pages/Graph/Graph';
 import Admin from './Pages/Admin/Admin';
 import React, { useState } from 'react';
 import Estimate from './Pages/Estimate/Estimate';
+import MyState from './Pages/MyPage/MyState';
+import SignIn from './Pages/SignIn/SignIn';
 
 function App() {
   const [isNew, setNew] = useState(-1);
@@ -34,17 +36,18 @@ function App() {
               <CompleteForm isNew={isNew} setNew={setNew} setPage={setPage} />
             }
           />
-          <Route
+          {/* <Route
             path="/requestform"
             element={
               <RequestForm isNew={isNew} setNew={setNew} setPage={setPage} />
             }
-          />
-          <Route path="/reconfirm" element={<Reconfirm setPage={setPage} />} />
+          /> */}
+          {/* <Route path="/reconfirm" element={<Reconfirm setPage={setPage} />} /> */}
           {/* <Route path="/sellcar" element={<SellCar setPage={setPage} />} /> */}
+          <Route path="/join" element={<SignIn />} />
           <Route path="/sellcar" element={<Estimate />} />
-          <Route path="/sellcar" element={<Estimate />} />
-          <Route path="/graph" element={<Graph />} />
+          <Route path="/estimate" element={<MyState />} />
+          {/* <Route path="/graph" element={<Graph />} /> */}
           <Route
             path="/admin"
             element={<Admin isNew={isNew} setNew={setNew} setPage={setPage} />}

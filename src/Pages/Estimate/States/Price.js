@@ -9,9 +9,9 @@ import {
   PrevButton,
   ContentBox,
   ContentTitle,
-} from './CarInfoStyle';
+} from '../Style';
 
-const StateOne = ({ nextProcess, prevProcess }) => {
+const Price = ({ nextProcess, prevProcess }) => {
   const estimateCarInfo = useRecoilValue(EstimateCarInfo);
   const { owner, car_name } = estimateCarInfo;
 
@@ -35,7 +35,7 @@ const StateOne = ({ nextProcess, prevProcess }) => {
   );
 };
 
-export default StateOne;
+export default Price;
 
 const OwnerTag = styled.span`
   color: ${({ theme }) => theme.colors.primaryBlue};

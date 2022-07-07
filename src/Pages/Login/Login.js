@@ -19,11 +19,10 @@ import {
   ButtonSet,
   NextButton,
   PrevButton,
-  InputButton,
   ContentBox,
   ContentTitle,
   InputBox,
-} from '../Estimate/States/CarInfoStyle';
+} from '../Estimate/Style';
 
 function Login({ setPage }) {
   const [userInputOwner, setUserInputOwner] =

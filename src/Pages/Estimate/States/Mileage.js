@@ -8,9 +8,9 @@ import {
   ContentBox,
   ContentTitle,
   InputBox,
-} from './CarInfoStyle';
+} from '../Style';
 
-const StateTwo = ({ nextProcess, prevProcess }) => {
+const Mileage = ({ nextProcess, prevProcess }) => {
   const [userInputMileage, setUserInputMileage] = useRecoilState(
     UserInputMileageState
   );
@@ -26,7 +26,7 @@ const StateTwo = ({ nextProcess, prevProcess }) => {
       </ContentTitle>
       <InputBox
         placeholder="12,345"
-        onChange={e => getUserInputMileage(e)}
+        onChange={getUserInputMileage}
         value={userInputMileage}
         type="number"
       />
@@ -42,4 +42,4 @@ const StateTwo = ({ nextProcess, prevProcess }) => {
   );
 };
 
-export default StateTwo;
+export default Mileage;

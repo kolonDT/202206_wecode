@@ -1,0 +1,76 @@
+{
+  "results": {
+    "car_number": "2012코1664",
+    "owner": "(주)코오롱글로벌 ",
+    "manufacturer": "BMW",
+    "car_name": "5시리즈 (G30)",
+    "trim": "520d xDrive M 스포츠 플러스",
+    "body_shape": "준대형 세단",
+    "color": "실외: Black metallic, 실내:Leather Mocha",
+    "model_year": "2017",
+    "first_registration_year": "2017년 03월",
+    "engine": "디젤",
+    "transmission": "오토 A/T",
+    "insurance_history": ["2022년 05월 07일 [ 680만원 ]"],
+    "transaction_history": [
+      "2022년 6월 인천 연수구에서 신차 출고",
+      "2022년 7월 중고차 구매"
+    ],
+    "estimate": [
+      {
+        "mileage": "5000",
+        "address": "서울시 노원구 중계1동",
+        "phone_number": "010-7777-7777",
+        "sunroof": true,
+        "navigation": true,
+        "ventilation_seat": true,
+        "heated_seat": true,
+        "electric_seat": true,
+        "smart_key": true,
+        "leather_seat": true,
+        "electric_folding_mirror": true,
+        "accident_status": "없어요",
+        "spare_key": 2,
+        "wheel_scratch": 0,
+        "outer_plate_scratch": 0,
+        "other_maintenance_repair": "유리에 돌빵 있습니다.",
+        "other_special": "스피커 200 주고 튜닝 했습니다.",
+        "process_state": "사진등록",
+        "image": [
+          {
+            "image_info": "전면",
+            "image": "images/245117275_579107203133339_3118095916414276177_n.jpg"
+          },
+          {
+            "image_info": "후면",
+            "image": "images/KakaoTalk_Photo_2022-05-21-18-15-48-9.jpeg"
+          },
+          {
+            "image_info": "좌측면",
+            "image": "images/KakaoTalk_Photo_2022-05-21-18-15-48-5_2.jpg"
+          },
+          {
+            "image_info": "우측면",
+            "image": "images/KakaoTalk_Photo_2022-05-21-18-15-48-3.jpeg"
+          },
+          {
+            "image_info": "추가1",
+            "image": "images/KakaoTalk_Photo_2022-05-21-18-15-48-9_VIOukOH.jpeg"
+          },
+          {
+            "image_info": "추가2",
+            "image": "images/KakaoTalk_Photo_2022-05-21-18-15-48-1.jpeg"
+          },
+          {
+            "image_info": "추가3",
+            "image": "images/KakaoTalk_Photo_2022-05-21-18-15-48-7.jpeg"
+          },
+          {
+            "image_info": "추가4",
+            "image": "images/20220427_055313946_iOS.jpeg"
+          }
+        ]
+      }
+    ]
+  }
+}

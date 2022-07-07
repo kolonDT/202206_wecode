@@ -10,13 +10,14 @@ import {
   EstimateCarOption,
 } from '../../atoms';
 import styled, { css } from 'styled-components';
-import StateZero from './States/StateZero';
-import StateOne from './States/StateOne';
-import StateTwo from './States/StateTwo';
-import StateThree from './States/StateThree';
-import StateFour from './States/StateFour';
-import StateFive from './States/StateFive';
-import AddContactInfo from './AddContactInfo';
+import CarInfo from './States/CarInfo';
+import Price from './States/Price';
+import Mileage from './States/Mileage';
+import Options from './States/Options';
+import AddInfo from './States/AddInfo';
+import Photo from './States/Photo';
+import Contact from './Contact';
+import Confirm from './Confirm';
 
 const Estimate = () => {
   const [currentEstimate, setCurrentEstimate] =
@@ -31,9 +32,7 @@ const Estimate = () => {
       .then(data => {
         setEstimateCarInfo(data);
       });
-  }, []);
 
-  useEffect(() => {
     fetch('http://localhost:3000/Data/Dino/carOption.json')
       .then(res => res.json())
       .then(data => {
@@ -67,10 +66,10 @@ const Estimate = () => {
                       <CurrentProcess
                         key={id}
                         active={currentEstimate + 1 === id}
-                        onClick={() => goToProcess(id - 1)}
+                        onClick={() => goToProcess(id - 2)}
                       >
                         {name}
-                        {id !== PROCESS_STATE.length - 1 && <NextIcon />}
+                        {id !== PROCESS_STATE.length - 2 && <NextIcon />}
                       </CurrentProcess>
                     )
                 )}
@@ -80,35 +79,26 @@ const Estimate = () => {
               />
             </ProcessBox>
           )}
-          {/* STATE 0 : 차량정보 확인 */}
-          {currentEstimate === 0 && <StateZero nextProcess={nextProcess} />}
-          {/* STATE 1 : 예상시세 표출 */}
+          {currentEstimate === 0 && <CarInfo nextProcess={nextProcess} />}
           {currentEstimate === 1 && (
-            <StateOne prevProcess={prevProcess} nextProcess={nextProcess} />
+            <Price prevProcess={prevProcess} nextProcess={nextProcess} />
           )}
-          {/* STATE 2 : 주행거리 입력 */}
           {currentEstimate === 2 && (
-            <StateTwo prevProcess={prevProcess} nextProcess={nextProcess} />
+            <Mileage prevProcess={prevProcess} nextProcess={nextProcess} />
           )}
-          {/* STATE 3 : 추가옵션 입력 */}
           {currentEstimate === 3 && (
-            <StateThree prevProcess={prevProcess} nextProcess={nextProcess} />
+            <Options prevProcess={prevProcess} nextProcess={nextProcess} />
           )}
-          {/* STATE 4 : 추가정보 입력 */}
           {currentEstimate === 4 && (
-            <StateFour prevProcess={prevProcess} nextProcess={nextProcess} />
+            <AddInfo prevProcess={prevProcess} nextProcess={nextProcess} />
           )}
-          {/* STATE 5 : 사진등록 */}
           {currentEstimate === 5 && (
-            <StateFive prevProcess={prevProcess} nextProcess={nextProcess} />
+            <Photo prevProcess={prevProcess} nextProcess={nextProcess} />
           )}
-          {/* STATE 6 : Contact Info 입력 */}
           {currentEstimate === 6 && (
-            <AddContactInfo
-              prevProcess={prevProcess}
-              nextProcess={nextProcess}
-            />
+            <Contact prevProcess={prevProcess} nextProcess={nextProcess} />
           )}
+          {currentEstimate === 7 && <Confirm />}
         </EstimateWrapper>
       </BodyWrapper>
     </Background>
@@ -117,7 +107,7 @@ const Estimate = () => {
 
 export default Estimate;
 
-const ProcessBox = styled.section`
+const ProcessBox = styled.article`
   ${({ theme }) => theme.flex.flexBox('column')}
   height: 5rem;
   padding: 1rem;
@@ -165,7 +155,7 @@ const PercentageBar = styled(ProgressBar)`
   bottom: 0;
 `;
 
-const EstimateWrapper = styled.div`
+const EstimateWrapper = styled.section`
   width: 100%;
   height: fit-content;
   position: absolute;
@@ -177,7 +167,7 @@ const BodyWrapper = styled.div`
   ${({ theme }) => theme.flex.flexBox('column')}
   position: relative;
   width: 640px;
-  height: 100vh;
+  height: 100%;
 
   @media only screen and (max-width: 640px) {
     width: 90%;
@@ -185,10 +175,10 @@ const BodyWrapper = styled.div`
 `;
 
 const Background = styled.div`
-  ${({ theme }) => theme.flex.flexBox}
+  ${({ theme }) => theme.flex.flexBox('column')}
   width: 100vw;
-  height: fit-content;
-  background-color: aliceblue;
+  height: 100vh;
+  background: aliceblue;
 `;
 
 const PROCESS_STATE = [
@@ -210,12 +200,12 @@ const PROCESS_STATE = [
   {
     id: 4,
     step: 'carInfo',
-    name: '추가옵션',
+    name: '선택옵션',
   },
   {
     id: 5,
     step: 'carInfo',
-    name: '추가입력',
+    name: '추가정보',
   },
   {
     id: 6,
@@ -226,5 +216,10 @@ const PROCESS_STATE = [
     id: 7,
     step: 'contactInfo',
     name: '개인정보입력',
+  },
+  {
+    id: 8,
+    step: 'confirm',
+    name: '입력정보확인',
   },
 ];

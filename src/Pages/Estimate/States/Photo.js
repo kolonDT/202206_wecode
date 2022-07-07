@@ -6,10 +6,10 @@ import {
   PrevButton,
   ContentBox,
   ContentTitle,
-} from './CarInfoStyle';
+} from '../Style';
 import PhotoCard from '../../Sellcar/PhotoCard';
 
-const StateFive = ({ nextProcess, prevProcess }) => {
+const Photo = ({ nextProcess, prevProcess }) => {
   return (
     <ContentBox>
       <ContentTitle>차량 사진을 올려주세요</ContentTitle>
@@ -65,7 +65,7 @@ const StateFive = ({ nextProcess, prevProcess }) => {
   );
 };
 
-export default StateFive;
+export default Photo;
 
 const ContentSubTitle = styled.h3`
   font-size: medium;
