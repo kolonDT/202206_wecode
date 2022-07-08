@@ -3,7 +3,6 @@ import { useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components/macro';
 import { setModalList } from '../adminAtoms';
 import { CUSTOMER_LIST } from '../RightSection/Search/Branch/ModalData';
-import Estimate from './Estimate';
 
 const CustomerInfo = () => {
   const getModal = useRecoilValue(setModalList);
@@ -32,10 +31,14 @@ const CustomerInfo = () => {
 
 const BoxAlign = css`
   ${props => props.theme.flex.flexBox('column', '', 'center')};
-  height: 30px;
+  padding-left: 5px;
   border-bottom: 1.5px solid #eaebec;
   border-right: 1px solid #eaebec;
   border-left: 1px solid #eaebec;
+  font-size: ${props => props.theme.fontSizes.small};
+  font-weight: ${props => props.theme.fontWeights.bold};
+  font-size: ${props => props.theme.fontSizes.small};
+  font-weight: ${props => props.theme.fontWeights.bold};
 `;
 
 const CustomerInfoContainer = styled.div`
@@ -62,9 +65,7 @@ const CustomerContainer = styled.div`
 const CustomerTitle = styled.div`
   ${BoxAlign}
   width: 120px;
-  padding-left: 5px;
-  font-size: ${props => props.theme.fontSizes.small};
-  font-weight: ${props => props.theme.fontWeights.bold};
+  height: 30px;
   background-color: #dbdbdb;
 `;
 
@@ -75,9 +76,7 @@ const CustomerDetailsContainer = styled.div`
 const CustomerTypo = styled.div`
   ${BoxAlign}
   width: 300px;
-  padding-left: 5px;
-  font-size: ${props => props.theme.fontSizes.small};
-  font-weight: ${props => props.theme.fontWeights.bold};
+  height: 30px;
   background-color: white;
 `;
 

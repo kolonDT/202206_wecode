@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import styled, { css } from 'styled-components/macro';
 import {
-  openModal,
   selectIdState,
   selectOpenState,
   setRequestListData,
@@ -18,16 +17,7 @@ const RequestDetails = () => {
 
   const totalSum = requestList.length.toLocaleString();
 
-  // const getRequestCardData = () => {
-  //   fetch('Data/Sunshine/RequestCardData.json', {
-  //     method: 'GET',
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       setRequestList(data.results);
-  //     });
-  // };
-
+  // 서버 안열렸을때 가져올거임
   const getRequestCardData = () => {
     fetch('Data/Sunshine/RequestCardData.json', {
       method: 'GET',
@@ -38,24 +28,34 @@ const RequestDetails = () => {
       });
   };
 
-  // 나중에 백 열리면 받아올거임
-  // const getModalData = () => {
-  //   fetch('API/admin/`${currentId}`', {
-  //     method: 'GET',
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       setGetModal(data.results);
-  //     });
-  // };
-
   useEffect(() => {
     getRequestCardData();
   }, []);
 
-  const onClickToggleModal = () => {
-    // setCurrentId(id);
+  // 서버 열렸을때!
+  // const getRequestCardData = () => {
+  //   fetch('http://10.133.4.172:8000/dealers/estimates', {
+  //     method: 'GET',
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setRequestList(data.results);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   getRequestCardData();
+  // }, []);
+
+  const onClickToggleModal = id => {
+    setCurrentId(id);
+    console.log(`여기는? 뭐들어옴? ${id}`);
     setOpenModal(!isOpenModal);
+  };
+
+  const onSelectId = id => {
+    setCurrentId(id);
+    console.log(`여기에 뭐가 들어오냐! ${id}`);
   };
 
   return (
@@ -80,10 +80,10 @@ const RequestDetails = () => {
       {requestList && (
         <RequestCardList
           requestList={requestList}
-          onClick={
-            onClickToggleModal
-            // selectId(id);
-          }
+          onClick={id => {
+            onClickToggleModal(id);
+            onSelectId(id);
+          }}
         />
       )}
       {isOpenModal && <Modal onClickToggleModal={onClickToggleModal} />}

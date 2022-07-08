@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
-import { BsXLg } from 'react-icons/bs';
 import CustomerInfo from './CustomerInfo';
 import CarInfo from './CarInfo';
 import Estimate from './Estimate';
-import { MdOutlineArrowForwardIos } from 'react-icons/md';
-import { setModalList } from '../adminAtoms';
+import { selectIdState, setModalList } from '../adminAtoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import ModalHeader from './ModalHeader';
+import ModalMenu from './ModalMenu';
 
 const Modal = ({ onClickToggleModal }) => {
   const [getModal, setGetModal] = useRecoilState(setModalList);
@@ -28,26 +28,9 @@ const Modal = ({ onClickToggleModal }) => {
   return (
     <ModalContainer>
       <ModalCard>
-        <TopBox>
-          <BsXLg
-            className="xIcon"
-            onClick={e => {
-              e.preventDefault();
-              if (onClickToggleModal) {
-                onClickToggleModal();
-              }
-            }}
-          />
-        </TopBox>
-        {/* <SectionAll> */}
+        <ModalHeader onClickToggleModal={onClickToggleModal} />
         <AlignLeft>
-          <SelectMenu>
-            <TitleMenu>중고차 매입</TitleMenu>
-            <MdOutlineArrowForwardIos />
-            <TitleMenu>요청 내역</TitleMenu>
-            <MdOutlineArrowForwardIos />
-            <TitleMenu>요청 상세</TitleMenu>
-          </SelectMenu>
+          <ModalMenu />
           <RowAlign>
             <AlignLeft>
               <CustomerInfo />
@@ -58,7 +41,6 @@ const Modal = ({ onClickToggleModal }) => {
             </CenterAlign>
           </RowAlign>
         </AlignLeft>
-        {/* </SectionAll> */}
       </ModalCard>
       <Backdrop />
     </ModalContainer>
@@ -68,10 +50,6 @@ const Modal = ({ onClickToggleModal }) => {
 const ModalContainer = styled.div`
   ${props => props.theme.flex.flexBox('column', 'center', '')};
   top: 0;
-  /* width: 100%; */
-  /* height: 100px; */
-  /* overflow-x: hidden;
-  overflow-y: auto; */
 `;
 
 const ModalCard = styled.div`
@@ -89,49 +67,7 @@ const ModalCard = styled.div`
   border: 1px solid #eaebec;
   overflow-x: hidden;
   overflow-y: auto;
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.4);
-  }
-  &::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 6px;
-  }
 `;
-
-const TopBox = styled.div`
-  ${props => props.theme.flex.flexBox('', 'center', 'flex-end')};
-  margin-bottom: 20px;
-  padding: 10px 0;
-  width: 1024px;
-  height: 30px;
-  background-color: #c4c4c4;
-
-  .xIcon {
-    margin-right: 20px;
-    :hover {
-      cursor: pointer;
-    }
-  }
-`;
-
-const SelectMenu = styled.div`
-  ${props => props.theme.flex.flexBox('row', 'cneter', 'flex-start')};
-  margin-bottom: 30px;
-`;
-
-const TitleMenu = styled.span`
-  font-size: ${props => props.theme.fontSizes.xl};
-  font-weight: ${props => props.theme.fontWeights.extraBold};
-`;
-
-// const SectionAll = styled.div`
-//   ${props => props.theme.flex.flexBox('row', '', 'space-around')};
-//   width: 900px;
-//   height: auto;
-// `;
 
 const AlignLeft = styled.div`
   width: 900px;

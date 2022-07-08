@@ -34,3 +34,13 @@ export const setSelectOption = atom({
   key: 'setSelectOption',
   default: [],
 });
+
+export const signInIdState = atom({
+  key: 'signInIdState',
+  default: '',
+});
+
+export const signInPwState = atom({
+  key: 'signInPwState',
+  default: '',
+});

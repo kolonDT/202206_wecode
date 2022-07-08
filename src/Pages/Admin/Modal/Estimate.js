@@ -5,16 +5,12 @@ import ProgressStatus from './ProgressStatus/ProgressStatus';
 
 const Estimate = () => {
   return (
-    <div>
-      <EstimateContainer>
+    <EstimateContainer>
+      <EstimateBox>
         <EstimateTitle>처리내용</EstimateTitle>
         <BranchContainer>
-          <Branch>
-            <BranchTypo>지점</BranchTypo>
-          </Branch>
-          <BranchName>
-            <BranchTypo>삼성전시장 코오롱모터스</BranchTypo>
-          </BranchName>
+          <BranchTypo>지점</BranchTypo>
+          <BranchDetailsTypo>삼성전시장 코오롱모터스</BranchDetailsTypo>
         </BranchContainer>
         <DealerName />
         <ProgressStatus />
@@ -24,21 +20,28 @@ const Estimate = () => {
           rows="10"
           placeholder="상담내용을 입력하세요"
         />
-      </EstimateContainer>
+      </EstimateBox>
       <SaveButton>저장</SaveButton>
-    </div>
+    </EstimateContainer>
   );
 };
 
 const BoxAlign = css`
   ${props => props.theme.flex.flexBox('column', '', 'center')};
   height: 30px;
+  padding-left: 5px;
+  font-size: ${props => props.theme.fontSizes.small};
+  font-weight: ${props => props.theme.fontWeights.bold};
 `;
 
-const EstimateContainer = styled.div`
+const EstimateBox = styled.div`
   width: 420px;
   height: auto;
   margin-left: 30px;
+`;
+
+const EstimateContainer = styled.div`
+  ${props => props.theme.flex.flexBox('column', 'center', '')};
 `;
 
 const EstimateTitle = styled.span`
@@ -53,22 +56,16 @@ const BranchContainer = styled.div`
   margin: 15px 0;
 `;
 
-const Branch = styled.div`
+const BranchTypo = styled.div`
   ${BoxAlign}
   width: 120px;
   background-color: #dbdbdb;
 `;
 
-const BranchName = styled.div`
+const BranchDetailsTypo = styled.div`
   ${BoxAlign}
   width: 300px;
   background-color: white;
-`;
-
-const BranchTypo = styled.span`
-  padding-left: 5px;
-  font-size: ${props => props.theme.fontSizes.small};
-  font-weight: ${props => props.theme.fontWeights.bold};
 `;
 
 const InputEstimate = styled.textarea`
