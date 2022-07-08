@@ -32,6 +32,9 @@ const RequestDetails = () => {
     getRequestCardData();
   }, []);
 
+  // const userToken = localStorage.getItem('token'); //토큰값 가져옴
+  // console.log(`토큰 머 들고오노 함 보자 ${userToken}`);
+
   // 서버 열렸을때!
   // const getRequestCardData = () => {
   //   fetch('http://10.133.4.172:8000/dealers/estimates', {

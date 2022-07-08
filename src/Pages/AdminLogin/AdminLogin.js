@@ -7,50 +7,32 @@ import { useRecoilValue } from 'recoil';
 import { signInIdState, signInPwState } from '../Admin/adminAtoms';
 
 const AdminLogin = () => {
-  const [inputId] = useRecoilValue(signInIdState);
-  const [inputPw] = useRecoilValue(signInPwState);
+  const inputId = useRecoilValue(signInIdState);
+  const inputPw = useRecoilValue(signInPwState);
   const navigate = useNavigate();
 
-  const goToAdmin = e => {
+  const goToAdmin = () => {
     navigate('/dealers/estimates');
   };
 
   const userToken = localStorage.getItem('token'); //토큰값 가져옴
-  // console.log(userToken);
+  console.log(`토큰 머 들고오노 함 보자 ${userToken}`);
 
   const signUp = e => {
     e.preventDefault();
     fetch('http://10.133.4.172:8000/dealers/login', {
       method: 'POST',
-      headers: {
-        Authorization: localStorage.getItem('Access_token'),
-      },
-      body: JSON.stringify({ id: inputId, pa: inputPw }),
+      body: JSON.stringify({ id: inputId, password: inputPw }),
     })
       .then(response => response.json())
-      .then(data =>
-        data.Access_token ? goToAdmin() : alert('등록된 관리자가 아닙니다.')
-      );
+      .then(response => {
+        if (response.Message === 'SUCCESS') {
+          goToAdmin();
+        } else {
+          alert('등록된 관리자가 아닙니다.');
+        }
+      });
   };
-
-  // const signUp = e => {
-  //   //이거는 회원가입
-  //   fetch('http://10.58.3.119:8000/users/signup', {
-  //     method: 'POST',
-  //     headers: {
-  //       Authorization: localStorage.getItem('Access_token'),
-  //     },
-  //     body: JSON.stringify({
-  //       id: inputId,
-  //       password: inputPw,
-  //     }),
-  //   })
-  //     .then(response => response.json())
-  //     .then(response => {
-  //       console.log(response.data);
-  //     });
-  //   e.preventDefault();
-  // };
 
   return (
     <SignInContainer>
