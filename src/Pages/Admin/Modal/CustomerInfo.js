@@ -2,7 +2,7 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components/macro';
 import { setModalList } from '../adminAtoms';
-import { CUSTOMER_LIST } from '../RightSection/Search/Branch/ModalData';
+import { CUSTOMER_LIST } from './ModalData';
 
 const CustomerInfo = () => {
   const getModal = useRecoilValue(setModalList);

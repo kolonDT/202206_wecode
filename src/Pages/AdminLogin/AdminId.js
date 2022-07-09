@@ -20,6 +20,9 @@ const Login = styled.input`
   margin-bottom: 20px;
   width: 300px;
   height: 50px;
+  ::placeholder {
+    padding-left: 5px;
+  }
 `;
 
 export default AdminId;

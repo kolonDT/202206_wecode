@@ -1,31 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AdminId from './AdminId';
 import AdminPw from './AdminPw';
 import styled from 'styled-components/macro';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { signInIdState, signInPwState } from '../Admin/adminAtoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { setResponse, signInIdState, signInPwState } from '../Admin/adminAtoms';
 
 const AdminLogin = () => {
   const inputId = useRecoilValue(signInIdState);
   const inputPw = useRecoilValue(signInPwState);
   const navigate = useNavigate();
+  const [responseData, setResponseData] = useRecoilState(setResponse);
+  const [newArray, setNewArray] = useState();
+
+  // const goToAdmin = () => {
+  //   navigate('/dealers/estimates');
+  // };
 
   const goToAdmin = () => {
-    navigate('/dealers/estimates');
+    navigate('/admin');
   };
-
-  const userToken = localStorage.getItem('token'); //토큰값 가져옴
-  console.log(`토큰 머 들고오노 함 보자 ${userToken}`);
 
   const signUp = e => {
     e.preventDefault();
-    fetch('http://10.133.4.172:8000/dealers/login', {
+    fetch('http://10.58.3.221:8000/dealers/login', {
       method: 'POST',
       body: JSON.stringify({ id: inputId, password: inputPw }),
     })
       .then(response => response.json())
       .then(response => {
+        console.log(response);
+        setNewArray(response);
         if (response.Message === 'SUCCESS') {
           goToAdmin();
         } else {
@@ -33,6 +38,8 @@ const AdminLogin = () => {
         }
       });
   };
+
+  console.log(`데이터 제발 ${responseData}`);
 
   return (
     <SignInContainer>
@@ -56,13 +63,16 @@ const SignInContainer = styled.div`
 `;
 
 const SignIn = styled.button`
-  width: 200px;
-  height: 30px;
+  width: 300px;
+  height: 40px;
   border-style: none;
-  background-color: #28c6de;
+  border: 2px solid #28c6de;
+  border-radius: 5px;
+  background-color: transparent;
   &:hover {
     cursor: pointer;
-    background-color: #2a808d;
+    background-color: #28c6de;
+    color: white;
   }
 `;
 

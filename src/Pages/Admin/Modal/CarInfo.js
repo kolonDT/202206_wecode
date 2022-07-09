@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
-import { CAR_LIST } from '../RightSection/Search/Branch/ModalData';
+import { CAR_LIST } from './ModalData';
 import ImageInfo from './ImageInfo';
 
 const CarInfo = () => {

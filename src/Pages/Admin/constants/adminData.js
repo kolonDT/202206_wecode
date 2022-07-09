@@ -8,10 +8,10 @@ export const MENU_LIST = [
     title: '멤버십 고객 관리',
     subList: [
       {
-        id: 1,
+        sub: 1,
         title: '고객관리',
       },
-      { id: 2, title: '해지 관리' },
+      { sub: 2, title: '해지 관리' },
     ],
   },
   {
@@ -19,11 +19,11 @@ export const MENU_LIST = [
     title: '청구/결제 관리',
     subList: [
       {
-        id: 1,
+        sub: 1,
         title: '이용내역',
       },
-      { id: 2, title: '청구내역' },
-      { id: 3, title: '결제내역' },
+      { sub: 2, title: '청구내역' },
+      { sub: 3, title: '결제내역' },
     ],
   },
   {
@@ -31,10 +31,10 @@ export const MENU_LIST = [
     title: '중고차 매입',
     subList: [
       {
-        id: 1,
+        sub: 1,
         title: '요청내역',
       },
-      { id: 2, title: 'SC 조회' },
+      { sub: 2, title: 'SC 조회' },
     ],
   },
   {
@@ -46,10 +46,10 @@ export const MENU_LIST = [
     title: '공지사항',
     subList: [
       {
-        id: 1,
+        sub: 1,
         title: '게시글 조회',
       },
-      { id: 2, title: '글 등록' },
+      { sub: 2, title: '글 등록' },
     ],
   },
   {
@@ -57,10 +57,10 @@ export const MENU_LIST = [
     title: '통계/분석',
     subList: [
       {
-        id: 1,
+        sub: 1,
         title: '방문 분석',
       },
-      { id: 2, title: '이용 분석' },
+      { sub: 2, title: '이용 분석' },
     ],
   },
   {
@@ -68,10 +68,10 @@ export const MENU_LIST = [
     title: '관리/설정',
     subList: [
       {
-        id: 1,
+        sub: 1,
         title: '관리자 설정',
       },
-      { id: 2, title: '권한 설정' },
+      { sub: 2, title: '권한 설정' },
     ],
   },
 ];

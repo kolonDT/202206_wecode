@@ -23,8 +23,8 @@ const RequestDetails = () => {
       method: 'GET',
     })
       .then(res => res.json())
-      .then(data => {
-        setRequestList(data.results);
+      .then(res => {
+        setRequestList(res.results);
       });
   };
 
@@ -50,9 +50,9 @@ const RequestDetails = () => {
   //   getRequestCardData();
   // }, []);
 
-  const onClickToggleModal = id => {
-    setCurrentId(id);
-    console.log(`여기는? 뭐들어옴? ${id}`);
+  const onClickToggleModal = () => {
+    // setCurrentId(id);
+    // console.log(`여기는? 뭐들어옴? ${id}`);
     setOpenModal(!isOpenModal);
   };
 
@@ -89,7 +89,9 @@ const RequestDetails = () => {
           }}
         />
       )}
-      {isOpenModal && <Modal onClickToggleModal={onClickToggleModal} />}
+      {isOpenModal && (
+        <Modal onClickToggleModal={onClickToggleModal} id={currentId} />
+      )}
     </RequestContainer>
   );
 };

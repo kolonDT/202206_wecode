@@ -1,5 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components/macro';
+import {
+  selectIdState,
+  selectModalIdState,
+  setSelectDealer,
+  setSelectProgress,
+} from '../../adminAtoms';
 
 const RequestCard = ({
   estimate_id,
@@ -12,12 +19,21 @@ const RequestCard = ({
   estimate_request_date,
   name,
   dealer,
-  sales_process_id,
   quote_requested,
   onClick,
 }) => {
+  const getProgress = useRecoilValue(setSelectProgress);
+  const currentId = useRecoilValue(selectIdState);
+  const getModalId = useRecoilValue(selectModalIdState);
+  const getDealer = useRecoilValue(setSelectDealer);
+  const [textState, setTextState] = useState(false);
+  const onClickText = () => {
+    // console.log(`여기는? 뭐들어옴? ${id}`);
+    setTextState(!textState);
+  };
+
   return (
-    <RequestCardContainer onClick={onClick}>
+    <RequestCardContainer onClick={() => onClick(estimate_id)}>
       <RequestCardList>{estimate_id}</RequestCardList>
       <RequestCardList>{onwer}</RequestCardList>
       <RequestCardList>{phone_number}</RequestCardList>
@@ -27,8 +43,14 @@ const RequestCard = ({
       <RequestCardList>{model_year}</RequestCardList>
       <RequestCardList>{estimate_request_date}</RequestCardList>
       <RequestCardList>{name}</RequestCardList>
-      <RequestCardList>{dealer}</RequestCardList>
-      <RequestCardList>{sales_process_id}</RequestCardList>
+      <RequestCardList>{getDealer}</RequestCardList>
+      {currentId === getModalId ? (
+        <RequestCardList onClick={() => onClickText}>
+          {getProgress}
+        </RequestCardList>
+      ) : (
+        <RequestCardList onClick={() => onClickText}>대기</RequestCardList>
+      )}
       <RequestCardList>{quote_requested}</RequestCardList>
     </RequestCardContainer>
   );

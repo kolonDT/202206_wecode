@@ -1,20 +1,27 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components/macro';
+import { setSelectProgress } from '../../adminAtoms';
 import { PROGRESS_STATUS } from './ProgressStatusData';
 
 const ProgressStatus = () => {
+  const [getProgress, setGetProgress] = useRecoilState(setSelectProgress);
   const handleChange = e => {
-    // event handler
-    console.log(e.target.value);
+    setGetProgress(e.target.value);
   };
+
   return (
     <ProgressContainer>
       <Progress>
         <ProgressTypo>진행상태</ProgressTypo>
       </Progress>
-      <ProgressFilter onChange={handleChange}>
-        {PROGRESS_STATUS.map(({ id, porgress }) => (
-          <option key={id}>{porgress}</option>
+      <ProgressFilter
+        onChange={e => {
+          handleChange(e);
+        }}
+      >
+        {PROGRESS_STATUS.map(({ id, progress }) => (
+          <option key={id}>{progress}</option>
         ))}
       </ProgressFilter>
     </ProgressContainer>

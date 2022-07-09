@@ -1,29 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled, { css } from 'styled-components/macro';
 import { useNavigate } from 'react-router-dom';
 import { VscBell, VscBellDot } from 'react-icons/vsc';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { LoginState } from '../../Pages/Admin/adminAtoms';
+import DealerName from './DealerName';
 
 const AdminNav = () => {
   const navigate = useNavigate();
 
   const Logout = () => {
-    navigate(`/login`);
+    navigate(`/dealers/login`);
   };
 
   return (
-    <div>
-      <NavContainer>
-        <NavBox>
-          <NavTypo>코오롱 프리미엄 멤버십 Admin Page</NavTypo>
-          <DealerInfo>
-            <DealerName>홍길동</DealerName>
-            <CenterLine>|</CenterLine>
-            <DealerLogout onClick={Logout}>로그아웃</DealerLogout>
-            <VscBell className="bell" />
-          </DealerInfo>
-        </NavBox>
-      </NavContainer>
-    </div>
+    <NavBox>
+      <NavTypo>코오롱 프리미엄 멤버십 Admin Page</NavTypo>
+      <DealerInfo>
+        <DealerName />
+        <CenterLine>|</CenterLine>
+        <DealerLogout onClick={Logout}>로그아웃</DealerLogout>
+        <VscBell className="bell" />
+      </DealerInfo>
+    </NavBox>
   );
 };
 
@@ -32,13 +31,9 @@ const rightTypo = css`
   font-weight: ${props => props.theme.fontWeights.bold};
 `;
 
-const NavContainer = styled.div`
-  display: flex;
-`;
-
 const NavBox = styled.div`
   ${props => props.theme.flex.flexBox('row', 'center', 'space-between')};
-  width: 100%;
+  width: 100vw;
   height: 3.75rem;
   padding: 0 ${props => props.theme.paddings.xxxl};
   background-color: #c4c4c4;
@@ -60,10 +55,6 @@ const DealerInfo = styled.div`
       cursor: pointer;
     }
   }
-`;
-
-const DealerName = styled.span`
-  ${rightTypo}
 `;
 
 const CenterLine = styled.span`

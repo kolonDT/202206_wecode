@@ -3,15 +3,26 @@ import styled from 'styled-components/macro';
 import CustomerInfo from './CustomerInfo';
 import CarInfo from './CarInfo';
 import Estimate from './Estimate';
-import { selectIdState, setModalList } from '../adminAtoms';
+import {
+  selectModalIdState,
+  setInput,
+  setModalList,
+  setSelectDealer,
+  setSelectProgress,
+} from '../adminAtoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import ModalHeader from './ModalHeader';
 import ModalMenu from './ModalMenu';
 
-const Modal = ({ onClickToggleModal }) => {
+const Modal = ({ onClickToggleModal, id }) => {
   const [getModal, setGetModal] = useRecoilState(setModalList);
+  const [getModalId, setGetModalID] = useRecoilState(selectModalIdState);
+  const getProgress = useRecoilValue(setSelectProgress);
+  const getDealer = useRecoilValue(setSelectDealer);
+  const inputEstimate = useRecoilValue(setInput);
 
   const getModalData = () => {
+    setGetModalID(id);
     fetch('Data/Sunshine/ModalData.json', {
       method: 'GET',
     })
@@ -24,6 +35,42 @@ const Modal = ({ onClickToggleModal }) => {
   useEffect(() => {
     getModalData();
   }, []);
+
+  console.log(`modal id 들구오니? ${getModalId}`);
+
+  // 서버 열렸을때 가져올거임
+  // const getModalData = () => {
+  //   setGetModalID(id);
+  //   fetch('http://10.58.3.221:8000/dealers/estimate', {
+  //     method: 'GET',
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setGetModal(data.results);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   getModalData();
+  // }, []);
+
+  // backend에 보낼 함수임!
+  const onSubmit = e => {
+    fetch('http://10.58.3.221:8000/dealers/estimate', {
+      method: 'POST',
+      body: JSON.stringify({
+        progress: getProgress,
+        dealer: getDealer,
+        estimate: inputEstimate,
+      }),
+    }) //덩어리 제이슨을 받아옴
+      .then(res => res.json()) //덩어리 제이슨을 객체 현태로 변환
+      .then(data => {
+        console.log(data);
+        if (data.Access_token) localStorage.setItem('token', data.Access_token);
+      });
+    e.preventDefault();
+  };
 
   return (
     <ModalContainer>
@@ -38,6 +85,7 @@ const Modal = ({ onClickToggleModal }) => {
             </AlignLeft>
             <CenterAlign>
               <Estimate />
+              <SaveButton onClick={onSubmit}>저장</SaveButton>
             </CenterAlign>
           </RowAlign>
         </AlignLeft>
@@ -80,6 +128,18 @@ const RowAlign = styled.div`
 
 const CenterAlign = styled.div`
   ${props => props.theme.flex.flexBox('column', 'center', '')};
+`;
+
+const SaveButton = styled.button`
+  margin-top: 30px;
+  width: 83px;
+  height: 31px;
+  border: 1px solid #eaebec;
+  background-color: #dbdbdb;
+  &:hover {
+    cursor: pointer;
+    background-color: #a2a2a2;
+  }
 `;
 
 const Backdrop = styled.div`

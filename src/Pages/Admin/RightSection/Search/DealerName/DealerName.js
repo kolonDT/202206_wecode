@@ -1,11 +1,14 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components/macro';
+import { setSelectDealer } from '../../../adminAtoms';
 import { DEALER_NAME } from './DealerData';
 
 const DealerName = () => {
+  const [getDealer, setGetDealer] = useRecoilState(setSelectDealer);
   const handleChange = e => {
     // event handler
-    console.log(e.target.value);
+    setGetDealer(e.target.value);
   };
 
   return (

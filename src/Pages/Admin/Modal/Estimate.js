@@ -1,9 +1,16 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import styled, { css } from 'styled-components/macro';
+import { setInput } from '../adminAtoms';
 import DealerName from '../RightSection/Search/DealerName/DealerName';
 import ProgressStatus from './ProgressStatus/ProgressStatus';
 
 const Estimate = () => {
+  const [inputEstimate, setInputEatimate] = useRecoilState(setInput);
+  const handleInputEstimate = e => {
+    e.preventDefault();
+    setInputEatimate(e.target.value);
+  };
   return (
     <EstimateContainer>
       <EstimateBox>
@@ -19,9 +26,9 @@ const Estimate = () => {
           cols="50"
           rows="10"
           placeholder="상담내용을 입력하세요"
+          onChange={handleInputEstimate}
         />
       </EstimateBox>
-      <SaveButton>저장</SaveButton>
     </EstimateContainer>
   );
 };
@@ -74,18 +81,6 @@ const InputEstimate = styled.textarea`
   height: 300px;
   border: 1px solid #eaebec;
   padding: 15px 15px;
-`;
-
-const SaveButton = styled.button`
-  margin-top: 30px;
-  width: 83px;
-  height: 31px;
-  border: 1px solid #eaebec;
-  background-color: #dbdbdb;
-  &:hover {
-    cursor: pointer;
-    background-color: #a2a2a2;
-  }
 `;
 
 export default Estimate;

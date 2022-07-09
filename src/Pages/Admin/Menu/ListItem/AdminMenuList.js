@@ -8,21 +8,23 @@ import { MENU_LIST } from '../../constants/adminData';
 const AdminMenuList = () => {
   const [clickedTab, setClickedTab] = useState(true);
   const [currentId, setCurrentId] = useRecoilState(selectIdState);
-  const [color, setColor] = useState();
+  const [currentSubId, setCurrentSubId] = useRecoilState(selectIdState);
 
   const navigate = useNavigate();
 
   const moveCategory = id => {
-    console.log(`이건 큰 카테고리: ${id}`);
+    // console.log(`이건 큰 카테고리: ${id}`);
   }; //네비게이트 url 넘겨주는
 
-  const moveSubCategory = id => {
-    console.log(`이건 sub 카테고리: ${id}`);
+  const moveSubCategory = sub => {
+    // console.log(`이건 sub 카테고리: ${sub}`);
   };
 
-  const handleClick = () => {
-    setClickedTab(!clickedTab);
-  };
+  // const handleClick = () => {
+  //   setClickedTab(!clickedTab);
+  // };
+  console.log(`뭐가 나오냐 큰 메뉴는 ${currentId}`);
+  console.log(`뭐가 나오냐 작은 메뉴는 ${currentSubId}`);
 
   return (
     <MenuWrapper>
@@ -36,18 +38,22 @@ const AdminMenuList = () => {
                 setCurrentId(id);
                 setClickedTab(clickedTab);
               }}
+              className={id === currentId ? 'selectMenu' : 'black'}
             >
               {title}
-              {id === currentId && clickedTab && (
+              {id === currentSubId && (
                 <SubMenu>
-                  {subList?.map(({ id, title }) => {
+                  {subList?.map(({ sub, title }) => {
                     return (
                       <SubMenuList
-                        key={id}
+                        key={sub}
                         onClick={() => {
-                          moveSubCategory(id);
-                          setClickedTab(clickedTab);
+                          moveSubCategory(sub);
+                          setCurrentSubId(sub);
                         }}
+                        className={
+                          sub === currentSubId ? 'selectSubMenu' : 'black'
+                        }
                       >
                         {title}
                       </SubMenuList>
@@ -79,6 +85,9 @@ const MenuList = styled.li`
   font-size: ${props => props.theme.fontSizes.xl};
   font-weight: ${props => props.theme.fontWeights.extraBold};
   color: ${props => props.color};
+  &.selectMenu {
+    color: #f29c38;
+  }
 `;
 
 const SubMenu = styled.ul`
@@ -93,6 +102,9 @@ const SubMenuList = styled.li`
   font-size: ${props => props.theme.fontSizes.lg};
   font-weight: ${props => props.theme.fontWeights.regular};
   color: ${props => props.color};
+  &.selectSubMenu {
+    color: #f29c38;
+  }
 `;
 
 export default AdminMenuList;
