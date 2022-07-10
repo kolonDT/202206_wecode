@@ -34,7 +34,6 @@ const Options = ({ nextProcess, prevProcess }) => {
         }
       }
     };
-
     falseOptionCheck();
   }, [selectedOptions]);
 
@@ -86,10 +85,12 @@ const Options = ({ nextProcess, prevProcess }) => {
               <OptionText>{entrie}</OptionText>
             </OptionBox>
           ))}
-          <NoOption onClick={allOptionsFalse}>
-            {isAllOptionFalse ? <BsCheckSquareFill /> : <BsCheckSquare />}
-            옵션이 없어요
-          </NoOption>
+          <NoOptionWrapper>
+            <NoOption onClick={allOptionsFalse}>
+              {isAllOptionFalse ? <BsCheckSquareFill /> : <BsCheckSquare />}
+              <span>옵션이 없어요</span>
+            </NoOption>
+          </NoOptionWrapper>
         </OptionContainer>
         <ButtonSet>
           <PrevButton onClick={prevProcess} variant="primary">
@@ -112,8 +113,22 @@ const OptionContainer = styled.div`
   height: fit-content;
 `;
 
+const NoOptionWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
 const NoOption = styled.div`
-  border-bottom: 1px solid black;
+  position: relative;
+  left: 0.6rem;
+  margin-top: 1.2rem;
+  color: ${({ theme }) => theme.colors.primaryBlue};
+  cursor: pointer;
+
+  span {
+    margin-left: 0.5rem;
+    color: ${({ theme }) => theme.colors.darkGray};
+  }
 `;
 
 const OptionBox = styled.div`
