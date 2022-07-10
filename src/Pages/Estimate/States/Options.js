@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components';
 import { BsCheckSquareFill, BsCheckSquare } from 'react-icons/bs';
@@ -23,16 +23,23 @@ const Options = ({ nextProcess, prevProcess }) => {
     isAllOptionFalseState
   );
 
-  const falseOptionCheck = () => {
-    selectedOptions.map(() =>
-      selectedOptions.state === true
-        ? setIsAllOptionFalse(false)
-        : setIsAllOptionFalse(true)
-    );
-  };
+  useEffect(() => {
+    const falseOptionCheck = () => {
+      for (let i = 0; i < selectedOptions.length; i++) {
+        if (selectedOptions[i].state === true) {
+          setIsAllOptionFalse(false);
+          break;
+        } else {
+          setIsAllOptionFalse(true);
+        }
+      }
+    };
+
+    falseOptionCheck();
+  }, [selectedOptions]);
 
   const handleOption = idx => {
-    selectedOptions[idx].state === true
+    selectedOptions[idx].state
       ? setSelectedOptions(prevState => {
           const newState = prevState.map(obj => {
             if (obj.id === idx) {
@@ -51,7 +58,6 @@ const Options = ({ nextProcess, prevProcess }) => {
           });
           return newState;
         });
-    falseOptionCheck();
   };
 
   const allOptionsFalse = () => {
@@ -59,15 +65,7 @@ const Options = ({ nextProcess, prevProcess }) => {
       const newArray = prev.map(list => ({ ...list, state: false }));
       return newArray;
     });
-    falseOptionCheck();
   };
-
-  console.log('isAllOptionFalse', isAllOptionFalse);
-  console.log(selectedOptions);
-
-  // useEffect(() => {
-  //   isAllOptionFalse();
-  // }, []);
 
   return (
     <div>

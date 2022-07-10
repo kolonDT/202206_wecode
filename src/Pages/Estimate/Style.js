@@ -27,7 +27,12 @@ export const InputBox = styled.input`
 
   ::placeholder {
     color: rgba(0, 0, 0, 0.2);
-    text-align: center;
+  }
+
+  ::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `;
 

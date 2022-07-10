@@ -86,7 +86,7 @@ export const GetUserInputPhotoState = atom({
 
 export const isAllOptionFalseState = atom({
   key: 'isAllOptionFalseState',
-  default: '',
+  default: true,
 });
 
 export const isLoginModalState = atom({
