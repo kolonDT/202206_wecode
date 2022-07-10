@@ -22,8 +22,6 @@ const Header = ({ isNew, setNew, page }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log(alarmModal);
-
   useEffect(() => {
     fetch('http://localhost:3000/Data/Dino/alarmData.json')
       .then(res => res.json())

@@ -73,3 +73,22 @@ export const PrevButton = styled(Button)`
   border-radius: 100rem;
   font-weight: 600;
 `;
+
+export const NoOptionWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+export const NoOption = styled.div`
+  color: ${({ theme }) => theme.colors.primaryBlue};
+  margin-top: 1rem;
+  position: relative;
+  left: 0.6rem;
+  cursor: pointer;
+
+  span {
+    margin-left: 0.5rem;
+    color: ${({ theme }) => theme.colors.darkGray};
+    font-size: 15px;
+  }
+`;

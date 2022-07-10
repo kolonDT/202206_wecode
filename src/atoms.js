@@ -94,12 +94,57 @@ export const isLoginModalState = atom({
   default: false,
 });
 
+export const insuranceState = atom({
+  key: 'insuranceState',
+  default: true,
+});
+
+export const userInputInsuranceState = atom({
+  key: 'userInputInsuranceState',
+  default: '',
+});
+
 export const keyAmountState = atom({
   key: 'keyAmountState',
   default: 2,
 });
 
-export const insuranceState = atom({
-  key: 'insuranceState',
+export const wheelScratchAmountState = atom({
+  key: 'wheelScratchAmountState',
+  default: 1,
+});
+
+export const wheelScratchState = atom({
+  key: 'wheelScratchState',
   default: true,
+});
+
+export const panelScratchAmountState = atom({
+  key: 'panelScratchAmountState',
+  default: 1,
+});
+
+export const panelScratchState = atom({
+  key: 'panelScratchState',
+  default: true,
+});
+
+export const repairState = atom({
+  key: 'repairState',
+  default: true,
+});
+
+export const userInputRepairState = atom({
+  key: 'userInputRepairState',
+  default: '',
+});
+
+export const etcState = atom({
+  key: 'etcState',
+  default: true,
+});
+
+export const userInputEtcState = atom({
+  key: 'userInputEtcState',
+  default: '',
 });

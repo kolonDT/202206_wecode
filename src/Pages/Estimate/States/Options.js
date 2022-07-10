@@ -13,6 +13,8 @@ import {
   PrevButton,
   ContentBox,
   ContentTitle,
+  NoOptionWrapper,
+  NoOption,
 } from '../Style';
 
 const Options = ({ nextProcess, prevProcess }) => {
@@ -111,24 +113,6 @@ const OptionContainer = styled.div`
   ${({ theme }) => theme.flex.flexBox}
   flex-wrap: wrap;
   height: fit-content;
-`;
-
-const NoOptionWrapper = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
-const NoOption = styled.div`
-  position: relative;
-  left: 0.6rem;
-  margin-top: 1.2rem;
-  color: ${({ theme }) => theme.colors.primaryBlue};
-  cursor: pointer;
-
-  span {
-    margin-left: 0.5rem;
-    color: ${({ theme }) => theme.colors.darkGray};
-  }
 `;
 
 const OptionBox = styled.div`
