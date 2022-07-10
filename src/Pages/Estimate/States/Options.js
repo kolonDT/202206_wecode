@@ -1,7 +1,12 @@
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components';
-import { EstimateCarOption, SelectedOptionsState } from '../../../atoms';
+import { BsCheckSquareFill, BsCheckSquare } from 'react-icons/bs';
+import {
+  EstimateCarOption,
+  SelectedOptionsState,
+  isAllOptionFalseState,
+} from '../../../atoms';
 import {
   ButtonSet,
   NextButton,
@@ -12,43 +17,57 @@ import {
 
 const Options = ({ nextProcess, prevProcess }) => {
   const estimateCarOption = useRecoilValue(EstimateCarOption);
-  const [selectedOptions, setSelectedOption] =
+  const [selectedOptions, setSelectedOptions] =
     useRecoilState(SelectedOptionsState);
+  const [isAllOptionFalse, setIsAllOptionFalse] = useRecoilState(
+    isAllOptionFalseState
+  );
+
+  const falseOptionCheck = () => {
+    selectedOptions.map(() =>
+      selectedOptions.state === true
+        ? setIsAllOptionFalse(false)
+        : setIsAllOptionFalse(true)
+    );
+  };
 
   const handleOption = idx => {
-    let temp_selectedOptions = { ...selectedOptions };
-    let temp_element = { ...temp_selectedOptions[idx] };
-
-    temp_element.state
-      ? (temp_element.state = false)
-      : (temp_element.state = true);
-
-    temp_selectedOptions[idx] = temp_element;
-    setSelectedOption(temp_selectedOptions);
+    selectedOptions[idx].state === true
+      ? setSelectedOptions(prevState => {
+          const newState = prevState.map(obj => {
+            if (obj.id === idx) {
+              return { ...obj, state: false };
+            }
+            return obj;
+          });
+          return newState;
+        })
+      : setSelectedOptions(prevState => {
+          const newState = prevState.map(obj => {
+            if (obj.id === idx) {
+              return { ...obj, state: true };
+            }
+            return obj;
+          });
+          return newState;
+        });
+    falseOptionCheck();
   };
 
   const allOptionsFalse = () => {
-    // setSelectedOption(prevState => {
-    //   const newState = selectedOptions.map(idx => {
-    //     let temp_element = { ...selectedOptions[idx] };
-    //     return { ...temp_element, state: false };
-    //   });
-    //   return newState;
-    // });
-    //
-    // feat 망고님
-    // setSelectedOption(prev => {
-    //   const a = prev.map(list => ({ ...list, state: false }));
-    //   return a;
-    // });
-    setSelectedOption(prevState => {
-      const newState = Object.keys(prevState).map(idx => {
-        let temp_element = { ...selectedOptions[idx] };
-        return { ...temp_element, state: false };
-      });
-      return newState;
+    setSelectedOptions(prev => {
+      const newArray = prev.map(list => ({ ...list, state: false }));
+      return newArray;
     });
+    falseOptionCheck();
   };
+
+  console.log('isAllOptionFalse', isAllOptionFalse);
+  console.log(selectedOptions);
+
+  // useEffect(() => {
+  //   isAllOptionFalse();
+  // }, []);
 
   return (
     <div>
@@ -69,7 +88,10 @@ const Options = ({ nextProcess, prevProcess }) => {
               <OptionText>{entrie}</OptionText>
             </OptionBox>
           ))}
-          <NoOption onClick={allOptionsFalse}>옵션이 없어요</NoOption>
+          <NoOption onClick={allOptionsFalse}>
+            {isAllOptionFalse ? <BsCheckSquareFill /> : <BsCheckSquare />}
+            옵션이 없어요
+          </NoOption>
         </OptionContainer>
         <ButtonSet>
           <PrevButton onClick={prevProcess} variant="primary">
@@ -86,14 +108,14 @@ const Options = ({ nextProcess, prevProcess }) => {
 
 export default Options;
 
-const NoOption = styled.button`
-  border: 1px solid black;
-`;
-
 const OptionContainer = styled.div`
   ${({ theme }) => theme.flex.flexBox}
   flex-wrap: wrap;
   height: fit-content;
+`;
+
+const NoOption = styled.div`
+  border-bottom: 1px solid black;
 `;
 
 const OptionBox = styled.div`

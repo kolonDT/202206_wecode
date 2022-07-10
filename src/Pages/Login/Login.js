@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import moment from 'moment';
+// import moment from 'moment';
 // import { HiLightBulb } from 'react-icons/hi';
 import { RiAlertFill } from 'react-icons/ri';
 import { BsPatchCheckFill } from 'react-icons/bs';
@@ -13,6 +13,7 @@ import {
   LoginProcessState,
   UserInputOwnerState,
   EstimateCarInfo,
+  isLoginModalState,
 } from '../../atoms';
 
 import {
@@ -23,6 +24,8 @@ import {
   ContentTitle,
   InputBox,
 } from '../Estimate/Style';
+import { KAKAO_AUTH_URL } from '../SignIn/OAuth';
+import LoginModal from '../../Components/Modal/LoginModal';
 
 function Login({ setPage }) {
   const [userInputOwner, setUserInputOwner] =
@@ -31,12 +34,14 @@ function Login({ setPage }) {
   const [id, setId] = useState('');
   const [isLogin, setLogin] = useState(false);
   const [show, setShow] = useState(false);
-
-  //방문 기록이 있는지 관리하는 상태값
-  // const [hasQuote, setHasQuote] = useState(false);
   const [data, setData] = useState(false);
 
   const [loginProcess, setLoginProcess] = useRecoilState(LoginProcessState);
+  const [isLoginModal, setIsLoginModal] = useRecoilState(isLoginModalState);
+
+  // useEffect(() => {
+  //   window.Kakao.init('9910587dbfb5d2e3262e8e3567ed7021');
+  // }, []);
 
   const getCar = carNumber => {
     fetch(`${CAR_API}?carNumber=${carNumber}`, {
@@ -49,7 +54,6 @@ function Login({ setPage }) {
       .then(data => {
         if (data.hasOwnProperty('infoByCarNumber')) {
           setShow(true);
-          // expireCheck(carNumber);
         } else {
           setShow(false);
         }
@@ -57,8 +61,6 @@ function Login({ setPage }) {
   };
 
   const getData = () => {
-    //fetch(`/car?carNumber=${localStorage.getItem("carNumber")}`, {
-    //`${URL}:${PORT}/car/myCar?carNumber=${localStorage.getItem("carNumber")}`,
     fetch(`${MYCAR_API}?carNumber=${localStorage.getItem('carNumber')}`, {
       method: 'GET',
       headers: {
@@ -75,48 +77,6 @@ function Login({ setPage }) {
       });
   };
 
-  useEffect(() => {
-    setPage('login');
-  }, []);
-
-  // useEffect(() => {
-  // 	// componentDidMount
-  // 	setPhoto(props.photo);
-
-  // 	if(photo.data && photo.data.length > 0) {
-  // 		console.log(photo.data[0]);
-  // 	}
-  // })
-
-  //방문 기록 확인 및 관리하는 함수
-  // const checkExpiry = carNumber => {
-  //   const timeStamp = localStorage.getItem(`${carNumber}_time_stamp`);
-  //   //timestamp가 없는 경우
-  //   let now = new Date();
-  //   if (!timeStamp) {
-  //     localStorage.setItem(`${carNumber}_time_stamp`, now);
-  //     return false;
-  //   } else {
-  //     const saved = new Date(localStorage.getItem(`${carNumber}_time_stamp`));
-  //     let oneday = 1000 * 60 * 60 * 24;
-  //     // console.log("date :", now - saved, now, saved, oneday);
-  //     if (now - saved >= oneday) {
-  //       localStorage.removeItem(`${carNumber}_driving_distance`);
-  //       localStorage.removeItem(`${carNumber}_options`);
-  //       localStorage.removeItem(`${carNumber}_additional_info`);
-  //       localStorage.removeItem(`${carNumber}_contact`);
-  //       localStorage.removeItem(`${carNumber}_lat`);
-  //       localStorage.removeItem(`${carNumber}_lng`);
-  //       localStorage.removeItem(`${carNumber}_address`);
-  //       localStorage.removeItem(`${carNumber}_time_stamp`);
-  //       localStorage.removeItem(`${carNumber}_image`);
-  //       localStorage.removeItem(`${carNumber}_detailAddress`);
-  //       localStorage.setItem(`${carNumber}_time_stamp`, now);
-  //       return false;
-  //     } else return true;
-  //   }
-  // };
-
   const handleInput = e => {
     setInputCarNumber(e.target.value);
     let ret = isValidId(e.target.value);
@@ -131,27 +91,9 @@ function Login({ setPage }) {
 
   const [inputCarNumber, setInputCarNumber] = useState('');
 
-  // const handleLogin = str => {
-  //   getCar(str);
-  //   if (!show || !isLogin) {
-  //     alert('차량번호를 다시 확인해주세요.');
-  //   } else if (data) {
-  //     navigate('/requestform');
-  //   } else {
-  //     navigate('/login', { state: id });
-  //   }
-  //   return 'return';
-  // };
-
   const handleAdmin = () => {
     navigate('/admin');
   };
-
-  // const handleEnter = e => {
-  //   if (e.keyCode === 13) {
-  //     handleLogin(e.target.value);
-  //   }
-  // };
 
   function isValidId(str) {
     const regId = /\d{2,3}[가-힣]{1}?([0-9]{4})$/g;
@@ -159,59 +101,37 @@ function Login({ setPage }) {
     return ret;
   }
 
-  // const expireCheck = carNumber => {
-  //   const isVisited = checkExpiry(carNumber);
-  //   let isWriting = false;
-  //   if (
-  //     localStorage.getItem(`${carNumber}_driving_distance`) ||
-  //     localStorage.getItem(`${carNumber}_options`) ||
-  //     localStorage.getItem(`${carNumber}_additional_info`) ||
-  //     localStorage.getItem(`${carNumber}_contact`) ||
-  //     localStorage.getItem(`${carNumber}_lat`) ||
-  //     localStorage.getItem(`${carNumber}_lng`) ||
-  //     localStorage.getItem(`${carNumber}_address`)
-  //   ) {
-  //     isWriting = true;
-  //   }
-  //   const result = isVisited && isWriting;
-  //   setHasQuote(result);
-  // };
-
   const [estimateCarInfo, setEstimateCarInfo] = useRecoilState(EstimateCarInfo);
 
   const startLogin = () => {
-    setLoginProcess(prev => prev + 1);
+    fetch('http://localhost:3000/Data/Dino/userData.json')
+      .then(res => res.json())
+      .then(data => {
+        // const alert = () => {
+        //   if (
+        //     window.confirm(
+        //       '등록되어 있지 않은 사용자입니다.\n등록을 진행하시겠습니까?'
+        //     )
+        //   ) {
+        //     Link(`${KAKAO_AUTH_URL}`);
+        //     // navigate('/join');
+        //   } else {
+        //   }
+        // };
+        data.carNumber === inputCarNumber
+          ? setLoginProcess(prev => prev + 1)
+          : setIsLoginModal(true);
+      });
   };
 
   const getUserInputOwner = e => {
     setUserInputOwner(e.target.value);
   };
 
-  const checkOwner = () => {
-    fetch(
-      'http://localhost:3000/Data/Dino/carData.json'
-      // TO DO : fetch URL 수정해서 서버 통신
-      // , {
-      //   method: 'POST',
-      //   body: JSON.stringify({
-      //     carNumber: inputCarNumber,
-      //     owner: userInputOwner,
-      //   }),}
-    )
+  const checkUser = () => {
+    fetch('http://localhost:3000/Data/Dino/carData.json')
       .then(res => res.json())
       .then(data => {
-        // TO DO : fetch URL 수정해서 서버 통신
-        // DB 유? navigate('/sellcar')
-        //  0. DB에 있는 차량번호와 소유주가 일치하는지 확인
-        //  1. 견적 없을 경우 ? 견적 작성
-        //  2. 견적 있을 경우 ? 견적 목록
-        //  3. 작성 중이던 견적 있을 경우 ? DB 불러오기 및 진행 중 state부터 작성
-        // DB 무? 2. 회원 가입 navigate('/singIn')
-        //
-        // data.result === 'success' ? ():()
-        // data.result === 'signIn' ? ():()
-        //   ? { DB없을 경우 카카오 인증 : DB있을 경우 navigate('/sellcar') }
-        //   : alert('소유자명을 확인해주세요');
         setEstimateCarInfo(data);
         const { owner, number } = estimateCarInfo;
         userInputOwner === owner && inputCarNumber === number
@@ -223,24 +143,23 @@ function Login({ setPage }) {
   return (
     <Background>
       <BodyWrapper>
-        <LoginBox>
-          {loginProcess === 1 && (
-            <LoginWrap>
+        {isLoginModal && <LoginModal />}
+        {loginProcess === 1 && (
+          <LoginWrap>
+            <ContentBox>
               <LoginTitle>차량번호 입력만으로</LoginTitle>
               <LoginSubTitle>
                 내 차 시세조회와 <br />
                 견적요청까지 한번에 🙌
               </LoginSubTitle>
-              <LoginInput
-                onChange={handleInput}
-                // onKeyDown={handleEnter}
-                type="text"
-                id="id"
-                name="id"
-                placeholder="12가3456"
-                value={inputCarNumber}
-              />
-              <MessageWrapper>
+              <InputWrapper>
+                <LoginInput
+                  onChange={handleInput}
+                  type="text"
+                  id="id"
+                  placeholder="12가3456"
+                  value={inputCarNumber}
+                />
                 <InputMessage>
                   {inputCarNumber.length > 1 && !isLogin && (
                     <>
@@ -258,78 +177,83 @@ function Login({ setPage }) {
                     </SuccessMessage>
                   )}
                 </InputMessage>
-              </MessageWrapper>
+              </InputWrapper>
               <LoginButton disabled={!isLogin} onClick={startLogin}>
                 시작하기
               </LoginButton>
               <GotoAdmin onClick={handleAdmin}>
                 <AdminText>관리자 페이지로 이동</AdminText>
               </GotoAdmin>
-            </LoginWrap>
-          )}
-          {loginProcess === 2 && (
-            <InputOwnerWrapper>
-              <ContentBox>
-                <button onClick={() => setLoginProcess(prev => prev - 1)}>
-                  뒤로가기
-                </button>
-                <ContentTitle>소유자명을 입력해주세요</ContentTitle>
-                <InputBox
-                  placeholder="홍길동"
-                  onChange={e => getUserInputOwner(e)}
-                  value={userInputOwner}
-                />
-                {/* <InputButton onClick={checkOwner} variant="primary">
-                  확인
-                </InputButton> */}
-                <ButtonSet>
-                  <PrevButton
-                    onClick={() => setLoginProcess(prev => prev - 1)}
-                    variant="primary"
-                  >
-                    이전
-                  </PrevButton>
-                  <NextButton onClick={checkOwner} variant="primary">
-                    다음
-                  </NextButton>
-                </ButtonSet>
-              </ContentBox>
-            </InputOwnerWrapper>
-          )}
-        </LoginBox>
+            </ContentBox>
+          </LoginWrap>
+        )}
+        {loginProcess === 2 && (
+          <InputOwnerWrapper>
+            <ContentBox>
+              <ContentTitle>
+                {inputCarNumber} <br />
+                소유자명을 입력해주세요
+              </ContentTitle>
+              <InputBox
+                placeholder="홍길동"
+                onChange={e => getUserInputOwner(e)}
+                value={userInputOwner}
+              />
+              <ButtonSet>
+                <PrevButton
+                  onClick={() => setLoginProcess(prev => prev - 1)}
+                  variant="primary"
+                >
+                  이전
+                </PrevButton>
+                <NextButton onClick={checkUser} variant="primary">
+                  다음
+                </NextButton>
+              </ButtonSet>
+            </ContentBox>
+          </InputOwnerWrapper>
+        )}
       </BodyWrapper>
     </Background>
   );
 }
 export default Login;
 
-const InputOwnerWrapper = styled.div`
-  width: 100%;
-  position: absolute;
-  top: 5vh;
-  box-shadow: 0px 0px 8px rgba(8, 94, 214, 0.05);
+const InputWrapper = styled.div`
+  margin: 0 auto;
+  width: 70%;
+  position: relative;
+
+  @media only screen and (max-width: 640px) {
+    width: 100%;
+  }
 `;
 
-const LoginBox = styled.div`
-  ${({ theme }) => theme.flex.flexBox('column')}
-  box-shadow: 0px 0px 8px rgba(8, 94, 214, 0.05);
+const InputOwnerWrapper = styled.div`
   width: 100%;
   height: fit-content;
-  top: 5vh;
-  padding: 10%;
-  background-color: white;
   position: absolute;
-  text-align: center;
+  text-align: left;
+  top: 5vh;
+  box-shadow: 0px 0px 8px rgba(8, 94, 214, 0.05);
 
   @media only screen and (max-width: 640px) {
     width: 90%;
   }
 `;
+
 const LoginWrap = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  height: fit-content;
+  position: absolute;
+  text-align: left;
+  top: 5vh;
+  text-align: center;
+  box-shadow: 0px 0px 8px rgba(8, 94, 214, 0.05);
+
+  @media only screen and (max-width: 640px) {
+    width: 90%;
+  }
 `;
 
 const LoginTitle = styled.p`
@@ -337,7 +261,6 @@ const LoginTitle = styled.p`
   margin-bottom: 1rem;
   font-weight: 600;
   font-size: xx-large;
-  text-align: left;
 
   @media only screen and (max-width: 640px) {
     font-size: 28px;
@@ -356,20 +279,11 @@ const LoginSubTitle = styled.p`
   }
 `;
 
-const MessageWrapper = styled.div`
-  position: relative;
-  width: 70%;
-
-  @media only screen and (max-width: 640px) {
-    width: 100%;
-  }
-`;
-
 const InputMessage = styled.div`
   ${({ theme }) => theme.flex.flexBox}
   position: absolute;
   left: 0;
-  margin-top: 0.5rem;
+  margin: 0.5rem 0 0 0;
   font-size: small;
   color: ${({ theme }) => theme.colors.heartPink};
 `;
@@ -392,7 +306,7 @@ const SuccessIcon = styled(BsPatchCheckFill)`
 `;
 
 const LoginInput = styled.input`
-  width: 70%;
+  width: 100%;
   height: 5rem;
   border: 1px solid ${({ theme }) => theme.colors.disabled};
   border-radius: 5px;
@@ -454,6 +368,6 @@ const BodyWrapper = styled.div`
 const Background = styled.div`
   ${({ theme }) => theme.flex.flexBox}
   width: 100vw;
-  height: 100vh;
+  height: 95vh;
   background-color: aliceblue;
 `;

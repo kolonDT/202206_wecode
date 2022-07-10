@@ -66,7 +66,7 @@ const Estimate = () => {
                       <CurrentProcess
                         key={id}
                         active={currentEstimate + 1 === id}
-                        onClick={() => goToProcess(id - 2)}
+                        onClick={() => goToProcess(id - 1)}
                       >
                         {name}
                         {id !== PROCESS_STATE.length - 2 && <NextIcon />}
@@ -75,7 +75,7 @@ const Estimate = () => {
                 )}
               </ProcessState>
               <PercentageBar
-                now={5 + (currentEstimate / (PROCESS_STATE.length - 1)) * 100}
+                now={5 + (currentEstimate / (PROCESS_STATE.length - 2)) * 100}
               />
             </ProcessBox>
           )}
@@ -177,7 +177,7 @@ const BodyWrapper = styled.div`
 const Background = styled.div`
   ${({ theme }) => theme.flex.flexBox('column')}
   width: 100vw;
-  height: 100vh;
+  height: 95vh;
   background: aliceblue;
 `;
 

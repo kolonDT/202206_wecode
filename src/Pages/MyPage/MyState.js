@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { ContentBox, ContentTitle } from '../Estimate/Style';
+import { ContentBox, ContentTitle, InputButton } from '../Estimate/Style';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   GetCarInfoState,
@@ -33,13 +34,15 @@ const MyState = () => {
     trim,
     engine,
     transmission,
-    body_shape,
+    // body_shape,
     model_year,
     color,
-    first_registration_year,
+    // first_registration_year,
   } = getEstimateInfo;
 
   const {
+    address,
+    phone_number,
     mileage,
     sunroof,
     navigation,
@@ -62,26 +65,32 @@ const MyState = () => {
     // { id: 1, type: 'carInfo', title: '차량번호', content: `${car_number}` },
     // { id: 2, type: 'carInfo', title: '소유주명', content: `${owner}` },
     {
+      id: 0,
+      type: 'processState',
+      title: '진행상태',
+      content: `${process_state}`,
+    },
+    {
       id: 3,
       type: 'carInfo',
       title: '차량정보',
       content: `${manufacturer} ${car_name} ${trim}`,
     },
+    { id: 4, type: 'carInfo', title: '연식', content: `${model_year}년형` },
     {
-      id: 4,
+      id: 5,
       type: 'carInfo',
       title: '엔진/변속기',
       content: `${engine} ${transmission}`,
     },
-    { id: 5, type: 'carInfo', title: '차체형태', content: `${body_shape}` },
-    { id: 6, type: 'carInfo', title: '연식', content: `${model_year}년형` },
-    { id: 7, type: 'carInfo', title: '색상', content: `${color}` },
-    {
-      id: 8,
-      type: 'carInfo',
-      title: '최초등록',
-      content: `${first_registration_year}`,
-    },
+    { id: 6, type: 'carInfo', title: '색상', content: `${color}` },
+    // { id: 7, type: 'carInfo', title: '차체형태', content: `${body_shape}` },
+    // {
+    //   id: 8,
+    //   type: 'carInfo',
+    //   title: '최초등록',
+    //   content: `${first_registration_year}`,
+    // },
 
     { id: 9, type: 'userInputInfo', title: '주행거리', content: `${mileage}` },
 
@@ -156,7 +165,7 @@ const MyState = () => {
     {
       id: 22,
       type: 'userInputInfo',
-      title: '기타정비필요사항',
+      title: '정비필요사항',
       content: `${other_maintenance_repair}`,
     },
     {
@@ -165,64 +174,74 @@ const MyState = () => {
       title: '특이사항',
       content: `${other_special}`,
     },
-
-    {
-      id: 24,
-      type: 'processState',
-      title: '진행상태',
-      content: `${process_state}`,
-    },
   ];
+
+  const navigate = useNavigate();
+  const goToMain = () => {
+    navigate('/');
+  };
 
   return (
     <Background>
       <BodyWrapper>
         <EstimateWrapper>
-          <ContentBox>
+          <ContentsBox>
             <ContentsTitle>{car_number}</ContentsTitle>
             <SubTitle>차량의 견적 요청이 접수되었습니다.</SubTitle>
-            <CarInfoTable>
-              {ESTIMATE_INFO.map(
-                ({ id, type, title, content }) =>
-                  type === 'carInfo' && (
-                    <InfoWrapper key={id}>
-                      <InfoElement>{title}</InfoElement>
-                      <InfoDescription>{content}</InfoDescription>
-                    </InfoWrapper>
-                  )
-              )}
-              <InfoWrapper>
-                <InfoElement>추가옵션</InfoElement>
-                <InfoDescription>
-                  {ESTIMATE_INFO.map(
-                    ({ id, type, title, content }) =>
-                      type === 'userSelectedOption' &&
-                      content === 'true' && <span key={id}>{title} </span>
-                  )}
-                </InfoDescription>
-              </InfoWrapper>
-              {ESTIMATE_INFO.map(
-                ({ id, type, title, content }) =>
-                  type === 'userInputInfo' && (
-                    <InfoWrapper key={id}>
-                      <InfoElement>{title}</InfoElement>
-                      {title === '주행거리' ? (
-                        <InfoDescription>
-                          {`${content
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                          km`}
-                        </InfoDescription>
-                      ) : (
+            <CarInfoWrapper>
+              <CarInfoTable>
+                {ESTIMATE_INFO.map(
+                  ({ id, type, title, content }) =>
+                    type === 'carInfo' && (
+                      <InfoWrapper key={id}>
+                        <InfoElement>{title}</InfoElement>
                         <InfoDescription>{content}</InfoDescription>
-                      )}
-                    </InfoWrapper>
-                  )
-              )}
-              {/* TO DO : 업로드 한 사진 목록 mapping */}
-              {/* TO DO : 전화번호, 주소 section */}
-            </CarInfoTable>
-          </ContentBox>
+                      </InfoWrapper>
+                    )
+                )}
+                <InfoWrapper>
+                  <InfoElement>추가옵션</InfoElement>
+                  <InfoDescription>
+                    {ESTIMATE_INFO.map(
+                      ({ id, type, title, content }) =>
+                        type === 'userSelectedOption' &&
+                        content === 'true' && <span key={id}>{title} </span>
+                    )}
+                  </InfoDescription>
+                </InfoWrapper>
+                {ESTIMATE_INFO.map(
+                  ({ id, type, title, content }) =>
+                    type === 'userInputInfo' && (
+                      <InfoWrapper key={id}>
+                        <InfoElement>{title}</InfoElement>
+                        {title === '주행거리' ? (
+                          <InfoDescription>
+                            {`${content
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                          km`}
+                          </InfoDescription>
+                        ) : (
+                          <InfoDescription>{content}</InfoDescription>
+                        )}
+                      </InfoWrapper>
+                    )
+                )}
+                {/* TO DO : 업로드 한 사진 목록 mapping */}
+                <InfoWrapper>
+                  <InfoElement>방문 장소</InfoElement>
+                  <InfoDescription>{address}</InfoDescription>
+                </InfoWrapper>
+                <InfoWrapper>
+                  <InfoElement>연락처</InfoElement>
+                  <InfoDescription>{phone_number}</InfoDescription>
+                </InfoWrapper>
+              </CarInfoTable>
+            </CarInfoWrapper>
+            <InputButton onClick={goToMain} variant="primary">
+              메인 화면으로 이동
+            </InputButton>
+          </ContentsBox>
         </EstimateWrapper>
       </BodyWrapper>
     </Background>
@@ -230,6 +249,16 @@ const MyState = () => {
 };
 
 export default MyState;
+
+const CarInfoWrapper = styled.div`
+  height: 70%;
+  overflow: scroll;
+`;
+
+const ContentsBox = styled(ContentBox)`
+  height: 85vh;
+  overflow: scroll;
+`;
 
 const CarInfoTable = styled.table`
   font-size: 90%;
@@ -239,9 +268,8 @@ const CarInfoTable = styled.table`
   width: 90%;
   padding: 8% 0;
   border-collapse: separate;
-  border-spacing: 0.2rem 0.02rem;
+  border-spacing: 0.2rem 0;
   color: ${({ theme }) => theme.colors.gray};
-  vertical-align: bottom;
   table-layout: fixed;
 
   @media only screen and (max-width: 640px) {
@@ -260,7 +288,7 @@ const InfoDescription = styled.td`
   word-break: keep-all;
   word-wrap: break-word;
   margin-left: 1rem;
-  line-height: 1.1rem;
+  line-height: 1rem;
 
   span {
     margin-right: 0.1rem;
@@ -277,12 +305,12 @@ const InfoWrapper = styled.div`
 
 const ContentsTitle = styled(ContentTitle)`
   font-size: xx-large;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 `;
 
 const SubTitle = styled.h4`
   font-size: medium;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
   color: ${({ theme }) => theme.colors.darkGray};
 `;
 
@@ -308,6 +336,6 @@ const BodyWrapper = styled.div`
 const Background = styled.div`
   ${({ theme }) => theme.flex.flexBox('column')}
   width: 100vw;
-  height: 100vh;
+  height: 95vh;
   background: aliceblue;
 `;

@@ -7,7 +7,6 @@ import { AlarmListState, AlarmModalState } from '../../atoms';
 const AlarmModal = () => {
   const alarmList = useRecoilValue(AlarmListState);
   const setAlarmModal = useSetRecoilState(AlarmModalState);
-  console.log(alarmList);
 
   return (
     <Background>
@@ -100,5 +99,5 @@ const ModalWrapper = styled.div`
   border: 1px solid #eee;
   border-radius: 0.5rem;
   box-shadow: 0px 0px 8px rgba(8, 94, 214, 0.1);
-  z-index: 1;
+  z-index: 100;
 `;

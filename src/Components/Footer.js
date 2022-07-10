@@ -26,9 +26,6 @@ const FooterContainer = styled.div`
   ${({ theme }) => theme.flex.flexBox}
   width: 100vw;
   height: 12rem;
-  /* position: absolute;
-  bottom: 0;
-  transform: translateY(-100%); */
   background-color: white;
 
   @media only screen and (max-width: 640px) {

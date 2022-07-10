@@ -83,3 +83,23 @@ export const GetUserInputPhotoState = atom({
   key: 'GetUserInputPhotoState',
   default: '',
 });
+
+export const isAllOptionFalseState = atom({
+  key: 'isAllOptionFalseState',
+  default: '',
+});
+
+export const isLoginModalState = atom({
+  key: 'isLoginModalState',
+  default: false,
+});
+
+export const keyAmountState = atom({
+  key: 'keyAmountState',
+  default: 2,
+});
+
+export const insuranceState = atom({
+  key: 'insuranceState',
+  default: true,
+});

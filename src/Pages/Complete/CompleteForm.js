@@ -138,7 +138,7 @@ const BodyWrapper = styled.div`
 const Background = styled.div`
   ${({ theme }) => theme.flex.flexBox}
   width: 100vw;
-  height: 100vh;
+  height: 95vh;
   background-color: aliceblue;
 `;
 

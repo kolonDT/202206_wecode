@@ -13,7 +13,7 @@ useEffect(() => {
     });
 }, []);
 
-export const {
+const {
   car_number,
   owner,
   manufacturer,
@@ -27,7 +27,7 @@ export const {
   first_registration_year,
 } = getEstimateInfo;
 
-export const {
+const {
   mileage,
   sunroof,
   navigation,
@@ -46,7 +46,7 @@ export const {
   process_state,
 } = getEstimateInfo.estimate[0];
 
-export const ESTIMATE_INFO = [
+const ESTIMATE_INFO = [
   { id: 1, type: 'carInfo', title: '차량번호', content: `${car_number}` },
   { id: 2, type: 'carInfo', title: '소유주명', content: `${owner}` },
   {

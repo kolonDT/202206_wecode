@@ -9,11 +9,6 @@ const CarInfo = ({ nextProcess }) => {
   const estimateCarInfo = useRecoilValue(EstimateCarInfo);
   const tableSection = useRef(null);
 
-  // TO DO : table scroll 구현
-  // const scrollToBottom = ref => {
-  //   ref.current.scrollIntoView({ behavior: 'smooth' });
-  // };
-
   const {
     owner,
     number,
@@ -51,8 +46,6 @@ const CarInfo = ({ nextProcess }) => {
   return (
     <ContentBox currentEstimate={currentEstimate}>
       <ContentTitle>차량 정보를 확인해주세요</ContentTitle>
-      {/* TO DO : table scroll 구현
-          <div onClick={() => scrollToBottom(tableSection)}>scroll</div> */}
       <CarInfoWrapper ref={tableSection}>
         <CarInfoTable>
           {CAR_INFO.map(({ id, title, content }) => {
@@ -99,12 +92,6 @@ const CarInfoDescription = styled.td`
 const CarInfoTable = styled.table`
   border-top: 1px solid ${({ theme }) => theme.colors.disabled};
   border-bottom: 1px solid ${({ theme }) => theme.colors.disabled};
-  /* TODO : 내용 overflow 됐을 때 알려줄 요소 필요 */
-  /* background: linear-gradient(
-    0deg,
-    rgba(8, 94, 214, 0.1) 0%,
-    rgba(8, 94, 214, 0) 10%
-  ); */
   margin: 0 auto;
   width: 90%;
   padding: 3% 0;
@@ -115,6 +102,6 @@ const CarInfoTable = styled.table`
   vertical-align: bottom;
 `;
 
-export const CarInfoElement = styled.tr`
+const CarInfoElement = styled.tr`
   text-align: left;
 `;

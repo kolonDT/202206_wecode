@@ -34,25 +34,27 @@ const AddContactInfo = ({ nextProcess, prevProcess }) => {
   };
 
   return (
-    <ContentBox>
+    <ContentsBox>
       <ContentTitle>
         딜러의 방문 상담을 위해
         <br /> 연락처와 주소를 확인해주세요
       </ContentTitle>
 
-      <ContactInputWrapper>
-        <InputTitle>연락처</InputTitle>
-        <InputBox placeholder="010-1234-5678" />
-      </ContactInputWrapper>
+      <InputWrapper>
+        <ContactInputWrapper>
+          <InputTitle>연락처</InputTitle>
+          <InputBox placeholder="010-1234-5678" />
+        </ContactInputWrapper>
 
-      <AddressInputWrapper>
-        <InputTitle>주소</InputTitle>
-        <Postcode
-        // carNumber={carNumber}
-        // setFindAddr={setFindAddr}
-        // setAddr={setAddr}
-        />
-      </AddressInputWrapper>
+        <AddressInputWrapper>
+          <InputTitle>주소</InputTitle>
+          <Postcode
+          // carNumber={carNumber}
+          // setFindAddr={setFindAddr}
+          // setAddr={setAddr}
+          />
+        </AddressInputWrapper>
+      </InputWrapper>
 
       <ButtonSet>
         <PrevButton onClick={prevProcess} variant="primary">
@@ -62,11 +64,16 @@ const AddContactInfo = ({ nextProcess, prevProcess }) => {
           다음
         </NextButton>
       </ButtonSet>
-    </ContentBox>
+    </ContentsBox>
   );
 };
 
 export default AddContactInfo;
+
+const InputWrapper = styled.article`
+  height: 69%;
+  overflow: scroll;
+`;
 
 const ContactInputWrapper = styled.section`
   margin: 1rem 0 2rem 0;
@@ -80,4 +87,8 @@ const InputTitle = styled.p`
 
 const AddressInputWrapper = styled.section`
   margin: 1rem 0;
+`;
+
+const ContentsBox = styled(ContentBox)`
+  height: 85vh;
 `;

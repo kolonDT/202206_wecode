@@ -22,6 +22,8 @@ const Header = ({ isNew, setNew, page }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  console.log(alarmModal);
+
   useEffect(() => {
     fetch('http://localhost:3000/Data/Dino/alarmData.json')
       .then(res => res.json())
@@ -39,6 +41,15 @@ const Header = ({ isNew, setNew, page }) => {
     });
     setIsAlarm(false);
     // TODO : 변경 된 state 서버에 POST 필요
+    fetch('api주소', {
+      method: 'PETCH',
+      body: JSON.stringify({
+        email: this.state.id,
+        password: this.state.pw,
+      }),
+    })
+      .then(response => response.json())
+      .then(result => console.log('결과: ', result));
   };
 
   const readAlarm = () => {
@@ -127,7 +138,7 @@ const HeaderContainer = styled.div`
 const HeaderWrapper = styled.div`
   ${({ theme }) => theme.flex.flexBox}
   position: relative;
-  padding: 20px 0;
+  height: 5vh;
 `;
 
 const PreviousButton = styled.div`
@@ -141,7 +152,7 @@ const PreviousButton = styled.div`
 `;
 
 const HeaderTitle = styled.h2`
-  font-size: 20px;
+  font-size: medium;
   font-weight: 600;
   color: #383838;
   cursor: pointer;

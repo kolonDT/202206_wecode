@@ -12,7 +12,7 @@ export const ContentTitle = styled.h2`
 export const ContentBox = styled.article`
   width: 100%;
   height: ${({ currentEstimate }) =>
-    currentEstimate === 0 ? '76vh' : 'fit-content'};
+    currentEstimate !== (0 && 6) ? 'fit-content' : '76vh'};
   padding: 10%;
   background-color: white;
   position: absolute;
@@ -24,6 +24,11 @@ export const InputBox = styled.input`
   border: 1px solid ${({ theme }) => theme.colors.disabled};
   border-radius: 5px;
   padding: 1em;
+
+  ::placeholder {
+    color: rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
 `;
 
 export const InputButton = styled(Button)`

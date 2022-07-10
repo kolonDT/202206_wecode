@@ -4784,6 +4784,11 @@
     "combined-stream" "^1.0.8"
     "mime-types" "^2.1.12"
 
+"format@^0.2.2":
+  "integrity" "sha512-wzsgA6WOq+09wrU1tsJ09udeR/YZRaeArL9e1wPbFg3GG2yDnC2ldKpxs4xunpFF9DgqCqOIra3bc1HWrJ37Ww=="
+  "resolved" "https://registry.npmjs.org/format/-/format-0.2.2.tgz"
+  "version" "0.2.2"
+
 "forwarded@0.2.0":
   "integrity" "sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow=="
   "resolved" "https://registry.npmjs.org/forwarded/-/forwarded-0.2.0.tgz"
@@ -7810,6 +7815,11 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-18.1.0.tgz"
   "version" "18.1.0"
 
+"react-kakao-login@^2.1.0":
+  "integrity" "sha512-yvwe9Qc5cG+ucDAWOoIW4QjMB55M0Y97v040pbjcmc3Ud+bYHbQ+SwcVkOBvfDynyQbLPPoGJ+iN8rCRD4lzJw=="
+  "resolved" "https://registry.npmjs.org/react-kakao-login/-/react-kakao-login-2.1.0.tgz"
+  "version" "2.1.0"
+
 "react-kakao-maps-sdk@^1.0.7":
   "integrity" "sha512-Y2uG3Rxsd9IirFmgXqNt3o9IPkTCuZsJcXODSMyeH1FAnSOeYh7pWLIm5S2YvygJMkUNWO+aqWU6fHkCxj1sDQ=="
   "resolved" "https://registry.npmjs.org/react-kakao-maps-sdk/-/react-kakao-maps-sdk-1.0.7.tgz"
@@ -7821,6 +7831,11 @@
   "integrity" "sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA=="
   "resolved" "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz"
   "version" "3.0.4"
+
+"react-number@^0.0.1-alpha4":
+  "integrity" "sha512-GEsyMEfen+gBAo/gC/PPRctOZnHLuqE/Ccr5yqx4hgagMRzF+nirLna+ZKrY17z1BNjMqeKooLXKtKPYZm8W8Q=="
+  "resolved" "https://registry.npmjs.org/react-number/-/react-number-0.0.1-alpha4.tgz"
+  "version" "0.0.1-alpha4"
 
 "react-property@2.0.0":
   "integrity" "sha512-kzmNjIgU32mO4mmH5+iUyrqlpFQhF8K2k7eZ4fdLSOPFrD1XgEuSBv9LDEgxRXTMBqMd8ppT0x6TIzqE5pdGdw=="
