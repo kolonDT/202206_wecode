@@ -16,6 +16,11 @@ export const ContentBox = styled.article`
   padding: 10%;
   background-color: white;
   position: absolute;
+
+  textarea:focus,
+  input:focus {
+    outline: none;
+  }
 `;
 
 export const InputBox = styled.input`
@@ -81,7 +86,7 @@ export const NoOptionWrapper = styled.div`
 
 export const NoOption = styled.div`
   color: ${({ theme }) => theme.colors.primaryBlue};
-  margin-top: 1rem;
+  margin: 1rem 0;
   position: relative;
   left: 0.6rem;
   cursor: pointer;
