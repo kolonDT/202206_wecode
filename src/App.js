@@ -11,7 +11,6 @@ import SellCar from './Pages/Sellcar/Sellcar';
 import Graph from './Pages/Graph/Graph';
 import Admin from './Pages/Admin/Admin';
 import React, { useEffect, useState } from 'react';
-import Kakaologin from './Pages/KakaoLogin/Kakaologin';
 import AdminLogin from './Pages/AdminLogin/AdminLogin';
 
 function App() {
@@ -29,7 +28,6 @@ function App() {
             exact
             element={<LoginMain setPage={setPage} />}
           />
-          {/* <Route path="/kakao" element={<Kakaologin setPage={setPage} />} /> */}
           <Route
             path="/complete"
             element={

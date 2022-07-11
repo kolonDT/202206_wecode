@@ -56,7 +56,7 @@ const Modal = ({ onClickToggleModal, id }) => {
 
   // backend에 보낼 함수임!
   const onSubmit = e => {
-    fetch('http://10.58.3.221:8000/dealers/estimate', {
+    fetch('http://10.133.5.8:8000/dealers/estimate', {
       method: 'POST',
       body: JSON.stringify({
         progress: getProgress,
