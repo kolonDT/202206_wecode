@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components/macro';
 import { useNavigate } from 'react-router-dom';
 import { VscBell, VscBellDot } from 'react-icons/vsc';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { LoginState } from '../../Pages/Admin/adminAtoms';
+import { LoginState, setResponse } from '../../Pages/Admin/adminAtoms';
 import DealerName from './DealerName';
 
 const AdminNav = () => {
@@ -12,6 +12,16 @@ const AdminNav = () => {
   const Logout = () => {
     navigate(`/dealers/login`);
   };
+  // const responseData = useRecoilValue(setResponse);
+  // const parsing = JSON.parse(responseData);
+  // const { name } = parsing;
+
+  // const dataStr = JSON.stringify(responseData);
+  // const parsing = JSON.parse(dataStr);
+  // const { name } = parsing;
+
+  // console.log(`dataStr ${dataStr}`);
+  // console.log(`parsing ${parsing}`);
 
   return (
     <NavBox>

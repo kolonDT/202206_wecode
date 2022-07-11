@@ -7,7 +7,8 @@ import {
   selectModalIdState,
   setInput,
   setModalList,
-  setSelectDealer,
+  setResponse,
+  setSelectListDealer,
   setSelectProgress,
 } from '../adminAtoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -18,16 +19,35 @@ const Modal = ({ onClickToggleModal, id }) => {
   const [getModal, setGetModal] = useRecoilState(setModalList);
   const [getModalId, setGetModalID] = useRecoilState(selectModalIdState);
   const getProgress = useRecoilValue(setSelectProgress);
-  const getDealer = useRecoilValue(setSelectDealer);
+  const getDealer = useRecoilValue(setSelectListDealer);
   const inputEstimate = useRecoilValue(setInput);
+  const responseData = useRecoilValue(setResponse);
 
+  // const getModalData = () => {
+  //   setGetModalID(id);
+  //   fetch('Data/Sunshine/ModalData.json', {
+  //     method: 'GET',
+  //   })
+  //     .then(res => res.json())
+  //     .then(res => {
+  //       setGetModal(res.results);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   getModalData();
+  // }, []);
+
+  // 서버 열렸을때 가져올거임
   const getModalData = () => {
     setGetModalID(id);
-    fetch('Data/Sunshine/ModalData.json', {
+    fetch(`http://10.133.5.8:8000/dealers/estimate/${id}`, {
       method: 'GET',
+      headers: { Authorization: responseData.ACCESS_TOKEN },
     })
       .then(res => res.json())
       .then(data => {
+        console.log(data);
         setGetModal(data.results);
       });
   };
@@ -36,27 +56,9 @@ const Modal = ({ onClickToggleModal, id }) => {
     getModalData();
   }, []);
 
-  console.log(`modal id 들구오니? ${getModalId}`);
-
-  // 서버 열렸을때 가져올거임
-  // const getModalData = () => {
-  //   setGetModalID(id);
-  //   fetch('http://10.58.3.221:8000/dealers/estimate', {
-  //     method: 'GET',
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       setGetModal(data.results);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   getModalData();
-  // }, []);
-
   // backend에 보낼 함수임!
   const onSubmit = e => {
-    fetch('http://10.133.5.8:8000/dealers/estimate', {
+    fetch(`http://10.133.5.8:8000/dealers/estimate${id}`, {
       method: 'POST',
       body: JSON.stringify({
         progress: getProgress,
@@ -66,7 +68,6 @@ const Modal = ({ onClickToggleModal, id }) => {
     }) //덩어리 제이슨을 받아옴
       .then(res => res.json()) //덩어리 제이슨을 객체 현태로 변환
       .then(data => {
-        console.log(data);
         if (data.Access_token) localStorage.setItem('token', data.Access_token);
       });
     e.preventDefault();

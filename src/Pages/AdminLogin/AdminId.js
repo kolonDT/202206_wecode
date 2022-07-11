@@ -11,7 +11,7 @@ const AdminId = () => {
 
   return (
     <div>
-      <Login type="text" placeholder="emial 입력" onChange={handleInputId} />
+      <Login type="text" placeholder="email 입력" onChange={handleInputId} />
     </div>
   );
 };

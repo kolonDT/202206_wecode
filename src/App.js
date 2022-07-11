@@ -12,6 +12,7 @@ import Graph from './Pages/Graph/Graph';
 import Admin from './Pages/Admin/Admin';
 import React, { useEffect, useState } from 'react';
 import AdminLogin from './Pages/AdminLogin/AdminLogin';
+import { ReaquestTable } from './Pages/Admin/RightSection/RequestDetails/ReaquestTable';
 
 function App() {
   const [isNew, setNew] = useState(-1);
@@ -45,7 +46,7 @@ function App() {
           <Route path="/graph" element={<Graph />} />
           (
           <Route
-            path="/admin"
+            path="/dealers/estimate"
             element={<Admin isNew={isNew} setNew={setNew} setPage={setPage} />}
           />
           ) (
@@ -56,6 +57,12 @@ function App() {
             }
           />
           )
+          <Route
+            path="/table"
+            element={
+              <ReaquestTable isNew={isNew} setNew={setNew} setPage={setPage} />
+            }
+          />
         </Routes>
         <Footer page={page} />
       </RecoilRoot>

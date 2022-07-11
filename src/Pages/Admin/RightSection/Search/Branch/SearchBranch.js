@@ -1,5 +1,7 @@
 import React from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components/macro';
+import { setRequestSearchData, setResponse } from '../../../adminAtoms';
 import { BRANCH_LIST } from './SearchData';
 
 const SearchBranch = () => {
@@ -8,15 +10,15 @@ const SearchBranch = () => {
     console.log(e.target.value);
   };
 
+  const { branch } = useRecoilValue(setResponse);
+
   return (
     <BranchContainer>
       <Branch>
         <BranchTypo>지점</BranchTypo>
       </Branch>
       <BranchFilter onChange={handleChange}>
-        {BRANCH_LIST.map(({ id, branch }) => (
-          <option key={id}>{branch}</option>
-        ))}
+        <option>{branch}</option>
       </BranchFilter>
     </BranchContainer>
   );

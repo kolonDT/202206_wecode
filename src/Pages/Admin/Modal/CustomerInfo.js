@@ -6,7 +6,8 @@ import { CUSTOMER_LIST } from './ModalData';
 
 const CustomerInfo = () => {
   const getModal = useRecoilValue(setModalList);
-  const { estimate_id } = getModal;
+  const { estimate_id, owner, phone_number, address, estimate_request_date } =
+    getModal;
 
   return (
     <CustomerInfoContainer>
@@ -19,10 +20,10 @@ const CustomerInfo = () => {
         </CustomerContainer>
         <CustomerDetailsContainer>
           <CustomerTypo>{estimate_id}</CustomerTypo>
-          <CustomerTypo>홍길동</CustomerTypo>
-          <CustomerTypo>010-3392-0580</CustomerTypo>
-          <CustomerTypo>서울특별시 강서구 화곡동</CustomerTypo>
-          <CustomerTypo>2022.07.06 23:20:35</CustomerTypo>
+          <CustomerTypo>{owner}</CustomerTypo>
+          <CustomerTypo>{phone_number}</CustomerTypo>
+          <CustomerTypo>{address}</CustomerTypo>
+          <CustomerTypo>{estimate_request_date}</CustomerTypo>
         </CustomerDetailsContainer>
       </RowAlign>
     </CustomerInfoContainer>

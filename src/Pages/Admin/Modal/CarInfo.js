@@ -2,8 +2,14 @@ import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import { CAR_LIST } from './ModalData';
 import ImageInfo from './ImageInfo';
+import { useRecoilValue } from 'recoil';
+import { setModalList } from '../adminAtoms';
 
 const CarInfo = () => {
+  const getModal = useRecoilValue(setModalList);
+  const { car_number, manufacturer, trim, model_year, distance, option, info } =
+    getModal;
+  console.log(getModal);
   return (
     <CarInfoContainer>
       <CarInfoTitle>차량정보</CarInfoTitle>
@@ -15,19 +21,17 @@ const CarInfo = () => {
             })}
           </CarContainer>
           <CarDetailsContainer>
-            <CarTypo>123가5678</CarTypo>
-            <CarTypo>BMW</CarTypo>
-            <CarTypo>M8 그란데 쿠페</CarTypo>
-            <CarTypo>2021</CarTypo>
-            <CarTypo>1,500km</CarTypo>
-            <CarTypo>없음</CarTypo>
+            <CarTypo>{car_number}</CarTypo>
+            <CarTypo>{manufacturer}</CarTypo>
+            <CarTypo>{trim}</CarTypo>
+            <CarTypo>{model_year}</CarTypo>
+            <CarTypo>{distance}</CarTypo>
+            <CarTypo>{option}</CarTypo>
           </CarDetailsContainer>
         </RowAlign>
         <AdditionalAlign>
           <AdditionalSubject>추가정보</AdditionalSubject>
-          <AdditionalTypo>
-            추가 정보 확인 요망. 추가 정보 확인 요망. 추가 정보 확인 요망.
-          </AdditionalTypo>
+          <AdditionalTypo>{info}</AdditionalTypo>
         </AdditionalAlign>
       </BorderWrapper>
       <ImageInfo />

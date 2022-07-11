@@ -4,28 +4,27 @@ import styled from 'styled-components/macro';
 import {
   selectIdState,
   selectModalIdState,
-  setSelectDealer,
+  setSelectModalDealer,
   setSelectProgress,
 } from '../../adminAtoms';
 
 const RequestCard = ({
   estimate_id,
-  onwer,
+  owner,
   phone_number,
   car_number,
-  manufacture,
+  manufacturer,
   trim,
   model_year,
   estimate_request_date,
   name,
-  dealer,
   quote_requested,
   onClick,
 }) => {
   const getProgress = useRecoilValue(setSelectProgress);
   const currentId = useRecoilValue(selectIdState);
   const getModalId = useRecoilValue(selectModalIdState);
-  const getDealer = useRecoilValue(setSelectDealer);
+  const getDealer = useRecoilValue(setSelectModalDealer);
   const [textState, setTextState] = useState(false);
   const onClickText = () => {
     // console.log(`여기는? 뭐들어옴? ${id}`);
@@ -35,22 +34,18 @@ const RequestCard = ({
   return (
     <RequestCardContainer onClick={() => onClick(estimate_id)}>
       <RequestCardList>{estimate_id}</RequestCardList>
-      <RequestCardList>{onwer}</RequestCardList>
+      <RequestCardList>{owner}</RequestCardList>
       <RequestCardList>{phone_number}</RequestCardList>
       <RequestCardList>{car_number}</RequestCardList>
-      <RequestCardList>{manufacture}</RequestCardList>
+      <RequestCardList>{manufacturer}</RequestCardList>
       <RequestCardList>{trim}</RequestCardList>
       <RequestCardList>{model_year}</RequestCardList>
       <RequestCardList>{estimate_request_date}</RequestCardList>
       <RequestCardList>{name}</RequestCardList>
       <RequestCardList>{getDealer}</RequestCardList>
-      {currentId === getModalId ? (
-        <RequestCardList onClick={() => onClickText}>
-          {getProgress}
-        </RequestCardList>
-      ) : (
-        <RequestCardList onClick={() => onClickText}>대기</RequestCardList>
-      )}
+      <RequestCardList onClick={() => onClickText}>
+        {getProgress}
+      </RequestCardList>
       <RequestCardList>{quote_requested}</RequestCardList>
     </RequestCardContainer>
   );

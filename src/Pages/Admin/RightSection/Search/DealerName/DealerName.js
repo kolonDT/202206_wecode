@@ -1,11 +1,22 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components/macro';
-import { setSelectDealer } from '../../../adminAtoms';
+import {
+  setRequestSearchData,
+  setResponse,
+  setSelectModalDealer,
+} from '../../../adminAtoms';
 import { DEALER_NAME } from './DealerData';
 
 const DealerName = () => {
-  const [getDealer, setGetDealer] = useRecoilState(setSelectDealer);
+  const [getDealer, setGetDealer] = useRecoilState(setSelectModalDealer);
+  const searchList = useRecoilValue(setRequestSearchData);
+  const { branch } = useRecoilValue(setResponse);
+
+  const newBranch = searchList.find(({ branch: ele }) => {
+    return ele === branch;
+  });
+
   const handleChange = e => {
     // event handler
     setGetDealer(e.target.value);
@@ -17,8 +28,8 @@ const DealerName = () => {
         <DealerTypo>담당자</DealerTypo>
       </Dealer>
       <DealerFilter onChange={handleChange}>
-        {DEALER_NAME.map(({ id, dealer }) => (
-          <option key={id}>{dealer}</option>
+        {newBranch.dealers.map(({ dealer_id, dealer_name }) => (
+          <option key={dealer_id}>{dealer_name}</option>
         ))}
       </DealerFilter>
     </DealerContainer>

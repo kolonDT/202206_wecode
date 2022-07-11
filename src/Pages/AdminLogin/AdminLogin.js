@@ -11,14 +11,9 @@ const AdminLogin = () => {
   const inputPw = useRecoilValue(signInPwState);
   const navigate = useNavigate();
   const [responseData, setResponseData] = useRecoilState(setResponse);
-  const [newArray, setNewArray] = useState();
-
-  // const goToAdmin = () => {
-  //   navigate('/dealers/estimates');
-  // };
 
   const goToAdmin = () => {
-    navigate('/admin');
+    navigate('/dealers/estimate');
   };
 
   const signUp = e => {
@@ -29,8 +24,8 @@ const AdminLogin = () => {
     })
       .then(response => response.json())
       .then(response => {
-        console.log(response);
-        setNewArray(response);
+        // console.log(`로그인 부분 콘솔 ${response}`);
+        setResponseData(response);
         if (response.Message === 'SUCCESS') {
           goToAdmin();
         } else {
@@ -38,8 +33,6 @@ const AdminLogin = () => {
         }
       });
   };
-
-  console.log(`데이터 제발 ${responseData}`);
 
   return (
     <SignInContainer>

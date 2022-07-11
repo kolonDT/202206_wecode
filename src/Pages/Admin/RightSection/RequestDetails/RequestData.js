@@ -1,13 +1,46 @@
-export const REQUEST_LIST = [
-  { id: 0, title: 'No' },
-  { id: 1, title: '이름' },
-  { id: 2, title: '휴대폰' },
-  { id: 3, title: '차량번호' },
-  { id: 4, title: '브랜드' },
-  { id: 5, title: '모델명' },
-  { id: 6, title: '연식' },
-  { id: 7, title: '견적요청일' },
-  { id: 8, title: '지점' },
-  { id: 9, title: '담당자' },
-  { id: 10, title: '진행상태' },
+export const COLUMNS = [
+  {
+    Header: 'No',
+    accessor: 'estimate_id',
+  },
+  {
+    Header: '이름',
+    accessor: 'owner',
+  },
+  {
+    Header: '휴대폰',
+    accessor: 'phone_number',
+  },
+  {
+    Header: '차량번호',
+    accessor: 'car_number',
+  },
+  {
+    Header: '브랜드',
+    accessor: 'manufacturer',
+  },
+  {
+    Header: '모델명',
+    accessor: 'trim',
+  },
+  {
+    Header: '연식',
+    accessor: 'model_year',
+  },
+  {
+    Header: '견적요청일',
+    accessor: 'estimate_request_date',
+  },
+  {
+    Header: '지점',
+    accessor: 'branch',
+  },
+  {
+    Header: '담당자',
+    accessor: 'dealer',
+  },
+  {
+    Header: '진행상태',
+    accessor: 'progress',
+  },
 ];

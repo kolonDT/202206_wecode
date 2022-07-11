@@ -1,54 +1,25 @@
 import React, { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components/macro';
 import {
   selectIdState,
+  selectModalIdState,
   selectOpenState,
   setRequestListData,
+  setRequestSearchData,
+  setResponse,
 } from '../../adminAtoms';
 import Modal from '../../Modal/Modal';
 import RequestCardList from './RequestCardList';
-// import { REQUEST_LIST } from './RequestData';
 
 const RequestDetails = () => {
-  const [requestList, setRequestList] = useRecoilState(setRequestListData);
+  const requestList = useRecoilValue(setRequestListData);
+  const searchList = useRecoilValue(setRequestSearchData);
   const [currentId, setCurrentId] = useRecoilState(selectIdState);
   const [isOpenModal, setOpenModal] = useRecoilState(selectOpenState);
-
+  const getModalId = useRecoilValue(selectModalIdState);
   const totalSum = requestList.length.toLocaleString();
-
-  // 서버 안열렸을때 가져올거임
-  const getRequestCardData = () => {
-    fetch('Data/Sunshine/RequestCardData.json', {
-      method: 'GET',
-    })
-      .then(res => res.json())
-      .then(res => {
-        setRequestList(res.results);
-      });
-  };
-
-  useEffect(() => {
-    getRequestCardData();
-  }, []);
-
-  // const userToken = localStorage.getItem('token'); //토큰값 가져옴
-  // console.log(`토큰 머 들고오노 함 보자 ${userToken}`);
-
-  // 서버 열렸을때!
-  // const getRequestCardData = () => {
-  //   fetch('http://10.133.4.172:8000/dealers/estimates', {
-  //     method: 'GET',
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       setRequestList(data.results);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   getRequestCardData();
-  // }, []);
+  const responseData = useRecoilValue(setResponse);
 
   const onClickToggleModal = () => {
     // setCurrentId(id);

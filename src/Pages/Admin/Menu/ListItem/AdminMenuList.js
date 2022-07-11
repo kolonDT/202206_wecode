@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { selectIdState } from '../../adminAtoms';
+import { selectMenuIdState, selectSubIdState } from '../../adminAtoms';
 import { MENU_LIST } from '../../constants/adminData';
 
 const AdminMenuList = () => {
   const [clickedTab, setClickedTab] = useState(true);
-  const [currentId, setCurrentId] = useRecoilState(selectIdState);
-  const [currentSubId, setCurrentSubId] = useRecoilState(selectIdState);
+  const [currentId, setCurrentId] = useRecoilState(selectMenuIdState);
+  const [currentSubId, setCurrentSubId] = useRecoilState(selectSubIdState);
 
   const navigate = useNavigate();
 

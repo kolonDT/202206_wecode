@@ -9,8 +9,17 @@ export const selectIdState = atom({
   default: '',
 });
 
+export const selectMenuIdState = atom({
+  key: 'selectMenuIdState',
+  default: '',
+});
+export const selectSubIdState = atom({
+  key: 'selectSubIdState',
+  default: '',
+});
+
 export const selectModalIdState = atom({
-  key: 'selectIdState',
+  key: 'selectModalIdState',
   default: '',
 });
 
@@ -34,13 +43,13 @@ export const setRequestListData = atom({
   default: [],
 });
 
-export const setModalList = atom({
-  key: 'setModalList',
+export const setRequestSearchData = atom({
+  key: 'setRequestSearchData',
   default: [],
 });
 
-export const setSelectOption = atom({
-  key: 'setSelectOption',
+export const setModalList = atom({
+  key: 'setModalList',
   default: [],
 });
 
@@ -70,9 +79,14 @@ export const setSelectProgress = atom({
   default: '',
 });
 
-export const setSelectDealer = atom({
-  key: 'setSelectDealer',
+export const setSelectModalDealer = atom({
+  key: 'setSelectModalDealer',
   default: '',
+});
+
+export const setSelectListDealer = atom({
+  key: 'setSelectListDealer',
+  default: '대기',
 });
 
 export const setInput = atom({
