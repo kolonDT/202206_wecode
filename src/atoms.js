@@ -148,3 +148,13 @@ export const userInputEtcState = atom({
   key: 'userInputEtcState',
   default: '',
 });
+
+export const photoFileState = atom({
+  key: 'photoFileState',
+  default: '',
+});
+
+export const previewURLState = atom({
+  key: 'previewURLState',
+  default: '',
+});

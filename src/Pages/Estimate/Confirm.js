@@ -1,6 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { InputButton, ContentBox, ContentTitle } from './Style';
+import styled from 'styled-components';
+import { BsCheckSquareFill, BsCheckSquare } from 'react-icons/bs';
+import {
+  ContentBox,
+  ContentTitle,
+  InputBox,
+  NoOptionWrapper,
+  NoOption,
+  InputButton,
+} from '../Estimate/Style';
 
 const Confirm = () => {
   const navigate = useNavigate();
@@ -15,15 +24,12 @@ const Confirm = () => {
         입력한 내용을 확인하시고
         <br /> 견적 요청 버튼을 눌러주세요
       </ContentTitle>
-      차량정보 : 116거1700 캐스퍼 [더보기]
-      <br />
-      주행거리 : 12,345 km
-      <br />
-      선택옵션 : 선루프, 내비게이션 <br />
-      추가정보 : 보조키 1개, 없음
-      <br />
-      사진등록 : 사진, 사진
-      <br />
+
+      <ContentWrapper>
+        <SubTitle>보험 외 사고 처리</SubTitle>
+        <InputBox onChange={null} value={null} />
+      </ContentWrapper>
+
       <InputButton onClick={goToConfirm} variant="primary">
         견적 요청
       </InputButton>
@@ -32,3 +38,59 @@ const Confirm = () => {
 };
 
 export default Confirm;
+
+const INPUT_DATA = [
+  { id: 1, SubTitle: '주행거리', onChange: '', value: '' },
+  { id: 2, SubTitle: '보험 외 사고 처리', onChange: '', value: '' },
+  { id: 3, SubTitle: '보험 외 사고 처리', onChange: '', value: '' },
+];
+
+const InputWrapper = styled.div`
+  width: 100%;
+
+  button {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid ${({ theme }) => theme.colors.primaryBlue};
+    border-radius: 0.2rem;
+    background-color: white;
+    color: ${({ theme }) => theme.colors.primaryBlue};
+    font-weight: 600;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+`;
+
+const CountInputBox = styled(InputBox)`
+  width: 20%;
+  margin: 0.5rem 1rem;
+  text-align: center;
+
+  ::placeholder {
+    color: rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+`;
+
+const ContentsBox = styled(ContentBox)`
+  height: 76vh;
+`;
+
+const ContentsWrapper = styled.div`
+  height: 100%;
+  overflow: scroll;
+`;
+
+const ContentWrapper = styled.div`
+  margin-bottom: 2rem;
+  padding-bottom: 1.8rem;
+  border-bottom: 1px solid #eee;
+`;
+
+const SubTitle = styled.h5`
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.gray};
+`;

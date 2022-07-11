@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { currentEstimateState, EstimateCarInfo } from '../../../atoms';
@@ -9,17 +9,18 @@ const CarInfo = ({ nextProcess }) => {
   const [estimateCarInfo, setEstimateCarInfo] = useRecoilState(EstimateCarInfo);
   const tableSection = useRef(null);
 
-  // fetch(`http://172.30.1.11:8000/cars/info`, {
-  //   header: {
-  //     Authorization: localStorage.getItem('ACCESS_TOKEN'),
-  //   },
-  // })
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     console.log(data);
-  //     console.log(data.results);
-  //     setEstimateCarInfo(data.results);
-  //   });
+  useEffect(() => {
+    fetch('http://10.133.5.8:8000/cars/info', {
+      headers: {
+        Authorization:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6N30.wVfC9TJggPAQAgSQZq3Zs_j3U88hUUlm4CkiIYBX4V0',
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setEstimateCarInfo(data.results);
+      });
+  }, []);
 
   const {
     owner,
@@ -58,24 +59,32 @@ const CarInfo = ({ nextProcess }) => {
   return (
     <ContentBox currentEstimate={currentEstimate}>
       <ContentTitle>차량 정보를 확인해주세요</ContentTitle>
-      <CarInfoWrapper ref={tableSection}>
-        <CarInfoTable>
-          {CAR_INFO.map(({ id, title, content }) => {
-            if (title === '거래이력') {
-              // content = transaction_history.join('\n');
-            }
-            if (title === '보험이력') {
-              // content = insurance_history.join('\n');
-            }
-            return (
-              <CarInfoElement key={id}>
-                <CarInfoTitle>{title}</CarInfoTitle>
-                <CarInfoDescription>{content}</CarInfoDescription>
-              </CarInfoElement>
-            );
-          })}
-        </CarInfoTable>
-      </CarInfoWrapper>
+      {estimateCarInfo.insurance_history && (
+        <CarInfoWrapper ref={tableSection}>
+          <CarInfoTable>
+            {CAR_INFO.map(({ id, title, content }) => {
+              if (title === '출고가격') {
+                content = `${content.replace(
+                  /\B(?=(\d{3})+(?!\d))/g,
+                  ','
+                )} 만원`;
+              }
+              if (title === '거래이력') {
+                content = transaction_history.join('\n');
+              }
+              if (title === '보험이력') {
+                content = insurance_history.join('\n');
+              }
+              return (
+                <CarInfoElement key={id}>
+                  <CarInfoTitle>{title}</CarInfoTitle>
+                  <CarInfoDescription>{content}</CarInfoDescription>
+                </CarInfoElement>
+              );
+            })}
+          </CarInfoTable>
+        </CarInfoWrapper>
+      )}
       <InputButton onClick={nextProcess} variant="primary">
         다음
       </InputButton>

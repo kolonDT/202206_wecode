@@ -78,20 +78,6 @@ function Login({ setPage }) {
     setUserInputOwner(e.target.value);
   };
 
-  // const getCar365Info = () ={
-  //   fetch(`http://172.30.1.11:8000/cars/info`, {
-  //   header: {
-  //     Authorization: localStorage.getItem('ACCESS_TOKEN'),
-  //   },
-  // })
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     console.log(data);
-  //     console.log(data.results);
-  //     setEstimateCarInfo(data.results);
-  //   });
-  // }
-
   const checkUser = () => {
     fetch(`http://${IP}/cars/login`, {
       method: 'POST',

@@ -1,15 +1,12 @@
-import React from 'react';
-// import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 import { REST_API_KEY, REDIRECT_URI } from './KakaoLoginData';
 import axios from 'axios';
+import { IP } from '../../../Hooks/Fetch';
 
 const KakaoRedirect = () => {
   const location = useLocation();
-  // const navigate = useNavigate();
-  // const code = new URL(window.location.href).searchParams.get('code');
-  // const KAKAO_CODE = location.search;
 
   const code = location.search.split('?code=')[1];
   const requestToken = code => {
@@ -40,54 +37,37 @@ const KakaoRedirect = () => {
   if (code !== undefined) {
     requestToken(code)
       .then(({ data }) => {
-        console.log('requestToken:', data);
+        localStorage.setItem('access_token', data.access_token);
       })
       .catch(err => {
         console.error('requestToken:', err);
       });
   }
 
-  // useEffect(() => {
-  //   const body = {
-  //     grant_type: 'authorization_code',
-  //     client_id: process.env.REACT_APP_REST_API_KEY,
-  //     redirect_uri: REDIRECT_URI,
-  //     code: KAKAO_CODE,
-  //   };
+  const sendKakaoToken = () => {
+    fetch(`http://10.133.5.51:8000/cars/kakao/callback`, {
+      method: 'GET',
+      headers: {
+        access_token: localStorage.getItem('access_token'),
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        console.log('test');
+        console.log(localStorage.getItem('access_token'));
+      });
+  };
 
-  //   const queryStringBody = Object.keys(body)
-  //     .map(k => encodeURIComponent(k) + '=' + encodeURI(body[k]))
-  //     .join('&');
+  useEffect(() => {
+    if (localStorage.getItem('access_token') !== '') {
+      sendKakaoToken();
+    }
+    console.log('access_token', localStorage.getItem('access_token'));
+  }, []);
 
-  //   fetch('https://kauth.kakao.com/oauth/token', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-  //     },
-  //     body: queryStringBody,
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       if (data.access_token) {
-  //         localStorage.setItem('token', data.access_token);
-  //         navigate('/join');
-  //       } else {
-  //         navigate('/');
-  //       }
-  //     });
-
-  // fetch(`${IP}cars/kakao/callback${KAKAO_CODE}`, {
-  //   method: 'POST',
-  //   headers: {
-  //     Authorization: code,
-  //   },
-  // })
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     console.log(data);
-  //     navigate('/join');
-  //   });
-  // }, []);
+  // console.log('code', code);
+  // console.log('token', localStorage.getItem('access_token'));
 
   return (
     <RedirectBody>
