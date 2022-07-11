@@ -1,5 +1,10 @@
 import { atom } from 'recoil';
 
+export const fetchDataState = atom({
+  key: 'fetchDataState',
+  default: '',
+});
+
 export const inputTextState = atom({
   key: 'inputTextState',
   default: '',
@@ -17,11 +22,6 @@ export const lastEstimateState = atom({
 
 export const EstimateCarInfo = atom({
   key: 'EstimateCarInfo',
-  default: [],
-});
-
-export const EstimateCarOption = atom({
-  key: 'EstimateCarOption',
   default: {},
 });
 

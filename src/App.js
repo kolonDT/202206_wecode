@@ -14,6 +14,7 @@ import React, { useState } from 'react';
 import Estimate from './Pages/Estimate/Estimate';
 import MyState from './Pages/MyPage/MyState';
 import SignIn from './Pages/SignIn/SignIn';
+import KakaoRedirect from './Pages/Login/Kakao/KakaoRedirect';
 
 function App() {
   const [isNew, setNew] = useState(-1);
@@ -45,6 +46,7 @@ function App() {
           {/* <Route path="/reconfirm" element={<Reconfirm setPage={setPage} />} /> */}
           {/* <Route path="/sellcar" element={<SellCar setPage={setPage} />} /> */}
           <Route path="/join" element={<SignIn />} />
+          <Route path="/KakaoLogin" element={<KakaoRedirect />} />
           <Route path="/sellcar" element={<Estimate />} />
           <Route path="/estimate" element={<MyState />} />
           {/* <Route path="/graph" element={<Graph />} /> */}

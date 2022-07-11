@@ -1,17 +1,29 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { currentEstimateState, EstimateCarInfo } from '../../../atoms';
 import { InputButton, ContentBox, ContentTitle } from '../Style';
 
 const CarInfo = ({ nextProcess }) => {
   const currentEstimate = useRecoilValue(currentEstimateState);
-  const estimateCarInfo = useRecoilValue(EstimateCarInfo);
+  const [estimateCarInfo, setEstimateCarInfo] = useRecoilState(EstimateCarInfo);
   const tableSection = useRef(null);
+
+  // fetch(`http://172.30.1.11:8000/cars/info`, {
+  //   header: {
+  //     Authorization: localStorage.getItem('ACCESS_TOKEN'),
+  //   },
+  // })
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     console.log(data);
+  //     console.log(data.results);
+  //     setEstimateCarInfo(data.results);
+  //   });
 
   const {
     owner,
-    number,
+    car_number,
     car_name,
     trim,
     model_year,
@@ -27,7 +39,7 @@ const CarInfo = ({ nextProcess }) => {
   } = estimateCarInfo;
 
   const CAR_INFO = [
-    { id: 1, title: '차량번호', content: `${number}` },
+    { id: 1, title: '차량번호', content: `${car_number}` },
     { id: 2, title: '소유자명', content: `${owner}` },
     { id: 3, title: '모델명', content: `${car_name}` },
     { id: 4, title: '출고등급', content: `${trim}` },
@@ -50,10 +62,10 @@ const CarInfo = ({ nextProcess }) => {
         <CarInfoTable>
           {CAR_INFO.map(({ id, title, content }) => {
             if (title === '거래이력') {
-              content = transaction_history.join('\n');
+              // content = transaction_history.join('\n');
             }
             if (title === '보험이력') {
-              content = insurance_history.join('\n');
+              // content = insurance_history.join('\n');
             }
             return (
               <CarInfoElement key={id}>

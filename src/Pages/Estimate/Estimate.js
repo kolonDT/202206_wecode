@@ -22,23 +22,16 @@ import Confirm from './Confirm';
 const Estimate = () => {
   const [currentEstimate, setCurrentEstimate] =
     useRecoilState(currentEstimateState);
-  const setEstimateCarInfo = useSetRecoilState(EstimateCarInfo);
-  const setEstimateCarOption = useSetRecoilState(EstimateCarOption);
+  // const setEstimateCarInfo = useSetRecoilState(EstimateCarInfo);
+  // const setEstimateCarOption = useSetRecoilState(EstimateCarOption);
   const [lastEstimate, setLastEstimate] = useRecoilState(lastEstimateState);
 
-  useEffect(() => {
-    fetch('http://localhost:3000/Data/Dino/carData.json')
-      .then(res => res.json())
-      .then(data => {
-        setEstimateCarInfo(data);
-      });
-
-    fetch('http://localhost:3000/Data/Dino/carOption.json')
-      .then(res => res.json())
-      .then(data => {
-        setEstimateCarOption(data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch('http://localhost:3000/Data/Dino/carData.json')
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setEstimateCarInfo(data);
+  //     });
 
   const nextProcess = () => {
     setCurrentEstimate(prev => prev + 1);

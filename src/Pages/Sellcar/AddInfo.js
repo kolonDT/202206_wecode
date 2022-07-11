@@ -210,8 +210,6 @@ const AddInfo = ({ setCarImages, carImages, setThumbnails, thumbnails }) => {
     setSelectColor(userInput);
   };
 
-  console.log('inputText', inputText);
-
   return (
     <InfoContainer>
       <Announcement>

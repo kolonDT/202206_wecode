@@ -1,12 +1,8 @@
 import React, { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import styled, { css } from 'styled-components';
 import { BsCheckSquareFill, BsCheckSquare } from 'react-icons/bs';
-import {
-  EstimateCarOption,
-  SelectedOptionsState,
-  isAllOptionFalseState,
-} from '../../../atoms';
+import { SelectedOptionsState, isAllOptionFalseState } from '../../../atoms';
 import {
   ButtonSet,
   NextButton,
@@ -18,7 +14,6 @@ import {
 } from '../Style';
 
 const Options = ({ nextProcess, prevProcess }) => {
-  const estimateCarOption = useRecoilValue(EstimateCarOption);
   const [selectedOptions, setSelectedOptions] =
     useRecoilState(SelectedOptionsState);
   const [isAllOptionFalse, setIsAllOptionFalse] = useRecoilState(
@@ -39,11 +34,11 @@ const Options = ({ nextProcess, prevProcess }) => {
     falseOptionCheck();
   }, [selectedOptions]);
 
-  const handleOption = idx => {
-    selectedOptions[idx].state
+  const handleOption = id => {
+    selectedOptions[id].state
       ? setSelectedOptions(prevState => {
           const newState = prevState.map(obj => {
-            if (obj.id === idx) {
+            if (obj.id === id) {
               return { ...obj, state: false };
             }
             return obj;
@@ -52,7 +47,7 @@ const Options = ({ nextProcess, prevProcess }) => {
         })
       : setSelectedOptions(prevState => {
           const newState = prevState.map(obj => {
-            if (obj.id === idx) {
+            if (obj.id === id) {
               return { ...obj, state: true };
             }
             return obj;
@@ -76,15 +71,15 @@ const Options = ({ nextProcess, prevProcess }) => {
           <br /> 옵션을 선택해주세요
         </ContentTitle>
         <OptionContainer>
-          {Object.keys(estimateCarOption).map((entrie, idx) => (
+          {CAR_OPTION.map(({ id, type }) => (
             <OptionBox
-              key={idx}
-              active={selectedOptions[idx].state === true}
+              key={id}
+              active={selectedOptions[id].state === true}
               onClick={() => {
-                handleOption(idx, entrie);
+                handleOption(id);
               }}
             >
-              <OptionText>{entrie}</OptionText>
+              <OptionText>{type}</OptionText>
             </OptionBox>
           ))}
           <NoOptionWrapper>
@@ -165,3 +160,14 @@ const OptionText = styled.button`
     font-size: 70%;
   }
 `;
+
+const CAR_OPTION = [
+  { id: 0, type: '선루프', state: false },
+  { id: 1, type: '내비게이션', state: false },
+  { id: 2, type: '통풍시트', state: false },
+  { id: 3, type: '열선시트', state: false },
+  { id: 4, type: '전동시트', state: false },
+  { id: 5, type: '스마트키', state: false },
+  { id: 6, type: '가죽시트', state: false },
+  { id: 7, type: '전동접이미러', state: false },
+];

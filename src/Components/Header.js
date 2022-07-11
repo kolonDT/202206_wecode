@@ -136,7 +136,7 @@ const HeaderContainer = styled.div`
 const HeaderWrapper = styled.div`
   ${({ theme }) => theme.flex.flexBox}
   position: relative;
-  height: 5vh;
+  height: 5.5vh;
 `;
 
 const PreviousButton = styled.div`

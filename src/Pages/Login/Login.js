@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 // import moment from 'moment';
 // import { HiLightBulb } from 'react-icons/hi';
 import { RiAlertFill } from 'react-icons/ri';
 import { BsPatchCheckFill } from 'react-icons/bs';
-import { CAR_API, MYCAR_API } from '../../config';
 import { Button } from 'react-bootstrap';
 
 import { useRecoilState } from 'recoil';
 import {
   LoginProcessState,
   UserInputOwnerState,
-  EstimateCarInfo,
+  // EstimateCarInfo,
   isLoginModalState,
 } from '../../atoms';
 
@@ -24,8 +23,8 @@ import {
   ContentTitle,
   InputBox,
 } from '../Estimate/Style';
-import { KAKAO_AUTH_URL } from '../SignIn/OAuth';
 import LoginModal from '../../Components/Modal/LoginModal';
+import { IP } from '../../Hooks/Fetch';
 
 function Login({ setPage }) {
   const [userInputOwner, setUserInputOwner] =
@@ -33,60 +32,17 @@ function Login({ setPage }) {
   const navigate = useNavigate();
   const [id, setId] = useState('');
   const [isLogin, setLogin] = useState(false);
-  const [show, setShow] = useState(false);
-  const [data, setData] = useState(false);
+  // const [show, setShow] = useState(false);
+  // const [data, setData] = useState(false);
 
   const [loginProcess, setLoginProcess] = useRecoilState(LoginProcessState);
   const [isLoginModal, setIsLoginModal] = useRecoilState(isLoginModalState);
-
-  // useEffect(() => {
-  //   window.Kakao.init('9910587dbfb5d2e3262e8e3567ed7021');
-  // }, []);
-
-  const getCar = carNumber => {
-    fetch(`${CAR_API}?carNumber=${carNumber}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.hasOwnProperty('infoByCarNumber')) {
-          setShow(true);
-        } else {
-          setShow(false);
-        }
-      });
-  };
-
-  const getData = () => {
-    fetch(`${MYCAR_API}?carNumber=${localStorage.getItem('carNumber')}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.registeredCarInfo.length !== 0) {
-          setData(data.registeredCarInfo[0]);
-        } else {
-          setData(false);
-        }
-      });
-  };
 
   const handleInput = e => {
     setInputCarNumber(e.target.value);
     let ret = isValidId(e.target.value);
     setLogin(ret);
     setId(e.target.value);
-    if (ret === true) {
-      localStorage.setItem('carNumber', e.target.value);
-      getCar(e.target.value);
-      getData();
-    }
   };
 
   const [inputCarNumber, setInputCarNumber] = useState('');
@@ -101,24 +57,18 @@ function Login({ setPage }) {
     return ret;
   }
 
-  const [estimateCarInfo, setEstimateCarInfo] = useRecoilState(EstimateCarInfo);
+  // const [estimateCarInfo, setEstimateCarInfo] = useRecoilState(EstimateCarInfo);
 
   const startLogin = () => {
-    fetch('http://localhost:3000/Data/Dino/userData.json')
+    fetch(`${IP}cars/number`, {
+      method: 'POST',
+      body: JSON.stringify({
+        car_number: inputCarNumber,
+      }),
+    })
       .then(res => res.json())
       .then(data => {
-        // const alert = () => {
-        //   if (
-        //     window.confirm(
-        //       '등록되어 있지 않은 사용자입니다.\n등록을 진행하시겠습니까?'
-        //     )
-        //   ) {
-        //     Link(`${KAKAO_AUTH_URL}`);
-        //     // navigate('/join');
-        //   } else {
-        //   }
-        // };
-        data.carNumber === inputCarNumber
+        data.Message === 'THE_CAR_NUMBER_ALREADY'
           ? setLoginProcess(prev => prev + 1)
           : setIsLoginModal(true);
       });
@@ -128,15 +78,53 @@ function Login({ setPage }) {
     setUserInputOwner(e.target.value);
   };
 
+  // const getCar365Info = () ={
+  //   fetch(`http://172.30.1.11:8000/cars/info`, {
+  //   header: {
+  //     Authorization: localStorage.getItem('ACCESS_TOKEN'),
+  //   },
+  // })
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     console.log(data);
+  //     console.log(data.results);
+  //     setEstimateCarInfo(data.results);
+  //   });
+  // }
+
   const checkUser = () => {
-    fetch('http://localhost:3000/Data/Dino/carData.json')
+    fetch(`http://${IP}/cars/login`, {
+      method: 'POST',
+      body: JSON.stringify({
+        car_number: inputCarNumber,
+        owner: userInputOwner,
+      }),
+    })
       .then(res => res.json())
       .then(data => {
-        setEstimateCarInfo(data);
-        const { owner, number } = estimateCarInfo;
-        userInputOwner === owner && inputCarNumber === number
-          ? navigate('/sellcar')
-          : alert('소유자명을 확인해주세요');
+        console.log(data);
+
+        if (data.Message === 'SUCCESS_ESTIMATE_COMPLETION') {
+          // 완료된 견적서가 있을 경우
+          localStorage.setItem(`ACCESS_TOKEN`, data.ACCESS_TOKEN);
+          // "estimate_id": 1,
+          // "process_state": "주행거리",
+        }
+        if (data.Message === 'SUCCESS_ESTIMATE_REGISTERING') {
+          // 작성중인 견적서가 있을 경우
+          localStorage.setItem(`ACCESS_TOKEN`, data.ACCESS_TOKEN);
+          // "estimate_id": 1,
+          // "process_state": "주행거리",
+        }
+        if (data.Message === 'SUCCESS_ESTIMATE_REQUIRED') {
+          // 견적서는 없을 경우
+          localStorage.setItem(`ACCESS_TOKEN`, data.ACCESS_TOKEN);
+          navigate('/sellcar');
+        }
+        if (data.Message === 'MY_CAR_NOT_PRESENT_CAR_NUMBER') {
+          // 견적서는 없을 경우
+          alert('소유자명을 확인해주세요');
+        }
       });
   };
 
