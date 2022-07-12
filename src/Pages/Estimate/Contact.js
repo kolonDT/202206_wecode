@@ -1,5 +1,5 @@
 import React from 'react';
-import DaumPostcode from 'react-daum-postcode';
+import Post from '../Estimate/Post/Post';
 import styled from 'styled-components';
 import {
   ButtonSet,
@@ -11,28 +11,6 @@ import {
 } from './Style';
 
 const AddContactInfo = ({ nextProcess, prevProcess }) => {
-  const Postcode = ({ setAddr, setFindAddr, carNumber }) => {
-    const handleComplete = data => {
-      let fullAddress = data.address;
-      let extraAddress = '';
-      if (data.addressType === 'R') {
-        if (data.bname !== '') {
-          extraAddress += data.bname;
-        }
-        if (data.buildingName !== '') {
-          extraAddress +=
-            extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
-        }
-        fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
-      }
-      setAddr(fullAddress);
-      localStorage.setItem(`${carNumber}_address`, fullAddress);
-      setFindAddr(false);
-    };
-
-    return <DaumPostcode onComplete={handleComplete} />;
-  };
-
   return (
     <ContentsBox>
       <ContentTitle>
@@ -48,11 +26,7 @@ const AddContactInfo = ({ nextProcess, prevProcess }) => {
 
         <AddressInputWrapper>
           <InputTitle>주소</InputTitle>
-          <Postcode
-          // carNumber={carNumber}
-          // setFindAddr={setFindAddr}
-          // setAddr={setAddr}
-          />
+          <Post />
         </AddressInputWrapper>
       </InputWrapper>
 

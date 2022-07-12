@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { BsCheckSquareFill, BsCheckSquare } from 'react-icons/bs';
 import {
   InputButton,
@@ -12,6 +12,7 @@ import {
   NoOption,
 } from '../Estimate/Style';
 import {
+  userEstimateProcessState,
   userInputInsuranceState,
   insuranceState,
   wheelScratchState,
@@ -26,12 +27,13 @@ import {
   UserInputMileageState,
   SelectedOptionsState,
   isAllOptionFalseState,
+  userInputPhoneNumberState,
+  userInputAddressState,
 } from '../../atoms';
 import { IP } from '../../Hooks/Fetch';
 
-console.log(SelectedOptionsState);
-
 const Confirm = () => {
+  const userEstimateProcess = useRecoilValue(userEstimateProcessState);
   const [userInputMileage, setUserInputMileage] = useRecoilState(
     UserInputMileageState
   );
@@ -58,6 +60,8 @@ const Confirm = () => {
   const [isRepair, setIsRepair] = useRecoilState(repairState);
   const [userInputEtc, setUserInputEtc] = useRecoilState(userInputEtcState);
   const [isEtc, setIsEtc] = useRecoilState(etcState);
+  const userInputPhoneNumber = useRecoilValue(userInputPhoneNumberState);
+  const userInputAddress = useRecoilValue(userInputAddressState);
 
   useEffect(() => {
     const falseOptionCheck = () => {
@@ -217,11 +221,13 @@ const Confirm = () => {
 
   const navigate = useNavigate();
   const goToConfirm = () => {
-    fetch(`${IP}cars/estimates`, {
+    fetch(`${IP}estimates`, {
       method: 'PATCH',
-      headers: { 'Content-type': 'application/json' },
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
       body: JSON.stringify({
-        process_state: '개인정보',
+        process_state: userEstimateProcess,
         mileage: userInputMileage,
         sunroof: selectedOptions[0].state,
         navigation: selectedOptions[1].state,
@@ -237,8 +243,8 @@ const Confirm = () => {
         outer_plate_scratch: panelScratchAmount,
         other_maintenance_repair: userInputRepair,
         other_special: userInputEtc,
-        address: '',
-        phone_number: '',
+        address: userInputAddress,
+        phone_number: userInputPhoneNumber,
       }),
     })
       .then(res => res.json())

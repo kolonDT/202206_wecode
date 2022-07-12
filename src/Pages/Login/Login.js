@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-// import moment from 'moment';
-// import { HiLightBulb } from 'react-icons/hi';
 import { RiAlertFill } from 'react-icons/ri';
 import { BsPatchCheckFill } from 'react-icons/bs';
 import { Button } from 'react-bootstrap';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   LoginProcessState,
   UserInputOwnerState,
-  // EstimateCarInfo,
   isLoginModalState,
+  currentEstimateState,
 } from '../../atoms';
 
 import {
@@ -26,15 +24,12 @@ import {
 import LoginModal from '../../Components/Modal/LoginModal';
 import { IP } from '../../Hooks/Fetch';
 
-function Login({ setPage }) {
+function Login() {
   const [userInputOwner, setUserInputOwner] =
     useRecoilState(UserInputOwnerState);
   const navigate = useNavigate();
   const [id, setId] = useState('');
   const [isLogin, setLogin] = useState(false);
-  // const [show, setShow] = useState(false);
-  // const [data, setData] = useState(false);
-
   const [loginProcess, setLoginProcess] = useRecoilState(LoginProcessState);
   const [isLoginModal, setIsLoginModal] = useRecoilState(isLoginModalState);
 
@@ -46,6 +41,8 @@ function Login({ setPage }) {
   };
 
   const [inputCarNumber, setInputCarNumber] = useState('');
+  const [currentEstimate, setCurrentEstimate] =
+    useRecoilState(currentEstimateState);
 
   const handleAdmin = () => {
     navigate('/admin');
@@ -57,8 +54,6 @@ function Login({ setPage }) {
     return ret;
   }
 
-  // const [estimateCarInfo, setEstimateCarInfo] = useRecoilState(EstimateCarInfo);
-
   const startLogin = () => {
     fetch(`${IP}cars/number`, {
       method: 'POST',
@@ -68,7 +63,7 @@ function Login({ setPage }) {
     })
       .then(res => res.json())
       .then(data => {
-        data.Message === 'THE_CAR_NUMBER_ALREADY'
+        data.message === 'THE_CAR_NUMBER_ALREADY'
           ? setLoginProcess(prev => prev + 1)
           : setIsLoginModal(true);
       });
@@ -79,7 +74,7 @@ function Login({ setPage }) {
   };
 
   const checkUser = () => {
-    fetch(`http://${IP}/cars/login`, {
+    fetch(`${IP}cars/signin`, {
       method: 'POST',
       body: JSON.stringify({
         car_number: inputCarNumber,
@@ -88,27 +83,34 @@ function Login({ setPage }) {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
-
-        if (data.Message === 'SUCCESS_ESTIMATE_COMPLETION') {
-          // 완료된 견적서가 있을 경우
-          localStorage.setItem(`ACCESS_TOKEN`, data.ACCESS_TOKEN);
-          // "estimate_id": 1,
-          // "process_state": "주행거리",
+        // 견적서가 작성 완료인 경우 : process_state : '신청완료'
+        if (data.message === 'SUCCESS_ESTIMATE_COMPLETION') {
+          localStorage.setItem(`access_token`, data.access_token);
+          alert('요청한 견적서가 있습니다.\n내 견적서로 이동합니다.');
+          navigate('/estimate');
+          console.log(currentEstimate);
         }
-        if (data.Message === 'SUCCESS_ESTIMATE_REGISTERING') {
-          // 작성중인 견적서가 있을 경우
-          localStorage.setItem(`ACCESS_TOKEN`, data.ACCESS_TOKEN);
-          // "estimate_id": 1,
-          // "process_state": "주행거리",
-        }
-        if (data.Message === 'SUCCESS_ESTIMATE_REQUIRED') {
-          // 견적서는 없을 경우
-          localStorage.setItem(`ACCESS_TOKEN`, data.ACCESS_TOKEN);
+        // 작성중인 견적서가 있을 경우
+        if (data.message === 'SUCCESS_ESTIMATE_REGISTERING') {
+          localStorage.setItem(`access_token`, data.access_token);
+          alert(
+            '작성 중이던 견적서가 있습니다.\n입력 중이던 페이지로 이동합니다.'
+          );
+          // TO DO : estimate number가 아닌 인식 가능한 string으로 바꾸기
+          data.process_state === '주행거리' && setCurrentEstimate(3);
+          data.process_state === '추가옵션' && setCurrentEstimate(4);
+          data.process_state === '추가입력' && setCurrentEstimate(5);
+          data.process_state === '사진등록' && setCurrentEstimate(6);
+          data.process_state === '개인정보' && setCurrentEstimate(7);
           navigate('/sellcar');
         }
-        if (data.Message === 'MY_CAR_NOT_PRESENT_CAR_NUMBER') {
-          // 견적서는 없을 경우
+        // 견적서가 없을 경우
+        if (data.message === 'SUCCESS_ESTIMATE_REQUIRED') {
+          localStorage.setItem(`access_token`, data.access_token);
+          navigate('/sellcar');
+        }
+        // DB에 입력된 차량번호와 소유주명이 맞지 않을 경우
+        if (data.message === 'MY_CAR_NOT_PRESENT_CAR_NUMBER') {
           alert('소유자명을 확인해주세요');
         }
       });

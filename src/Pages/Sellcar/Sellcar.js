@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { Routes, Route } from "react-router-dom";
-// import LoginMain from "../Login/LoginMain";
 import AddInfo from './AddInfo';
 import ContactInfo from './ContactInfo';
 import styled from 'styled-components';

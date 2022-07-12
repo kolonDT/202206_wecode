@@ -1,19 +1,30 @@
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue, useRecoilState } from 'recoil';
-import { currentEstimateState, EstimateCarInfo } from '../../../atoms';
 import { InputButton, ContentBox, ContentTitle } from '../Style';
+import { IP } from '../../../Hooks/Fetch';
+import { useRecoilState } from 'recoil';
+import {
+  lastEstimateState,
+  EstimateCarInfo,
+  currentEstimateState,
+  userEstimateProcessState,
+} from '../../../atoms';
 
-const CarInfo = ({ nextProcess }) => {
-  const currentEstimate = useRecoilValue(currentEstimateState);
+const CarInfo = () => {
+  const [userEstimateProcess, setUserEstimateProcess] = useRecoilState(
+    userEstimateProcessState
+  );
+  const [currentEstimate, setCurrentEstimate] =
+    useRecoilState(currentEstimateState);
+  const [lastEstimate, setLastEstimate] = useRecoilState(lastEstimateState);
   const [estimateCarInfo, setEstimateCarInfo] = useRecoilState(EstimateCarInfo);
+
   const tableSection = useRef(null);
 
   useEffect(() => {
-    fetch('http://10.133.5.8:8000/cars/info', {
+    fetch(`${IP}cars/info`, {
       headers: {
-        Authorization:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6N30.wVfC9TJggPAQAgSQZq3Zs_j3U88hUUlm4CkiIYBX4V0',
+        Authorization: localStorage.getItem('access_token'),
       },
     })
       .then(res => res.json())
@@ -56,6 +67,29 @@ const CarInfo = ({ nextProcess }) => {
     { id: 14, title: '보험이력', content: `${insurance_history}` },
   ];
 
+  const startEstimate = () => {
+    setUserEstimateProcess('시세조회');
+    fetch(`${IP}estimates`, {
+      method: 'POST',
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+      body: JSON.stringify({
+        process_state: userEstimateProcess,
+      }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.message === 'SUCCESS') {
+          setCurrentEstimate(prev => prev + 1);
+          lastEstimate <= currentEstimate &&
+            setLastEstimate(currentEstimate + 1);
+        } else {
+          alert(data);
+        }
+      });
+  };
+
   return (
     <ContentBox currentEstimate={currentEstimate}>
       <ContentTitle>차량 정보를 확인해주세요</ContentTitle>
@@ -85,7 +119,7 @@ const CarInfo = ({ nextProcess }) => {
           </CarInfoTable>
         </CarInfoWrapper>
       )}
-      <InputButton onClick={nextProcess} variant="primary">
+      <InputButton onClick={startEstimate} variant="primary">
         다음
       </InputButton>
     </ContentBox>

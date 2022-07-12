@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   ContentBox,
@@ -6,8 +7,69 @@ import {
   InputBox,
   InputButton,
 } from '../Estimate/Style';
+import { useRecoilState } from 'recoil';
+import {
+  car365InfoState,
+  signInCarNumberState,
+  signInOwnerState,
+  signInPhoneNumberState,
+} from '../../atoms';
+import { IP } from '../../Hooks/Fetch';
 
 const SignIn = () => {
+  const [car365Info, setCar365Info] = useRecoilState(car365InfoState);
+  const [signInCarNumber, setSignInCarNumber] =
+    useRecoilState(signInCarNumberState);
+  const [signInOwner, setSignInOwner] = useRecoilState(signInOwnerState);
+  const [signInPhoneNumber, setSignInPhoneNumber] = useRecoilState(
+    signInPhoneNumberState
+  );
+  const navigate = useNavigate();
+
+  const goToCarInfo = () => {
+    fetch(
+      `${IP}cars/car365API?car_number=${signInCarNumber}&owner=${signInOwner}`
+    )
+      .then(res => res.json())
+      .then(data => {
+        if (data.message === 'SUCCESS') {
+          setCar365Info(data.results);
+          fetch(`${IP}cars/signup`, {
+            method: 'POST',
+            body: JSON.stringify({
+              car_number: car365Info.car_number,
+              owner: car365Info.owner,
+              car_name: car365Info.car_name,
+              trim: car365Info.trim,
+              body_shape: car365Info.body_shape,
+              color: car365Info.color,
+              model_year: car365Info.model_year,
+              first_registration_year: car365Info.first_registration_year,
+              engine: car365Info.engine,
+              transmission: car365Info.transmission,
+              manufacturer: car365Info.manufacturer,
+              factory_price: car365Info.factory_price,
+              insurance_history: '1',
+              transaction_history: '1',
+              kakao_id: localStorage.getItem('kakao_id'),
+              phone_number: signInPhoneNumber,
+            }),
+          })
+            .then(res => res.json())
+            .then(data => {
+              if (data.message === 'SUCCESS') {
+                localStorage.setItem('access_token', data.access_token);
+                navigate('/sellcar');
+              } else {
+                alert(data.message);
+              }
+            });
+        } else {
+          alert(data.message);
+        }
+      });
+  };
+
   return (
     <Background>
       <BodyWrapper>
@@ -19,22 +81,32 @@ const SignIn = () => {
               견적요청을 진행해보세요!
             </ContentsTitle>
             <ContentWrapper>
+              {/* TO DO : 유효성 검사 */}
               <SubTitle>차량번호</SubTitle>
-              <InputBox />
+              <InputBox
+                placeholder="123가4567"
+                onChange={e => setSignInCarNumber(e.target.value)}
+                value={signInCarNumber}
+              />
             </ContentWrapper>
             <ContentWrapper>
               <SubTitle>소유자명</SubTitle>
-              <InputBox />
+              <InputBox
+                placeholder="홍길동"
+                onChange={e => setSignInOwner(e.target.value)}
+                value={signInOwner}
+              />
             </ContentWrapper>
             <ContentWrapper>
-              {/* TO DO : 유효성 검사 밑 칸 3개로 나눠야 함 */}
               <SubTitle>연락처</SubTitle>
-              <InputBox />
+              <InputBox
+                placeholder="010-1234-5678"
+                onChange={e => setSignInPhoneNumber(e.target.value)}
+                value={signInPhoneNumber}
+                type="number"
+              />
             </ContentWrapper>
-            <InputButton
-              // onClick={goToMain}
-              variant="primary"
-            >
+            <InputButton onClick={goToCarInfo} variant="primary">
               시세 확인하러 가기
             </InputButton>
           </ContentBox>

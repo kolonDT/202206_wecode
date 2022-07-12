@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { GrFormPrevious } from 'react-icons/gr';
 import { useNavigate } from 'react-router-dom';
-// import { setAlarm } from "../Pages/Api/Api";
 import { useLocation } from 'react-router-dom';
 import { MdNotifications, MdNotificationImportant } from 'react-icons/md';
 import {
@@ -13,6 +12,7 @@ import {
 } from '../atoms';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import AlarmModal from './Modal/AlarmModal';
+import { IP } from '../Hooks/Fetch';
 
 const Header = ({ isNew, setNew, page }) => {
   const setLoginProcess = useSetRecoilState(LoginProcessState);
@@ -23,11 +23,16 @@ const Header = ({ isNew, setNew, page }) => {
   const location = useLocation();
 
   useEffect(() => {
-    fetch('http://localhost:3000/Data/Dino/alarmData.json')
+    fetch(`${IP}notifications`, {
+      headers: {
+        Authorization:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MX0.KsNpt-9w8HQ_mjpOHO-G_e3M2l8EwfsZriss7IR1lRk',
+      },
+    })
       .then(res => res.json())
       .then(data => {
-        setAlarmList(data);
-        data.map(({ read }) => (read ? setIsAlarm(true) : setIsAlarm(false)));
+        setAlarmList(data.results) &&
+          data.map(({ read }) => (read ? setIsAlarm(true) : setIsAlarm(false)));
       });
   }, []);
 
@@ -39,15 +44,6 @@ const Header = ({ isNew, setNew, page }) => {
     });
     setIsAlarm(false);
     // TODO : 변경 된 state 서버에 POST 필요
-    fetch('api주소', {
-      method: 'PETCH',
-      body: JSON.stringify({
-        email: this.state.id,
-        password: this.state.pw,
-      }),
-    })
-      .then(response => response.json())
-      .then(result => console.log('결과: ', result));
   };
 
   const readAlarm = () => {
@@ -63,20 +59,6 @@ const Header = ({ isNew, setNew, page }) => {
     <>
       <HeaderContainer page={page}>
         <HeaderWrapper page={page}>
-          {page === 'default' && (
-            <PreviousButton
-              onClick={() => {
-                if (location.pathname === '/requestform') {
-                  navigate('/');
-                  return;
-                }
-                navigate(-1);
-              }}
-              page={page}
-            >
-              <GrFormPrevious size="24" color="#383838" />
-            </PreviousButton>
-          )}
           {page === 'admin' && (
             <PreviousButton
               onClick={() => {
@@ -90,13 +72,15 @@ const Header = ({ isNew, setNew, page }) => {
           <HeaderTitle onClick={goToHome}>
             {page === 'admin' ? '관리 페이지' : '내 차 팔기'}
           </HeaderTitle>
-          <HeaderMenu>
-            {isAlarm ? (
-              <TrueAlarmBtn onClick={checkAlarm} />
-            ) : (
-              <FalseAlarmBtn onClick={readAlarm} />
-            )}
-          </HeaderMenu>
+          {location.pathname === '/estimate' && (
+            <HeaderMenu>
+              {isAlarm ? (
+                <TrueAlarmBtn onClick={checkAlarm} />
+              ) : (
+                <FalseAlarmBtn onClick={readAlarm} />
+              )}
+            </HeaderMenu>
+          )}
         </HeaderWrapper>
       </HeaderContainer>
       {alarmModal && <AlarmModal />}

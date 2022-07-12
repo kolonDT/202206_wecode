@@ -18,7 +18,7 @@ const LoginModal = () => {
       <BodyWrapper>
         <ModalWrapper>
           <ModalTitle>
-            <ModalSubTitle>등록되어 있지 않은 회원입니다</ModalSubTitle>
+            <ModalSubTitle>반갑습니다 👋</ModalSubTitle>
             카카오톡으로 회원 등록하고
             <br /> 간편하게 시세조회 해보세요!
           </ModalTitle>
@@ -46,7 +46,7 @@ const LoginButton = styled.a`
   color: #000000 85%;
   cursor: pointer;
   font-weight: 500;
-  margin: 4rem 0 1.2rem 0;
+  margin: 3rem 0 1.2rem 0;
   font-size: medium;
 
   span {
@@ -95,6 +95,7 @@ const CloseBtn = styled(CgCloseR)`
 `;
 
 const ModalWrapper = styled.div`
+  /* text-align: center; */
   position: absolute;
   top: 20%;
   width: 80%;

@@ -7,7 +7,9 @@ import {
   GetCarInfoState,
   GetUserInputInfoState,
   GetUserInputPhotoState,
+  AlarmListState,
 } from '../../atoms';
+import { IP } from '../../Hooks/Fetch';
 
 const MyState = () => {
   const [getEstimateInfo, setGetEstimateInfo] = useRecoilState(GetCarInfoState);
@@ -15,9 +17,16 @@ const MyState = () => {
     GetUserInputInfoState
   );
   const setGetUserInputPhoto = useSetRecoilState(GetUserInputPhotoState);
+  const [alarmList, setAlarmList] = useRecoilState(AlarmListState);
+
+  // console.log(alarmList[alarmList.length - 1].content);
 
   useEffect(() => {
-    fetch('http://localhost:3000/Data/Dino/estimateData.json')
+    fetch(`${IP}estimates/detail`, {
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+    })
       .then(res => res.json())
       .then(data => {
         setGetEstimateInfo(data.results);
@@ -187,7 +196,7 @@ const MyState = () => {
         <EstimateWrapper>
           <ContentsBox>
             <ContentsTitle>{car_number}</ContentsTitle>
-            <SubTitle>차량의 견적 요청이 접수되었습니다.</SubTitle>
+            {/* <SubTitle>{alarmList[alarmList.length - 1].content}</SubTitle> */}
             <CarInfoWrapper>
               <CarInfoTable>
                 {ESTIMATE_INFO.map(

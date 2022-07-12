@@ -111,7 +111,7 @@ export const keyAmountState = atom({
 
 export const wheelScratchAmountState = atom({
   key: 'wheelScratchAmountState',
-  default: 1,
+  default: 0,
 });
 
 export const wheelScratchState = atom({
@@ -156,5 +156,40 @@ export const photoFileState = atom({
 
 export const previewURLState = atom({
   key: 'previewURLState',
+  default: '',
+});
+
+export const userInputAddressState = atom({
+  key: 'userInputAddressState',
+  default: '',
+});
+
+export const userInputPhoneNumberState = atom({
+  key: 'userInputPhoneNumberState',
+  default: '',
+});
+
+export const userEstimateProcessState = atom({
+  key: 'userEstimateProcessState',
+  default: '주행거리',
+});
+
+export const car365InfoState = atom({
+  key: 'car365InfoState',
+  default: {},
+});
+
+export const signInCarNumberState = atom({
+  key: 'signInCarNumberState',
+  default: '',
+});
+
+export const signInOwnerState = atom({
+  key: 'signInOwnerState',
+  default: '',
+});
+
+export const signInPhoneNumberState = atom({
+  key: 'signInPhoneNumberState',
   default: '',
 });

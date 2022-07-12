@@ -2,22 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 import { CgCloseR } from 'react-icons/cg';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { AlarmListState, AlarmModalState } from '../../atoms';
+import { AlarmListState, AlarmModalState, EstimateCarInfo } from '../../atoms';
 
 const AlarmModal = () => {
   const alarmList = useRecoilValue(AlarmListState);
   const setAlarmModal = useSetRecoilState(AlarmModalState);
+  const estimateCarInfoGet = useRecoilValue(EstimateCarInfo);
 
   return (
     <Background>
       <BodyWrapper>
         <ModalWrapper>
-          <ModalTitle>견적 진행 사항</ModalTitle>
+          <ModalTitle>
+            {estimateCarInfoGet.car_number}
+            <span>견적 진행 사항</span>
+          </ModalTitle>
           {alarmList === undefined
             ? '..Loading'
-            : alarmList.map(({ name, id, create_at }) => (
+            : alarmList.map(({ content, id, create_at }) => (
                 <AlarmList key={id}>
-                  <AlarmContent>{name}</AlarmContent>
+                  <AlarmContent>{content}</AlarmContent>
                   <AlarmDate>{create_at}</AlarmDate>
                 </AlarmList>
               ))}
@@ -36,6 +40,11 @@ const ModalTitle = styled.h3`
   margin: 1rem 0;
   font-size: large;
   font-weight: 600;
+
+  span {
+    margin-left: 0.5rem;
+    color: ${({ theme }) => theme.colors.gray};
+  }
 `;
 
 const AlarmContent = styled.div``;
