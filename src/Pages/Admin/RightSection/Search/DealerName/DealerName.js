@@ -7,7 +7,6 @@ import {
   setResponse,
   setSelectModalDealer,
 } from '../../../adminAtoms';
-import { DEALER_NAME } from './DealerData';
 
 const DealerName = () => {
   const [getDealer, setGetDealer] = useRecoilState(setSelectModalDealer);
@@ -23,27 +22,24 @@ const DealerName = () => {
     return selectBranch === branch;
   });
 
-  const newDealer = newBranch.dealer;
-
-  console.log(newBranch.dealer);
+  // const newDealer = newBranch.dealer;
 
   const handleChange = e => {
-    // event handler
     setGetDealer(e.target.value);
   };
-
-  console.log(newDealer[0]);
 
   return (
     <DealerContainer>
       <Dealer>
         <DealerTypo>담당자</DealerTypo>
       </Dealer>
-      <DealerFilter onChange={handleChange}>
-        {newDealer.map(idx => (
-          <option key={idx}>{idx}</option>
-        ))}
-      </DealerFilter>
+      {/* {searchList && (
+        <DealerFilter onChange={handleChange}>
+          {newDealer.map(idx => (
+            <option key={idx}>{idx}</option>
+          ))}
+        </DealerFilter>
+      )} */}
     </DealerContainer>
   );
 };

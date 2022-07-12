@@ -45,7 +45,6 @@ const RightSection = () => {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res.results);
         setSearchList(res.info);
         setRequestList(res.results);
       });
@@ -61,7 +60,7 @@ const RightSection = () => {
         <MenuInfo />
         <CheckBox />
         <Search />
-        (searchList && <RequestDetails />)
+        {searchList && <RequestDetails />}
       </BottomDistance>
     </SectionAll>
   );
