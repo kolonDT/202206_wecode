@@ -43,7 +43,7 @@ const Modal = ({ onClickToggleModal, id }) => {
     setGetModalID(id);
     fetch(`http://10.133.5.8:8000/dealers/estimate/${id}`, {
       method: 'GET',
-      headers: { Authorization: responseData.ACCESS_TOKEN },
+      headers: { Authorization: responseData.access_token },
     })
       .then(res => res.json())
       .then(data => {

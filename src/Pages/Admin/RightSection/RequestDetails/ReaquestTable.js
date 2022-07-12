@@ -1,18 +1,79 @@
 import React, { useMemo } from 'react';
-import { useTable } from 'react-table';
 import { useRecoilValue } from 'recoil';
-import { setRequestListData } from '../../adminAtoms';
-import { COLUMNS } from './RequestData';
-export const ReaquestTable = () => {
-  const requestList = useRecoilValue(setRequestListData);
-  const columns = useMemo(() => COLUMNS, []);
-  const data = useMemo(() => requestList, []);
+import { useTable } from 'react-table';
+import { setRequestListData, setResponse } from '../../adminAtoms';
 
-  //ES6 에서는 꼭 이렇게 key값이랑 매칭 안해줘도 변수명이 같으면 알아서 잘 들어감!
-  // const tableInstance = useTable({ columns : columns, data : data })
-  const tableInstance = useTable({ columns, data });
+const ReaquestTable = ({ onClick }) => {
+  const responseData = useRecoilValue(setResponse);
+  // 나중에 지점이랑 진행상태는 따로 갑 가져와서 저장할거임
+  const requestList = useRecoilValue(setRequestListData);
+
+  const formatList = requestList.map(
+    ({ estimate_request_date, quote_requested, ...rest }) => ({
+      ...rest,
+      estimate_request_date: estimate_request_date.substr(0, 10),
+      quote_requested: quote_requested.substr(0, 10),
+    })
+  );
+
+  const data = useMemo(() => formatList, []);
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'No',
+        accessor: 'estimate_id',
+      },
+      {
+        Header: '이름',
+        accessor: 'owner',
+      },
+      {
+        Header: '휴대폰',
+        accessor: 'phone_number',
+      },
+      {
+        Header: '차량번호',
+        accessor: 'car_number',
+      },
+      {
+        Header: '브랜드',
+        accessor: 'manufacturer',
+      },
+      {
+        Header: '모델명',
+        accessor: 'trim',
+      },
+      {
+        Header: '연식',
+        accessor: 'model_year',
+      },
+      {
+        Header: '견적요청일',
+        accessor: 'estimate_request_date',
+      },
+      {
+        Header: '지점',
+        accessor: 'branch',
+      },
+      {
+        Header: '담당자',
+        accessor: 'dealer',
+      },
+      {
+        Header: '진행상태',
+        accessor: 'progress',
+      },
+      {
+        Header: ' ',
+        accessor: 'quote_requested',
+      },
+    ],
+    []
+  );
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    tableInstance;
+    useTable({ columns, data });
 
   return (
     <table {...getTableProps()}>
@@ -20,18 +81,58 @@ export const ReaquestTable = () => {
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+              <th
+                {...column.getHeaderProps()}
+                style={{
+                  background: '#dbdbdb',
+                  color: 'black',
+                  fontWeight: '500',
+                  textAlign: 'center',
+                  paddingTop: '10px',
+                  paddingBottom: '10px',
+                  paddingLeft: '30px',
+                  paddingRight: '30px',
+                  width: 'auto',
+                }}
+              >
+                {column.render('Header')}
+              </th>
             ))}
           </tr>
         ))}
       </thead>
-      <tbody {...getTableBodyProps()}>
+      <tbody
+        {...getTableBodyProps()}
+        style={{
+          borderLeft: 'solid 1px #e0e0e0',
+          borderRight: 'solid 1px #e0e0e0',
+        }}
+      >
         {rows.map(row => {
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()}>
+            <tr
+              onClick={() => onClick(row.values.estimate_id)}
+              {...row.getRowProps()}
+            >
               {row.cells.map(cell => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                return (
+                  <td
+                    key={cell.value}
+                    {...cell.getCellProps()}
+                    style={{
+                      padding: '10px',
+                      borderBottom: 'solid 1px #e0e0e0',
+                      background: 'white',
+                      textAlign: 'center',
+                      paddingTop: '12px',
+                      paddingBottom: '12px',
+                      fontWeight: '500',
+                    }}
+                  >
+                    {cell.render('Cell')}
+                  </td>
+                );
               })}
             </tr>
           );
@@ -40,3 +141,5 @@ export const ReaquestTable = () => {
     </table>
   );
 };
+
+export default ReaquestTable;

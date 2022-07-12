@@ -28,9 +28,9 @@ const DealerName = () => {
         <DealerTypo>담당자</DealerTypo>
       </Dealer>
       <DealerFilter onChange={handleChange}>
-        {newBranch.dealers.map(({ dealer_id, dealer_name }) => (
-          <option key={dealer_id}>{dealer_name}</option>
-        ))}
+        {/* {newBranch.dealer.map(({ dealer }) => (
+          <option key={dealer}>{dealer}</option>
+        ))} */}
       </DealerFilter>
     </DealerContainer>
   );

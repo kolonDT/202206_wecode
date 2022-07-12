@@ -22,8 +22,6 @@ const RequestCard = ({
   onClick,
 }) => {
   const getProgress = useRecoilValue(setSelectProgress);
-  const currentId = useRecoilValue(selectIdState);
-  const getModalId = useRecoilValue(selectModalIdState);
   const getDealer = useRecoilValue(setSelectModalDealer);
   const [textState, setTextState] = useState(false);
   const onClickText = () => {
@@ -40,13 +38,13 @@ const RequestCard = ({
       <RequestCardList>{manufacturer}</RequestCardList>
       <RequestCardList>{trim}</RequestCardList>
       <RequestCardList>{model_year}</RequestCardList>
-      <RequestCardList>{estimate_request_date}</RequestCardList>
+      <RequestCardList>{estimate_request_date.substr(0, 10)}</RequestCardList>
       <RequestCardList>{name}</RequestCardList>
       <RequestCardList>{getDealer}</RequestCardList>
       <RequestCardList onClick={() => onClickText}>
         {getProgress}
       </RequestCardList>
-      <RequestCardList>{quote_requested}</RequestCardList>
+      <RequestCardList>{quote_requested.substr(0, 10)}</RequestCardList>
     </RequestCardContainer>
   );
 };

@@ -8,6 +8,7 @@ import {
 } from '../adminAtoms';
 import CheckBox from './CheckBox/CheckBox';
 import MenuInfo from './MenuInfo/MenuInfo';
+import ReaquestTable from './RequestDetails/ReaquestTable';
 import RequestDetails from './RequestDetails/RequestDetails';
 import Search from './Search/Search';
 
@@ -15,6 +16,8 @@ const RightSection = () => {
   const [requestList, setRequestList] = useRecoilState(setRequestListData);
   const [searchList, setSearchList] = useRecoilState(setRequestSearchData);
   const responseData = useRecoilValue(setResponse);
+  // console.log(requestList);
+  // console.log(searchList);
 
   // 서버 안열렸을때 가져올거임
   // const getRequestCardData = () => {
@@ -38,10 +41,11 @@ const RightSection = () => {
   const getRequestCardData = () => {
     fetch('http://10.133.5.8:8000/dealers/estimates', {
       method: 'GET',
-      headers: { Authorization: responseData.ACCESS_TOKEN },
+      headers: { Authorization: responseData.access_token },
     })
       .then(res => res.json())
       .then(res => {
+        console.log(res.results);
         setSearchList(res.info);
         setRequestList(res.results);
       });

@@ -5,12 +5,16 @@ import { setRequestSearchData, setResponse } from '../../../adminAtoms';
 import { BRANCH_LIST } from './SearchData';
 
 const SearchBranch = () => {
+  const searchList = useRecoilValue(setRequestSearchData);
   const handleChange = e => {
     // event handler
-    console.log(e.target.value);
   };
 
   const { branch } = useRecoilValue(setResponse);
+  const newArr = searchList.map(({ branch }) => {
+    return branch;
+  });
+  // console.log(`브랜치임 ${newArr}`);
 
   return (
     <BranchContainer>
@@ -18,7 +22,9 @@ const SearchBranch = () => {
         <BranchTypo>지점</BranchTypo>
       </Branch>
       <BranchFilter onChange={handleChange}>
-        <option>{branch}</option>
+        {newArr.map(ele => (
+          <option>{ele}</option>
+        ))}
       </BranchFilter>
     </BranchContainer>
   );

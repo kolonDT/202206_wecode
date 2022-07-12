@@ -10,6 +10,7 @@ import {
   setResponse,
 } from '../../adminAtoms';
 import Modal from '../../Modal/Modal';
+import ReaquestTable from './ReaquestTable';
 import RequestCardList from './RequestCardList';
 
 const RequestDetails = () => {
@@ -22,44 +23,25 @@ const RequestDetails = () => {
   const responseData = useRecoilValue(setResponse);
 
   const onClickToggleModal = () => {
-    // setCurrentId(id);
-    // console.log(`여기는? 뭐들어옴? ${id}`);
     setOpenModal(!isOpenModal);
   };
 
   const onSelectId = id => {
     setCurrentId(id);
-    console.log(`여기에 뭐가 들어오냐! ${id}`);
   };
 
   return (
     <RequestContainer>
       <TotalRequest>Total {totalSum}</TotalRequest>
-      <RequestList>
-        {/* {REQUEST_LIST.map(({ id, title }) => (
-            <RequestListDetails key={id}>{title}</RequestListDetails>
-          ))} */}
-        <RequestNumber>No</RequestNumber>
-        <RequestName>이름</RequestName>
-        <PhoneNumber>휴대폰</PhoneNumber>
-        <CarNumber>차량번호</CarNumber>
-        <Manufacture>브랜드</Manufacture>
-        <ModelNumber>모델명</ModelNumber>
-        <CarYear>연식</CarYear>
-        <RequestDate>견적요청일</RequestDate>
-        <Branch>지점</Branch>
-        <Dealer>담당자</Dealer>
-        <Status>진행상태</Status>
-      </RequestList>
-      {requestList && (
-        <RequestCardList
-          requestList={requestList}
+      {requestList.length !== 0 && (
+        <ReaquestTable
           onClick={id => {
             onClickToggleModal(id);
             onSelectId(id);
           }}
         />
       )}
+
       {isOpenModal && (
         <Modal onClickToggleModal={onClickToggleModal} id={currentId} />
       )}

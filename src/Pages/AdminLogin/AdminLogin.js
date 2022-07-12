@@ -24,9 +24,8 @@ const AdminLogin = () => {
     })
       .then(response => response.json())
       .then(response => {
-        // console.log(`로그인 부분 콘솔 ${response}`);
         setResponseData(response);
-        if (response.Message === 'SUCCESS') {
+        if (response.message === 'SUCCESS') {
           goToAdmin();
         } else {
           alert('등록된 관리자가 아닙니다.');
