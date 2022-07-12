@@ -16,8 +16,6 @@ import RequestForm from './Pages/Requestform/RequestForm';
 import Reconfirm from './Pages/Sellcar/Reconfirm';
 import SellCar from './Pages/Sellcar/Sellcar';
 import Graph from './Pages/Graph/Graph';
-import Admin from './Pages/Admin/Admin';
-import React, { useEffect, useState } from 'react';
 import AdminLogin from './Pages/AdminLogin/AdminLogin';
 import ReaquestTable from './Pages/Admin/RightSection/RequestDetails/ReaquestTable';
 

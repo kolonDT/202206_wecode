@@ -7,6 +7,13 @@ import { useNavigate } from 'react-router-dom';
 // import { BsBellSlash, BsBell } from "react-icons/bs";
 // import { setAlarm } from "../Pages/Api/Api";
 import { useLocation } from 'react-router-dom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import {
+  AlarmListState,
+  AlarmModalState,
+  isAlarmState,
+  LoginProcessState,
+} from '../atoms';
 
 const Header = ({ isNew, setNew, page }) => {
   const setLoginProcess = useSetRecoilState(LoginProcessState);
