@@ -78,6 +78,7 @@ const Modal = ({ onClickToggleModal, id }) => {
     //   );
     setGetNewDealer(getDealer);
     setGetNewProgress(getProgress);
+    alert('저장이 완료됐습니다');
     e.preventDefault();
   };
 
