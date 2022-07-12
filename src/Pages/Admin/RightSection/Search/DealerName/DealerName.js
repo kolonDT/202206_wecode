@@ -12,7 +12,7 @@ import { DEALER_NAME } from './DealerData';
 const DealerName = () => {
   const [getDealer, setGetDealer] = useRecoilState(setSelectModalDealer);
   const searchList = useRecoilValue(setRequestSearchData);
-  // const { branch } = useRecoilValue(setResponse);
+  const { branch } = useRecoilValue(setResponse);
   const selectBranch = useRecoilValue(setOptionBranch);
 
   // const newBranch = searchList.find(({ branch: ele }) => {
@@ -23,6 +23,8 @@ const DealerName = () => {
     return selectBranch === branch;
   });
 
+  const newDealer = newBranch.dealer;
+
   console.log(newBranch.dealer);
 
   const handleChange = e => {
@@ -30,14 +32,16 @@ const DealerName = () => {
     setGetDealer(e.target.value);
   };
 
+  console.log(newDealer[0]);
+
   return (
     <DealerContainer>
       <Dealer>
         <DealerTypo>담당자</DealerTypo>
       </Dealer>
       <DealerFilter onChange={handleChange}>
-        {newBranch.dealer.map(({ dealer }) => (
-          <option key={dealer}>{dealer}</option>
+        {newDealer.map(idx => (
+          <option key={idx}>{idx}</option>
         ))}
       </DealerFilter>
     </DealerContainer>

@@ -13,7 +13,7 @@ const AdminLogin = () => {
   const [responseData, setResponseData] = useRecoilState(setResponse);
 
   const goToAdmin = () => {
-    navigate('/dealers/estimate');
+    navigate('/dealers/estimates');
   };
 
   const signUp = e => {

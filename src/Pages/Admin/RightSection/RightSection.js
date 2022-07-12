@@ -61,7 +61,7 @@ const RightSection = () => {
         <MenuInfo />
         <CheckBox />
         <Search />
-        <RequestDetails />
+        (searchList && <RequestDetails />)
       </BottomDistance>
     </SectionAll>
   );
