@@ -4,11 +4,12 @@ import CustomerInfo from './CustomerInfo';
 import CarInfo from './CarInfo';
 import Estimate from './Estimate';
 import {
-  selectModalIdState,
   setInput,
   setModalList,
   setResponse,
   setSelectListDealer,
+  setSelectListProgress,
+  setSelectModalDealer,
   setSelectProgress,
 } from '../adminAtoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -16,12 +17,15 @@ import ModalHeader from './ModalHeader';
 import ModalMenu from './ModalMenu';
 
 const Modal = ({ onClickToggleModal, id }) => {
-  const [getModal, setGetModal] = useRecoilState(setModalList);
-  const [getModalId, setGetModalID] = useRecoilState(selectModalIdState);
   const getProgress = useRecoilValue(setSelectProgress);
-  const getDealer = useRecoilValue(setSelectListDealer);
+  const getDealer = useRecoilValue(setSelectModalDealer);
   const inputEstimate = useRecoilValue(setInput);
   const responseData = useRecoilValue(setResponse);
+  const [getModal, setGetModal] = useRecoilState(setModalList);
+  const [setNewDealer, setGetNewDealer] = useRecoilState(setSelectListDealer);
+  const [setNewProgress, setGetNewProgress] = useRecoilState(
+    setSelectListProgress
+  );
 
   // const getModalData = () => {
   //   setGetModalID(id);
@@ -40,14 +44,13 @@ const Modal = ({ onClickToggleModal, id }) => {
 
   // 서버 열렸을때 가져올거임
   const getModalData = () => {
-    setGetModalID(id);
     fetch(`http://10.133.5.8:8000/dealers/estimate/${id}`, {
       method: 'GET',
       headers: { Authorization: responseData.access_token },
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        console.log({ data });
         setGetModal(data.results);
       });
   };
@@ -55,24 +58,31 @@ const Modal = ({ onClickToggleModal, id }) => {
   useEffect(() => {
     getModalData();
   }, []);
-
+  console.log('sadsf', id);
   // backend에 보낼 함수임!
   const onSubmit = e => {
-    fetch(`http://10.133.5.8:8000/dealers/estimate${id}`, {
-      method: 'POST',
-      body: JSON.stringify({
-        progress: getProgress,
-        dealer: getDealer,
-        estimate: inputEstimate,
-      }),
-    }) //덩어리 제이슨을 받아옴
-      .then(res => res.json()) //덩어리 제이슨을 객체 현태로 변환
-      .then(data => {
-        if (data.Access_token) localStorage.setItem('token', data.Access_token);
-      });
+    // fetch(`http://10.133.5.8:8000/dealers/estimate${id}`, {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     progress: getProgress,
+    //     dealer: getDealer,
+    //     estimate: inputEstimate,
+    //   }),
+    // }) //덩어리 제이슨을 받아옴
+    //   .then(res => res.json()) //덩어리 제이슨을 객체 현태로 변환
+    //   .then(data => {
+    //     if (data.Access_token) localStorage.setItem('token', data.Access_token);
+    //     // setGetNewDealer(getProgress);
+    //     // setGetNewProgress(getDealer);
+    //   }
+    //   );
+    setGetNewDealer(getDealer);
+    setGetNewProgress(getProgress);
     e.preventDefault();
   };
 
+  const handleClick = () => {};
+  console.log(getModal);
   return (
     <ModalContainer>
       <ModalCard>
@@ -85,7 +95,7 @@ const Modal = ({ onClickToggleModal, id }) => {
               <CarInfo />
             </AlignLeft>
             <CenterAlign>
-              <Estimate />
+              {getModal.length !== 0 && <Estimate />}
               <SaveButton onClick={onSubmit}>저장</SaveButton>
             </CenterAlign>
           </RowAlign>

@@ -12,8 +12,9 @@ const Estimate = () => {
     setInputEatimate(e.target.value);
   };
 
-  const setGetModal = useRecoilValue(setModalList);
-  const newConsulting = setGetModal.consulting;
+  const getModal = useRecoilValue(setModalList);
+  console.log(getModal);
+  const newConsulting = getModal.consulting;
   const newBranch = newConsulting.map(({ branch }) => {
     return branch;
   });

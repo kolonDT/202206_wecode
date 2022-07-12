@@ -9,7 +9,7 @@ const CarInfo = () => {
   const getModal = useRecoilValue(setModalList);
   const { car_number, manufacturer, trim, model_year, distance, option, info } =
     getModal;
-  console.log(getModal);
+
   return (
     <CarInfoContainer>
       <CarInfoTitle>차량정보</CarInfoTitle>

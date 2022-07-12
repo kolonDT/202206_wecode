@@ -1,22 +1,43 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useTable } from 'react-table';
-import { setRequestListData, setResponse } from '../../adminAtoms';
+import {
+  selectIdState,
+  setRequestListData,
+  setResponse,
+  setSelectListDealer,
+  setSelectListProgress,
+} from '../../adminAtoms';
 
 const ReaquestTable = ({ onClick }) => {
   const responseData = useRecoilValue(setResponse);
   // 나중에 지점이랑 진행상태는 따로 갑 가져와서 저장할거임
   const requestList = useRecoilValue(setRequestListData);
+  const setNewDealer = useRecoilValue(setSelectListDealer);
+  const setNewProgress = useRecoilValue(setSelectListProgress);
+  const currentId = useRecoilValue(selectIdState);
+  console.log(setNewDealer, setNewProgress);
 
   const formatList = requestList.map(
-    ({ estimate_request_date, quote_requested, ...rest }) => ({
+    ({
+      estimate_request_date,
+      quote_requested,
+      dealer,
+      progress,
+      estimate_id,
+      ...rest
+    }) => ({
       ...rest,
+      estimate_id,
       estimate_request_date: estimate_request_date.substr(0, 10),
       quote_requested: quote_requested.substr(0, 10),
+      dealer: estimate_id === currentId ? setNewDealer || dealer : dealer,
+      progress:
+        estimate_id === currentId ? setNewProgress || progress : progress,
     })
   );
 
-  const data = useMemo(() => formatList, []);
+  const data = useMemo(() => formatList, [setNewDealer, setNewProgress]);
 
   const columns = useMemo(
     () => [

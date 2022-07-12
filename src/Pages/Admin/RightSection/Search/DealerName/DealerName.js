@@ -4,25 +4,20 @@ import styled from 'styled-components/macro';
 import {
   setOptionBranch,
   setRequestSearchData,
-  setResponse,
   setSelectModalDealer,
 } from '../../../adminAtoms';
 
 const DealerName = () => {
   const [getDealer, setGetDealer] = useRecoilState(setSelectModalDealer);
   const searchList = useRecoilValue(setRequestSearchData);
-  const { branch } = useRecoilValue(setResponse);
-  const selectBranch = useRecoilValue(setOptionBranch);
 
-  // const newBranch = searchList.find(({ branch: ele }) => {
-  //   return ele === branch;
-  // });
+  const selectBranch = useRecoilValue(setOptionBranch) || searchList[0].branch;
 
-  const newBranch = searchList.find(({ branch }) => {
-    return selectBranch === branch;
+  const newBranch = searchList.find(({ branch: searchBranch }) => {
+    return selectBranch === searchBranch;
   });
 
-  // const newDealer = newBranch.dealer;
+  const newDealer = newBranch.dealer;
 
   const handleChange = e => {
     setGetDealer(e.target.value);
@@ -33,13 +28,11 @@ const DealerName = () => {
       <Dealer>
         <DealerTypo>담당자</DealerTypo>
       </Dealer>
-      {/* {searchList && (
-        <DealerFilter onChange={handleChange}>
-          {newDealer.map(idx => (
-            <option key={idx}>{idx}</option>
-          ))}
-        </DealerFilter>
-      )} */}
+      <DealerFilter onChange={handleChange}>
+        {newDealer.map(idx => (
+          <option key={idx}>{idx}</option>
+        ))}
+      </DealerFilter>
     </DealerContainer>
   );
 };

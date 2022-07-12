@@ -3,7 +3,6 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components/macro';
 import {
   selectIdState,
-  selectModalIdState,
   setSelectModalDealer,
   setSelectProgress,
 } from '../../adminAtoms';

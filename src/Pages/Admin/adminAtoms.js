@@ -18,11 +18,6 @@ export const selectSubIdState = atom({
   default: '',
 });
 
-export const selectModalIdState = atom({
-  key: 'selectModalIdState',
-  default: '',
-});
-
 export const selectOpenState = atom({
   key: 'selectOpenState',
   default: false,
@@ -77,6 +72,11 @@ export const setResponse = atom({
 export const setSelectProgress = atom({
   key: 'setSelectProgress',
   default: '',
+});
+
+export const setSelectListProgress = atom({
+  key: 'setSelectListProgress',
+  default: '대기',
 });
 
 export const setSelectModalDealer = atom({

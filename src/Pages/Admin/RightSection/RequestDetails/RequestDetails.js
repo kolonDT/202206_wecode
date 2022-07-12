@@ -3,7 +3,6 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components/macro';
 import {
   selectIdState,
-  selectModalIdState,
   selectOpenState,
   setRequestListData,
   setRequestSearchData,
@@ -18,7 +17,6 @@ const RequestDetails = () => {
   const searchList = useRecoilValue(setRequestSearchData);
   const [currentId, setCurrentId] = useRecoilState(selectIdState);
   const [isOpenModal, setOpenModal] = useRecoilState(selectOpenState);
-  const getModalId = useRecoilValue(selectModalIdState);
   const totalSum = requestList.length.toLocaleString();
   const responseData = useRecoilValue(setResponse);
 
