@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
-import { getAlarm, setAlarm } from "../Api/Api";
-import React from "react";
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react';
+import { getAlarm, setAlarm } from '../Api/Api';
+import React from 'react';
 
 function CompleteForm({ isNew, setNew, setPage }) {
   const navigate = useNavigate();
   const gotoRequest = () => {
-    navigate("/requestform");
+    navigate('/requestform');
   };
   const [toastStatus, setToastStatus] = useState(false);
   const [alarmStatus, setAlarmStatus] = useState(false);
@@ -37,7 +37,7 @@ function CompleteForm({ isNew, setNew, setPage }) {
   }, [isNew]);
 
   useEffect(() => {
-    setPage("default");
+    setPage('default');
   }, []);
 
   useEffect(() => {
