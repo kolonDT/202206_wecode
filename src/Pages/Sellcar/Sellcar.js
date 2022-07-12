@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
-=======
 // import { Routes, Route } from "react-router-dom";
 // import LoginMain from "../Login/LoginMain";
->>>>>>> f22a604256353517be0ec840e7cd0ef6a6b9d6e9
 import AddInfo from './AddInfo';
 import ContactInfo from './ContactInfo';
 import styled from 'styled-components';
