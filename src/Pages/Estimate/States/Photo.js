@@ -1,5 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled, { css } from 'styled-components';
+import {
+  currentEstimateState,
+  lastEstimateState,
+  userEstimateProcessState,
+  essentialPhotoState,
+  morePhotoState,
+} from '../../../atoms';
 import {
   ButtonSet,
   NextButton,
@@ -7,41 +15,83 @@ import {
   ContentBox,
   ContentTitle,
 } from '../Style';
+import { IP } from '../../../Hooks/Fetch';
 
-const Photo = ({ nextProcess, prevProcess }) => {
-  const [file, setFile] = useState([]);
-  const [previewURL, setPreviewURL] = useState([]);
+const Photo = ({ prevProcess }) => {
+  const [currentEstimate, setCurrentEstimate] =
+    useRecoilState(currentEstimateState);
+  const [lastEstimate, setLastEstimate] = useRecoilState(lastEstimateState);
+  const setUserEstimateProcess = useSetRecoilState(userEstimateProcessState);
 
-  useEffect(() => {
-    if (file !== '') setPreviewURL(' (reader.result) ');
-  }, [file]);
+  const goToContact = () => {
+    setUserEstimateProcess('사진등록');
 
-  const handleFileOnChange = e => {
-    e.preventDefault();
-    const file = e.target.files[0];
-    const reader = new FileReader();
     const formData = new FormData();
+    // formData.append('정면', frontPhoto);
+    // formData.append('후면', backPhoto);
+    // formData.append('후면');
+    // formData.append('후면');
 
-    formData.append('files', setFile);
-    setFile(file);
+    // formData.append('추가1');
+    // formData.append('추가2');
+    // formData.append('추가3');
+    // formData.append('추가3');
 
-    reader.onload = () => {
-      setPreviewURL(reader.result);
-    };
-
-    if (file) reader.readAsDataURL(file);
+    fetch(`${IP}estimates`, {
+      method: 'POST',
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+      body: formData,
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.message === 'SUCCESS') {
+          setCurrentEstimate(prev => prev + 1);
+          lastEstimate <= currentEstimate &&
+            setLastEstimate(currentEstimate + 1);
+        } else {
+          alert(data.message);
+        }
+      });
   };
 
-  const removeImg = () => {
-    setFile('');
-    setPreviewURL('');
+  const [essentialPhoto, setEssentialPhoto] =
+    useRecoilState(essentialPhotoState);
+  const [morePhoto, setMorePhoto] = useRecoilState(morePhotoState);
+
+  const uploadEssentialPhoto = e => {
+    const imageLists = e.target.files;
+    let photoArr = [...essentialPhoto];
+    for (let i = 0; i < imageLists.length; i++) {
+      const currentImageUrl = URL.createObjectURL(imageLists[i]);
+      photoArr.push(currentImageUrl);
+    }
+    if (photoArr.length > 10) {
+      photoArr = photoArr.slice(0, 10);
+    }
+    setEssentialPhoto(photoArr);
   };
 
-  console.log('file', file);
-  console.log('previewURL', previewURL);
+  const uploadMorePhoto = e => {
+    const imageLists = e.target.files;
+    let photoArr = [...morePhoto];
+    for (let i = 0; i < imageLists.length; i++) {
+      const currentImageUrl = URL.createObjectURL(imageLists[i]);
+      photoArr.push(currentImageUrl);
+    }
+    if (photoArr.length > 10) {
+      photoArr = photoArr.slice(0, 10);
+    }
+    setMorePhoto(photoArr);
+  };
 
-  const checkID = id => {
-    console.log(id);
+  const removeEssentialPhoto = id => {
+    setEssentialPhoto(essentialPhoto.filter((_, index) => index !== id));
+  };
+
+  const removeMorePhoto = id => {
+    setMorePhoto(essentialPhoto.filter((_, index) => index !== id));
   };
 
   return (
@@ -54,26 +104,24 @@ const Photo = ({ nextProcess, prevProcess }) => {
         </ContentSubInfo>
         <PhotoInputWrapper>
           <PhotoInputLine>
-            {PHOTO_LIST.map(
-              ({ id, type, content }) =>
-                type === '필수' && (
-                  <>
-                    <PhotoCardWrapper key={id}>
-                      <p>{content}</p>
-                      <PhotoCard
-                        previewURL={previewURL}
-                        name={content}
-                        type="file"
-                        accept="image/*"
-                        // style={{ display: 'none' }}
-                        onChange={handleFileOnChange}
-                        onClick={() => checkID(id)}
-                      />
-                    </PhotoCardWrapper>
-                    <PhotoRemoveBtn onClick={removeImg}>x</PhotoRemoveBtn>
-                  </>
-                )
-            )}
+            <PhotoCardWrapper>
+              <p>정면</p>
+              <PhotoCard
+                multiple
+                name="필수"
+                type="file"
+                accept="image/*"
+                onChange={e => uploadEssentialPhoto(e)}
+              />
+            </PhotoCardWrapper>
+            <PhotoPreviewWrapper>
+              {essentialPhoto.map((image, id) => (
+                <div key={id}>
+                  <img src={image} alt={`${image}-${id}`} />
+                  <span onClick={() => removeEssentialPhoto(id)}>삭제</span>
+                </div>
+              ))}
+            </PhotoPreviewWrapper>
           </PhotoInputLine>
         </PhotoInputWrapper>
         <ContentSubTitle>참고 사진</ContentSubTitle>
@@ -82,21 +130,24 @@ const Photo = ({ nextProcess, prevProcess }) => {
         </ContentSubInfo>
         <PhotoInputWrapper>
           <PhotoInputLine>
-            {PHOTO_LIST.map(
-              ({ id, type, content }) =>
-                type === '참고' && (
-                  <PhotoCardWrapper key={id}>
-                    <p>{content}</p>
-                    <PhotoCard
-                      name={content}
-                      type="file"
-                      // accept="image/*"
-                      // style={{ display: 'none' }}
-                      // onClick={handleFileOnChange}
-                    />
-                  </PhotoCardWrapper>
-                )
-            )}
+            <PhotoCardWrapper>
+              <p>추가</p>
+              <PhotoCard
+                multiple
+                name="추가"
+                type="file"
+                accept="image/*"
+                onChange={e => uploadMorePhoto(e)}
+              />
+            </PhotoCardWrapper>
+            <PhotoPreviewWrapper>
+              {morePhoto.map((image, id) => (
+                <div key={id}>
+                  <img src={image} alt={`${image}-${id}`} />
+                  <span onClick={() => removeMorePhoto(id)}>삭제</span>
+                </div>
+              ))}
+            </PhotoPreviewWrapper>
           </PhotoInputLine>
         </PhotoInputWrapper>
       </PhotoInputContainer>
@@ -104,7 +155,7 @@ const Photo = ({ nextProcess, prevProcess }) => {
         <PrevButton onClick={prevProcess} variant="primary">
           이전
         </PrevButton>
-        <NextButton onClick={nextProcess} variant="primary">
+        <NextButton onClick={goToContact} variant="primary">
           다음
         </NextButton>
       </ButtonSet>
@@ -113,6 +164,18 @@ const Photo = ({ nextProcess, prevProcess }) => {
 };
 
 export default Photo;
+
+const PhotoPreviewWrapper = styled.div`
+  ${({ theme }) => theme.flex.flexBox}
+
+  img {
+    width: 5rem;
+  }
+
+  span {
+    border: 1px solid black;
+  }
+`;
 
 const PhotoCardWrapper = styled.div`
   ${({ theme }) => theme.flex.flexBox}

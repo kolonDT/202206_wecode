@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import {
   currentEstimateState,
@@ -22,9 +22,7 @@ const Mileage = ({ prevProcess }) => {
     useRecoilState(currentEstimateState);
   const [lastEstimate, setLastEstimate] = useRecoilState(lastEstimateState);
 
-  const [userEstimateProcess, setUserEstimateProcess] = useRecoilState(
-    userEstimateProcessState
-  );
+  const setUserEstimateProcess = useSetRecoilState(userEstimateProcessState);
   const [userInputMileage, setUserInputMileage] = useRecoilState(
     UserInputMileageState
   );
@@ -38,7 +36,7 @@ const Mileage = ({ prevProcess }) => {
         Authorization: localStorage.getItem('access_token'),
       },
       body: JSON.stringify({
-        process_state: userEstimateProcess,
+        process_state: '주행거리',
         mileage: userInputMileage,
       }),
     })

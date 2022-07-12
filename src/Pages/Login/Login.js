@@ -11,6 +11,7 @@ import {
   UserInputOwnerState,
   isLoginModalState,
   currentEstimateState,
+  userEstimateProcessState,
 } from '../../atoms';
 
 import {
@@ -43,6 +44,7 @@ function Login() {
   const [inputCarNumber, setInputCarNumber] = useState('');
   const [currentEstimate, setCurrentEstimate] =
     useRecoilState(currentEstimateState);
+  const setUserEstimateProcess = useSetRecoilState(userEstimateProcessState);
 
   const handleAdmin = () => {
     navigate('/admin');
@@ -88,7 +90,6 @@ function Login() {
           localStorage.setItem(`access_token`, data.access_token);
           alert('요청한 견적서가 있습니다.\n내 견적서로 이동합니다.');
           navigate('/estimate');
-          console.log(currentEstimate);
         }
         // 작성중인 견적서가 있을 경우
         if (data.message === 'SUCCESS_ESTIMATE_REGISTERING') {
@@ -97,6 +98,7 @@ function Login() {
             '작성 중이던 견적서가 있습니다.\n입력 중이던 페이지로 이동합니다.'
           );
           // TO DO : estimate number가 아닌 인식 가능한 string으로 바꾸기
+          setUserEstimateProcess(data.process_state);
           data.process_state === '주행거리' && setCurrentEstimate(3);
           data.process_state === '추가옵션' && setCurrentEstimate(4);
           data.process_state === '추가입력' && setCurrentEstimate(5);

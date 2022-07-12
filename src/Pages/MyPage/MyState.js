@@ -19,8 +19,6 @@ const MyState = () => {
   const setGetUserInputPhoto = useSetRecoilState(GetUserInputPhotoState);
   const [alarmList, setAlarmList] = useRecoilState(AlarmListState);
 
-  // console.log(alarmList[alarmList.length - 1].content);
-
   useEffect(() => {
     fetch(`${IP}estimates/detail`, {
       headers: {

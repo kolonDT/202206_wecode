@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { BsCheckSquareFill, BsCheckSquare } from 'react-icons/bs';
 import {
@@ -24,7 +24,11 @@ import {
   userInputRepairState,
   userInputEtcState,
   etcState,
+  currentEstimateState,
+  lastEstimateState,
+  userEstimateProcessState,
 } from '../../../atoms';
+import { IP } from '../../../Hooks/Fetch';
 
 const AddInfo = ({ nextProcess, prevProcess }) => {
   const [userInputInsurance, setUserInputInsurance] = useRecoilState(
@@ -45,6 +49,12 @@ const AddInfo = ({ nextProcess, prevProcess }) => {
   const [isRepair, setIsRepair] = useRecoilState(repairState);
   const [userInputEtc, setUserInputEtc] = useRecoilState(userInputEtcState);
   const [isEtc, setIsEtc] = useRecoilState(etcState);
+
+  const [currentEstimate, setCurrentEstimate] =
+    useRecoilState(currentEstimateState);
+  const [lastEstimate, setLastEstimate] = useRecoilState(lastEstimateState);
+
+  const setUserEstimateProcess = useSetRecoilState(userEstimateProcessState);
 
   // 보험 외 사고처리 관련 함수
   const handleInsurance = () => {
@@ -159,6 +169,36 @@ const AddInfo = ({ nextProcess, prevProcess }) => {
     ],
   ]);
 
+  const goToPhoto = () => {
+    setUserEstimateProcess('추가입력');
+
+    fetch(`${IP}estimates`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+      body: JSON.stringify({
+        process_state: '추가입력',
+        accident_status: userInputInsurance,
+        spare_key: keyAmount,
+        wheel_scratch: wheelScratchAmount,
+        outer_plate_scratch: panelScratchAmount,
+        other_maintenance_repair: userInputRepair,
+        other_special: userInputEtc,
+      }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.message === 'SUCCESS') {
+          setCurrentEstimate(prev => prev + 1);
+          lastEstimate <= currentEstimate &&
+            setLastEstimate(currentEstimate + 1);
+        } else {
+          alert(data.message);
+        }
+      });
+  };
+
   return (
     <ContentsBox>
       <ContentsWrapper>
@@ -248,7 +288,7 @@ const AddInfo = ({ nextProcess, prevProcess }) => {
           <PrevButton onClick={prevProcess} variant="primary">
             이전
           </PrevButton>
-          <NextButton onClick={nextProcess} variant="primary">
+          <NextButton onClick={goToPhoto} variant="primary">
             다음
           </NextButton>
         </ButtonSet>

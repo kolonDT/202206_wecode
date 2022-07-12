@@ -121,7 +121,7 @@ export const wheelScratchState = atom({
 
 export const panelScratchAmountState = atom({
   key: 'panelScratchAmountState',
-  default: 1,
+  default: 0,
 });
 
 export const panelScratchState = atom({
@@ -149,16 +149,6 @@ export const userInputEtcState = atom({
   default: '',
 });
 
-export const photoFileState = atom({
-  key: 'photoFileState',
-  default: '',
-});
-
-export const previewURLState = atom({
-  key: 'previewURLState',
-  default: '',
-});
-
 export const userInputAddressState = atom({
   key: 'userInputAddressState',
   default: '',
@@ -171,7 +161,7 @@ export const userInputPhoneNumberState = atom({
 
 export const userEstimateProcessState = atom({
   key: 'userEstimateProcessState',
-  default: '주행거리',
+  default: '',
 });
 
 export const car365InfoState = atom({
@@ -192,4 +182,28 @@ export const signInOwnerState = atom({
 export const signInPhoneNumberState = atom({
   key: 'signInPhoneNumberState',
   default: '',
+});
+
+export const userInputFileState = atom({
+  key: 'userInputPhotoState',
+  default: [
+    { id: 1, type: '정면', file: '', previewURL: '' },
+    { id: 2, type: '후면', file: '', previewURL: '' },
+    { id: 3, type: '측면', file: '', previewURL: '' },
+    { id: 4, type: '계기판', file: '', previewURL: '' },
+    { id: 5, type: '추가1', file: '', previewURL: '' },
+    { id: 6, type: '추가2', file: '', previewURL: '' },
+    { id: 7, type: '추가3', file: '', previewURL: '' },
+    { id: 8, type: '추가4', file: '', previewURL: '' },
+  ],
+});
+
+export const essentialPhotoState = atom({
+  key: 'essentialPhotoState',
+  default: [],
+});
+
+export const morePhotoState = atom({
+  key: 'morePhotoState',
+  default: [],
 });
