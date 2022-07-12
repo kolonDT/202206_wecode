@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MYCARS_API, PORT } from '../../config';
@@ -27,8 +28,17 @@ const Admin = ({ isNew, setNew, setPage }) => {
       });
     setPage('admin');
   }, []);
+=======
+import React from 'react';
+import styled from 'styled-components/macro';
+import AdminNav from '../../Components/AdminNav/AdminNav';
+import AdminMenu from './Menu/AdminMenu';
+import RightSection from './RightSection/RightSection';
+>>>>>>> f22a604256353517be0ec840e7cd0ef6a6b9d6e9
 
+const Admin = () => {
   return (
+<<<<<<< HEAD
     <CarContainer>
       <CarWrapper>
         <CarTable>
@@ -66,50 +76,20 @@ const Admin = ({ isNew, setNew, setPage }) => {
         setPageNum={setPageNum}
       />
     </CarContainer>
+=======
+    <div>
+      <AdminNav />
+      <SectionAlign>
+        <AdminMenu />
+        <RightSection />
+      </SectionAlign>
+    </div>
+>>>>>>> f22a604256353517be0ec840e7cd0ef6a6b9d6e9
   );
 };
 
-const CarTable = styled.table`
-  margin: 0 auto;
-  width: 80%;
-  border-radius: 0 0 25px 25px;
-  tr:first-child {
-    background-color: #5c1049;
-    color: white;
-    font-weight: 600;
-  }
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-`;
-
-const TableRow = styled.tr`
-  width: 100%;
-`;
-
-const TableHead = styled.th`
-  width: 13%;
-  padding: 15px;
-  font-size: 15px;
-`;
-
-const CarContainer = styled.div`
-  width: 100%;
-  margin: 0px auto;
-  margin-top: 30px;
-  padding: 10px;
-  box-sizing: border-box;
-  @media only screen and (max-width: 640px) {
-    width: 580px;
-    padding: 0px;
-    margin: 20px auto;
-    padding-left: 0;
-  }
-`;
-const CarWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+const SectionAlign = styled.div`
+  ${props => props.theme.flex.flexBox('row', '', '')};
 `;
 
 export default Admin;
