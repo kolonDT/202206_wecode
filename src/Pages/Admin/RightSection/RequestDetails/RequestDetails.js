@@ -10,7 +10,6 @@ import {
 } from '../../adminAtoms';
 import Modal from '../../Modal/Modal';
 import ReaquestTable from './ReaquestTable';
-import RequestCardList from './RequestCardList';
 
 const RequestDetails = () => {
   const requestList = useRecoilValue(setRequestListData);
