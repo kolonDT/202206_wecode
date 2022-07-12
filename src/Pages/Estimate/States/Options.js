@@ -2,7 +2,13 @@ import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import styled, { css } from 'styled-components';
 import { BsCheckSquareFill, BsCheckSquare } from 'react-icons/bs';
-import { SelectedOptionsState, isAllOptionFalseState } from '../../../atoms';
+import {
+  SelectedOptionsState,
+  isAllOptionFalseState,
+  currentEstimateState,
+  lastEstimateState,
+  userEstimateProcessState,
+} from '../../../atoms';
 import {
   ButtonSet,
   NextButton,
@@ -12,12 +18,20 @@ import {
   NoOptionWrapper,
   NoOption,
 } from '../Style';
+import { IP } from '../../../Hooks/Fetch';
 
-const Options = ({ nextProcess, prevProcess }) => {
+const Options = ({ prevProcess }) => {
   const [selectedOptions, setSelectedOptions] =
     useRecoilState(SelectedOptionsState);
   const [isAllOptionFalse, setIsAllOptionFalse] = useRecoilState(
     isAllOptionFalseState
+  );
+  const [currentEstimate, setCurrentEstimate] =
+    useRecoilState(currentEstimateState);
+  const [lastEstimate, setLastEstimate] = useRecoilState(lastEstimateState);
+
+  const [userEstimateProcess, setUserEstimateProcess] = useRecoilState(
+    userEstimateProcessState
   );
 
   useEffect(() => {
@@ -63,6 +77,38 @@ const Options = ({ nextProcess, prevProcess }) => {
     });
   };
 
+  const goToAddInfo = () => {
+    setUserEstimateProcess('추가옵션');
+
+    fetch(`${IP}estimates`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+      body: JSON.stringify({
+        process_state: userEstimateProcess,
+        sunroof: selectedOptions[0].state,
+        navigation: selectedOptions[1].state,
+        ventilation_seat: selectedOptions[2].state,
+        heated_seat: selectedOptions[3].state,
+        electric_seat: selectedOptions[4].state,
+        smart_key: selectedOptions[5].state,
+        leather_seat: selectedOptions[6].state,
+        electric_folding_mirror: selectedOptions[7].state,
+      }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.message === 'SUCCESS') {
+          setCurrentEstimate(prev => prev + 1);
+          lastEstimate <= currentEstimate &&
+            setLastEstimate(currentEstimate + 1);
+        } else {
+          alert(data.message);
+        }
+      });
+  };
+
   return (
     <div>
       <ContentBox>
@@ -93,7 +139,7 @@ const Options = ({ nextProcess, prevProcess }) => {
           <PrevButton onClick={prevProcess} variant="primary">
             이전
           </PrevButton>
-          <NextButton onClick={nextProcess} variant="primary">
+          <NextButton onClick={goToAddInfo} variant="primary">
             다음
           </NextButton>
         </ButtonSet>

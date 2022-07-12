@@ -1,7 +1,12 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { UserInputMileageState } from '../../../atoms';
+import {
+  currentEstimateState,
+  lastEstimateState,
+  UserInputMileageState,
+  userEstimateProcessState,
+} from '../../../atoms';
 import {
   ButtonSet,
   NextButton,
@@ -10,11 +15,44 @@ import {
   ContentTitle,
   InputBox,
 } from '../Style';
+import { IP } from '../../../Hooks/Fetch';
 
-const Mileage = ({ nextProcess, prevProcess }) => {
+const Mileage = ({ prevProcess }) => {
+  const [currentEstimate, setCurrentEstimate] =
+    useRecoilState(currentEstimateState);
+  const [lastEstimate, setLastEstimate] = useRecoilState(lastEstimateState);
+
+  const [userEstimateProcess, setUserEstimateProcess] = useRecoilState(
+    userEstimateProcessState
+  );
   const [userInputMileage, setUserInputMileage] = useRecoilState(
     UserInputMileageState
   );
+
+  const goToOptions = () => {
+    setUserEstimateProcess('주행거리');
+
+    fetch(`${IP}estimates`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+      body: JSON.stringify({
+        process_state: userEstimateProcess,
+        mileage: userInputMileage,
+      }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.message === 'SUCCESS') {
+          setCurrentEstimate(prev => prev + 1);
+          lastEstimate <= currentEstimate &&
+            setLastEstimate(currentEstimate + 1);
+        } else {
+          alert(data.message);
+        }
+      });
+  };
 
   return (
     <ContentBox>
@@ -37,7 +75,7 @@ const Mileage = ({ nextProcess, prevProcess }) => {
         </PrevButton>
         <NextButton
           disabled={userInputMileage === '' ? true : false}
-          onClick={nextProcess}
+          onClick={goToOptions}
           variant="primary"
         >
           다음

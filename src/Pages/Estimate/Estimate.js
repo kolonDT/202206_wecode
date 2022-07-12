@@ -7,16 +7,16 @@ import {
   currentEstimateState,
   lastEstimateState,
   userEstimateProcessState,
-  UserInputMileageState,
-  SelectedOptionsState,
-  userInputInsuranceState,
-  keyAmountState,
-  wheelScratchAmountState,
-  panelScratchAmountState,
-  userInputRepairState,
-  userInputEtcState,
-  userInputPhoneNumberState,
-  userInputAddressState,
+  // UserInputMileageState,
+  // SelectedOptionsState,
+  // userInputInsuranceState,
+  // keyAmountState,
+  // wheelScratchAmountState,
+  // panelScratchAmountState,
+  // userInputRepairState,
+  // userInputEtcState,
+  // userInputPhoneNumberState,
+  // userInputAddressState,
 } from '../../atoms';
 import styled, { css } from 'styled-components';
 import CarInfo from './States/CarInfo';
@@ -34,16 +34,16 @@ const Estimate = () => {
     useRecoilState(currentEstimateState);
   const [lastEstimate, setLastEstimate] = useRecoilState(lastEstimateState);
 
-  const userInputMileage = useRecoilValue(UserInputMileageState);
-  const selectedOptions = useRecoilValue(SelectedOptionsState);
-  const userInputInsurance = useRecoilValue(userInputInsuranceState);
-  const keyAmount = useRecoilValue(keyAmountState);
-  const wheelScratchAmount = useRecoilValue(wheelScratchAmountState);
-  const panelScratchAmount = useRecoilValue(panelScratchAmountState);
-  const userInputRepair = useRecoilValue(userInputRepairState);
-  const userInputEtc = useRecoilValue(userInputEtcState);
-  const userInputPhoneNumber = useRecoilValue(userInputPhoneNumberState);
-  const userInputAddress = useRecoilValue(userInputAddressState);
+  // const userInputMileage = useRecoilValue(UserInputMileageState);
+  // const selectedOptions = useRecoilValue(SelectedOptionsState);
+  // const userInputInsurance = useRecoilValue(userInputInsuranceState);
+  // const keyAmount = useRecoilValue(keyAmountState);
+  // const wheelScratchAmount = useRecoilValue(wheelScratchAmountState);
+  // const panelScratchAmount = useRecoilValue(panelScratchAmountState);
+  // const userInputRepair = useRecoilValue(userInputRepairState);
+  // const userInputEtc = useRecoilValue(userInputEtcState);
+  // const userInputPhoneNumber = useRecoilValue(userInputPhoneNumberState);
+  // const userInputAddress = useRecoilValue(userInputAddressState);
   const [userEstimateProcess, setUserEstimateProcess] = useRecoilState(
     userEstimateProcessState
   );
@@ -52,61 +52,58 @@ const Estimate = () => {
     setCurrentEstimate(prev => prev - 1);
   };
 
-  console.log(userEstimateProcess);
-
   const nextProcess = () => {
-    currentEstimate === 3 && setUserEstimateProcess('주행거리');
-    currentEstimate === 4 && setUserEstimateProcess('추가옵션');
-    currentEstimate === 5 && setUserEstimateProcess('추가입력');
-    currentEstimate === 6 && setUserEstimateProcess('사진등록');
-    currentEstimate === 7 && setUserEstimateProcess('개인정보');
+    currentEstimate === 2 && setUserEstimateProcess('주행거리');
+    currentEstimate === 3 && setUserEstimateProcess('추가옵션');
+    currentEstimate === 4 && setUserEstimateProcess('추가입력');
+    currentEstimate === 5 && setUserEstimateProcess('사진등록');
+    currentEstimate === 6 && setUserEstimateProcess('개인정보');
 
-    currentEstimate > 1
-      ? fetch(`${IP}estimates`, {
-          method: 'PATCH',
-          headers: {
-            Authorization: localStorage.getItem('access_token'),
-          },
-          body: JSON.stringify({
-            process_state: userEstimateProcess,
-            mileage: userInputMileage,
-            sunroof: selectedOptions[0].state,
-            navigation: selectedOptions[1].state,
-            ventilation_seat: selectedOptions[2].state,
-            heated_seat: selectedOptions[3].state,
-            electric_seat: selectedOptions[4].state,
-            smart_key: selectedOptions[5].state,
-            leather_seat: selectedOptions[6].state,
-            electric_folding_mirror: selectedOptions[7].state,
-            accident_status: userInputInsurance,
-            spare_key: keyAmount,
-            wheel_scratch: wheelScratchAmount,
-            outer_plate_scratch: panelScratchAmount,
-            other_maintenance_repair: userInputRepair,
-            other_special: userInputEtc,
-            address: userInputAddress,
-            phone_number: userInputPhoneNumber,
-          }),
-        })
-          .then(res => res.json())
-          .then(data => {
-            if (data.message === 'SUCCESS') {
-              setCurrentEstimate(prev => prev + 1);
-              lastEstimate <= currentEstimate &&
-                setLastEstimate(currentEstimate + 1);
-            } else {
-              alert(data);
-            }
-          })
-      : setCurrentEstimate(prev => prev + 1);
+    // currentEstimate > 1
+    //   ? fetch(`${IP}estimates`, {
+    //       method: 'PATCH',
+    //       headers: {
+    //         Authorization: localStorage.getItem('access_token'),
+    //       },
+    //       body: JSON.stringify({
+    //         process_state: userEstimateProcess,
+    //         mileage: userInputMileage,
+    //         sunroof: selectedOptions[0].state,
+    //         navigation: selectedOptions[1].state,
+    //         ventilation_seat: selectedOptions[2].state,
+    //         heated_seat: selectedOptions[3].state,
+    //         electric_seat: selectedOptions[4].state,
+    //         smart_key: selectedOptions[5].state,
+    //         leather_seat: selectedOptions[6].state,
+    //         electric_folding_mirror: selectedOptions[7].state,
+    //         accident_status: userInputInsurance,
+    //         spare_key: keyAmount,
+    //         wheel_scratch: wheelScratchAmount,
+    //         outer_plate_scratch: panelScratchAmount,
+    //         other_maintenance_repair: userInputRepair,
+    //         other_special: userInputEtc,
+    //         address: userInputAddress,
+    //         phone_number: userInputPhoneNumber,
+    //       }),
+    //     })
+    //       .then(res => res.json())
+    //       .then(data => {
+    //         if (data.message === 'SUCCESS') {
+    //           setCurrentEstimate(prev => prev + 1);
+    //           lastEstimate <= currentEstimate &&
+    //             setLastEstimate(currentEstimate + 1);
+    //         } else {
+    //           alert(data);
+    //         }
+    //       })
+    //   :
+    setCurrentEstimate(prev => prev + 1);
     lastEstimate <= currentEstimate && setLastEstimate(currentEstimate + 1);
   };
 
   const goToProcess = id => {
     id <= lastEstimate && setCurrentEstimate(id);
   };
-
-  console.log(userInputEtc);
 
   return (
     <Background>
@@ -138,9 +135,7 @@ const Estimate = () => {
           {currentEstimate === 1 && (
             <Price prevProcess={prevProcess} nextProcess={nextProcess} />
           )}
-          {currentEstimate === 2 && (
-            <Mileage prevProcess={prevProcess} nextProcess={nextProcess} />
-          )}
+          {currentEstimate === 2 && <Mileage prevProcess={prevProcess} />}
           {currentEstimate === 3 && (
             <Options prevProcess={prevProcess} nextProcess={nextProcess} />
           )}
