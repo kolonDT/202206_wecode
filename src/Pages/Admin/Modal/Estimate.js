@@ -1,7 +1,7 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components/macro';
-import { setInput } from '../adminAtoms';
+import { setInput, setModalList } from '../adminAtoms';
 import DealerName from '../RightSection/Search/DealerName/DealerName';
 import ProgressStatus from './ProgressStatus/ProgressStatus';
 
@@ -11,13 +11,19 @@ const Estimate = () => {
     e.preventDefault();
     setInputEatimate(e.target.value);
   };
+  const { consulting } = useRecoilValue(setModalList);
+  const newBranch = consulting.map(({ branch }) => {
+    return branch;
+  });
+  console.log(newBranch);
+
   return (
     <EstimateContainer>
       <EstimateBox>
         <EstimateTitle>처리내용</EstimateTitle>
         <BranchContainer>
           <BranchTypo>지점</BranchTypo>
-          <BranchDetailsTypo>삼성전시장 코오롱모터스</BranchDetailsTypo>
+          <BranchDetailsTypo></BranchDetailsTypo>
         </BranchContainer>
         <DealerName />
         <ProgressStatus />

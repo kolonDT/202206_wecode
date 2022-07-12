@@ -90,8 +90,8 @@ const ReaquestTable = ({ onClick }) => {
                   textAlign: 'center',
                   paddingTop: '10px',
                   paddingBottom: '10px',
-                  paddingLeft: '30px',
-                  paddingRight: '30px',
+                  paddingLeft: '10px',
+                  paddingRight: '10px',
                   width: 'auto',
                 }}
               >

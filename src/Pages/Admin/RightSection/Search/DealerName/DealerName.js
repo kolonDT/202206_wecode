@@ -2,6 +2,7 @@ import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components/macro';
 import {
+  setOptionBranch,
   setRequestSearchData,
   setResponse,
   setSelectModalDealer,
@@ -11,11 +12,18 @@ import { DEALER_NAME } from './DealerData';
 const DealerName = () => {
   const [getDealer, setGetDealer] = useRecoilState(setSelectModalDealer);
   const searchList = useRecoilValue(setRequestSearchData);
-  const { branch } = useRecoilValue(setResponse);
+  // const { branch } = useRecoilValue(setResponse);
+  const selectBranch = useRecoilValue(setOptionBranch);
 
-  const newBranch = searchList.find(({ branch: ele }) => {
-    return ele === branch;
+  // const newBranch = searchList.find(({ branch: ele }) => {
+  //   return ele === branch;
+  // });
+
+  const newBranch = searchList.find(({ branch }) => {
+    return selectBranch === branch;
   });
+
+  console.log(newBranch.dealer);
 
   const handleChange = e => {
     // event handler
@@ -28,9 +36,9 @@ const DealerName = () => {
         <DealerTypo>담당자</DealerTypo>
       </Dealer>
       <DealerFilter onChange={handleChange}>
-        {/* {newBranch.dealer.map(({ dealer }) => (
+        {newBranch.dealer.map(({ dealer }) => (
           <option key={dealer}>{dealer}</option>
-        ))} */}
+        ))}
       </DealerFilter>
     </DealerContainer>
   );

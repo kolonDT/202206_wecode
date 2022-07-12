@@ -1,20 +1,24 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components/macro';
-import { setRequestSearchData, setResponse } from '../../../adminAtoms';
+import {
+  setOptionBranch,
+  setRequestSearchData,
+  setResponse,
+} from '../../../adminAtoms';
 import { BRANCH_LIST } from './SearchData';
 
 const SearchBranch = () => {
   const searchList = useRecoilValue(setRequestSearchData);
+  const [selectBranch, setSelectBranch] = useRecoilState(setOptionBranch);
   const handleChange = e => {
-    // event handler
+    setSelectBranch(e.target.value);
   };
 
   const { branch } = useRecoilValue(setResponse);
   const newArr = searchList.map(({ branch }) => {
     return branch;
   });
-  // console.log(`브랜치임 ${newArr}`);
 
   return (
     <BranchContainer>

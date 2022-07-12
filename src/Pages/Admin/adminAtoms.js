@@ -93,3 +93,8 @@ export const setInput = atom({
   key: 'setInput',
   default: '',
 });
+
+export const setOptionBranch = atom({
+  key: 'setOptionBranch',
+  default: '',
+});
