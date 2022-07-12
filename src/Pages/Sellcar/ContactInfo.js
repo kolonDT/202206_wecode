@@ -1,16 +1,16 @@
-import styled from "styled-components";
-import { useEffect, useState } from "react";
-import DaumPostcode from "react-daum-postcode";
+import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import DaumPostcode from 'react-daum-postcode';
 
 function ContactInfo() {
-  const [phone, setPhone] = useState("");
-  const [addr, setAddr] = useState("");
+  const [phone, setPhone] = useState('');
+  const [addr, setAddr] = useState('');
   const [isFindAddr, setFindAddr] = useState(false);
-  const [detailAddr, setDetailAddr] = useState("");
+  const [detailAddr, setDetailAddr] = useState('');
 
-  let carNumber = localStorage.getItem("carNumber");
-  const handleInput = ({target}) => {
-    const text = target.value
+  let carNumber = localStorage.getItem('carNumber');
+  const handleInput = ({ target }) => {
+    const text = target.value;
     let regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
     if (regPhone.test(text) === true) {
       setPhone(text);
@@ -19,7 +19,7 @@ function ContactInfo() {
       if (phone) setPhone();
     }
   };
-  const onChange = (e) => {
+  const onChange = e => {
     setDetailAddr(e.target.value);
     localStorage.setItem(`${carNumber}_detailAddress`, e.target.value);
   };
@@ -55,29 +55,30 @@ function ContactInfo() {
   //   }
   // }, [postcodeAddr, addr]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (
-         Boolean(localStorage.getItem(`${carNumber}_address`)&&localStorage.getItem(`${carNumber}_detailAddress`)) 
-        ){
-          setAddr(localStorage.getItem(`${carNumber}_address`));
-        setDetailAddr(localStorage.getItem(`${carNumber}_detailAddress`));
-        }
-  },[])
+      Boolean(
+        localStorage.getItem(`${carNumber}_address`) &&
+          localStorage.getItem(`${carNumber}_detailAddress`)
+      )
+    ) {
+      setAddr(localStorage.getItem(`${carNumber}_address`));
+      setDetailAddr(localStorage.getItem(`${carNumber}_detailAddress`));
+    }
+  }, []);
 
   return (
     <Box>
       <P className="top">딜러의 방문상담을 위해</P>
-      <P>연락처와 지역을 확인해 주세요.</P>
+      <P>연락처와 주소를 확인해 주세요.</P>
       <Contact>
         <Text>연락처</Text>
         <Input
           active={phone ? true : false}
           placeholder="010-0000-0000"
-          onChange={
-            handleInput
-          }
+          onChange={handleInput}
           value={phone}
-        ></Input>
+        />
       </Contact>
       <Location>
         {/* <FindBtn
@@ -89,51 +90,56 @@ function ContactInfo() {
           주소 찾기
         </FindBtn> */}
       </Location>
-     
-          <Address>
-          <Contact>
-            <Text>주소</Text>
-            <FindBtn placeholder="주소" onClick={() => {
-                  setFindAddr((prev)=>!prev);
-                  setAddr("")
-                  setDetailAddr("")
-    localStorage.setItem(`${carNumber}_detailAddress`, "");
-    localStorage.setItem(`${carNumber}_address`, "");
 
-
-                }}>검색</FindBtn>
-          </Contact>
-      {isFindAddr && (<div>
-         <Postcode carNumber={carNumber} setFindAddr={setFindAddr} setAddr={setAddr} />
-         </div>
-            ) }
-           {Boolean(addr) &&
-           (<div>
-           <AddrText>{addr}</AddrText>
+      <Address>
+        <Contact>
+          <Text>주소</Text>
+          <FindBtn
+            placeholder="주소"
+            onClick={() => {
+              setFindAddr(prev => !prev);
+              setAddr('');
+              setDetailAddr('');
+              localStorage.setItem(`${carNumber}_detailAddress`, '');
+              localStorage.setItem(`${carNumber}_address`, '');
+            }}
+          >
+            검색
+          </FindBtn>
+        </Contact>
+        {isFindAddr && (
+          <div>
+            <Postcode
+              carNumber={carNumber}
+              setFindAddr={setFindAddr}
+              setAddr={setAddr}
+            />
+          </div>
+        )}
+        {Boolean(addr) && (
+          <div>
+            <AddrText>{addr}</AddrText>
             <Text>상세주소</Text>
-            <AddrInput onChange={onChange} value={detailAddr||""} />
-            </div>)
-            }
-         
-          
-          </Address>
-   
+            <AddrInput onChange={onChange} value={detailAddr || ''} />
+          </div>
+        )}
+      </Address>
     </Box>
   );
 }
-const Postcode = ({ setAddr,setFindAddr,carNumber }) => {
-  const handleComplete = (data) => {
+const Postcode = ({ setAddr, setFindAddr, carNumber }) => {
+  const handleComplete = data => {
     let fullAddress = data.address;
-    let extraAddress = "";
-    if (data.addressType === "R") {
-      if (data.bname !== "") {
+    let extraAddress = '';
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
         extraAddress += data.bname;
       }
-      if (data.buildingName !== "") {
+      if (data.buildingName !== '') {
         extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+          extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
       }
-      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
     setAddr(fullAddress);
     localStorage.setItem(`${carNumber}_address`, fullAddress);
@@ -144,7 +150,7 @@ const Postcode = ({ setAddr,setFindAddr,carNumber }) => {
 };
 
 const AddrText = styled.p`
-font-weight: 100%;
+  font-weight: 100%;
   margin-right: 1.4em;
   letter-spacing: 0.7px;
   text-align: left;
@@ -180,7 +186,7 @@ const AddrInput = styled.input`
   }
 `;
 const FindBtn = styled.button`
-   /* 
+  /* 
   font-weight: 600;
   text-align: center;
   margin-bottom: 20px; */
@@ -189,11 +195,10 @@ const FindBtn = styled.button`
   padding: 5px 15px;
   border-radius: 5px;
   background-color: white;
-  border: 1px solid #5c1049;;
+  border: 1px solid #5c1049;
   margin-left: 1em;
   letter-spacing: 0.7px;
   cursor: pointer;
- 
 `;
 
 const Location = styled.div`
@@ -216,7 +221,7 @@ const Input = styled.input`
     border-right: 0px;
     border-bottom: 2px;
     border-bottom-style: solid;
-    border-color: ${(props) => (props.active === true ? "green" : "red")};
+    border-color: ${props => (props.active === true ? 'green' : 'red')};
   }
 `;
 const Contact = styled.div`
@@ -224,10 +229,10 @@ const Contact = styled.div`
   align-items: center;
   flex-wrap: wrap;
   margin-top: 1.4em;
-  margin-bottom: 1.0em;
+  margin-bottom: 1em;
 `;
 const Text = styled.p`
-font-weight: 600;
+  font-weight: 600;
   margin-right: 1.4em;
   letter-spacing: 0.7px;
   text-align: left;
@@ -239,7 +244,7 @@ const P = styled.p`
   letter-spacing: 1px;
   line-height: 25px;
   text-align: left;
-  &.top{
+  &.top {
     margin-top: 30px;
   }
 `;
