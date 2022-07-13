@@ -30,7 +30,7 @@ import {
   userInputPhoneNumberState,
   userInputAddressState,
 } from '../../atoms';
-import { IP } from '../../Hooks/Fetch';
+import { IP } from '../../config';
 
 const Confirm = () => {
   const userEstimateProcess = useRecoilValue(userEstimateProcessState);
@@ -60,7 +60,9 @@ const Confirm = () => {
   const [isRepair, setIsRepair] = useRecoilState(repairState);
   const [userInputEtc, setUserInputEtc] = useRecoilState(userInputEtcState);
   const [isEtc, setIsEtc] = useRecoilState(etcState);
-  const userInputPhoneNumber = useRecoilValue(userInputPhoneNumberState);
+  const [userInputPhoneNumber, setUserInputPhoneNumber] = useRecoilState(
+    userInputPhoneNumberState
+  );
   const userInputAddress = useRecoilValue(userInputAddressState);
 
   useEffect(() => {
@@ -219,6 +221,11 @@ const Confirm = () => {
     ],
   ]);
 
+  // 연락처 입력
+  const inputPhoneNumber = e => {
+    setUserInputPhoneNumber(e.target.value);
+  };
+
   const navigate = useNavigate();
   const goToConfirm = () => {
     fetch(`${IP}estimates`, {
@@ -302,6 +309,7 @@ const Confirm = () => {
         <ContentWrapper>
           <SubTitle>보험 외 사고 처리</SubTitle>
           <ConfirmInputBox
+            placeholder="보험 적용을 하지 않은 사고에 대해 알려주세요"
             onChange={inputInsurance}
             value={userInputInsurance}
           />
@@ -368,7 +376,11 @@ const Confirm = () => {
 
         <ContentWrapper>
           <SubTitle>정비 필요사항</SubTitle>
-          <ConfirmInputBox onChange={inputRepair} value={userInputRepair} />
+          <ConfirmInputBox
+            placeholder="정비가 필요한 곳이 있다면 알려주세요"
+            onChange={inputRepair}
+            value={userInputRepair}
+          />
           <NoOptionWrapper>
             <NoOption onClick={handleRepair}>
               {isRepair ? <BsCheckSquareFill /> : <BsCheckSquare />}
@@ -379,13 +391,26 @@ const Confirm = () => {
 
         <ContentWrapper>
           <SubTitle>특이사항</SubTitle>
-          <ConfirmInputBox onChange={inputEtc} value={userInputEtc} />
+          <ConfirmInputBox
+            placeholder="튜닝 등 차량의 장점에 대해 알려주세요"
+            onChange={inputEtc}
+            value={userInputEtc}
+          />
           <NoOptionWrapper>
             <NoOption onClick={handleEtc}>
               {isEtc ? <BsCheckSquareFill /> : <BsCheckSquare />}
               <span>특이사항이 없어요</span>
             </NoOption>
           </NoOptionWrapper>
+        </ContentWrapper>
+
+        <ContentWrapper>
+          <SubTitle>연락처</SubTitle>
+          <ConfirmInputBox
+            placeholder="010-1234-5678"
+            onChange={inputPhoneNumber}
+            value={userInputPhoneNumber}
+          />
         </ContentWrapper>
 
         <InputButton onClick={goToConfirm} variant="primary">

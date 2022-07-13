@@ -1,25 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { getAlarm } from '../Api/Api';
 import { PrevButton, ContentBox, ContentTitle } from './Style';
 
-const Complete = ({ isNew, setNew, setPage }) => {
+const Complete = () => {
   const navigate = useNavigate();
   const goToMyState = () => {
     navigate('/estimate');
   };
-  const [toastStatus, setToastStatus] = useState(false);
-  useEffect(() => {
-    getAlarm(setNew);
-  }, []);
-
-  useEffect(() => {
-    if (toastStatus) {
-      setTimeout(() => setToastStatus(false), 1000);
-    }
-  }, [toastStatus]);
 
   return (
     <Background>
