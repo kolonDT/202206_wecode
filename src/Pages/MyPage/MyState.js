@@ -1,25 +1,26 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { ContentBox, ContentTitle, InputButton } from '../Estimate/Style';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   GetCarInfoState,
   GetUserInputInfoState,
   GetUserInputPhotoState,
   AlarmListState,
 } from '../../atoms';
-import { IP } from '../../Hooks/Fetch';
+import { IP } from '../../config';
 
 const MyState = () => {
   const [getEstimateInfo, setGetEstimateInfo] = useRecoilState(GetCarInfoState);
   const [getUserInputInfo, setGetUserInputInfo] = useRecoilState(
     GetUserInputInfoState
   );
-  const setGetUserInputPhoto = useSetRecoilState(GetUserInputPhotoState);
-  const [alarmList, setAlarmList] = useRecoilState(AlarmListState);
+  const [getUserInputPhoto, setGetUserInputPhoto] = useRecoilState(
+    GetUserInputPhotoState
+  );
 
-  // console.log(alarmList[alarmList.length - 1].content);
+  const alarmList = useRecoilValue(AlarmListState);
 
   useEffect(() => {
     fetch(`${IP}estimates/detail`, {
@@ -37,16 +38,13 @@ const MyState = () => {
 
   const {
     car_number,
-    // owner,
     manufacturer,
     car_name,
     trim,
     engine,
     transmission,
-    // body_shape,
     model_year,
     color,
-    // first_registration_year,
   } = getEstimateInfo;
 
   const {
@@ -71,8 +69,6 @@ const MyState = () => {
   } = getUserInputInfo;
 
   const ESTIMATE_INFO = [
-    // { id: 1, type: 'carInfo', title: '차량번호', content: `${car_number}` },
-    // { id: 2, type: 'carInfo', title: '소유주명', content: `${owner}` },
     {
       id: 0,
       type: 'processState',
@@ -93,16 +89,7 @@ const MyState = () => {
       content: `${engine} ${transmission}`,
     },
     { id: 6, type: 'carInfo', title: '색상', content: `${color}` },
-    // { id: 7, type: 'carInfo', title: '차체형태', content: `${body_shape}` },
-    // {
-    //   id: 8,
-    //   type: 'carInfo',
-    //   title: '최초등록',
-    //   content: `${first_registration_year}`,
-    // },
-
     { id: 9, type: 'userInputInfo', title: '주행거리', content: `${mileage}` },
-
     {
       id: 10,
       type: 'userSelectedOption',
@@ -151,7 +138,6 @@ const MyState = () => {
       title: '전동접이미러',
       content: `${electric_folding_mirror}`,
     },
-
     {
       id: 18,
       type: 'userInputInfo',
@@ -196,7 +182,9 @@ const MyState = () => {
         <EstimateWrapper>
           <ContentsBox>
             <ContentsTitle>{car_number}</ContentsTitle>
-            {/* <SubTitle>{alarmList[alarmList.length - 1].content}</SubTitle> */}
+            {alarmList.length && (
+              <SubTitle>{alarmList[alarmList.length - 1].content}</SubTitle>
+            )}
             <CarInfoWrapper>
               <CarInfoTable>
                 {ESTIMATE_INFO.map(
@@ -236,7 +224,16 @@ const MyState = () => {
                       </InfoWrapper>
                     )
                 )}
-                {/* TO DO : 업로드 한 사진 목록 mapping */}
+                {getUserInputPhoto.length && (
+                  <PhotoInfoWrapper>
+                    <InfoElement>차량 사진</InfoElement>
+                    {getUserInputPhoto.map(({ image_info, image }) => (
+                      <InfoDescription key={image_info}>
+                        <PhotoCard preview={image} />
+                      </InfoDescription>
+                    ))}
+                  </PhotoInfoWrapper>
+                )}
                 <InfoWrapper>
                   <InfoElement>방문 장소</InfoElement>
                   <InfoDescription>{address}</InfoDescription>
@@ -258,6 +255,12 @@ const MyState = () => {
 };
 
 export default MyState;
+
+const SubTitle = styled.h4`
+  font-size: medium;
+  margin-bottom: 2.5rem;
+  color: ${({ theme }) => theme.colors.darkGray};
+`;
 
 const CarInfoWrapper = styled.div`
   height: 70%;
@@ -304,6 +307,19 @@ const InfoDescription = styled.td`
   }
 `;
 
+const PhotoCard = styled.div`
+  height: 10rem;
+
+  ${({ preview }) => css`
+    background-image: url(${IP}${preview});
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 0.5rem;
+    width: 10rem;
+  `}
+`;
+
 const InfoWrapper = styled.div`
   margin-bottom: 1rem;
 
@@ -312,15 +328,17 @@ const InfoWrapper = styled.div`
   }
 `;
 
+const PhotoInfoWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  margin-bottom: 1rem;
+`;
+
 const ContentsTitle = styled(ContentTitle)`
   font-size: xx-large;
   margin-bottom: 0.8rem;
-`;
-
-const SubTitle = styled.h4`
-  font-size: medium;
-  margin-bottom: 2.5rem;
-  color: ${({ theme }) => theme.colors.darkGray};
 `;
 
 const EstimateWrapper = styled.section`

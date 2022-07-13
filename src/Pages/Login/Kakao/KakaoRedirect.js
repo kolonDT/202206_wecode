@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { IP } from '../../../Hooks/Fetch';
+import { IP } from '../../../config';
 
 const KakaoRedirect = () => {
   const location = useLocation();
