@@ -5,7 +5,7 @@ import { VscBell, VscBellDot } from 'react-icons/vsc';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   AdminAlarmModalState,
-  LoginState,
+  selectOpenAlarmState,
   setResponse,
 } from '../../Pages/Admin/adminAtoms';
 import DealerName from './DealerName';
@@ -17,8 +17,29 @@ const AdminNav = () => {
   const Logout = () => {
     navigate(`/dealers/login`);
   };
+  const [isOpenAlarmModal, setOpenAlarmModal] =
+    useRecoilState(selectOpenAlarmState); // 알람 모달창 열고 닫고
+  const [alarmModal, setAlarmModal] = useRecoilState(AdminAlarmModalState); // 데이터를 받아옴
+  const responseData = useRecoilValue(setResponse); // 로그인 정보를 받아옴
 
-  const [alarmModal, setAlarmModal] = useRecoilState(AdminAlarmModalState);
+  const getAlarmModalData = () => {
+    fetch(`http://10.133.5.8:8000/notifications/admin`, {
+      method: 'GET',
+      headers: { Authorization: responseData.access_token },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setAlarmModal(data.results);
+      });
+  };
+
+  const onClickToggleModal = () => {
+    setOpenAlarmModal(!isOpenAlarmModal);
+  };
+
+  useEffect(() => {
+    getAlarmModalData();
+  }, []);
 
   return (
     <NavBox>
@@ -27,8 +48,14 @@ const AdminNav = () => {
         <DealerName />
         <CenterLine>|</CenterLine>
         <DealerLogout onClick={Logout}>로그아웃</DealerLogout>
-        <VscBell className="bell" />
-        {/* <AdminAlarmModal /> */}
+        {alarmModal ? (
+          <VscBellDot className="bell" onClick={onClickToggleModal} />
+        ) : (
+          <VscBell className="bell" onClick={onClickToggleModal} />
+        )}
+        {isOpenAlarmModal && (
+          <AdminAlarmModal onClickToggleModal={onClickToggleModal} />
+        )}
       </DealerInfo>
     </NavBox>
   );

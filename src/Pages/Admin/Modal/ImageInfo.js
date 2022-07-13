@@ -9,7 +9,6 @@ import { setModalList } from '../adminAtoms';
 const ImageInfo = () => {
   const getModal = useRecoilValue(setModalList);
   const { estimate_image } = getModal;
-  console.log({ estimate_image });
 
   return (
     <Container>

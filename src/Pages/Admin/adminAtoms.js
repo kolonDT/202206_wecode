@@ -103,3 +103,8 @@ export const AdminAlarmListState = atom({
   key: 'AdminAlarmListState',
   default: [],
 });
+
+export const selectOpenAlarmState = atom({
+  key: 'selectOpenAlarmState',
+  default: false,
+});
