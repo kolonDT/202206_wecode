@@ -79,13 +79,13 @@ export const setSelectListProgress = atom({
   default: '대기',
 });
 
-export const setSelectModalDealer = atom({
-  key: 'setSelectModalDealer',
-  default: '',
+export const selectModalDealerState = atom({
+  key: 'selectModalDealerState',
+  default: '전체',
 });
 
-export const setSelectListDealer = atom({
-  key: 'setSelectListDealer',
+export const saveModalDealerState = atom({
+  key: 'saveModalDealerState',
   default: '대기',
 });
 
@@ -94,7 +94,17 @@ export const setInput = atom({
   default: '',
 });
 
-export const setOptionBranch = atom({
-  key: 'setOptionBranch',
-  default: '',
+export const selectBranchState = atom({
+  key: 'selectBranchState',
+  default: '전체',
+});
+
+export const AdminAlarmModalState = atom({
+  key: 'AdminAlarmModalState',
+  default: false,
+});
+
+export const AdminAlarmListState = atom({
+  key: 'AdminAlarmListState',
+  default: [],
 });

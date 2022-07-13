@@ -1,23 +1,28 @@
 import React from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled, { css } from 'styled-components/macro';
-import { setInput, setModalList, setRequestListData } from '../adminAtoms';
-import DealerName from '../RightSection/Search/DealerName/DealerName';
-import ProgressStatus from './ProgressStatus/ProgressStatus';
+import {
+  setInput,
+  setModalList,
+  saveModalDealerState,
+  selectModalDealerState,
+} from '../../adminAtoms';
+import DealerSelect from './DealerSelect';
+import ProgressStatus from '../ProgressStatus/ProgressStatus';
 
 const Estimate = () => {
-  const [inputEstimate, setInputEatimate] = useRecoilState(setInput);
+  const setInputEatimate = useSetRecoilState(setInput);
   const handleInputEstimate = e => {
     e.preventDefault();
     setInputEatimate(e.target.value);
   };
 
   const getModal = useRecoilValue(setModalList);
-  console.log(getModal);
-  const newConsulting = getModal.consulting;
-  const newBranch = newConsulting.map(({ branch }) => {
-    return branch;
-  });
+
+  const setNewDealer = useSetRecoilState(selectModalDealerState);
+  const handleSelectDealer = ({ target: { value } }) => {
+    setNewDealer(value);
+  };
 
   return (
     <EstimateContainer>
@@ -25,16 +30,19 @@ const Estimate = () => {
         <EstimateTitle>처리내용</EstimateTitle>
         <BranchContainer>
           <BranchTypo>지점</BranchTypo>
-          <BranchDetailsTypo>{newBranch}</BranchDetailsTypo>
+          <BranchDetailsTypo>{getModal.branch}</BranchDetailsTypo>
         </BranchContainer>
-        <DealerName />
+        <DealerSelect
+          branch={getModal.branch}
+          handleSelectDealer={handleSelectDealer}
+        />
         <ProgressStatus />
         <InputEstimate
           type="textarea"
           cols="50"
           rows="10"
           placeholder="상담내용을 입력하세요"
-          onChange={handleInputEstimate}
+          onChange={() => handleInputEstimate}
         />
       </EstimateBox>
     </EstimateContainer>

@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import CustomerInfo from './CustomerInfo';
 import CarInfo from './CarInfo';
-import Estimate from './Estimate';
+import Estimate from './Estimate/Estimate';
 import {
   setInput,
   setModalList,
   setResponse,
-  setSelectListDealer,
+  saveModalDealerState,
   setSelectListProgress,
-  setSelectModalDealer,
+  selectModalDealerState,
   setSelectProgress,
 } from '../adminAtoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -18,11 +18,10 @@ import ModalMenu from './ModalMenu';
 
 const Modal = ({ onClickToggleModal, id }) => {
   const getProgress = useRecoilValue(setSelectProgress);
-  const getDealer = useRecoilValue(setSelectModalDealer);
-  const inputEstimate = useRecoilValue(setInput);
+  const getDealer = useRecoilValue(selectModalDealerState);
   const responseData = useRecoilValue(setResponse);
   const [getModal, setGetModal] = useRecoilState(setModalList);
-  const [setNewDealer, setGetNewDealer] = useRecoilState(setSelectListDealer);
+  const [newDealer, setNewDealer] = useRecoilState(saveModalDealerState);
   const [setNewProgress, setGetNewProgress] = useRecoilState(
     setSelectListProgress
   );
@@ -50,7 +49,6 @@ const Modal = ({ onClickToggleModal, id }) => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log({ data });
         setGetModal(data.results);
       });
   };
@@ -58,7 +56,6 @@ const Modal = ({ onClickToggleModal, id }) => {
   useEffect(() => {
     getModalData();
   }, []);
-  console.log('sadsf', id);
   // backend에 보낼 함수임!
   const onSubmit = e => {
     // fetch(`http://10.133.5.8:8000/dealers/estimate${id}`, {
@@ -76,14 +73,12 @@ const Modal = ({ onClickToggleModal, id }) => {
     //     // setGetNewProgress(getDealer);
     //   }
     //   );
-    setGetNewDealer(getDealer);
+    setNewDealer(getDealer === '선택' ? '' : getDealer);
     setGetNewProgress(getProgress);
     alert('저장이 완료됐습니다');
     e.preventDefault();
   };
 
-  const handleClick = () => {};
-  console.log(getModal);
   return (
     <ModalContainer>
       <ModalCard>

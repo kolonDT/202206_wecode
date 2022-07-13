@@ -5,7 +5,7 @@ import {
   selectIdState,
   setRequestListData,
   setResponse,
-  setSelectListDealer,
+  saveModalDealerState,
   setSelectListProgress,
 } from '../../adminAtoms';
 
@@ -13,11 +13,10 @@ const ReaquestTable = ({ onClick }) => {
   const responseData = useRecoilValue(setResponse);
   // 나중에 지점이랑 진행상태는 따로 갑 가져와서 저장할거임
   const requestList = useRecoilValue(setRequestListData);
-  const setNewDealer = useRecoilValue(setSelectListDealer);
+  const setNewDealer = useRecoilValue(saveModalDealerState);
   const setNewProgress = useRecoilValue(setSelectListProgress);
   const currentId = useRecoilValue(selectIdState);
-  console.log(setNewDealer, setNewProgress);
-
+  const newDealer = setNewDealer === '전체' && setNewDealer ? '' : setNewDealer;
   const formatList = requestList.map(
     ({
       estimate_request_date,
@@ -31,13 +30,15 @@ const ReaquestTable = ({ onClick }) => {
       estimate_id,
       estimate_request_date: estimate_request_date.substr(0, 10),
       quote_requested: quote_requested.substr(0, 10),
-      dealer: estimate_id === currentId ? setNewDealer || dealer : dealer,
+      dealer: estimate_id === currentId ? newDealer || dealer : dealer,
       progress:
         estimate_id === currentId ? setNewProgress || progress : progress,
     })
   );
-
-  const data = useMemo(() => formatList, [setNewDealer, setNewProgress]);
+  const data = useMemo(
+    () => formatList,
+    [newDealer, setNewProgress, requestList]
+  );
 
   const columns = useMemo(
     () => [
@@ -97,7 +98,7 @@ const ReaquestTable = ({ onClick }) => {
     useTable({ columns, data });
 
   return (
-    <table {...getTableProps()}>
+    <table {...getTableProps()} style={{ marginTop: '15px' }}>
       <thead>
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>

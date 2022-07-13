@@ -85,7 +85,6 @@ const CarInfo = () => {
           lastEstimate <= currentEstimate &&
             setLastEstimate(currentEstimate + 1);
         } else {
-          console.log(data);
           alert(data);
         }
       });

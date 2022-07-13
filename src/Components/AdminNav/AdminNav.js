@@ -3,8 +3,13 @@ import styled, { css } from 'styled-components/macro';
 import { useNavigate } from 'react-router-dom';
 import { VscBell, VscBellDot } from 'react-icons/vsc';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { LoginState, setResponse } from '../../Pages/Admin/adminAtoms';
+import {
+  AdminAlarmModalState,
+  LoginState,
+  setResponse,
+} from '../../Pages/Admin/adminAtoms';
 import DealerName from './DealerName';
+import AdminAlarmModal from './AdminAlarmModal';
 
 const AdminNav = () => {
   const navigate = useNavigate();
@@ -12,6 +17,8 @@ const AdminNav = () => {
   const Logout = () => {
     navigate(`/dealers/login`);
   };
+
+  const [alarmModal, setAlarmModal] = useRecoilState(AdminAlarmModalState);
   // const responseData = useRecoilValue(setResponse);
   // const parsing = JSON.parse(responseData);
   // const { name } = parsing;
@@ -23,6 +30,24 @@ const AdminNav = () => {
   // console.log(`dataStr ${dataStr}`);
   // console.log(`parsing ${parsing}`);
 
+  // function AlarmChange({ isNew }) {
+  //   console.log("test", isNew);
+  //   if (isNew === 1) {
+  //     return (
+  //       <div>
+  //         <BsBell size="24" color="#383838" onClick={settingAlarm} />
+  //         <Alarm>
+  //           <BsCircleFill color="red" size="10" onClick={settingAlarm} />
+  //         </Alarm>
+  //       </div>
+  //     );
+  //   } else if (isNew === 0) {
+  //     return <BsBell size="24" color="#383838" onClick={settingAlarm} />;
+  //   } else {
+  //     return <BsBellSlash size="24" color="#383838" onClick={settingAlarm} />;
+  //   }
+  // }
+
   return (
     <NavBox>
       <NavTypo>코오롱 프리미엄 멤버십 Admin Page</NavTypo>
@@ -31,6 +56,7 @@ const AdminNav = () => {
         <CenterLine>|</CenterLine>
         <DealerLogout onClick={Logout}>로그아웃</DealerLogout>
         <VscBell className="bell" />
+        {/* <AdminAlarmModal /> */}
       </DealerInfo>
     </NavBox>
   );

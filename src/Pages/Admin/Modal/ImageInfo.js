@@ -8,17 +8,17 @@ import { setModalList } from '../adminAtoms';
 
 const ImageInfo = () => {
   const getModal = useRecoilValue(setModalList);
-  const { car_image } = getModal;
+  const { estimate_image } = getModal;
 
   return (
     <Container>
-      <Slidetitle>인기 서비스</Slidetitle>
+      <Slidetitle>자동차 상태 사진</Slidetitle>
       <StyledSlider {...Settings}>
-        {car_image?.map(({ name, img }) => {
+        {estimate_image?.map(({ image_id, image, image_info }) => {
           return (
-            <CardBox key={name}>
-              <CardImg alt="자동차 사진" src={img} />
-              <CardText>{name}</CardText>
+            <CardBox key={image_id}>
+              <CardImg alt="자동차 사진" src={image} />
+              <CardText>{image_info}</CardText>
             </CardBox>
           );
         })}
@@ -37,9 +37,10 @@ const Settings = {
 };
 
 const Slidetitle = styled.h2`
-  padding: 10px 0 10px 0;
-  text-align: center;
-  font-size: 20px;
+  font-size: ${props => props.theme.fontSizes.small};
+  font-weight: ${props => props.theme.fontWeights.extraBold};
+  margin-bottom: 10px;
+  margin-top: 30px;
 `;
 
 const Container = styled.div`
@@ -48,8 +49,11 @@ const Container = styled.div`
 
 // 슬라이드 CSS
 const StyledSlider = styled(Slider)`
+  display: flex;
+  align-items: center;
+  background-color: #dbdbdb;
   .slick-list {
-    width: 420px;
+    width: 450px;
     margin: 0 auto;
   }
 
@@ -58,13 +62,15 @@ const StyledSlider = styled(Slider)`
   }
 
   .slick-dots {
-    bottom: -10px;
+    bottom: 10px;
     margin-top: 20px;
   }
 
   .slick-track {
     overflow-x: hidden;
   }
+  width: 420px;
+  height: 450px;
 `;
 
 const CardBox = styled.div`
@@ -72,13 +78,16 @@ const CardBox = styled.div`
 `;
 
 const CardImg = styled.p`
-  width: 400px;
-  height: 500px;
+  margin: 0 auto;
+  width: 350px;
+  height: 350px;
+  background-color: red;
 `;
 
 const CardText = styled.p`
-  padding: 20px;
-  font-size: 10px;
+  padding: 10px;
+  margin-top: 5px;
+  font-size: 15px;
   font-weight: bolder;
   text-align: center;
 `;

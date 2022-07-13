@@ -34,6 +34,7 @@ const CheckInput = styled.input`
   border-radius: 0.2rem;
   border: 1px solid #c4c4c4;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  margin-right: 10px;
 
   &:checked {
     border: 1px solid #f7cd8b;

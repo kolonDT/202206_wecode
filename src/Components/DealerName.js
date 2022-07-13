@@ -1,38 +1,17 @@
-import React from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import React, { Children } from 'react';
 import styled from 'styled-components/macro';
-import {
-  setOptionBranch,
-  setRequestSearchData,
-  setSelectModalDealer,
-} from '../../../adminAtoms';
 
-const DealerName = () => {
-  const [getDealer, setGetDealer] = useRecoilState(setSelectModalDealer);
-  const searchList = useRecoilValue(setRequestSearchData);
-
-  const selectBranch = useRecoilValue(setOptionBranch) || searchList[0].branch;
-
-  const newBranch = searchList.find(({ branch: searchBranch }) => {
-    return selectBranch === searchBranch;
-  });
-
-  const newDealer = newBranch.dealer;
-
-  const handleChange = e => {
-    setGetDealer(e.target.value);
-  };
-
+const DealerName = ({ handleSelectDealer, children, isFilter = 'true' }) => {
   return (
     <DealerContainer>
       <Dealer>
         <DealerTypo>담당자</DealerTypo>
       </Dealer>
-      <DealerFilter onChange={handleChange}>
-        {newDealer.map(idx => (
-          <option key={idx}>{idx}</option>
-        ))}
-      </DealerFilter>
+      {isFilter ? (
+        <DealerFilter onChange={handleSelectDealer}>{children}</DealerFilter>
+      ) : (
+        <DealerTypo> {children}</DealerTypo>
+      )}
     </DealerContainer>
   );
 };
