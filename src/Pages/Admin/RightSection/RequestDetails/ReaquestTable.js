@@ -4,21 +4,17 @@ import { useTable } from 'react-table';
 import {
   selectIdState,
   setRequestListData,
-  setResponse,
   saveModalDealerState,
   setSelectListProgress,
 } from '../../adminAtoms';
 
 const ReaquestTable = ({ onClick }) => {
-  const responseData = useRecoilValue(setResponse);
-  // 나중에 지점이랑 진행상태는 따로 갑 가져와서 저장할거임
   const requestList = useRecoilValue(setRequestListData);
   const setNewDealer = useRecoilValue(saveModalDealerState);
   const setNewProgress = useRecoilValue(setSelectListProgress);
   const currentId = useRecoilValue(selectIdState);
 
   const newDealer = setNewDealer === '전체' && setNewDealer ? '' : setNewDealer;
-  console.log(requestList);
   const formatList = requestList.map(
     ({
       estimate_request_date,
@@ -28,7 +24,6 @@ const ReaquestTable = ({ onClick }) => {
       estimate_id,
       ...rest
     }) => {
-      console.log(estimate_id === currentId ? newDealer || dealer : dealer);
       return {
         ...rest,
         estimate_id,

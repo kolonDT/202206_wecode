@@ -27,6 +27,10 @@ const Modal = ({ onClickToggleModal, id }) => {
     setSelectListProgress
   );
 
+  const { name } = useRecoilValue(setResponse);
+  const consulting = getModal?.consulting || [''];
+  const currentModalDealer = consulting[0].dealer || '';
+
   const sales_process = getModal?.sales_process || [''];
   const process = sales_process[0].process_state || '';
   // const getModalData = () => {
@@ -83,22 +87,26 @@ const Modal = ({ onClickToggleModal, id }) => {
 
   const handleSave = e => {
     // 로그인 정보랑 딜러랑 비교 if 같지 않으면 alert return;
-    fetch(`http://10.133.5.8:8000/dealers/consulting`, {
-      method: 'PATCH',
-      headers: { Authorization: responseData.access_token },
-      body: JSON.stringify({
-        estimate_id: id,
-        status: getProgress,
-        content: inputEstimate, //안써도 됨
-      }),
-    }) //덩어리 제이슨을 받아옴
-      .then(res => res.json()) //덩어리 제이슨을 객체 현태로 변환
-      .then(data => {
-        console.log(data);
-        setGetNewProgress(getProgress);
-        alert('저장이 완료됐습니다');
-        e.preventDefault();
-      });
+    if (name !== currentModalDealer) {
+      alert('담당딜러가 아닙니다.');
+    } else {
+      fetch(`http://10.133.5.8:8000/dealers/consulting`, {
+        method: 'PATCH',
+        headers: { Authorization: responseData.access_token },
+        body: JSON.stringify({
+          estimate_id: id,
+          status: getProgress,
+          content: inputEstimate, //안써도 됨
+        }),
+      }) //덩어리 제이슨을 받아옴
+        .then(res => res.json()) //덩어리 제이슨을 객체 현태로 변환
+        .then(data => {
+          console.log(data);
+          setGetNewProgress(getProgress);
+          alert('저장이 완료됐습니다');
+          e.preventDefault();
+        });
+    }
   };
 
   return (

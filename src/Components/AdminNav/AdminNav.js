@@ -19,34 +19,6 @@ const AdminNav = () => {
   };
 
   const [alarmModal, setAlarmModal] = useRecoilState(AdminAlarmModalState);
-  // const responseData = useRecoilValue(setResponse);
-  // const parsing = JSON.parse(responseData);
-  // const { name } = parsing;
-
-  // const dataStr = JSON.stringify(responseData);
-  // const parsing = JSON.parse(dataStr);
-  // const { name } = parsing;
-
-  // console.log(`dataStr ${dataStr}`);
-  // console.log(`parsing ${parsing}`);
-
-  // function AlarmChange({ isNew }) {
-  //   console.log("test", isNew);
-  //   if (isNew === 1) {
-  //     return (
-  //       <div>
-  //         <BsBell size="24" color="#383838" onClick={settingAlarm} />
-  //         <Alarm>
-  //           <BsCircleFill color="red" size="10" onClick={settingAlarm} />
-  //         </Alarm>
-  //       </div>
-  //     );
-  //   } else if (isNew === 0) {
-  //     return <BsBell size="24" color="#383838" onClick={settingAlarm} />;
-  //   } else {
-  //     return <BsBellSlash size="24" color="#383838" onClick={settingAlarm} />;
-  //   }
-  // }
 
   return (
     <NavBox>
