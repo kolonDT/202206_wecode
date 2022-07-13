@@ -58,11 +58,6 @@ export const signInPwState = atom({
   default: '',
 });
 
-export const setToken = atom({
-  key: 'setToken',
-  default: '',
-});
-
 export const setResponse = atom({
   key: 'setResponse',
   default: {},

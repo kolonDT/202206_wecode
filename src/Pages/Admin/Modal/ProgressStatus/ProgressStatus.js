@@ -1,11 +1,7 @@
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components/macro';
-import {
-  setModalList,
-  setRequestListData,
-  setSelectProgress,
-} from '../../adminAtoms';
+import { setModalList, setSelectProgress } from '../../adminAtoms';
 import { PROGRESS_STATUS } from './ProgressStatusData';
 
 const ProgressStatus = () => {
