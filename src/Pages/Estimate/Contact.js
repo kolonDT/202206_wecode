@@ -1,8 +1,8 @@
-import React from 'react';
-import Post from '../Estimate/Post/Post';
+import React, { useState } from 'react';
+// import Post from '../Estimate/Post/Post';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
-import { userInputPhoneNumberState } from '../../atoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { userInputPhoneNumberState, EstimateCarInfo } from '../../atoms';
 import {
   ButtonSet,
   NextButton,
@@ -11,11 +11,14 @@ import {
   ContentTitle,
   InputBox,
 } from './Style';
+import DaumPostcode from 'react-daum-postcode';
+// import { Map } from 'react-kakao-maps-sdk';
 
 const AddContactInfo = ({ nextProcess, prevProcess }) => {
   const [userInputPhoneNumber, setUserInputPhoneNumber] = useRecoilState(
     userInputPhoneNumberState
   );
+  const EstimateCarInfoValue = useRecoilValue(EstimateCarInfo);
 
   const inputPhoneNumber = e => {
     setUserInputPhoneNumber(e.target.value);
@@ -41,6 +44,34 @@ const AddContactInfo = ({ nextProcess, prevProcess }) => {
   //     });
   // };
 
+  const [address, setAddress] = useState(''); // 주소
+  const [addressDetail, setAddressDetail] = useState(''); // 상세주소
+  const onCompletePost = data => {
+    let fullAddr = data.address;
+    let extraAddr = '';
+
+    if (data.addressType === 'R') {
+      // 사용자가 도로명 주소를 선택했을 경우
+      if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+        extraAddr += data.bname;
+      }
+      if (data.buildingName !== '') {
+        // 건물명이 있고
+        extraAddr +=
+          extraAddr !== '' ? `, ${data.buildingName}` : data.buildingName;
+      } //공동주택제한일 경우 if안에  && data.apartment === 'Y' 추가
+      // 아래와 같이 바꿔쓸수있다.
+      // extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      fullAddr += extraAddr !== '' ? ` (${extraAddr})` : '';
+      // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+    }
+
+    setAddress(data.zonecode);
+    setAddressDetail(fullAddr);
+  };
+
   return (
     <ContentsBox>
       <ContentTitle>
@@ -52,15 +83,20 @@ const AddContactInfo = ({ nextProcess, prevProcess }) => {
         <ContactInputWrapper>
           <InputTitle>연락처</InputTitle>
           <InputBox
+            placeholder={EstimateCarInfoValue.phone_number}
             onChange={inputPhoneNumber}
             value={userInputPhoneNumber}
-            placeholder="010-1234-5678"
           />
         </ContactInputWrapper>
 
         <AddressInputWrapper>
           <InputTitle>주소</InputTitle>
-          <Post />
+          <DaumPostcode
+            // style={postCodeStyle}
+            autoClose={false}
+            onComplete={onCompletePost}
+          />
+          {/* <Map /> */}
         </AddressInputWrapper>
       </InputWrapper>
 
@@ -68,7 +104,11 @@ const AddContactInfo = ({ nextProcess, prevProcess }) => {
         <PrevButton onClick={prevProcess} variant="primary">
           이전
         </PrevButton>
-        <NextButton onClick={nextProcess} variant="primary">
+        <NextButton
+          disabled={userInputPhoneNumber === '' ? true : false}
+          onClick={nextProcess}
+          variant="primary"
+        >
           다음
         </NextButton>
       </ButtonSet>
