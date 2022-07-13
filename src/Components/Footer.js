@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { GrDown } from 'react-icons/gr';
 import { MdCopyright } from 'react-icons/md';
 
 const Footer = ({ page }) => {
@@ -23,11 +24,8 @@ const Footer = ({ page }) => {
 };
 
 const FooterContainer = styled.div`
-  ${({ theme }) => theme.flex.flexBox}
-  width: 100vw;
-  height: 12rem;
-  background-color: white;
-
+  width: ${props => (props.page === 'admin' ? '1250px' : '640px')};
+  margin: 20px auto;
   @media only screen and (max-width: 640px) {
     font-size: 90%;
   }

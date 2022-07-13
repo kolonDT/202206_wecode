@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, BrowserRouter, Route } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot, useRecoilState } from 'recoil';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Login from './Pages/Login/Login';
@@ -9,6 +9,13 @@ import Estimate from './Pages/Estimate/Estimate';
 import MyState from './Pages/MyPage/MyState';
 import SignIn from './Pages/SignIn/SignIn';
 import KakaoRedirect from './Pages/Login/Kakao/KakaoRedirect';
+import CompleteForm from './Pages/Complete/CompleteForm';
+import RequestForm from './Pages/Requestform/RequestForm';
+import Reconfirm from './Pages/Sellcar/Reconfirm';
+import SellCar from './Pages/Sellcar/Sellcar';
+import Graph from './Pages/Graph/Graph';
+import AdminLogin from './Pages/AdminLogin/AdminLogin';
+import ReaquestTable from './Pages/Admin/RightSection/RequestDetails/ReaquestTable';
 
 function App() {
   const [isNew, setNew] = useState(-1);
@@ -23,7 +30,7 @@ function App() {
           <Route
             path="/complete"
             element={
-              <Complete isNew={isNew} setNew={setNew} setPage={setPage} />
+              <RequestForm isNew={isNew} setNew={setNew} setPage={setPage} />
             }
           />
           <Route path="/join" element={<SignIn />} />

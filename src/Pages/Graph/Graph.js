@@ -50,6 +50,7 @@ function Graph({ setPage }) {
     })
       .then(res => res.json())
       .then(data => {
+        console.log(data);
         const price = data;
         // price.map((data) => {
         //   if (data.price_used !== undefined) {
@@ -61,6 +62,8 @@ function Graph({ setPage }) {
         // });
         setGraph(price);
         setPrice(price[0].price_used);
+        console.log(price);
+        console.log(price[0]);
       });
     // MockDB : end
   };
@@ -73,12 +76,15 @@ function Graph({ setPage }) {
 
   return (
     <GraphWrap>
-      {/* <GraphTitle>
+      <GraphTitle>
         내 차의 예상 시세는 <br />
         {price} ∼ {price} 만 원 입니다.
-      </GraphTitle> */}
+      </GraphTitle>
       <GraphBox>
-        <ResponsiveContainer height={300} width={screenWidth < 600 ? 350 : 500}>
+        <ResponsiveContainer
+          minWidth={screenWidth < 600 ? 375 : 500}
+          minHeight={screenWidth < 600 ? 375 : 500}
+        >
           <ComposedChart
             data={graph}
             margin={{
@@ -106,6 +112,15 @@ function Graph({ setPage }) {
           </ComposedChart>
         </ResponsiveContainer>
       </GraphBox>
+      <GraphButton
+        onClick={() => {
+          setAdd(!add);
+        }}
+        style={{ display: add === false ? 'block' : 'none' }}
+      >
+        <>추가 정보 입력</>
+      </GraphButton>
+      <>{add === true ? <Sellcar active={add} setPage={setPage} /> : null}</>
     </GraphWrap>
   );
 }
@@ -125,5 +140,18 @@ const GraphWrap = styled.div`
 // `;
 const GraphBox = styled.div`
   font-size: small;
-  max-width: 640px;
+  margin: 10px 0px 30px 0px;
+`;
+
+const GraphButton = styled.button`
+  width: 180px;
+  padding: 12px 15px;
+  border-radius: 5px;
+  border: 1px solid #adadad;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background-color: #5c1049;
+  box-shadow: 3px 3px 5px #d8d8d8;
 `;

@@ -47,12 +47,9 @@ const colors = {
   skyMint: '#2AD2C9',
   green: '#009473',
   trueGold: '#8B6F4E',
-  darkGray: '#929599',
   gray: '#A7A9AC',
   evBlue: '#0E8CCC',
   disabled: '#ebebeb',
-  background: '#fafafa',
-  primaryBlue: '#085ed6',
 };
 
 const flex = {

@@ -1,0 +1,11 @@
+curl --location --request POST 'https://fcm.googleapis.com/fcm/send' \
+--header 'Authorization: key= BDVMyokyJKtltmNkgGUS13LGD2wC0ABOINXcakO-n1YXclkkdKuPcw1kuIkEtA-7OCCNpt0KeRUOd5m-mnpzgDQ ' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "notification": {
+        "title": "TEST-PWA",
+        "body": "알림이 도착했습니다"
+        
+    },
+    "to": "elwTZJ5eNoSr_sYdB6FHbw:APA91bGn1al3dSKO7MOHu-OWTK-Q8jnGGugt7HffMIWnJs-W925F-Cbxz6wSvkWHcwBsugO_0GVTsKnpC9Yoi8YXSAuhajKv8oAIxroho4cL2IdHmmQwXnig6hGv5JRNY72f3HUmzcVY"
+}'
