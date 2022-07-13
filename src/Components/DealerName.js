@@ -10,7 +10,7 @@ const DealerName = ({ handleSelectDealer, children, isFilter = 'true' }) => {
       {isFilter ? (
         <DealerFilter onChange={handleSelectDealer}>{children}</DealerFilter>
       ) : (
-        <DealerTypo> {children}</DealerTypo>
+        <DealerFilter> {children}</DealerFilter>
       )}
     </DealerContainer>
   );

@@ -69,8 +69,8 @@ const Modal = ({ onClickToggleModal, id }) => {
     //   .then(res => res.json()) //덩어리 제이슨을 객체 현태로 변환
     //   .then(data => {
     //     if (data.Access_token) localStorage.setItem('token', data.Access_token);
-    //     // setGetNewDealer(getProgress);
-    //     // setGetNewProgress(getDealer);
+    //     //  setNewDealer(getDealer === '선택' ? '' : getDealer);
+    //     //  setGetNewProgress(getProgress); //  alert('저장이 완료됐습니다'); //    e.preventDefault();
     //   }
     //   );
     setNewDealer(getDealer === '선택' ? '' : getDealer);

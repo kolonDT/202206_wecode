@@ -9,6 +9,7 @@ import { setModalList } from '../adminAtoms';
 const ImageInfo = () => {
   const getModal = useRecoilValue(setModalList);
   const { estimate_image } = getModal;
+  console.log({ estimate_image });
 
   return (
     <Container>
@@ -17,7 +18,7 @@ const ImageInfo = () => {
         {estimate_image?.map(({ image_id, image, image_info }) => {
           return (
             <CardBox key={image_id}>
-              <CardImg alt="자동차 사진" src={image} />
+              <CardImg alt="자동차 사진" />
               <CardText>{image_info}</CardText>
             </CardBox>
           );
@@ -77,11 +78,11 @@ const CardBox = styled.div`
   cursor: pointer;
 `;
 
-const CardImg = styled.p`
+const CardImg = styled.div`
   margin: 0 auto;
   width: 350px;
   height: 350px;
-  background-color: red;
+  background-image: url(${props => props.image});
 `;
 
 const CardText = styled.p`

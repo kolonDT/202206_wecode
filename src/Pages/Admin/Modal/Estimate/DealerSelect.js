@@ -6,11 +6,8 @@ import DealerName from '../../../../Components/DealerName';
 const DealerSelect = ({ handleSelectDealer, branch }) => {
   const searchList = useRecoilValue(setRequestSearchData);
   const { consulting } = useRecoilValue(setModalList);
-  // const defaultDealer = consulting.map(({ dealer }) => {
-  //   return dealer;
-  // });
   const defaultDealer = consulting[0]?.dealer;
-  console.log(defaultDealer);
+
   const newDealer = searchList.find(({ branch: searchBranch }) => {
     return branch === searchBranch;
   }) || { dealer: [] };
