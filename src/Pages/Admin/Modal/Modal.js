@@ -20,13 +20,15 @@ const Modal = ({ onClickToggleModal, id }) => {
   const getProgress = useRecoilValue(setSelectProgress);
   const getDealer = useRecoilValue(selectModalDealerState);
   const responseData = useRecoilValue(setResponse);
-  const inputEstimate = useRecoilValue(setInput);
+  const [inputEstimate, setInputEstimate] = useRecoilState(setInput);
   const [getModal, setGetModal] = useRecoilState(setModalList);
   const [newDealer, setNewDealer] = useRecoilState(saveModalDealerState);
   const [setNewProgress, setGetNewProgress] = useRecoilState(
     setSelectListProgress
   );
 
+  const sales_process = getModal?.sales_process || [''];
+  const process = sales_process[0].process_state || '';
   // const getModalData = () => {
   //   setGetModalID(id);
   //   fetch('Data/Sunshine/ModalData.json', {
@@ -51,6 +53,7 @@ const Modal = ({ onClickToggleModal, id }) => {
       .then(res => res.json())
       .then(data => {
         setGetModal(data.results);
+        setInputEstimate(data.results.consulting[0].content);
       });
   };
 
@@ -58,22 +61,44 @@ const Modal = ({ onClickToggleModal, id }) => {
     getModalData();
   }, []);
   // backend에 보낼 함수임!
-  const onSubmit = e => {
-    fetch(`http://10.133.5.8:8000/dealers/estimate${id}`, {
+  const handlePostDealer = e => {
+    fetch(`http://10.133.5.8:8000/dealers/consulting`, {
       method: 'POST',
+      headers: { Authorization: responseData.access_token },
       body: JSON.stringify({
-        status: getProgress,
         dealer_name: getDealer,
-        content: inputEstimate,
+        estimate_id: id,
       }),
     }) //덩어리 제이슨을 받아옴
       .then(res => res.json()) //덩어리 제이슨을 객체 현태로 변환
       .then(data => {
+        setNewDealer(getDealer === '선택' ? '' : getDealer);
+        alert('저장이 완료됐습니다');
         e.preventDefault();
       });
-    setNewDealer(getDealer === '선택' ? '' : getDealer);
+
     setGetNewProgress(getProgress);
     alert('저장이 완료됐습니다');
+  };
+
+  const handleSave = e => {
+    // 로그인 정보랑 딜러랑 비교 if 같지 않으면 alert return;
+    fetch(`http://10.133.5.8:8000/dealers/consulting`, {
+      method: 'PATCH',
+      headers: { Authorization: responseData.access_token },
+      body: JSON.stringify({
+        estimate_id: id,
+        status: getProgress,
+        content: inputEstimate, //안써도 됨
+      }),
+    }) //덩어리 제이슨을 받아옴
+      .then(res => res.json()) //덩어리 제이슨을 객체 현태로 변환
+      .then(data => {
+        console.log(data);
+        setGetNewProgress(getProgress);
+        alert('저장이 완료됐습니다');
+        e.preventDefault();
+      });
   };
 
   return (
@@ -89,7 +114,11 @@ const Modal = ({ onClickToggleModal, id }) => {
             </AlignLeft>
             <CenterAlign>
               {getModal.length !== 0 && <Estimate />}
-              <SaveButton onClick={onSubmit}>저장</SaveButton>
+              <SaveButton
+                onClick={process === '대기' ? handlePostDealer : handleSave}
+              >
+                저장
+              </SaveButton>
             </CenterAlign>
           </RowAlign>
         </AlignLeft>

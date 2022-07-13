@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import styled, { css } from 'styled-components/macro';
 import {
   setInput,
@@ -11,13 +11,11 @@ import DealerSelect from './DealerSelect';
 import ProgressStatus from '../ProgressStatus/ProgressStatus';
 
 const Estimate = () => {
-  const setInputEatimate = useSetRecoilState(setInput);
+  const [input, setInputEstimate] = useRecoilState(setInput);
   const handleInputEstimate = e => {
     e.preventDefault();
-    setInputEatimate(e.target.value);
+    setInputEstimate(e.target.value);
   };
-
-  const getModal = useRecoilValue(setModalList);
 
   const setNewDealer = useSetRecoilState(selectModalDealerState);
 
@@ -25,26 +23,31 @@ const Estimate = () => {
     setNewDealer(value);
   };
 
+  const { sales_process, branch } = useRecoilValue(setModalList);
+  const process = sales_process[0].process_state;
+
   return (
     <EstimateContainer>
       <EstimateBox>
         <EstimateTitle>처리내용</EstimateTitle>
         <BranchContainer>
           <BranchTypo>지점</BranchTypo>
-          <BranchDetailsTypo>{getModal.branch}</BranchDetailsTypo>
+          <BranchDetailsTypo>{branch}</BranchDetailsTypo>
         </BranchContainer>
-        <DealerSelect
-          branch={getModal.branch}
-          handleSelectDealer={handleSelectDealer}
-        />
-        <ProgressStatus />
-        <InputEstimate
-          type="textarea"
-          cols="50"
-          rows="10"
-          placeholder="상담내용을 입력하세요"
-          onChange={() => handleInputEstimate}
-        />
+        <DealerSelect branch={branch} handleSelectDealer={handleSelectDealer} />
+        {process !== '대기' && (
+          <>
+            <ProgressStatus />
+            <InputEstimate
+              type="textarea"
+              cols="50"
+              rows="10"
+              placeholder="상담내용을 입력하세요"
+              value={input}
+              onChange={handleInputEstimate}
+            />
+          </>
+        )}
       </EstimateBox>
     </EstimateContainer>
   );

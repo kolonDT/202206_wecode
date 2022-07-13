@@ -86,7 +86,7 @@ export const selectModalDealerState = atom({
 
 export const saveModalDealerState = atom({
   key: 'saveModalDealerState',
-  default: '대기',
+  default: '',
 });
 
 export const setInput = atom({
