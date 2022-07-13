@@ -1,9 +1,28 @@
+import React, { useEffect } from 'react';
 import 'zingchart/es6';
 import ZingChart from 'zingchart-react';
 import 'zingchart/modules-es6/zingchart-depth.min.js';
 import styled from 'styled-components';
+import { IP } from '../../Hooks/Fetch';
+import { useRecoilState } from 'recoil';
+import { priceGraphDataState } from '../../atoms';
 
-const ZingChartTest = () => {
+const PriceGraph = () => {
+  const [priceGraphData, setPriceGraphData] =
+    useRecoilState(priceGraphDataState);
+
+  useEffect(() => {
+    fetch(`${IP}cars/price`, {
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setPriceGraphData(data.transaction);
+      });
+  }, []);
+
   const myData = {
     type: 'mixed',
     scaleX: {
@@ -32,33 +51,34 @@ const ZingChartTest = () => {
           shadow: false,
           size: 8,
         },
-        values: [
-          [2002, 400],
-          [2002, 300],
-          [2003, 360],
-          [2003, 350],
-          [2003, 290],
-          [2004, 580],
-          [2005, 500],
-          [2005, 520],
-          [2005, 590],
-          [2005, 510],
-          [2005, 620],
-          [2006, 700],
-          [2006, 520],
-          [2006, 570],
-          [2007, 710],
-          [2007, 700],
-          [2007, 750],
-          [2008, 900],
-          [2008, 820],
-          [2008, 850],
-          [2008, 830],
-          [2009, 880],
-          [2009, 850],
-          [2009, 820],
-          [2009, 950],
-        ],
+        values: priceGraphData,
+        // [
+        //   [2002, 400],
+        //   [2002, 300],
+        //   [2003, 360],
+        //   [2003, 350],
+        //   [2003, 290],
+        //   [2004, 580],
+        //   [2005, 500],
+        //   [2005, 520],
+        //   [2005, 590],
+        //   [2005, 510],
+        //   [2005, 620],
+        //   [2006, 700],
+        //   [2006, 520],
+        //   [2006, 570],
+        //   [2007, 710],
+        //   [2007, 700],
+        //   [2007, 750],
+        //   [2008, 900],
+        //   [2008, 820],
+        //   [2008, 850],
+        //   [2008, 830],
+        //   [2009, 880],
+        //   [2009, 850],
+        //   [2009, 820],
+        //   [2009, 950],
+        // ],
       },
       {
         type: 'line',
@@ -85,7 +105,7 @@ const ZingChartTest = () => {
   );
 };
 
-export default ZingChartTest;
+export default PriceGraph;
 
 const GraphWrapper = styled.div`
   ${({ theme }) => theme.flex.flexBox};

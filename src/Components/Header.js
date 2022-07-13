@@ -25,8 +25,7 @@ const Header = ({ isNew, setNew, page }) => {
   useEffect(() => {
     fetch(`${IP}notifications`, {
       headers: {
-        Authorization:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MX0.KsNpt-9w8HQ_mjpOHO-G_e3M2l8EwfsZriss7IR1lRk',
+        Authorization: localStorage.getItem('access_token'),
       },
     })
       .then(res => res.json())
@@ -34,7 +33,7 @@ const Header = ({ isNew, setNew, page }) => {
         setAlarmList(data.results) &&
           data.map(({ read }) => (read ? setIsAlarm(true) : setIsAlarm(false)));
       });
-  }, []);
+  }, [,]);
 
   const checkAlarm = () => {
     setAlarmModal(prev => !prev);

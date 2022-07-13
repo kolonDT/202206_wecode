@@ -198,12 +198,25 @@ export const userInputFileState = atom({
   ],
 });
 
-export const essentialPhotoState = atom({
-  key: 'essentialPhotoState',
-  default: [],
+export const MainImageState = atom({
+  key: 'MainImageState',
+  default: {
+    file: Array.from({ length: 4 }, () => 0),
+    state: false,
+    preview: Array.from({ length: 4 }, () => 0),
+  },
 });
 
-export const morePhotoState = atom({
-  key: 'morePhotoState',
+export const SubImageState = atom({
+  key: 'SubImageState',
+  default: {
+    file: Array.from({ length: 4 }, () => 0),
+    state: false,
+    preview: Array.from({ length: 4 }, () => 0),
+  },
+});
+
+export const priceGraphDataState = atom({
+  key: 'priceGraphDataState',
   default: [],
 });

@@ -1,6 +1,5 @@
 //module
 import { useState, useEffect } from 'react';
-import Sellcar from '../../Pages/Sellcar/Sellcar';
 import React from 'react';
 //styles
 import styled from 'styled-components';

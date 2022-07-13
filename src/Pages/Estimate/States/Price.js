@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Graph from '../../Graph/Graph';
 import { useRecoilValue } from 'recoil';
 import { EstimateCarInfo } from '../../../atoms';
 import {
@@ -10,6 +9,7 @@ import {
   ContentBox,
   ContentTitle,
 } from '../Style';
+import PriceGraph from '../../Graph/PriceGraph';
 
 const Price = ({ nextProcess, prevProcess }) => {
   const estimateCarInfo = useRecoilValue(EstimateCarInfo);
@@ -22,7 +22,7 @@ const Price = ({ nextProcess, prevProcess }) => {
         <br />
         예상시세는 다음과 같습니다.
       </ContentTitle>
-      <Graph />
+      <PriceGraph />
       <ButtonSet>
         <PrevButton onClick={prevProcess} variant="primary">
           이전

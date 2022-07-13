@@ -1,6 +1,8 @@
 import React from 'react';
 import Post from '../Estimate/Post/Post';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { userInputPhoneNumberState } from '../../atoms';
 import {
   ButtonSet,
   NextButton,
@@ -11,6 +13,36 @@ import {
 } from './Style';
 
 const AddContactInfo = ({ nextProcess, prevProcess }) => {
+  const [userInputPhoneNumber, setUserInputPhoneNumber] = useRecoilState(
+    userInputPhoneNumberState
+  );
+
+  const inputPhoneNumber = e => {
+    setUserInputPhoneNumber(e.target.value);
+  };
+
+  console.log(userInputPhoneNumber);
+
+  // const navigate = useNavigate();
+  // const goToConfirm = () => {
+  //   fetch(`${IP}estimates`, {
+  //     method: 'PATCH',
+  //     headers: {
+  //       Authorization: localStorage.getItem('access_token'),
+  //     },
+  //     body: JSON.stringify({
+  //       process_state: userEstimateProcess,
+  //       phone_number: userInputPhoneNumber,
+  //     }),
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       data.message === 'SUCCESS'
+  //         ? navigate('/complete')
+  //         : alert('FAIL TO UPLOAD');
+  //     });
+  // };
+
   return (
     <ContentsBox>
       <ContentTitle>
@@ -21,7 +53,11 @@ const AddContactInfo = ({ nextProcess, prevProcess }) => {
       <InputWrapper>
         <ContactInputWrapper>
           <InputTitle>연락처</InputTitle>
-          <InputBox placeholder="010-1234-5678" />
+          <InputBox
+            onChange={inputPhoneNumber}
+            value={userInputPhoneNumber}
+            placeholder="010-1234-5678"
+          />
         </ContactInputWrapper>
 
         <AddressInputWrapper>

@@ -12,6 +12,15 @@ import {
   isLoginModalState,
   currentEstimateState,
   userEstimateProcessState,
+  UserInputMileageState,
+  userInputInsuranceState,
+  keyAmountState,
+  wheelScratchAmountState,
+  panelScratchAmountState,
+  userInputRepairState,
+  userInputEtcState,
+  userInputAddressState,
+  userInputPhoneNumberState,
 } from '../../atoms';
 
 import {
@@ -34,17 +43,26 @@ function Login() {
   const [loginProcess, setLoginProcess] = useRecoilState(LoginProcessState);
   const [isLoginModal, setIsLoginModal] = useRecoilState(isLoginModalState);
 
-  const handleInput = e => {
+  const [inputCarNumber, setInputCarNumber] = useState('');
+  const setCurrentEstimate = useSetRecoilState(currentEstimateState);
+  const setUserEstimateProcess = useSetRecoilState(userEstimateProcessState);
+
+  const setUserInputMileage = useSetRecoilState(UserInputMileageState);
+  const setUserInputInsurance = useSetRecoilState(userInputInsuranceState);
+  const setKeyAmount = useSetRecoilState(keyAmountState);
+  const setWheelScratchAmount = useSetRecoilState(wheelScratchAmountState);
+  const setPanelScratchAmount = useSetRecoilState(panelScratchAmountState);
+  const setUserInputRepair = useSetRecoilState(userInputRepairState);
+  const setUserInputEtc = useSetRecoilState(userInputEtcState);
+  const setUserInputAddress = useSetRecoilState(userInputAddressState);
+  const setUserInputPhoneNumber = useSetRecoilState(userInputPhoneNumberState);
+
+  const handleInputCarNumber = e => {
     setInputCarNumber(e.target.value);
     let ret = isValidId(e.target.value);
     setLogin(ret);
     setId(e.target.value);
   };
-
-  const [inputCarNumber, setInputCarNumber] = useState('');
-  const [currentEstimate, setCurrentEstimate] =
-    useRecoilState(currentEstimateState);
-  const setUserEstimateProcess = useSetRecoilState(userEstimateProcessState);
 
   const handleAdmin = () => {
     navigate('/admin');
@@ -97,7 +115,32 @@ function Login() {
           alert(
             '작성 중이던 견적서가 있습니다.\n입력 중이던 페이지로 이동합니다.'
           );
-          // TO DO : estimate number가 아닌 인식 가능한 string으로 바꾸기
+          fetch(`${IP}estimates`, {
+            headers: {
+              Authorization: localStorage.getItem('access_token'),
+            },
+          })
+            .then(res => res.json())
+            .then(data => {
+              setUserInputMileage(data.results.mileage);
+              // selectedOptions[0].state(data.results.sunroof);
+              // selectedOptions[1].state(data.results.navigation);
+              // selectedOptions[2].state(data.results.ventilation_seat);
+              // selectedOptions[3].state(data.results.heated_seat);
+              // selectedOptions[4].state(data.results.electric_seat);
+              // selectedOptions[5].state(data.results.smart_key);
+              // selectedOptions[6].state(data.results.leather_seat);
+              // selectedOptions[7].state(data.results.electric_folding_mirror);
+              setUserInputInsurance(data.results.accident_status);
+              setKeyAmount(data.results.spare_key);
+              setWheelScratchAmount(data.results.wheel_scratch);
+              setPanelScratchAmount(data.results.outer_plate_scratch);
+              setUserInputRepair(data.results.other_maintenance_repair);
+              setUserInputEtc(data.results.other_special);
+              setUserInputAddress(data.results.address);
+              setUserInputPhoneNumber(data.results.phone_number);
+            });
+
           setUserEstimateProcess(data.process_state);
           data.process_state === '주행거리' && setCurrentEstimate(3);
           data.process_state === '추가옵션' && setCurrentEstimate(4);
@@ -132,7 +175,7 @@ function Login() {
               </LoginSubTitle>
               <InputWrapper>
                 <LoginInput
-                  onChange={handleInput}
+                  onChange={handleInputCarNumber}
                   type="text"
                   id="id"
                   placeholder="12가3456"

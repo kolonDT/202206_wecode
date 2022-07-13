@@ -30,7 +30,7 @@ import {
 } from '../../../atoms';
 import { IP } from '../../../Hooks/Fetch';
 
-const AddInfo = ({ nextProcess, prevProcess }) => {
+const AddInfo = ({ prevProcess }) => {
   const [userInputInsurance, setUserInputInsurance] = useRecoilState(
     userInputInsuranceState
   );

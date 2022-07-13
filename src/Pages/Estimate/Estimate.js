@@ -2,12 +2,8 @@ import React from 'react';
 import { ProgressBar } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { MdOutlineNavigateNext } from 'react-icons/md';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import {
-  currentEstimateState,
-  lastEstimateState,
-  userEstimateProcessState,
-} from '../../atoms';
+import { useRecoilState } from 'recoil';
+import { currentEstimateState, lastEstimateState } from '../../atoms';
 import styled, { css } from 'styled-components';
 import CarInfo from './States/CarInfo';
 import Price from './States/Price';
