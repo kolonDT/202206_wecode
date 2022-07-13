@@ -145,12 +145,12 @@ const ReaquestTable = ({ onClick }) => {
                     key={cell.value}
                     {...cell.getCellProps()}
                     style={{
-                      padding: '10px',
+                      padding: '8px',
                       borderBottom: 'solid 1px #e0e0e0',
                       background: 'white',
                       textAlign: 'center',
-                      paddingTop: '12px',
-                      paddingBottom: '12px',
+                      paddingTop: '15px',
+                      paddingBottom: '15px',
                       fontWeight: '500',
                     }}
                   >

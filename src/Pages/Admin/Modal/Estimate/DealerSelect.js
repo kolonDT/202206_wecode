@@ -11,7 +11,7 @@ const DealerSelect = ({ handleSelectDealer, branch }) => {
   const newDealer = searchList.find(({ branch: searchBranch }) => {
     return branch === searchBranch;
   }) || { dealer: [] };
-  console.log(defaultDealer);
+
   return (
     <DealerName
       isFilter={defaultDealer ? false : true}

@@ -29,10 +29,11 @@ const Modal = ({ onClickToggleModal, id }) => {
 
   const { name } = useRecoilValue(setResponse);
   const consulting = getModal?.consulting || [''];
-  const currentModalDealer = consulting[0].dealer || '';
+  const currentModalDealer = consulting[0]?.dealer || '';
 
   const sales_process = getModal?.sales_process || [''];
   const process = sales_process[0].process_state || '';
+
   // const getModalData = () => {
   //   setGetModalID(id);
   //   fetch('Data/Sunshine/ModalData.json', {
@@ -57,7 +58,7 @@ const Modal = ({ onClickToggleModal, id }) => {
       .then(res => res.json())
       .then(data => {
         setGetModal(data.results);
-        setInputEstimate(data.results.consulting[0].content);
+        setInputEstimate(data.results.consulting[0]?.content);
       });
   };
 

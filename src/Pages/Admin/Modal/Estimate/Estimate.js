@@ -12,6 +12,7 @@ import ProgressStatus from '../ProgressStatus/ProgressStatus';
 
 const Estimate = () => {
   const [input, setInputEstimate] = useRecoilState(setInput);
+
   const handleInputEstimate = e => {
     e.preventDefault();
     setInputEstimate(e.target.value);
@@ -23,8 +24,9 @@ const Estimate = () => {
     setNewDealer(value);
   };
 
-  const { sales_process, branch } = useRecoilValue(setModalList);
+  const { sales_process, branch, consulting } = useRecoilValue(setModalList);
   const process = sales_process[0].process_state;
+  const setDealer = consulting[0]?.dealer || '';
 
   return (
     <EstimateContainer>
