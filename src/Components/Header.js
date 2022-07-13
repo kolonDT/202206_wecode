@@ -12,7 +12,7 @@ import {
 } from '../atoms';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import AlarmModal from './Modal/AlarmModal';
-import { IP } from '../Hooks/Fetch';
+import { IP } from '../config';
 
 const Header = ({ isNew, setNew, page }) => {
   const setLoginProcess = useSetRecoilState(LoginProcessState);
@@ -25,8 +25,7 @@ const Header = ({ isNew, setNew, page }) => {
   useEffect(() => {
     fetch(`${IP}notifications`, {
       headers: {
-        Authorization:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MX0.KsNpt-9w8HQ_mjpOHO-G_e3M2l8EwfsZriss7IR1lRk',
+        Authorization: localStorage.getItem('access_token'),
       },
     })
       .then(res => res.json())

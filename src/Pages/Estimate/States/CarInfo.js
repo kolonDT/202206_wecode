@@ -1,37 +1,27 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { InputButton, ContentBox, ContentTitle } from '../Style';
-import { IP } from '../../../Hooks/Fetch';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilState, useRecoilValue } from 'recoil';
 import {
   lastEstimateState,
   EstimateCarInfo,
   currentEstimateState,
   userEstimateProcessState,
+  car365InfoState,
+  signInPhoneNumberState,
 } from '../../../atoms';
+import { IP } from '../../../config';
 
 const CarInfo = () => {
-  const [userEstimateProcess, setUserEstimateProcess] = useRecoilState(
-    userEstimateProcessState
-  );
+  const car365Info = useRecoilValue(car365InfoState);
+  const setUserEstimateProcess = useSetRecoilState(userEstimateProcessState);
   const [currentEstimate, setCurrentEstimate] =
     useRecoilState(currentEstimateState);
   const [lastEstimate, setLastEstimate] = useRecoilState(lastEstimateState);
-  const [estimateCarInfo, setEstimateCarInfo] = useRecoilState(EstimateCarInfo);
+  const estimateCarInfo = useRecoilValue(EstimateCarInfo);
+  const signInPhoneNumber = useRecoilValue(signInPhoneNumberState);
 
   const tableSection = useRef(null);
-
-  useEffect(() => {
-    fetch(`${IP}cars/info`, {
-      headers: {
-        Authorization: localStorage.getItem('access_token'),
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setEstimateCarInfo(data.results);
-      });
-  }, []);
 
   const {
     owner,
@@ -68,25 +58,53 @@ const CarInfo = () => {
   ];
 
   const startEstimate = () => {
-    setUserEstimateProcess('시세조회');
-    fetch(`${IP}estimates`, {
+    fetch(`${IP}cars/signup`, {
       method: 'POST',
-      headers: {
-        Authorization: localStorage.getItem('access_token'),
-      },
       body: JSON.stringify({
-        process_state: userEstimateProcess,
+        car_number: car365Info.car_number,
+        owner: car365Info.owner,
+        car_name: car365Info.car_name,
+        trim: car365Info.trim,
+        body_shape: car365Info.body_shape,
+        color: car365Info.color,
+        model_year: car365Info.model_year,
+        first_registration_year: car365Info.first_registration_year,
+        engine: car365Info.engine,
+        transmission: car365Info.transmission,
+        manufacturer: car365Info.manufacturer,
+        factory_price: car365Info.factory_price,
+        insurance_history: car365Info.insurance_history,
+        transaction_history: car365Info.transaction_history,
+        kakao_id: localStorage.getItem('kakao_id'),
+        phone_number: signInPhoneNumber,
       }),
     })
       .then(res => res.json())
       .then(data => {
         if (data.message === 'SUCCESS') {
-          setCurrentEstimate(prev => prev + 1);
-          lastEstimate <= currentEstimate &&
-            setLastEstimate(currentEstimate + 1);
+          localStorage.setItem('access_token', data.access_token);
+          setUserEstimateProcess('시세조회');
+          fetch(`${IP}estimates`, {
+            method: 'POST',
+            headers: {
+              Authorization: localStorage.getItem('access_token'),
+            },
+            body: JSON.stringify({
+              process_state: '시세조회',
+            }),
+          })
+            .then(res => res.json())
+            .then(data => {
+              if (data.message === 'SUCCESS') {
+                setCurrentEstimate(prev => prev + 1);
+                lastEstimate <= currentEstimate &&
+                  setLastEstimate(currentEstimate + 1);
+              } else {
+                alert(data.message);
+              }
+            });
         } else {
-          console.log(data);
-          alert(data);
+          alert(data.message);
         }
       });
   };
