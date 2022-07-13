@@ -71,7 +71,7 @@ export const setResponse = atom({
 
 export const setSelectProgress = atom({
   key: 'setSelectProgress',
-  default: '',
+  default: '대기',
 });
 
 export const setSelectListProgress = atom({

@@ -21,6 +21,7 @@ const RightSection = () => {
 
   const navigate = useNavigate();
   const params = useParams();
+
   // console.log(requestList);
   // console.log(searchList);
 

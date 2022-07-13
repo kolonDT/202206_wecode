@@ -18,7 +18,10 @@ const ImageInfo = () => {
         {estimate_image?.map(({ image_id, image, image_info }) => {
           return (
             <CardBox key={image_id}>
-              <CardImg alt="자동차 사진" />
+              <CardImg
+                alt="자동차 사진"
+                styles={{ backgroundImage: `url(${image})` }}
+              />
               <CardText>{image_info}</CardText>
             </CardBox>
           );

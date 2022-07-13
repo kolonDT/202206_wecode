@@ -20,6 +20,7 @@ const Estimate = () => {
   const getModal = useRecoilValue(setModalList);
 
   const setNewDealer = useSetRecoilState(selectModalDealerState);
+
   const handleSelectDealer = ({ target: { value } }) => {
     setNewDealer(value);
   };

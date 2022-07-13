@@ -20,6 +20,7 @@ const Modal = ({ onClickToggleModal, id }) => {
   const getProgress = useRecoilValue(setSelectProgress);
   const getDealer = useRecoilValue(selectModalDealerState);
   const responseData = useRecoilValue(setResponse);
+  const inputEstimate = useRecoilValue(setInput);
   const [getModal, setGetModal] = useRecoilState(setModalList);
   const [newDealer, setNewDealer] = useRecoilState(saveModalDealerState);
   const [setNewProgress, setGetNewProgress] = useRecoilState(
@@ -58,25 +59,21 @@ const Modal = ({ onClickToggleModal, id }) => {
   }, []);
   // backend에 보낼 함수임!
   const onSubmit = e => {
-    // fetch(`http://10.133.5.8:8000/dealers/estimate${id}`, {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     progress: getProgress,
-    //     dealer: getDealer,
-    //     estimate: inputEstimate,
-    //   }),
-    // }) //덩어리 제이슨을 받아옴
-    //   .then(res => res.json()) //덩어리 제이슨을 객체 현태로 변환
-    //   .then(data => {
-    //     if (data.Access_token) localStorage.setItem('token', data.Access_token);
-    //     //  setNewDealer(getDealer === '선택' ? '' : getDealer);
-    //     //  setGetNewProgress(getProgress); //  alert('저장이 완료됐습니다'); //    e.preventDefault();
-    //   }
-    //   );
+    fetch(`http://10.133.5.8:8000/dealers/estimate${id}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        status: getProgress,
+        dealer_name: getDealer,
+        content: inputEstimate,
+      }),
+    }) //덩어리 제이슨을 받아옴
+      .then(res => res.json()) //덩어리 제이슨을 객체 현태로 변환
+      .then(data => {
+        e.preventDefault();
+      });
     setNewDealer(getDealer === '선택' ? '' : getDealer);
     setGetNewProgress(getProgress);
     alert('저장이 완료됐습니다');
-    e.preventDefault();
   };
 
   return (

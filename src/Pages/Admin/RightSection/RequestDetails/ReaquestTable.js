@@ -16,6 +16,7 @@ const ReaquestTable = ({ onClick }) => {
   const setNewDealer = useRecoilValue(saveModalDealerState);
   const setNewProgress = useRecoilValue(setSelectListProgress);
   const currentId = useRecoilValue(selectIdState);
+
   const newDealer = setNewDealer === '전체' && setNewDealer ? '' : setNewDealer;
   const formatList = requestList.map(
     ({
