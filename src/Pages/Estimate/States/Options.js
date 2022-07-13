@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled, { css } from 'styled-components';
 import { BsCheckSquareFill, BsCheckSquare } from 'react-icons/bs';
 import {
@@ -18,7 +18,7 @@ import {
   NoOptionWrapper,
   NoOption,
 } from '../Style';
-import { IP } from '../../../Hooks/Fetch';
+import { IP } from '../../../config';
 
 const Options = ({ prevProcess }) => {
   const [selectedOptions, setSelectedOptions] =
@@ -30,9 +30,7 @@ const Options = ({ prevProcess }) => {
     useRecoilState(currentEstimateState);
   const [lastEstimate, setLastEstimate] = useRecoilState(lastEstimateState);
 
-  const [userEstimateProcess, setUserEstimateProcess] = useRecoilState(
-    userEstimateProcessState
-  );
+  const setUserEstimateProcess = useSetRecoilState(userEstimateProcessState);
 
   useEffect(() => {
     const falseOptionCheck = () => {
@@ -86,7 +84,7 @@ const Options = ({ prevProcess }) => {
         Authorization: localStorage.getItem('access_token'),
       },
       body: JSON.stringify({
-        process_state: userEstimateProcess,
+        process_state: '추가옵션',
         sunroof: selectedOptions[0].state,
         navigation: selectedOptions[1].state,
         ventilation_seat: selectedOptions[2].state,

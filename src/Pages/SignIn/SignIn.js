@@ -7,17 +7,19 @@ import {
   InputBox,
   InputButton,
 } from '../Estimate/Style';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   car365InfoState,
+  EstimateCarInfo,
   signInCarNumberState,
   signInOwnerState,
   signInPhoneNumberState,
 } from '../../atoms';
-import { IP } from '../../Hooks/Fetch';
+import { IP } from '../../config';
 
 const SignIn = () => {
-  const [car365Info, setCar365Info] = useRecoilState(car365InfoState);
+  const setCar365Info = useSetRecoilState(car365InfoState);
+  const setEstimateCarInfo = useSetRecoilState(EstimateCarInfo);
   const [signInCarNumber, setSignInCarNumber] =
     useRecoilState(signInCarNumberState);
   const [signInOwner, setSignInOwner] = useRecoilState(signInOwnerState);
@@ -34,36 +36,8 @@ const SignIn = () => {
       .then(data => {
         if (data.message === 'SUCCESS') {
           setCar365Info(data.results);
-          fetch(`${IP}cars/signup`, {
-            method: 'POST',
-            body: JSON.stringify({
-              car_number: car365Info.car_number,
-              owner: car365Info.owner,
-              car_name: car365Info.car_name,
-              trim: car365Info.trim,
-              body_shape: car365Info.body_shape,
-              color: car365Info.color,
-              model_year: car365Info.model_year,
-              first_registration_year: car365Info.first_registration_year,
-              engine: car365Info.engine,
-              transmission: car365Info.transmission,
-              manufacturer: car365Info.manufacturer,
-              factory_price: car365Info.factory_price,
-              insurance_history: '1',
-              transaction_history: '1',
-              kakao_id: localStorage.getItem('kakao_id'),
-              phone_number: signInPhoneNumber,
-            }),
-          })
-            .then(res => res.json())
-            .then(data => {
-              if (data.message === 'SUCCESS') {
-                localStorage.setItem('access_token', data.access_token);
-                navigate('/sellcar');
-              } else {
-                alert(data.message);
-              }
-            });
+          setEstimateCarInfo(data.results);
+          navigate('/sellcar');
         } else {
           alert(data.message);
         }

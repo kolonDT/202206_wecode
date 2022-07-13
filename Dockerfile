@@ -36,20 +36,15 @@ RUN yarn set version berry
 #RUN yarn add eslint-config-react-app
 
 RUN yarn install
-RUN yarn build
+# RUN yarn build
 RUN ls -al /data/build/
-
 
 ## Build for runtime
 FROM nginx:alpine
 
 WORKDIR /usr/share/nginx/html
-#RUN rm -rf /etc/nginx/conf.d
 
 COPY --from=builder /data/build /usr/share/nginx/html
-#ENV SDFSDFSDFD="VVV"
-#ENV ZZZZZZZZ="sdlkfjsdklfj24eowifjlksdflsdnf"
-#ENV NGINX_PORT="7777"
 
 # 3000번 포트를 외부에 개방하도록 설정
 EXPOSE 3000

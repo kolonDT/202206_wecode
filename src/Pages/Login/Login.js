@@ -5,15 +5,16 @@ import styled from 'styled-components';
 import { RiAlertFill } from 'react-icons/ri';
 import { BsPatchCheckFill } from 'react-icons/bs';
 import { Button } from 'react-bootstrap';
-
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   LoginProcessState,
   UserInputOwnerState,
   isLoginModalState,
   currentEstimateState,
+  userEstimateProcessState,
+  inputCarNumberState,
+  EstimateCarInfo,
 } from '../../atoms';
-
 import {
   ButtonSet,
   NextButton,
@@ -23,27 +24,31 @@ import {
   InputBox,
 } from '../Estimate/Style';
 import LoginModal from '../../Components/Modal/LoginModal';
-import { IP } from '../../Hooks/Fetch';
+import { IP } from '../../config';
 
-function Login() {
+const Login = () => {
   const [userInputOwner, setUserInputOwner] =
     useRecoilState(UserInputOwnerState);
-  const navigate = useNavigate();
+
   const [id, setId] = useState('');
   const [isLogin, setLogin] = useState(false);
+
   const [loginProcess, setLoginProcess] = useRecoilState(LoginProcessState);
   const [isLoginModal, setIsLoginModal] = useRecoilState(isLoginModalState);
+  const [inputCarNumber, setInputCarNumber] =
+    useRecoilState(inputCarNumberState);
+  const setEstimateCarInfo = useSetRecoilState(EstimateCarInfo);
+  const setCurrentEstimate = useSetRecoilState(currentEstimateState);
+  const setUserEstimateProcess = useSetRecoilState(userEstimateProcessState);
 
-  const handleInput = e => {
+  const navigate = useNavigate();
+
+  const handleInputCarNumber = e => {
     setInputCarNumber(e.target.value);
     let ret = isValidId(e.target.value);
     setLogin(ret);
     setId(e.target.value);
   };
-
-  const [inputCarNumber, setInputCarNumber] = useState('');
-  const [currentEstimate, setCurrentEstimate] =
-    useRecoilState(currentEstimateState);
 
   const handleAdmin = () => {
     navigate('/admin');
@@ -228,20 +233,33 @@ function Login({ setPage }) {
     })
       .then(res => res.json())
       .then(data => {
-        // 견적서가 작성 완료인 경우 : process_state : '신청완료'
+        // 견적서 작성 완료인 경우
         if (data.message === 'SUCCESS_ESTIMATE_COMPLETION') {
           localStorage.setItem(`access_token`, data.access_token);
           alert('요청한 견적서가 있습니다.\n내 견적서로 이동합니다.');
           navigate('/estimate');
-          console.log(currentEstimate);
         }
-        // 작성중인 견적서가 있을 경우
+        // 작성 중인 견적서 있을 경우
         if (data.message === 'SUCCESS_ESTIMATE_REGISTERING') {
           localStorage.setItem(`access_token`, data.access_token);
           alert(
             '작성 중이던 견적서가 있습니다.\n입력 중이던 페이지로 이동합니다.'
           );
-          // TO DO : estimate number가 아닌 인식 가능한 string으로 바꾸기
+          fetch(`${IP}cars/info`, {
+            headers: {
+              Authorization: localStorage.getItem('access_token'),
+            },
+          })
+            .then(res => res.json())
+            .then(data => {
+              if (data.message === 'SUCCESS') {
+                setEstimateCarInfo(data.results);
+              } else {
+                alert(data.message);
+              }
+            });
+          setUserEstimateProcess(data.process_state);
+          data.process_state === '시세조회' && setCurrentEstimate(2);
           data.process_state === '주행거리' && setCurrentEstimate(3);
           data.process_state === '추가옵션' && setCurrentEstimate(4);
           data.process_state === '추가입력' && setCurrentEstimate(5);
@@ -249,12 +267,12 @@ function Login({ setPage }) {
           data.process_state === '개인정보' && setCurrentEstimate(7);
           navigate('/sellcar');
         }
-        // 견적서가 없을 경우
+        // 견적서 없을 경우
         if (data.message === 'SUCCESS_ESTIMATE_REQUIRED') {
           localStorage.setItem(`access_token`, data.access_token);
           navigate('/sellcar');
         }
-        // DB에 입력된 차량번호와 소유주명이 맞지 않을 경우
+        // 차량번호와 소유주명이 맞지 않을 경우
         if (data.message === 'MY_CAR_NOT_PRESENT_CAR_NUMBER') {
           alert('소유자명을 확인해주세요');
         }
@@ -294,7 +312,7 @@ function Login({ setPage }) {
               </LoginSubTitle>
               <InputWrapper>
                 <LoginInput
-                  onChange={handleInput}
+                  onChange={handleInputCarNumber}
                   type="text"
                   id="id"
                   placeholder="12가3456"
@@ -400,7 +418,7 @@ function Login({ setPage }) {
     </LoginBox>
 >>>>>>> f22a604256353517be0ec840e7cd0ef6a6b9d6e9
   );
-}
+};
 export default Login;
 
 const InputWrapper = styled.div`

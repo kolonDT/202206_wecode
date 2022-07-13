@@ -7,6 +7,16 @@ import { useNavigate } from 'react-router-dom';
 // import { BsBellSlash, BsBell } from "react-icons/bs";
 // import { setAlarm } from "../Pages/Api/Api";
 import { useLocation } from 'react-router-dom';
+import { MdNotifications, MdNotificationImportant } from 'react-icons/md';
+import {
+  LoginProcessState,
+  isAlarmState,
+  AlarmListState,
+  AlarmModalState,
+} from '../atoms';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import AlarmModal from './Modal/AlarmModal';
+import { IP } from '../config';
 
 const Header = ({ isNew, setNew, page }) => {
   const setLoginProcess = useSetRecoilState(LoginProcessState);
@@ -14,17 +24,34 @@ const Header = ({ isNew, setNew, page }) => {
   const setAlarmList = useSetRecoilState(AlarmListState);
   const [alarmModal, setAlarmModal] = useRecoilState(AlarmModalState);
   const navigate = useNavigate();
-  // const settingAlarm = () => {
-  //   if (isNew === 1 || isNew === 0) {
-  //     setAlarm(-1);
-  //     setNew(-1);
-  //   } else {
-  //     setAlarm(0);
-  //     setNew(0);
-  //   }
-  // };
-
   const location = useLocation();
+
+  useEffect(() => {
+    fetch(`${IP}notifications`, {
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setAlarmList(data.results) &&
+          data.map(({ read }) => (read ? setIsAlarm(true) : setIsAlarm(false)));
+      });
+  }, []);
+
+  const checkAlarm = () => {
+    setAlarmModal(prev => !prev);
+    setAlarmList(prevState => {
+      const newState = prevState.map(list => ({ ...list, read: true }));
+      return newState;
+    });
+    setIsAlarm(false);
+    // TODO : 변경 된 state 서버에 POST 필요
+  };
+
+  const readAlarm = () => {
+    setAlarmModal(prev => !prev);
+  };
 
   // function AlarmChange({ isNew }) {
   //   console.log("test", isNew);
