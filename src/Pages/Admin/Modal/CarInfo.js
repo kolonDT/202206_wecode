@@ -7,8 +7,18 @@ import { setModalList } from '../adminAtoms';
 
 const CarInfo = () => {
   const getModal = useRecoilValue(setModalList);
-  const { car_number, manufacturer, trim, model_year, distance, option, info } =
-    getModal;
+  const {
+    color,
+    manufacturer,
+    trim,
+    model_year,
+    engine,
+    transmission,
+    transaction_history,
+  } = getModal;
+  const Space = ({ text }) => {
+    return text;
+  };
 
   return (
     <CarInfoContainer>
@@ -21,17 +31,24 @@ const CarInfo = () => {
             })}
           </CarContainer>
           <CarDetailsContainer>
-            <CarTypo>{car_number}</CarTypo>
+            <CarTypo>{color}</CarTypo>
             <CarTypo>{manufacturer}</CarTypo>
             <CarTypo>{trim}</CarTypo>
             <CarTypo>{model_year}</CarTypo>
-            <CarTypo>{distance}</CarTypo>
-            <CarTypo>{option}</CarTypo>
+            <CarTypo>{engine}</CarTypo>
+            <CarTypo>{transmission}</CarTypo>
           </CarDetailsContainer>
         </RowAlign>
         <AdditionalAlign>
           <AdditionalSubject>추가정보</AdditionalSubject>
-          <AdditionalTypo>{info}</AdditionalTypo>
+          {getModal.length !== 0 && (
+            <AdditionalTypo>
+              {transaction_history[0]}
+              <Space text={<br />} />
+              <Space text={<br />} />
+              {transaction_history[1]}
+            </AdditionalTypo>
+          )}
         </AdditionalAlign>
       </BorderWrapper>
       <ImageInfo />

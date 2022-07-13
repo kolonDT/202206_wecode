@@ -23,7 +23,7 @@ const CustomerInfo = () => {
           <CustomerTypo>{owner}</CustomerTypo>
           <CustomerTypo>{phone_number}</CustomerTypo>
           <CustomerTypo>{address}</CustomerTypo>
-          <CustomerTypo>{estimate_request_date}</CustomerTypo>
+          <CustomerTypo>{estimate_request_date?.substr(0, 10)}</CustomerTypo>
         </CustomerDetailsContainer>
       </RowAlign>
     </CustomerInfoContainer>
