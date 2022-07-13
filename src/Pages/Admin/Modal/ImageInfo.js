@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled from 'styled-components/macro';
+import styled, { css } from 'styled-components/macro';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -18,10 +18,7 @@ const ImageInfo = () => {
         {estimate_image?.map(({ image_id, image, image_info }) => {
           return (
             <CardBox key={image_id}>
-              <CardImg
-                alt="자동차 사진"
-                styles={{ backgroundImage: `url(${image})` }}
-              />
+              <CardImg image={image} alt="자동차 사진" />
               <CardText>{image_info}</CardText>
             </CardBox>
           );
@@ -85,7 +82,14 @@ const CardImg = styled.div`
   margin: 0 auto;
   width: 350px;
   height: 350px;
-  background-image: url(${props => props.image});
+
+  ${({ image }) =>
+    css`
+      background-image: url(http://10.133.5.8:8000/${image});
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    `}
 `;
 
 const CardText = styled.p`
