@@ -1,11 +1,11 @@
 // modules
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import Slider from "react-slick";
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import Slider from 'react-slick';
 //styles
-import styled from "styled-components";
+import styled from 'styled-components';
 // import { useEffect, useState } from "react";
-import { CAR_API, IMAGE_API } from "../../config";
+import { CAR_API, IMAGE_API } from '../../config';
 
 function Reconfirm({ setPage }) {
   const navigate = useNavigate();
@@ -13,64 +13,58 @@ function Reconfirm({ setPage }) {
   const thumbnails = useLocation().state.thumbnails;
   const handleRequest = () => {
     setCarDB();
-    navigate("/complete");
+    navigate('/complete');
   };
 
   //DB에 넣을 사진을 변환하는 함수
   const handleUrls = () => {
     const formData = new FormData();
     for (let i in carImages) {
-      formData.append("image", carImages[i].src);
+      formData.append('image', carImages[i].src);
     }
     return formData;
   };
 
   const handleRevise = () => {
-    navigate("/sellcar");
+    navigate('/sellcar');
   };
 
   let options = [
-    "네비게이션",
-    "선루프",
-    "통풍시트",
-    "디지털키",
-    "후방카메라",
-    "블랙박스",
+    '네비게이션',
+    '선루프',
+    '통풍시트',
+    '디지털키',
+    '후방카메라',
+    '블랙박스',
   ];
 
   const carNumber = localStorage.getItem(`carNumber`);
-  const option = JSON.parse(localStorage.getItem(`${carNumber}_options`)||"[]") 
-  let result="";
-  for (
-    let i = 0;
-    i < option.length;
-    i++
-  ) {
-    result = result.concat(", ", options[i])
+  const option = JSON.parse(
+    localStorage.getItem(`${carNumber}_options`) || '[]'
+  );
+  let result = '';
+  for (let i = 0; i < option.length; i++) {
+    result = result.concat(', ', options[i]);
   }
 
-   result = option.length===0?"없음":result.slice(1);
-
-  
+  result = option.length === 0 ? '없음' : result.slice(1);
 
   const commaNumber = localStorage
     .getItem(`${carNumber}_driving_distance`)
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   const distanceDB = Number(
     localStorage.getItem(`${carNumber}_driving_distance`)
   );
   const setCarDB = () => {
     const imageResult = handleUrls();
-    
 
-    const option =localStorage.getItem(`${carNumber}_options`)||"[]"
-
+    const option = localStorage.getItem(`${carNumber}_options`) || '[]';
 
     fetch(`${CAR_API}`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
 
       body: JSON.stringify({
@@ -82,17 +76,16 @@ function Reconfirm({ setPage }) {
         contact: localStorage.getItem(`${carNumber}_contact`),
         address: localStorage.getItem(`${carNumber}_address`),
         addressDetail: localStorage.getItem(`${carNumber}_detailAddress`),
-        lat:"37.49929244623464",
-        lon:"127.0293917149315",
+        lat: '37.49929244623464',
+        lon: '127.0293917149315',
       }),
     })
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         fetch(`${IMAGE_API}?carNumber=${carNumber}`, {
-          method: "POST",
+          method: 'POST',
           body: imageResult,
-        })
-         
+        });
       });
   };
 
@@ -112,7 +105,7 @@ function Reconfirm({ setPage }) {
           {thumbnails.map((url, index) => {
             return (
               <div key={index}>
-                <Img src={url} width={370}  alt="car_image" />
+                <Img src={url} width={370} alt="car_image" />
               </div>
             );
           })}
@@ -147,9 +140,8 @@ function Reconfirm({ setPage }) {
 }
 
 const Img = styled.img`
-max-height:400px;
-;
-`
+  max-height: 400px; ;
+`;
 
 const ReconfirmWrap = styled.div`
   @media only screen and (max-width: 640px) {
@@ -221,12 +213,10 @@ const ReviseBtn = styled.button`
   background-color: white;
   box-shadow: 3px 3px 4px #d8d8d8;
 
-
   @media only screen and (max-width: 640px) {
     width: 140px;
     padding: 12px 10px;
   }
-
 `;
 const ReconfirmBtn = styled.button`
   width: 180px;
@@ -242,7 +232,6 @@ const ReconfirmBtn = styled.button`
   @media only screen and (max-width: 640px) {
     width: 140px;
     padding: 12px 10px;
-
   }
 `;
 export default Reconfirm;

@@ -1,9 +1,9 @@
 //module
-import { useState, useEffect } from "react";
-import Sellcar from "../../Pages/Sellcar/Sellcar";
-import React from "react";
+import { useState, useEffect } from 'react';
+import Sellcar from '../../Pages/Sellcar/Sellcar';
+import React from 'react';
 //styles
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   ComposedChart,
   Line,
@@ -14,53 +14,78 @@ import {
   Legend,
   Scatter,
   ResponsiveContainer,
-} from "recharts";
-import { GRAPH_API } from "../../config";
+} from 'recharts';
+import { GRAPH_API } from '../../config';
 
 function Graph({ setPage }) {
   const [add, setAdd] = useState(false);
   const [graph, setGraph] = useState(true);
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState('');
 
+  const graphCarDB = carNumber => {
+    // Graph 통신
+    // fetch(`${GRAPH_API}?carNumber=${carNumber}`, {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     const price = data["priceByDistance"];
+    //     price.map((data) => {
+    //       if (data.price_used !== undefined) {
+    //         data.price_used = data.price_used / 10000;
+    //       }
+    //       if (data.tomato !== undefined) {
+    //         data.tomato = data.tomato / 10000;
+    //       }
+    //     });
+    //     setGraph(price);
+    //     setPrice(price[0].price_used);
+    //   });
 
-  
-  const graphCarDB = (carNumber) => {
-
-    fetch(`${GRAPH_API}?carNumber=${carNumber}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    // MockDB : start
+    fetch('http://localhost:3000/Data/Dino/graphData.json', {
+      method: 'GET',
     })
-      .then((res) => res.json())
-      .then((data) => {
-        const price = data["priceByDistance"];
-        price.map((data) => {
-          if (data.price_used !== undefined) {
-            data.price_used = data.price_used / 10000;
-          }
-          if (data.tomato !== undefined) {
-            data.tomato = data.tomato / 10000;
-          }
-        });
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        const price = data;
+        // price.map((data) => {
+        //   if (data.price_used !== undefined) {
+        //     data.price_used = data.price_used / 10000;
+        //   }
+        //   if (data.tomato !== undefined) {
+        //     data.tomato = data.tomato / 10000;
+        //   }
+        // });
         setGraph(price);
         setPrice(price[0].price_used);
+        console.log(price);
+        console.log(price[0]);
       });
+    // MockDB : end
   };
 
   useEffect(() => {
-    graphCarDB(localStorage.getItem("carNumber"));
+    graphCarDB(localStorage.getItem('carNumber'));
   }, []);
 
-  const screenWidth=window.screen.width
+  const screenWidth = window.screen.width;
 
   return (
     <GraphWrap>
       <GraphTitle>
-        예상 시세는 <span>{price}</span> 만 원 입니다.
+        내 차의 예상 시세는 <br />
+        {price} ∼ {price} 만 원 입니다.
       </GraphTitle>
       <GraphBox>
-        <ResponsiveContainer minWidth={screenWidth<600?375:500} minHeight={screenWidth<600?375:500}>
+        <ResponsiveContainer
+          minWidth={screenWidth < 600 ? 375 : 500}
+          minHeight={screenWidth < 600 ? 375 : 500}
+        >
           <ComposedChart
             width={500}
             height={400}
@@ -76,12 +101,14 @@ function Graph({ setPage }) {
             <CartesianGrid stroke="#F5F5F5" strokeDasharray="5 5" />
             <Tooltip />
             <Legend />
-            <XAxis dataKey="index" unit="km" type="number" />
+            {/* TODO : x 축 km → 연식 */}
+            <XAxis dataKey="index" unit="연식" type="number" />
             <YAxis dataKey="price_used" unit="만원" type="number" />
-            <Scatter name="myCar" dataKey="myCar" fill="myCar" />
+            <Scatter name="내 차" dataKey="myCar" fill="#5c1049" />
             <Line
+              type="monotone"
               dataKey="tomato"
-              stroke="tomato"
+              stroke="#5c1049"
               dot={false}
               activeDot={false}
               legendType="none"
@@ -93,7 +120,7 @@ function Graph({ setPage }) {
         onClick={() => {
           setAdd(!add);
         }}
-        style={{ display: add === false ? "block" : "none" }}
+        style={{ display: add === false ? 'block' : 'none' }}
       >
         <>추가 정보 입력</>
       </GraphButton>
@@ -121,7 +148,7 @@ const GraphTitle = styled.h1`
   line-height: 25px;
 `;
 const GraphBox = styled.div`
-font-size: small;
+  font-size: small;
   margin: 10px 0px 30px 0px;
 `;
 
