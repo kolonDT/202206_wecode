@@ -7,6 +7,7 @@ import {
   setRequestListData,
 } from '../../adminAtoms';
 import Modal from '../../Modal/Modal';
+import NoRequest from './NoRequest';
 import ReaquestTable from './ReaquestTable';
 
 const RequestDetails = () => {
@@ -26,13 +27,15 @@ const RequestDetails = () => {
   return (
     <RequestContainer>
       <TotalRequest>Total {totalSum}</TotalRequest>
-      {requestList.length !== 0 && (
+      {requestList.length !== 0 ? (
         <ReaquestTable
           onClick={id => {
             onClickToggleModal(id);
             onSelectId(id);
           }}
         />
+      ) : (
+        <NoRequest />
       )}
 
       {isOpenModal && (
