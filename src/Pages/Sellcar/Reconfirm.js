@@ -117,7 +117,7 @@ function Reconfirm({ setPage }) {
           <span>옵션</span>
           <span>추가정보</span>
           <span>연락처</span>
-          <span>지역</span>
+          <span>주소</span>
           <span>상세주소</span>
         </ReconfirmBoxTitle>
         <ReconfirmBoxInfo>

@@ -9,7 +9,6 @@ const Footer = ({ page }) => {
       <FooterWrapper>
         <CompanyBox>
           <CompanyName>코오롱글로벌주식회사</CompanyName>
-          <GrDown />
         </CompanyBox>
         <InfoBox>
           <PrivacyPolicy>개인정보처리방침</PrivacyPolicy>
@@ -28,17 +27,13 @@ const FooterContainer = styled.div`
   width: ${props => (props.page === 'admin' ? '1250px' : '640px')};
   margin: 20px auto;
   @media only screen and (max-width: 640px) {
-    width: 90%;
-    margin: 1.8em auto;
+    font-size: 90%;
   }
 `;
 
 const FooterWrapper = styled.div`
-  border-top: 1px solid rgba(0, 0, 0, 0.3);
-  width: 95%;
-  margin: 0 auto;
-  margin-top: 15px;
-  padding-top: 25px;
+  width: 90%;
+  padding: 3rem 0;
 `;
 
 const CompanyBox = styled.div`
@@ -47,22 +42,21 @@ const CompanyBox = styled.div`
   margin-bottom: 10px;
 `;
 
-const CompanyName = styled.p`
-  padding-right: 5px;
-`;
+const CompanyName = styled.p``;
 
 const InfoBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 10px;
-  gap: 15px;
 `;
 
 const PrivacyPolicy = styled.p`
-  font-weight: 700;
+  font-weight: 600;
 `;
 
-const Conditions = styled.p``;
+const Conditions = styled.p`
+  margin-left: 0.3rem;
+`;
 
 const CopyrightBox = styled.div`
   display: flex;

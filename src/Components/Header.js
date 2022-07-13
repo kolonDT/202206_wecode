@@ -7,8 +7,19 @@ import { useNavigate } from 'react-router-dom';
 // import { BsBellSlash, BsBell } from "react-icons/bs";
 // import { setAlarm } from "../Pages/Api/Api";
 import { useLocation } from 'react-router-dom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import {
+  AlarmListState,
+  AlarmModalState,
+  isAlarmState,
+  LoginProcessState,
+} from '../atoms';
 
 const Header = ({ isNew, setNew, page }) => {
+  const setLoginProcess = useSetRecoilState(LoginProcessState);
+  const [isAlarm, setIsAlarm] = useRecoilState(isAlarmState);
+  const setAlarmList = useSetRecoilState(AlarmListState);
+  const [alarmModal, setAlarmModal] = useRecoilState(AlarmModalState);
   const navigate = useNavigate();
   // const settingAlarm = () => {
   //   if (isNew === 1 || isNew === 0) {
@@ -88,9 +99,9 @@ const Header = ({ isNew, setNew, page }) => {
 const HeaderContainer = styled.div`
   width: ${props => (props.page === 'admin' ? '1100px' : '640px')};
   margin: 0px auto;
+
   @media only screen and (max-width: 640px) {
-    width: 100%;
-    margin: 0px auto;
+    width: 90%;
   }
 `;
 
@@ -112,12 +123,15 @@ const PreviousButton = styled.div`
 `;
 
 const HeaderTitle = styled.h2`
-  font-size: 20px;
+  font-size: medium;
   font-weight: 600;
   color: #383838;
+  cursor: pointer;
 `;
 
 const HeaderMenu = styled.div`
+  position: absolute;
+  right: 0;
   :hover {
     cursor: pointer;
   }

@@ -4,40 +4,43 @@ import { useTable } from 'react-table';
 import {
   selectIdState,
   setRequestListData,
-  setResponse,
-  setSelectListDealer,
+  saveModalDealerState,
   setSelectListProgress,
 } from '../../adminAtoms';
 
 const ReaquestTable = ({ onClick }) => {
-  const responseData = useRecoilValue(setResponse);
-  // 나중에 지점이랑 진행상태는 따로 갑 가져와서 저장할거임
   const requestList = useRecoilValue(setRequestListData);
-  const setNewDealer = useRecoilValue(setSelectListDealer);
+  const setNewDealer = useRecoilValue(saveModalDealerState);
   const setNewProgress = useRecoilValue(setSelectListProgress);
   const currentId = useRecoilValue(selectIdState);
-  console.log(setNewDealer, setNewProgress);
 
+  const newDealer = setNewDealer === '전체' && setNewDealer ? '' : setNewDealer;
   const formatList = requestList.map(
     ({
       estimate_request_date,
       quote_requested,
       dealer,
-      progress,
+      process_state,
       estimate_id,
       ...rest
-    }) => ({
-      ...rest,
-      estimate_id,
-      estimate_request_date: estimate_request_date.substr(0, 10),
-      quote_requested: quote_requested.substr(0, 10),
-      dealer: estimate_id === currentId ? setNewDealer || dealer : dealer,
-      progress:
-        estimate_id === currentId ? setNewProgress || progress : progress,
-    })
+    }) => {
+      return {
+        ...rest,
+        estimate_id,
+        estimate_request_date: estimate_request_date.substr(0, 10),
+        quote_requested: quote_requested.substr(0, 10),
+        dealer: estimate_id === currentId ? newDealer || dealer : dealer,
+        process_state:
+          estimate_id === currentId
+            ? setNewProgress || process_state
+            : process_state,
+      };
+    }
   );
-
-  const data = useMemo(() => formatList, [setNewDealer, setNewProgress]);
+  const data = useMemo(
+    () => formatList,
+    [newDealer, setNewProgress, requestList]
+  );
 
   const columns = useMemo(
     () => [
@@ -83,7 +86,7 @@ const ReaquestTable = ({ onClick }) => {
       },
       {
         Header: '진행상태',
-        accessor: 'progress',
+        accessor: 'process_state',
       },
       {
         Header: ' ',
@@ -97,7 +100,7 @@ const ReaquestTable = ({ onClick }) => {
     useTable({ columns, data });
 
   return (
-    <table {...getTableProps()}>
+    <table {...getTableProps()} style={{ marginTop: '15px' }}>
       <thead>
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
@@ -142,12 +145,12 @@ const ReaquestTable = ({ onClick }) => {
                     key={cell.value}
                     {...cell.getCellProps()}
                     style={{
-                      padding: '10px',
+                      padding: '8px',
                       borderBottom: 'solid 1px #e0e0e0',
                       background: 'white',
                       textAlign: 'center',
-                      paddingTop: '12px',
-                      paddingBottom: '12px',
+                      paddingTop: '15px',
+                      paddingBottom: '15px',
                       fontWeight: '500',
                     }}
                   >

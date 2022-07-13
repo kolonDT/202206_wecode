@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import CustomerInfo from './CustomerInfo';
 import CarInfo from './CarInfo';
-import Estimate from './Estimate';
+import Estimate from './Estimate/Estimate';
 import {
   setInput,
   setModalList,
   setResponse,
-  setSelectListDealer,
+  saveModalDealerState,
   setSelectListProgress,
-  setSelectModalDealer,
+  selectModalDealerState,
   setSelectProgress,
 } from '../adminAtoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -18,14 +18,21 @@ import ModalMenu from './ModalMenu';
 
 const Modal = ({ onClickToggleModal, id }) => {
   const getProgress = useRecoilValue(setSelectProgress);
-  const getDealer = useRecoilValue(setSelectModalDealer);
-  const inputEstimate = useRecoilValue(setInput);
+  const getDealer = useRecoilValue(selectModalDealerState);
   const responseData = useRecoilValue(setResponse);
+  const [inputEstimate, setInputEstimate] = useRecoilState(setInput);
   const [getModal, setGetModal] = useRecoilState(setModalList);
-  const [setNewDealer, setGetNewDealer] = useRecoilState(setSelectListDealer);
+  const [newDealer, setNewDealer] = useRecoilState(saveModalDealerState);
   const [setNewProgress, setGetNewProgress] = useRecoilState(
     setSelectListProgress
   );
+
+  const { name } = useRecoilValue(setResponse);
+  const consulting = getModal?.consulting || [''];
+  const currentModalDealer = consulting[0]?.dealer || '';
+
+  const sales_process = getModal?.sales_process || [''];
+  const process = sales_process[0].process_state || '';
 
   // const getModalData = () => {
   //   setGetModalID(id);
@@ -50,40 +57,59 @@ const Modal = ({ onClickToggleModal, id }) => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log({ data });
         setGetModal(data.results);
+        setInputEstimate(data.results.consulting[0]?.content);
       });
   };
 
   useEffect(() => {
     getModalData();
   }, []);
-  console.log('sadsf', id);
   // backend에 보낼 함수임!
-  const onSubmit = e => {
-    // fetch(`http://10.133.5.8:8000/dealers/estimate${id}`, {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     progress: getProgress,
-    //     dealer: getDealer,
-    //     estimate: inputEstimate,
-    //   }),
-    // }) //덩어리 제이슨을 받아옴
-    //   .then(res => res.json()) //덩어리 제이슨을 객체 현태로 변환
-    //   .then(data => {
-    //     if (data.Access_token) localStorage.setItem('token', data.Access_token);
-    //     // setGetNewDealer(getProgress);
-    //     // setGetNewProgress(getDealer);
-    //   }
-    //   );
-    setGetNewDealer(getDealer);
+  const handlePostDealer = e => {
+    fetch(`http://10.133.5.8:8000/dealers/consulting`, {
+      method: 'POST',
+      headers: { Authorization: responseData.access_token },
+      body: JSON.stringify({
+        dealer_name: getDealer,
+        estimate_id: id,
+      }),
+    }) //덩어리 제이슨을 받아옴
+      .then(res => res.json()) //덩어리 제이슨을 객체 현태로 변환
+      .then(data => {
+        setNewDealer(getDealer === '선택' ? '' : getDealer);
+        alert('저장이 완료됐습니다');
+        e.preventDefault();
+      });
+
     setGetNewProgress(getProgress);
     alert('저장이 완료됐습니다');
-    e.preventDefault();
   };
 
-  const handleClick = () => {};
-  console.log(getModal);
+  const handleSave = e => {
+    // 로그인 정보랑 딜러랑 비교 if 같지 않으면 alert return;
+    if (name !== currentModalDealer) {
+      alert('담당딜러가 아닙니다.');
+    } else {
+      fetch(`http://10.133.5.8:8000/dealers/consulting`, {
+        method: 'PATCH',
+        headers: { Authorization: responseData.access_token },
+        body: JSON.stringify({
+          estimate_id: id,
+          status: getProgress,
+          content: inputEstimate, //안써도 됨
+        }),
+      }) //덩어리 제이슨을 받아옴
+        .then(res => res.json()) //덩어리 제이슨을 객체 현태로 변환
+        .then(data => {
+          console.log(data);
+          setGetNewProgress(getProgress);
+          alert('저장이 완료됐습니다');
+          e.preventDefault();
+        });
+    }
+  };
+
   return (
     <ModalContainer>
       <ModalCard>
@@ -97,7 +123,11 @@ const Modal = ({ onClickToggleModal, id }) => {
             </AlignLeft>
             <CenterAlign>
               {getModal.length !== 0 && <Estimate />}
-              <SaveButton onClick={onSubmit}>저장</SaveButton>
+              <SaveButton
+                onClick={process === '대기' ? handlePostDealer : handleSave}
+              >
+                저장
+              </SaveButton>
             </CenterAlign>
           </RowAlign>
         </AlignLeft>

@@ -7,10 +7,10 @@ export const CUSTOMER_LIST = [
 ];
 
 export const CAR_LIST = [
-  { id: 0, subject: '차량번호' },
+  { id: 0, subject: '색상' },
   { id: 1, subject: '브랜드' },
   { id: 2, subject: '모델명' },
   { id: 3, subject: '연식' },
-  { id: 4, subject: '주행거리' },
-  { id: 5, subject: '옵션' },
+  { id: 4, subject: '엔진' },
+  { id: 5, subject: '변속기' },
 ];

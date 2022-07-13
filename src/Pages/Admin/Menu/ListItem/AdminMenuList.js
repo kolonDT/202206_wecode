@@ -23,8 +23,6 @@ const AdminMenuList = () => {
   // const handleClick = () => {
   //   setClickedTab(!clickedTab);
   // };
-  console.log(`뭐가 나오냐 큰 메뉴는 ${currentId}`);
-  console.log(`뭐가 나오냐 작은 메뉴는 ${currentSubId}`);
 
   return (
     <MenuWrapper>
@@ -46,7 +44,7 @@ const AdminMenuList = () => {
                   {subList?.map(({ sub, title }) => {
                     return (
                       <SubMenuList
-                        key={sub}
+                        key={title}
                         onClick={() => {
                           moveSubCategory(sub);
                           setCurrentSubId(sub);

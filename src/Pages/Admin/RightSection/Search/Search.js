@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import SearchBranch from './Branch/SearchBranch';
 import SelectCalendar from './Calendar/SelectCalendar';
-import DealerName from './DealerName/DealerName';
+import DealerFilter from './DealerName/DealerFilter';
 
-const Search = () => {
+const Search = ({ handleSelectBranch, handleSelectDealer }) => {
   return (
     <SearchContainer>
       <UpLine>
-        <SearchBranch />
-        <DealerName />
+        <SearchBranch handleSelectBranch={handleSelectBranch} />
+        <DealerFilter handleSelectDealer={handleSelectDealer} />
       </UpLine>
       <SelectCalendar />
     </SearchContainer>

@@ -3,8 +3,13 @@ import styled, { css } from 'styled-components/macro';
 import { useNavigate } from 'react-router-dom';
 import { VscBell, VscBellDot } from 'react-icons/vsc';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { LoginState, setResponse } from '../../Pages/Admin/adminAtoms';
+import {
+  AdminAlarmModalState,
+  selectOpenAlarmState,
+  setResponse,
+} from '../../Pages/Admin/adminAtoms';
 import DealerName from './DealerName';
+import AdminAlarmModal from './AdminAlarmModal';
 
 const AdminNav = () => {
   const navigate = useNavigate();
@@ -12,16 +17,29 @@ const AdminNav = () => {
   const Logout = () => {
     navigate(`/dealers/login`);
   };
-  // const responseData = useRecoilValue(setResponse);
-  // const parsing = JSON.parse(responseData);
-  // const { name } = parsing;
+  const [isOpenAlarmModal, setOpenAlarmModal] =
+    useRecoilState(selectOpenAlarmState); // 알람 모달창 열고 닫고
+  const [alarmModal, setAlarmModal] = useRecoilState(AdminAlarmModalState); // 데이터를 받아옴
+  const responseData = useRecoilValue(setResponse); // 로그인 정보를 받아옴
 
-  // const dataStr = JSON.stringify(responseData);
-  // const parsing = JSON.parse(dataStr);
-  // const { name } = parsing;
+  const getAlarmModalData = () => {
+    fetch(`http://10.133.5.8:8000/notifications/admin`, {
+      method: 'GET',
+      headers: { Authorization: responseData.access_token },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setAlarmModal(data.results);
+      });
+  };
 
-  // console.log(`dataStr ${dataStr}`);
-  // console.log(`parsing ${parsing}`);
+  const onClickToggleModal = () => {
+    setOpenAlarmModal(!isOpenAlarmModal);
+  };
+
+  useEffect(() => {
+    getAlarmModalData();
+  }, []);
 
   return (
     <NavBox>
@@ -30,7 +48,14 @@ const AdminNav = () => {
         <DealerName />
         <CenterLine>|</CenterLine>
         <DealerLogout onClick={Logout}>로그아웃</DealerLogout>
-        <VscBell className="bell" />
+        {alarmModal ? (
+          <VscBellDot className="bell" onClick={onClickToggleModal} />
+        ) : (
+          <VscBell className="bell" onClick={onClickToggleModal} />
+        )}
+        {isOpenAlarmModal && (
+          <AdminAlarmModal onClickToggleModal={onClickToggleModal} />
+        )}
       </DealerInfo>
     </NavBox>
   );

@@ -87,28 +87,25 @@ function Graph({ setPage }) {
           minHeight={screenWidth < 600 ? 375 : 500}
         >
           <ComposedChart
-            width={500}
-            height={400}
             data={graph}
             margin={{
-              top: 20,
-              right: 80,
-              bottom: 20,
-              left: 20,
+              top: 30,
+              right: 30,
+              bottom: 30,
+              left: 30,
             }}
             setPage={setPage}
           >
             <CartesianGrid stroke="#F5F5F5" strokeDasharray="5 5" />
             <Tooltip />
             <Legend />
-            {/* TODO : x 축 km → 연식 */}
-            <XAxis dataKey="index" unit="연식" type="number" />
-            <YAxis dataKey="price_used" unit="만원" type="number" />
-            <Scatter name="내 차" dataKey="myCar" fill="#5c1049" />
+            <XAxis dataKey="index" unit="" type="number" />
+            <YAxis dataKey="price_used" unit="" type="number" />
+            {/* <Scatter name="내 차" dataKey="myCar" fill="#5c1049" /> */}
             <Line
               type="monotone"
               dataKey="tomato"
-              stroke="#5c1049"
+              stroke="#085ed6"
               dot={false}
               activeDot={false}
               legendType="none"
@@ -128,25 +125,20 @@ function Graph({ setPage }) {
     </GraphWrap>
   );
 }
+
+export default Graph;
+
 const GraphWrap = styled.div`
-  border-top: 1px dotted #adadad;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  @media only screen and (max-width: 640px) {
-    width: 90%;
-    margin: 30px auto;
-  }
-  width: 40rem;
-  margin: 30px auto;
+  ${({ theme }) => theme.flex.flexBox};
+
+  // const GraphTitle = styled.h1
 `;
-const GraphTitle = styled.h1`
-  margin: 55px 0px 10px 0px;
-  font-size: 1.2em;
-  font-weight: 800;
-  letter-spacing: 1px;
-  line-height: 25px;
-`;
+//   margin: 55px 0px 10px 0px;
+//   font-size: 1.2em;
+//   font-weight: 800;
+//   letter-spacing: 1px;
+//   line-height: 25px;
+// `;
 const GraphBox = styled.div`
   font-size: small;
   margin: 10px 0px 30px 0px;
@@ -164,4 +156,3 @@ const GraphButton = styled.button`
   background-color: #5c1049;
   box-shadow: 3px 3px 5px #d8d8d8;
 `;
-export default Graph;

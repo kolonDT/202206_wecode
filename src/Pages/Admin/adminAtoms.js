@@ -58,11 +58,6 @@ export const signInPwState = atom({
   default: '',
 });
 
-export const setToken = atom({
-  key: 'setToken',
-  default: '',
-});
-
 export const setResponse = atom({
   key: 'setResponse',
   default: {},
@@ -71,7 +66,7 @@ export const setResponse = atom({
 
 export const setSelectProgress = atom({
   key: 'setSelectProgress',
-  default: '',
+  default: '대기',
 });
 
 export const setSelectListProgress = atom({
@@ -79,14 +74,14 @@ export const setSelectListProgress = atom({
   default: '대기',
 });
 
-export const setSelectModalDealer = atom({
-  key: 'setSelectModalDealer',
-  default: '',
+export const selectModalDealerState = atom({
+  key: 'selectModalDealerState',
+  default: '전체',
 });
 
-export const setSelectListDealer = atom({
-  key: 'setSelectListDealer',
-  default: '대기',
+export const saveModalDealerState = atom({
+  key: 'saveModalDealerState',
+  default: '',
 });
 
 export const setInput = atom({
@@ -94,7 +89,22 @@ export const setInput = atom({
   default: '',
 });
 
-export const setOptionBranch = atom({
-  key: 'setOptionBranch',
-  default: '',
+export const selectBranchState = atom({
+  key: 'selectBranchState',
+  default: '전체',
+});
+
+export const AdminAlarmModalState = atom({
+  key: 'AdminAlarmModalState',
+  default: false,
+});
+
+export const AdminAlarmListState = atom({
+  key: 'AdminAlarmListState',
+  default: [],
+});
+
+export const selectOpenAlarmState = atom({
+  key: 'selectOpenAlarmState',
+  default: false,
 });

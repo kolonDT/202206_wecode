@@ -1,7 +1,7 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components/macro';
-import { setSelectProgress } from '../../adminAtoms';
+import { setModalList, setSelectProgress } from '../../adminAtoms';
 import { PROGRESS_STATUS } from './ProgressStatusData';
 
 const ProgressStatus = () => {
@@ -9,6 +9,10 @@ const ProgressStatus = () => {
   const handleChange = e => {
     setGetProgress(e.target.value);
   };
+  const { sales_process } = useRecoilValue(setModalList);
+  const process = sales_process[0].process_state;
+  const processId = PROGRESS_STATUS.find(ele => ele.progress === process).id;
+  const processState = PROGRESS_STATUS.filter(ele => processId <= ele.id);
 
   return (
     <ProgressContainer>
@@ -20,7 +24,7 @@ const ProgressStatus = () => {
           handleChange(e);
         }}
       >
-        {PROGRESS_STATUS.map(({ id, progress }) => (
+        {processState.map(({ id, progress }) => (
           <option key={id}>{progress}</option>
         ))}
       </ProgressFilter>

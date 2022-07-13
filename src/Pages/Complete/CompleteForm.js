@@ -114,7 +114,7 @@ const Box = styled.div`
 `;
 
 const H1 = styled.h1`
-  wdith: 100%;
+  width: 100%;
   font-weight: 600;
   font-size: 2.5em;
   margin-top: 50px;
@@ -124,7 +124,7 @@ const H1 = styled.h1`
 `;
 
 const P = styled.p`
-  wdith: 100%;
+  width: 100%;
   font-weight: 300;
   font-size: 1.6em;
   margin: 10px;
@@ -133,7 +133,7 @@ const P = styled.p`
   }
 `;
 const Wrap = styled.div`
-  wdith: 100%;
+  width: 100%;
   margin-top: 50px;
 `;
 
