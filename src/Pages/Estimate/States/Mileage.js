@@ -15,13 +15,12 @@ import {
   ContentTitle,
   InputBox,
 } from '../Style';
-import { IP } from '../../../Hooks/Fetch';
+import { IP } from '../../../config';
 
 const Mileage = ({ prevProcess }) => {
   const [currentEstimate, setCurrentEstimate] =
     useRecoilState(currentEstimateState);
   const [lastEstimate, setLastEstimate] = useRecoilState(lastEstimateState);
-
   const setUserEstimateProcess = useSetRecoilState(userEstimateProcessState);
   const [userInputMileage, setUserInputMileage] = useRecoilState(
     UserInputMileageState

@@ -12,7 +12,7 @@ import {
 } from '../atoms';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import AlarmModal from './Modal/AlarmModal';
-import { IP } from '../Hooks/Fetch';
+import { IP } from '../config';
 
 const Header = ({ isNew, setNew, page }) => {
   const setLoginProcess = useSetRecoilState(LoginProcessState);
@@ -33,7 +33,7 @@ const Header = ({ isNew, setNew, page }) => {
         setAlarmList(data.results) &&
           data.map(({ read }) => (read ? setIsAlarm(true) : setIsAlarm(false)));
       });
-  }, [,]);
+  }, []);
 
   const checkAlarm = () => {
     setAlarmModal(prev => !prev);

@@ -21,8 +21,6 @@ const AddContactInfo = ({ nextProcess, prevProcess }) => {
     setUserInputPhoneNumber(e.target.value);
   };
 
-  console.log(userInputPhoneNumber);
-
   // const navigate = useNavigate();
   // const goToConfirm = () => {
   //   fetch(`${IP}estimates`, {

@@ -15,9 +15,9 @@ import {
   ContentBox,
   ContentTitle,
 } from '../Style';
-import { IP } from '../../../Hooks/Fetch';
 import EssentialPhoto from './EssentialPhoto';
 import MorePhoto from './MorePhoto';
+import { IP } from '../../../config';
 
 const Photo = ({ prevProcess }) => {
   const [currentEstimate, setCurrentEstimate] =
@@ -74,7 +74,6 @@ const Photo = ({ prevProcess }) => {
           </ContentSubInfo>
           <MorePhoto />
         </PhotoInputContainer>
-
         <ButtonSet>
           <PrevButton onClick={prevProcess} variant="primary">
             이전

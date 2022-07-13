@@ -30,7 +30,7 @@ import {
   userInputPhoneNumberState,
   userInputAddressState,
 } from '../../atoms';
-import { IP } from '../../Hooks/Fetch';
+import { IP } from '../../config';
 
 const Confirm = () => {
   const userEstimateProcess = useRecoilValue(userEstimateProcessState);

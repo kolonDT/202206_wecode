@@ -1,18 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { EstimateCarInfo } from '../../../atoms';
 import {
-  ButtonSet,
-  NextButton,
-  PrevButton,
-  ContentBox,
-  ContentTitle,
-} from '../Style';
+  EstimateCarInfo,
+  setMinPriceState,
+  setMaxPriceState,
+} from '../../../atoms';
+import { InputButton, ContentBox, ContentTitle } from '../Style';
 import PriceGraph from '../../Graph/PriceGraph';
 
-const Price = ({ nextProcess, prevProcess }) => {
+const Price = ({ nextProcess }) => {
   const estimateCarInfo = useRecoilValue(EstimateCarInfo);
+  const minPrice = useRecoilValue(setMinPriceState);
+  const maxPrice = useRecoilValue(setMaxPriceState);
   const { owner, car_name } = estimateCarInfo;
 
   return (
@@ -20,22 +20,26 @@ const Price = ({ nextProcess, prevProcess }) => {
       <ContentTitle>
         <OwnerTag>{owner}</OwnerTag>님의 <CarTag>{car_name}</CarTag> 🚙
         <br />
-        예상시세는 다음과 같습니다.
+        예상시세는{' '}
+        <ExpectedPrice>
+          {minPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ~{' '}
+          {maxPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} 만 원
+        </ExpectedPrice>
+        입니다.
       </ContentTitle>
       <PriceGraph />
-      <ButtonSet>
-        <PrevButton onClick={prevProcess} variant="primary">
-          이전
-        </PrevButton>
-        <NextButton onClick={nextProcess} variant="primary">
-          다음
-        </NextButton>
-      </ButtonSet>
+      <InputButton onClick={nextProcess} variant="primary">
+        다음
+      </InputButton>
     </ContentBox>
   );
 };
 
 export default Price;
+
+const ExpectedPrice = styled.span`
+  color: ${({ theme }) => theme.colors.darkGray};
+`;
 
 const OwnerTag = styled.span`
   color: ${({ theme }) => theme.colors.primaryBlue};

@@ -29,7 +29,7 @@ const Estimate = () => {
   };
 
   const goToProcess = id => {
-    id <= lastEstimate && setCurrentEstimate(id);
+    id > 2 && lastEstimate && setCurrentEstimate(id);
   };
 
   return (
@@ -59,9 +59,7 @@ const Estimate = () => {
             </ProcessBox>
           )}
           {currentEstimate === 0 && <CarInfo nextProcess={nextProcess} />}
-          {currentEstimate === 1 && (
-            <Price prevProcess={prevProcess} nextProcess={nextProcess} />
-          )}
+          {currentEstimate === 1 && <Price nextProcess={nextProcess} />}
           {currentEstimate === 2 && <Mileage prevProcess={prevProcess} />}
           {currentEstimate === 3 && <Options prevProcess={prevProcess} />}
           {currentEstimate === 4 && <AddInfo prevProcess={prevProcess} />}

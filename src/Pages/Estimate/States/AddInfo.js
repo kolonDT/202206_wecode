@@ -28,7 +28,7 @@ import {
   lastEstimateState,
   userEstimateProcessState,
 } from '../../../atoms';
-import { IP } from '../../../Hooks/Fetch';
+import { IP } from '../../../config';
 
 const AddInfo = ({ prevProcess }) => {
   const [userInputInsurance, setUserInputInsurance] = useRecoilState(
@@ -219,7 +219,7 @@ const AddInfo = ({ prevProcess }) => {
           <SubTitle>소유하신 키 갯수를 알려주세요</SubTitle>
           <InputWrapper>
             <button onClick={decreaseKeyAmount}>-</button>
-            <CountInputBox placeholder="2" type="number" value={keyAmount} />
+            <CountInputBox type="number" value={keyAmount} />
             <button onClick={increaseKeyAmount}>+</button>
           </InputWrapper>
         </ContentWrapper>
@@ -228,11 +228,7 @@ const AddInfo = ({ prevProcess }) => {
           <SubTitle>휠 스크래치</SubTitle>
           <InputWrapper>
             <button onClick={decreaseWheelScratchAmount}>-</button>
-            <CountInputBox
-              placeholder="0"
-              type="number"
-              value={wheelScratchAmount}
-            />
+            <CountInputBox type="number" value={wheelScratchAmount} />
             <button onClick={increaseWheelScratchAmount}>+</button>
           </InputWrapper>
           <NoOptionWrapper>
@@ -247,11 +243,7 @@ const AddInfo = ({ prevProcess }) => {
           <SubTitle>외판 스크래치</SubTitle>
           <InputWrapper>
             <button onClick={decreasePanelScratchAmount}>-</button>
-            <CountInputBox
-              placeholder="0"
-              type="number"
-              value={panelScratchAmount}
-            />
+            <CountInputBox type="number" value={panelScratchAmount} />
             <button onClick={increasePanelScratchAmount}>+</button>
           </InputWrapper>
           <NoOptionWrapper>

@@ -57,7 +57,7 @@ const EssentialPhoto = () => {
             key={`ImgUploadInput_${index}`}
             id={`main_img_${index}`}
             type="file"
-            accept="image/jpg,impge/png,image/jpeg"
+            accept="image/jpg,image/png,image/jpeg"
             preview={mainImage.preview[index]}
           />
           <DeleteButton onClick={e => deleteImage(e, index)}>

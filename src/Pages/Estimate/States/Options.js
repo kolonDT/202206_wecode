@@ -18,7 +18,7 @@ import {
   NoOptionWrapper,
   NoOption,
 } from '../Style';
-import { IP } from '../../../Hooks/Fetch';
+import { IP } from '../../../config';
 
 const Options = ({ prevProcess }) => {
   const [selectedOptions, setSelectedOptions] =

@@ -1,12 +1,10 @@
+import React, { useState } from 'react';
 import { Routes, BrowserRouter, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Login from './Pages/Login/Login';
-import LoginMain from './Pages/Login/LoginMain';
 import Complete from './Pages/Estimate/Complete';
-import Admin from './Pages/Admin/Admin';
-import React, { useState } from 'react';
 import Estimate from './Pages/Estimate/Estimate';
 import MyState from './Pages/MyPage/MyState';
 import SignIn from './Pages/SignIn/SignIn';
@@ -23,11 +21,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Login setPage={setPage} />} />
           <Route
-            path="/login"
-            exact
-            element={<LoginMain setPage={setPage} />}
-          />
-          <Route
             path="/complete"
             element={
               <Complete isNew={isNew} setNew={setNew} setPage={setPage} />
@@ -37,10 +30,6 @@ function App() {
           <Route path="/KakaoLogin" element={<KakaoRedirect />} />
           <Route path="/sellcar" element={<Estimate />} />
           <Route path="/estimate" element={<MyState />} />
-          <Route
-            path="/admin"
-            element={<Admin isNew={isNew} setNew={setNew} setPage={setPage} />}
-          />
         </Routes>
         <Footer page={page} />
       </RecoilRoot>

@@ -32,7 +32,8 @@ const EssentialPhoto = () => {
     }
   };
 
-  const deleteImage = index => {
+  const deleteImage = (e, index) => {
+    e.preventDefault();
     setSubImage(oldList => {
       const newList = {
         ...oldList,
@@ -52,16 +53,16 @@ const EssentialPhoto = () => {
       {OrderList.map((item, index) => (
         <ImageContainer key={`order_wrapper_${index}`}>
           <ImageBox
-            onChange={e => {
-              handleImage(e, index);
-            }}
+            onChange={e => handleImage(e, index)}
             key={`ImgUploadInput_${index}`}
             id={`main_img_${index}`}
             type="file"
-            accept="image/*"
+            accept="image/jpg,image/png,image/jpeg"
             preview={subImage.preview[index]}
           />
-          <DeleteButton onClick={() => deleteImage(index)}>delete</DeleteButton>
+          <DeleteButton onClick={e => deleteImage(e, index)}>
+            delete
+          </DeleteButton>
         </ImageContainer>
       ))}
     </PhotoWrapper>

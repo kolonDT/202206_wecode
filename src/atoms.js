@@ -220,3 +220,23 @@ export const priceGraphDataState = atom({
   key: 'priceGraphDataState',
   default: [],
 });
+
+export const inputCarNumberState = atom({
+  key: 'inputCarNumberState',
+  default: '',
+});
+
+export const setMinPriceState = atom({
+  key: 'setMinPriceState',
+  default: '',
+});
+
+export const setMaxPriceState = atom({
+  key: 'setMaxPriceState',
+  default: '',
+});
+
+export const compressedFileState = atom({
+  key: 'compressedFileState',
+  default: '',
+});

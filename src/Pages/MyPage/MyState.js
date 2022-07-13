@@ -9,7 +9,7 @@ import {
   GetUserInputPhotoState,
   AlarmListState,
 } from '../../atoms';
-import { IP } from '../../Hooks/Fetch';
+import { IP } from '../../config';
 
 const MyState = () => {
   const [getEstimateInfo, setGetEstimateInfo] = useRecoilState(GetCarInfoState);

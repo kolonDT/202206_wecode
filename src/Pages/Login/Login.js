@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { RiAlertFill } from 'react-icons/ri';
 import { BsPatchCheckFill } from 'react-icons/bs';
 import { Button } from 'react-bootstrap';
-
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   LoginProcessState,
@@ -12,17 +11,9 @@ import {
   isLoginModalState,
   currentEstimateState,
   userEstimateProcessState,
-  UserInputMileageState,
-  userInputInsuranceState,
-  keyAmountState,
-  wheelScratchAmountState,
-  panelScratchAmountState,
-  userInputRepairState,
-  userInputEtcState,
-  userInputAddressState,
-  userInputPhoneNumberState,
+  inputCarNumberState,
+  EstimateCarInfo,
 } from '../../atoms';
-
 import {
   ButtonSet,
   NextButton,
@@ -32,30 +23,24 @@ import {
   InputBox,
 } from '../Estimate/Style';
 import LoginModal from '../../Components/Modal/LoginModal';
-import { IP } from '../../Hooks/Fetch';
+import { IP } from '../../config';
 
-function Login() {
+const Login = () => {
   const [userInputOwner, setUserInputOwner] =
     useRecoilState(UserInputOwnerState);
-  const navigate = useNavigate();
+
   const [id, setId] = useState('');
   const [isLogin, setLogin] = useState(false);
+
   const [loginProcess, setLoginProcess] = useRecoilState(LoginProcessState);
   const [isLoginModal, setIsLoginModal] = useRecoilState(isLoginModalState);
-
-  const [inputCarNumber, setInputCarNumber] = useState('');
+  const [inputCarNumber, setInputCarNumber] =
+    useRecoilState(inputCarNumberState);
+  const setEstimateCarInfo = useSetRecoilState(EstimateCarInfo);
   const setCurrentEstimate = useSetRecoilState(currentEstimateState);
   const setUserEstimateProcess = useSetRecoilState(userEstimateProcessState);
 
-  const setUserInputMileage = useSetRecoilState(UserInputMileageState);
-  const setUserInputInsurance = useSetRecoilState(userInputInsuranceState);
-  const setKeyAmount = useSetRecoilState(keyAmountState);
-  const setWheelScratchAmount = useSetRecoilState(wheelScratchAmountState);
-  const setPanelScratchAmount = useSetRecoilState(panelScratchAmountState);
-  const setUserInputRepair = useSetRecoilState(userInputRepairState);
-  const setUserInputEtc = useSetRecoilState(userInputEtcState);
-  const setUserInputAddress = useSetRecoilState(userInputAddressState);
-  const setUserInputPhoneNumber = useSetRecoilState(userInputPhoneNumberState);
+  const navigate = useNavigate();
 
   const handleInputCarNumber = e => {
     setInputCarNumber(e.target.value);
@@ -103,45 +88,33 @@ function Login() {
     })
       .then(res => res.json())
       .then(data => {
-        // 견적서가 작성 완료인 경우 : process_state : '신청완료'
+        // 견적서 작성 완료인 경우
         if (data.message === 'SUCCESS_ESTIMATE_COMPLETION') {
           localStorage.setItem(`access_token`, data.access_token);
           alert('요청한 견적서가 있습니다.\n내 견적서로 이동합니다.');
           navigate('/estimate');
         }
-        // 작성중인 견적서가 있을 경우
+        // 작성 중인 견적서 있을 경우
         if (data.message === 'SUCCESS_ESTIMATE_REGISTERING') {
           localStorage.setItem(`access_token`, data.access_token);
           alert(
             '작성 중이던 견적서가 있습니다.\n입력 중이던 페이지로 이동합니다.'
           );
-          fetch(`${IP}estimates`, {
+          fetch(`${IP}cars/info`, {
             headers: {
               Authorization: localStorage.getItem('access_token'),
             },
           })
             .then(res => res.json())
             .then(data => {
-              setUserInputMileage(data.results.mileage);
-              // selectedOptions[0].state(data.results.sunroof);
-              // selectedOptions[1].state(data.results.navigation);
-              // selectedOptions[2].state(data.results.ventilation_seat);
-              // selectedOptions[3].state(data.results.heated_seat);
-              // selectedOptions[4].state(data.results.electric_seat);
-              // selectedOptions[5].state(data.results.smart_key);
-              // selectedOptions[6].state(data.results.leather_seat);
-              // selectedOptions[7].state(data.results.electric_folding_mirror);
-              setUserInputInsurance(data.results.accident_status);
-              setKeyAmount(data.results.spare_key);
-              setWheelScratchAmount(data.results.wheel_scratch);
-              setPanelScratchAmount(data.results.outer_plate_scratch);
-              setUserInputRepair(data.results.other_maintenance_repair);
-              setUserInputEtc(data.results.other_special);
-              setUserInputAddress(data.results.address);
-              setUserInputPhoneNumber(data.results.phone_number);
+              if (data.message === 'SUCCESS') {
+                setEstimateCarInfo(data.results);
+              } else {
+                alert(data.message);
+              }
             });
-
           setUserEstimateProcess(data.process_state);
+          data.process_state === '시세조회' && setCurrentEstimate(2);
           data.process_state === '주행거리' && setCurrentEstimate(3);
           data.process_state === '추가옵션' && setCurrentEstimate(4);
           data.process_state === '추가입력' && setCurrentEstimate(5);
@@ -149,12 +122,12 @@ function Login() {
           data.process_state === '개인정보' && setCurrentEstimate(7);
           navigate('/sellcar');
         }
-        // 견적서가 없을 경우
+        // 견적서 없을 경우
         if (data.message === 'SUCCESS_ESTIMATE_REQUIRED') {
           localStorage.setItem(`access_token`, data.access_token);
           navigate('/sellcar');
         }
-        // DB에 입력된 차량번호와 소유주명이 맞지 않을 경우
+        // 차량번호와 소유주명이 맞지 않을 경우
         if (data.message === 'MY_CAR_NOT_PRESENT_CAR_NUMBER') {
           alert('소유자명을 확인해주세요');
         }
@@ -237,7 +210,7 @@ function Login() {
       </BodyWrapper>
     </Background>
   );
-}
+};
 export default Login;
 
 const InputWrapper = styled.div`
