@@ -38,7 +38,7 @@ const margins = {
   xxxl: calcRem(40),
   xxxxl: calcRem(50),
 };
-// kolon mobility의 bi 색상을 따릅니다.
+/// kolon mobility의 bi 색상을 따릅니다.
 const colors = {
   superBlue: '#0051BA',
   heartPink: '#F8485E',

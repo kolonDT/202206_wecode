@@ -1,24 +1,26 @@
 import React from 'react'; // , { useEffect }
 import styled from 'styled-components';
 import { GrFormPrevious } from 'react-icons/gr';
+// import { GiHamburgerMenu } from "react-icons/gi";
+// import { BsCircleFill } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 // import { useLocation } from 'react-router-dom';
 // import { MdNotifications, MdNotificationImportant } from 'react-icons/md';
-import {
-  LoginProcessState,
-  // isAlarmState,
-  // AlarmListState,
-  // AlarmModalState,
-} from '../atoms';
-import {
-  // useRecoilState,
-  useSetRecoilState,
-} from 'recoil';
+// import {
+// LoginProcessState,
+// isAlarmState,
+// AlarmListState,
+// AlarmModalState,
+// } from '../atoms';
+// import {
+// useRecoilState,
+// useSetRecoilState,
+// } from 'recoil';
 // import AlarmModal from './Modal/AlarmModal';
 // import { IP } from '../config';
 
 const Header = ({ isNew, setNew, page }) => {
-  const setLoginProcess = useSetRecoilState(LoginProcessState);
+  // const setLoginProcess = useSetRecoilState(LoginProcessState);
   // const [isAlarm, setIsAlarm] = useRecoilState(isAlarmState);
   // const setAlarmList = useSetRecoilState(AlarmListState);
   // const [alarmModal, setAlarmModal] = useRecoilState(AlarmModalState);
@@ -51,65 +53,54 @@ const Header = ({ isNew, setNew, page }) => {
   //   setAlarmModal(prev => !prev);
   // };
 
-  const goToHome = () => {
-    navigate('/');
-    setLoginProcess(1);
-  };
-
+  // function AlarmChange({ isNew }) {
+  //   console.log("test", isNew);
+  //   if (isNew === 1) {
+  //     return (
+  //       <div>
+  //         <BsBell size="24" color="#383838" onClick={settingAlarm} />
+  //         <Alarm>
+  //           <BsCircleFill color="red" size="10" onClick={settingAlarm} />
+  //         </Alarm>
+  //       </div>
+  //     );
+  //   } else if (isNew === 0) {
+  //     return <BsBell size="24" color="#383838" onClick={settingAlarm} />;
+  //   } else {
+  //     return <BsBellSlash size="24" color="#383838" onClick={settingAlarm} />;
+  //   }
+  // }
   return (
-    <>
-      <HeaderContainer page={page}>
-        <HeaderWrapper page={page}>
-          {page === 'admin' && (
-            <PreviousButton
-              onClick={() => {
-                navigate('/');
-              }}
-              page={page}
-            >
-              <GrFormPrevious size="24" color="#383838" />
-            </PreviousButton>
-          )}
-          <HeaderTitle onClick={goToHome}>
-            {page === 'admin' ? '관리 페이지' : '내 차 팔기'}
-          </HeaderTitle>
-          {/* {location.pathname === '/estimate' && (
-            <HeaderMenu>
-              {isAlarm ? (
-                <TrueAlarmBtn onClick={checkAlarm} />
-              ) : (
-                <FalseAlarmBtn onClick={readAlarm} />
-              )}
-            </HeaderMenu>
-          )} */}
-        </HeaderWrapper>
-      </HeaderContainer>
-      {/* {alarmModal && <AlarmModal />} */}
-    </>
+    <HeaderContainer page={page}>
+      <HeaderWrapper page={page}>
+        {page === 'admin' && (
+          <PreviousButton
+            onClick={() => {
+              navigate('/');
+            }}
+            page={page}
+          >
+            <GrFormPrevious size="24" color="#383838" />
+          </PreviousButton>
+        )}
+        <HeaderTitle>
+          {page === 'admin' ? '관리 페이지' : '내 차 팔기'}
+        </HeaderTitle>
+        {/* <HeaderMenu> */}
+        {/* {page === "default" && <AlarmChange isNew={isNew} />} */}
+        {/* <GiHamburgerMenu size="24" color="#383838" />
+          {isNew === 1 ? (
+            <Alarm>
+              <BsCircleFill color="red" size="10" />
+            </Alarm>
+          ) : null} */}
+        {/* </HeaderMenu> */}
+      </HeaderWrapper>
+    </HeaderContainer>
   );
 };
 
 export default Header;
-
-// const TrueAlarmBtn = styled(MdNotificationImportant)`
-//   font-size: x-large;
-//   color: ${({ theme }) => theme.colors.heartPink};
-//   transition: ease-in-out 100ms;
-
-//   &:hover {
-//     opacity: 0.5;
-//   }
-// `;
-
-// const FalseAlarmBtn = styled(MdNotifications)`
-//   font-size: x-large;
-//   color: ${({ theme }) => theme.colors.gray};
-//   transition: ease-in-out 100ms;
-
-//   &:hover {
-//     opacity: 0.5;
-//   }
-// `;
 
 const HeaderContainer = styled.div`
   width: ${props => (props.page === 'admin' ? '1100px' : '640px')};
@@ -122,15 +113,11 @@ const HeaderContainer = styled.div`
 
 const HeaderWrapper = styled.div`
   ${({ theme }) => theme.flex.flexBox}
-  position: relative;
-  height: 5.5vh;
+  padding: 20px 20px;
 `;
 
 const PreviousButton = styled.div`
   visibility: ${props => (props.page === 'login' ? 'hidden' : 'visible')};
-  position: absolute;
-  left: 0;
-
   :hover {
     cursor: pointer;
   }
