@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { InputButton, ContentBox, ContentTitle } from '../Style';
 import { useSetRecoilState, useRecoilState, useRecoilValue } from 'recoil';
@@ -104,11 +104,7 @@ const CarInfo = () => {
               }
             });
         } else {
-<<<<<<< HEAD
-          alert(data);
-=======
           alert(data.message);
->>>>>>> main
         }
       });
   };

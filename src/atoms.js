@@ -240,3 +240,38 @@ export const compressedFileState = atom({
   key: 'compressedFileState',
   default: '',
 });
+
+export const ShowAddressResultState = atom({
+  key: 'ShowAddressResultState',
+  default: false,
+});
+
+export const ShowAddressInputState = atom({
+  key: 'ShowAddressInputState',
+  default: true,
+});
+
+export const detailAddressState = atom({
+  key: 'detailAddressState',
+  default: '',
+});
+
+export const kakaoAddressState = atom({
+  key: 'kakaoAddressState',
+  default: '',
+});
+
+export const kakaoDetailAddressState = atom({
+  key: 'kakaoDetailAddressState',
+  default: '',
+});
+
+export const loginIdState = atom({
+  key: 'loginIdState',
+  default: '',
+});
+
+export const loginCheckIdState = atom({
+  key: 'loginCheckIdState',
+  default: '',
+});

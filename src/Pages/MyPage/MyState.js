@@ -2,12 +2,15 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { ContentBox, ContentTitle, InputButton } from '../Estimate/Style';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  useRecoilState,
+  // useRecoilValue
+} from 'recoil';
 import {
   GetCarInfoState,
   GetUserInputInfoState,
   GetUserInputPhotoState,
-  AlarmListState,
+  // AlarmListState,
 } from '../../atoms';
 import { IP } from '../../config';
 
@@ -20,7 +23,7 @@ const MyState = () => {
     GetUserInputPhotoState
   );
 
-  const alarmList = useRecoilValue(AlarmListState);
+  // const alarmList = useRecoilValue(AlarmListState);
 
   useEffect(() => {
     fetch(`${IP}estimates/detail`, {
@@ -182,9 +185,9 @@ const MyState = () => {
         <EstimateWrapper>
           <ContentsBox>
             <ContentsTitle>{car_number}</ContentsTitle>
-            {alarmList.length && (
+            {/* {alarmList.length && (
               <SubTitle>{alarmList[alarmList.length - 1].content}</SubTitle>
-            )}
+            )} */}
             <CarInfoWrapper>
               <CarInfoTable>
                 {ESTIMATE_INFO.map(
@@ -256,14 +259,14 @@ const MyState = () => {
 
 export default MyState;
 
-const SubTitle = styled.h4`
-  font-size: medium;
-  margin-bottom: 2.5rem;
-  color: ${({ theme }) => theme.colors.darkGray};
-`;
+// const SubTitle = styled.h4`
+//   font-size: medium;
+//   margin-bottom: 2.5rem;
+//   color: ${({ theme }) => theme.colors.darkGray};
+// `;
 
 const CarInfoWrapper = styled.div`
-  height: 70%;
+  height: 80%;
   overflow: scroll;
 `;
 
@@ -276,7 +279,7 @@ const CarInfoTable = styled.table`
   font-size: 90%;
   border-top: 1px solid ${({ theme }) => theme.colors.disabled};
   border-bottom: 1px solid ${({ theme }) => theme.colors.disabled};
-  margin: 0 auto;
+  margin: 2rem auto 0 auto;
   width: 90%;
   padding: 8% 0;
   border-collapse: separate;
