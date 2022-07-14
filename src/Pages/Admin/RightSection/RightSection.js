@@ -12,6 +12,7 @@ import CheckBox from './CheckBox/CheckBox';
 import MenuInfo from './MenuInfo/MenuInfo';
 import RequestDetails from './RequestDetails/RequestDetails';
 import Search from './Search/Search';
+import { IP } from '../../../config';
 
 const RightSection = () => {
   const [requestList, setRequestList] = useRecoilState(setRequestListData);

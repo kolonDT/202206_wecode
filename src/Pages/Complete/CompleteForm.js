@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
-import { getAlarm, setAlarm } from '../Api/Api';
+// import { getAlarm, setAlarm } from '../Api/Api';
 import React from 'react';
 
 function CompleteForm({ isNew, setNew, setPage }) {

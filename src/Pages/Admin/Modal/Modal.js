@@ -15,6 +15,7 @@ import {
 import { useRecoilState, useRecoilValue } from 'recoil';
 import ModalHeader from './ModalHeader';
 import ModalMenu from './ModalMenu';
+import { IP } from '../../../config';
 
 const Modal = ({ onClickToggleModal, id }) => {
   const getProgress = useRecoilValue(setSelectProgress);
