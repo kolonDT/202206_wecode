@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, BrowserRouter, Route } from 'react-router-dom';
-import { RecoilRoot, useRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Login from './Pages/Login/Login';
