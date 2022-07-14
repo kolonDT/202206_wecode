@@ -24,7 +24,7 @@ const AdminNav = () => {
   const responseData = useRecoilValue(setResponse); // 로그인 정보를 받아옴
 
   const getAlarmModalData = () => {
-    fetch('http://10.133.5.8:8000/notifications/admin', {
+    fetch(`${IP}notifications/admin`, {
       method: 'GET',
       headers: { Authorization: responseData.access_token },
     })

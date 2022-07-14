@@ -19,7 +19,7 @@ const AdminLogin = () => {
 
   const signUp = e => {
     e.preventDefault();
-    fetch(`http://10.133.5.8:8000/dealers/login`, {
+    fetch(`${IP}dealers/login`, {
       method: 'POST',
       body: JSON.stringify({ id: inputId, password: inputPw }),
     })

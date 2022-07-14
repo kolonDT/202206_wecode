@@ -44,7 +44,7 @@ const RightSection = () => {
   }, []);
 
   const getTotalCardData = () => {
-    fetch(`http://10.133.5.8:8000/dealers/estimates`, {
+    fetch(`${IP}dealers/estimates`, {
       method: 'GET',
       headers: { Authorization: responseData.access_token },
     })
@@ -61,13 +61,10 @@ const RightSection = () => {
       branchParams && dealerParams ? `&dealer_name=${dealerParams}` : '';
     navigate(`?${params}${branchParams}${dealer}`);
 
-    fetch(
-      `http://10.133.5.8:8000/dealers/estimates?&branch_name=${branchParams}${dealer}`,
-      {
-        method: 'GET',
-        headers: { Authorization: responseData.access_token },
-      }
-    )
+    fetch(`${IP}dealers/estimates?&branch_name=${branchParams}${dealer}`, {
+      method: 'GET',
+      headers: { Authorization: responseData.access_token },
+    })
       .then(res => res.json())
       .then(res => {
         console.log(res.results);
