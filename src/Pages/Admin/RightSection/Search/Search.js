@@ -11,7 +11,7 @@ const Search = ({ handleSelectBranch, handleSelectDealer }) => {
         <SearchBranch handleSelectBranch={handleSelectBranch} />
         <DealerFilter handleSelectDealer={handleSelectDealer} />
       </UpLine>
-      <SelectCalendar />
+      {/* <SelectCalendar /> */}
     </SearchContainer>
   );
 };

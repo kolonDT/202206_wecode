@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { GrFormPrevious } from 'react-icons/gr';
 // import { GiHamburgerMenu } from "react-icons/gi";
@@ -26,18 +26,18 @@ const Header = ({ isNew, setNew, page }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    fetch(`${IP}notifications`, {
-      headers: {
-        Authorization: localStorage.getItem('access_token'),
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setAlarmList(data.results) &&
-          data.map(({ read }) => (read ? setIsAlarm(true) : setIsAlarm(false)));
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`${IP}notifications`, {
+  //     headers: {
+  //       Authorization: localStorage.getItem('access_token'),
+  //     },
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setAlarmList(data.results) &&
+  //         data.map(({ read }) => (read ? setIsAlarm(true) : setIsAlarm(false)));
+  //     });
+  // }, []);
 
   const checkAlarm = () => {
     setAlarmModal(prev => !prev);
@@ -73,7 +73,7 @@ const Header = ({ isNew, setNew, page }) => {
   return (
     <HeaderContainer page={page}>
       <HeaderWrapper page={page}>
-        {page === 'default' && (
+        {/* {page === 'default' && (
           <PreviousButton
             onClick={() => {
               if (location.pathname === '/requestform') {
@@ -87,9 +87,9 @@ const Header = ({ isNew, setNew, page }) => {
           >
             <GrFormPrevious size="24" color="#383838" />
           </PreviousButton>
-        )}
+        )} */}
 
-        {page === 'admin' && (
+        {/* {page === 'admin' && (
           <PreviousButton
             onClick={() => {
               navigate('/');
@@ -98,19 +98,19 @@ const Header = ({ isNew, setNew, page }) => {
           >
             <GrFormPrevious size="24" color="#383838" />
           </PreviousButton>
-        )}
+        )} */}
         <HeaderTitle>
           {page === 'admin' ? '관리 페이지' : '내 차 팔기'}
         </HeaderTitle>
-        <HeaderMenu>
-          {/* {page === "default" && <AlarmChange isNew={isNew} />} */}
-          {/* <GiHamburgerMenu size="24" color="#383838" />
+        {/* <HeaderMenu> */}
+        {/* {page === "default" && <AlarmChange isNew={isNew} />} */}
+        {/* <GiHamburgerMenu size="24" color="#383838" />
           {isNew === 1 ? (
             <Alarm>
               <BsCircleFill color="red" size="10" />
             </Alarm>
           ) : null} */}
-        </HeaderMenu>
+        {/* </HeaderMenu> */}
       </HeaderWrapper>
     </HeaderContainer>
   );
@@ -126,12 +126,13 @@ const HeaderContainer = styled.div`
 `;
 
 const HeaderWrapper = styled.div`
-  display: flex;
+  ${({ theme }) => theme.flex.flexBox}
+  /* display: flex;
   flex-wrap: wrap;
   justify-content: ${props =>
     props.page === 'default' || props.page === 'admin'
       ? 'space-between'
-      : 'center'};
+      : 'center'}; */
   padding: 20px 20px;
 `;
 
@@ -143,6 +144,7 @@ const PreviousButton = styled.div`
 `;
 
 const HeaderTitle = styled.h2`
+  margin: 0 auto;
   font-size: medium;
   font-weight: 600;
   color: #383838;

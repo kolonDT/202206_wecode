@@ -5,20 +5,21 @@ import styled from 'styled-components/macro';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { setResponse, signInIdState, signInPwState } from '../Admin/adminAtoms';
+import { IP } from '../../config';
 
 const AdminLogin = () => {
   const inputId = useRecoilValue(signInIdState);
   const inputPw = useRecoilValue(signInPwState);
   const navigate = useNavigate();
   const [responseData, setResponseData] = useRecoilState(setResponse);
-
+  console.log(IP);
   const goToAdmin = () => {
     navigate('/dealers/estimates');
   };
 
   const signUp = e => {
     e.preventDefault();
-    fetch('http://10.133.5.8:8000/dealers/login', {
+    fetch(`${IP}dealers/login`, {
       method: 'POST',
       body: JSON.stringify({ id: inputId, password: inputPw }),
     })

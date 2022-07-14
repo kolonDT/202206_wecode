@@ -104,11 +104,7 @@ const CarInfo = () => {
               }
             });
         } else {
-<<<<<<< HEAD
-          alert(data);
-=======
           alert(data.message);
->>>>>>> main
         }
       });
   };
