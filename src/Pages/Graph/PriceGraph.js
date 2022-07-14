@@ -34,25 +34,40 @@ const PriceGraph = () => {
   }, []);
 
   const myData = {
+    behaviors: [
+      {
+        id: 'Reload', //built-in id
+        enabled: 'none', //sets visibility to show
+      },
+      {
+        id: 'SaveAsImage',
+        enabled: 'none',
+      },
+      {
+        id: 'DownloadPDF', //built-in id
+        enabled: 'none', //sets visibility to show
+      },
+      {
+        id: 'DownloadSVG',
+        enabled: 'none',
+      },
+      {
+        id: 'Print',
+        enabled: 'none',
+      },
+      {
+        id: 'ViewSource', //built-in id
+        enabled: 'none', //sets visibility to hide
+      },
+      {
+        id: 'About ZingChart', //removed with licensing
+      },
+    ],
     type: 'mixed',
     scaleX: {
       mirrored: false,
     },
     series: [
-      {
-        type: 'scatter',
-        tooltip: { visible: false },
-        marker: {
-          'background-color': '#cee3ff',
-          'border-color': 'none',
-          'background-repeat': 'no-repeat',
-          shadow: false,
-          size: 35,
-        },
-        values: [
-          [Number(estimateCarInfo.model_year), priceGraphData.estimated_price],
-        ],
-      },
       {
         type: 'scatter',
         tooltip: { visible: false },
@@ -77,12 +92,26 @@ const PriceGraph = () => {
         'line-color': '#afcff7',
         values: [priceGraphData.min_result, priceGraphData.max_result],
       },
+      {
+        type: 'scatter',
+        tooltip: { visible: false },
+        marker: {
+          'background-color': '#cee3ff',
+          'border-color': 'none',
+          'background-repeat': 'no-repeat',
+          shadow: false,
+          size: 35,
+        },
+        values: [
+          [Number(estimateCarInfo.model_year), priceGraphData.estimated_price],
+        ],
+      },
     ],
   };
 
   return (
     <GraphWrapper>
-      <ZingChart width="600px" height="300px" data={myData} />
+      <ZingGraph height="300px" data={myData} />
     </GraphWrapper>
   );
 };
@@ -91,4 +120,9 @@ export default PriceGraph;
 
 const GraphWrapper = styled.div`
   ${({ theme }) => theme.flex.flexBox};
+  width: 100%;
+`;
+
+const ZingGraph = styled(ZingChart)`
+  width: 100%;
 `;

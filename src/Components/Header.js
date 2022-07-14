@@ -1,53 +1,55 @@
-import React, { useEffect } from 'react';
+import React from 'react'; // , { useEffect }
 import styled from 'styled-components';
 import { GrFormPrevious } from 'react-icons/gr';
 import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import { MdNotifications, MdNotificationImportant } from 'react-icons/md';
+// import { useLocation } from 'react-router-dom';
+// import { MdNotifications, MdNotificationImportant } from 'react-icons/md';
 import {
   LoginProcessState,
-  isAlarmState,
-  AlarmListState,
-  AlarmModalState,
+  // isAlarmState,
+  // AlarmListState,
+  // AlarmModalState,
 } from '../atoms';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import AlarmModal from './Modal/AlarmModal';
-import { IP } from '../config';
+import {
+  // useRecoilState,
+  useSetRecoilState,
+} from 'recoil';
+// import AlarmModal from './Modal/AlarmModal';
+// import { IP } from '../config';
 
 const Header = ({ isNew, setNew, page }) => {
   const setLoginProcess = useSetRecoilState(LoginProcessState);
-  const [isAlarm, setIsAlarm] = useRecoilState(isAlarmState);
-  const setAlarmList = useSetRecoilState(AlarmListState);
-  const [alarmModal, setAlarmModal] = useRecoilState(AlarmModalState);
+  // const [isAlarm, setIsAlarm] = useRecoilState(isAlarmState);
+  // const setAlarmList = useSetRecoilState(AlarmListState);
+  // const [alarmModal, setAlarmModal] = useRecoilState(AlarmModalState);
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
-  useEffect(() => {
-    fetch(`${IP}notifications`, {
-      headers: {
-        Authorization: localStorage.getItem('access_token'),
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setAlarmList(data.results) &&
-          data.map(({ read }) => (read ? setIsAlarm(true) : setIsAlarm(false)));
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`${IP}notifications`, {
+  //     headers: {
+  //       Authorization: localStorage.getItem('access_token'),
+  //     },
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setAlarmList(data.results) &&
+  //         data.map(({ read }) => (read ? setIsAlarm(true) : setIsAlarm(false)));
+  //     });
+  // }, []);
 
-  const checkAlarm = () => {
-    setAlarmModal(prev => !prev);
-    setAlarmList(prevState => {
-      const newState = prevState.map(list => ({ ...list, read: true }));
-      return newState;
-    });
-    setIsAlarm(false);
-    // TODO : 변경 된 state 서버에 POST 필요
-  };
+  // const checkAlarm = () => {
+  //   setAlarmModal(prev => !prev);
+  //   setAlarmList(prevState => {
+  //     const newState = prevState.map(list => ({ ...list, read: true }));
+  //     return newState;
+  //   });
+  //   setIsAlarm(false);
+  // };
 
-  const readAlarm = () => {
-    setAlarmModal(prev => !prev);
-  };
+  // const readAlarm = () => {
+  //   setAlarmModal(prev => !prev);
+  // };
 
   const goToHome = () => {
     navigate('/');
@@ -71,7 +73,7 @@ const Header = ({ isNew, setNew, page }) => {
           <HeaderTitle onClick={goToHome}>
             {page === 'admin' ? '관리 페이지' : '내 차 팔기'}
           </HeaderTitle>
-          {location.pathname === '/estimate' && (
+          {/* {location.pathname === '/estimate' && (
             <HeaderMenu>
               {isAlarm ? (
                 <TrueAlarmBtn onClick={checkAlarm} />
@@ -79,33 +81,35 @@ const Header = ({ isNew, setNew, page }) => {
                 <FalseAlarmBtn onClick={readAlarm} />
               )}
             </HeaderMenu>
-          )}
+          )} */}
         </HeaderWrapper>
       </HeaderContainer>
-      {alarmModal && <AlarmModal />}
+      {/* {alarmModal && <AlarmModal />} */}
     </>
   );
 };
 
-const TrueAlarmBtn = styled(MdNotificationImportant)`
-  font-size: x-large;
-  color: ${({ theme }) => theme.colors.heartPink};
-  transition: ease-in-out 100ms;
+export default Header;
 
-  &:hover {
-    opacity: 0.5;
-  }
-`;
+// const TrueAlarmBtn = styled(MdNotificationImportant)`
+//   font-size: x-large;
+//   color: ${({ theme }) => theme.colors.heartPink};
+//   transition: ease-in-out 100ms;
 
-const FalseAlarmBtn = styled(MdNotifications)`
-  font-size: x-large;
-  color: ${({ theme }) => theme.colors.gray};
-  transition: ease-in-out 100ms;
+//   &:hover {
+//     opacity: 0.5;
+//   }
+// `;
 
-  &:hover {
-    opacity: 0.5;
-  }
-`;
+// const FalseAlarmBtn = styled(MdNotifications)`
+//   font-size: x-large;
+//   color: ${({ theme }) => theme.colors.gray};
+//   transition: ease-in-out 100ms;
+
+//   &:hover {
+//     opacity: 0.5;
+//   }
+// `;
 
 const HeaderContainer = styled.div`
   width: ${props => (props.page === 'admin' ? '1100px' : '640px')};
@@ -139,11 +143,10 @@ const HeaderTitle = styled.h2`
   cursor: pointer;
 `;
 
-const HeaderMenu = styled.div`
-  position: absolute;
-  right: 0;
-  :hover {
-    cursor: pointer;
-  }
-`;
-export default Header;
+// const HeaderMenu = styled.div`
+//   position: absolute;
+//   right: 0;
+//   :hover {
+//     cursor: pointer;
+//   }
+// `;

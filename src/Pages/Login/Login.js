@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { RiAlertFill } from 'react-icons/ri';
@@ -13,6 +13,8 @@ import {
   userEstimateProcessState,
   inputCarNumberState,
   EstimateCarInfo,
+  loginIdState,
+  loginCheckIdState,
 } from '../../atoms';
 import {
   ButtonSet,
@@ -29,8 +31,8 @@ const Login = () => {
   const [userInputOwner, setUserInputOwner] =
     useRecoilState(UserInputOwnerState);
 
-  const [id, setId] = useState('');
-  const [isLogin, setLogin] = useState(false);
+  const setId = useSetRecoilState(loginIdState);
+  const [isLogin, setLogin] = useRecoilState(loginCheckIdState);
 
   const [loginProcess, setLoginProcess] = useRecoilState(LoginProcessState);
   const [isLoginModal, setIsLoginModal] = useRecoilState(isLoginModalState);
@@ -42,15 +44,15 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  const handleAdmin = () => {
+    navigate('/admin');
+  };
+
   const handleInputCarNumber = e => {
     setInputCarNumber(e.target.value);
     let ret = isValidId(e.target.value);
     setLogin(ret);
     setId(e.target.value);
-  };
-
-  const handleAdmin = () => {
-    navigate('/admin');
   };
 
   function isValidId(str) {

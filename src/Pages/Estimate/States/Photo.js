@@ -30,6 +30,7 @@ const Photo = ({ prevProcess }) => {
   const goToContact = () => {
     setUserEstimateProcess('사진등록');
     const formData = new FormData();
+    formData.append('process_state', '사진등록');
     formData.append('image', mainImage.file[0]);
     formData.append('image', mainImage.file[1]);
     formData.append('image', mainImage.file[2]);
@@ -79,6 +80,12 @@ const Photo = ({ prevProcess }) => {
             이전
           </PrevButton>
           <NextButton
+            disabled={
+              (mainImage.file[0] &&
+                mainImage.file[1] &&
+                mainImage.file[2] &&
+                mainImage.file[3]) === (0 && undefined) && true
+            }
             encType="multipart/form-data"
             onClick={goToContact}
             variant="primary"

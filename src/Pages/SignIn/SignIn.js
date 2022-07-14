@@ -77,10 +77,17 @@ const SignIn = () => {
                 placeholder="010-1234-5678"
                 onChange={e => setSignInPhoneNumber(e.target.value)}
                 value={signInPhoneNumber}
-                type="number"
               />
             </ContentWrapper>
-            <InputButton onClick={goToCarInfo} variant="primary">
+            <InputButton
+              disabled={
+                (signInCarNumber && signInOwner && signInPhoneNumber) === ''
+                  ? true
+                  : false
+              }
+              onClick={goToCarInfo}
+              variant="primary"
+            >
               시세 확인하러 가기
             </InputButton>
           </ContentBox>
