@@ -9,6 +9,8 @@ import Estimate from './Pages/Estimate/Estimate';
 import MyState from './Pages/MyPage/MyState';
 import SignIn from './Pages/SignIn/SignIn';
 import KakaoRedirect from './Pages/Login/Kakao/KakaoRedirect';
+import AdminLogin from './Pages/AdminLogin/AdminLogin';
+import Admin from './Pages/Admin/Admin';
 
 function App() {
   const [isNew, setNew] = useState(-1);
@@ -30,6 +32,19 @@ function App() {
           <Route path="/KakaoLogin" element={<KakaoRedirect />} />
           <Route path="/sellcar" element={<Estimate />} />
           <Route path="/estimate" element={<MyState />} />
+          (
+          <Route
+            path="/dealers/estimates"
+            element={<Admin isNew={isNew} setNew={setNew} setPage={setPage} />}
+          />
+          ) (
+          <Route
+            path="/dealers/login"
+            element={
+              <AdminLogin isNew={isNew} setNew={setNew} setPage={setPage} />
+            }
+          />
+          )
         </Routes>
         <Footer page={page} />
       </RecoilRoot>

@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useRecoilValue } from 'recoil';
 import { setModalList } from '../adminAtoms';
+import { IP } from '../../../config';
 
 const ImageInfo = () => {
   const getModal = useRecoilValue(setModalList);

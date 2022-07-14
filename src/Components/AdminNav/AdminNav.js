@@ -10,6 +10,7 @@ import {
 } from '../../Pages/Admin/adminAtoms';
 import DealerName from './DealerName';
 import AdminAlarmModal from './AdminAlarmModal';
+import { IP } from '../../config';
 
 const AdminNav = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const AdminNav = () => {
   const responseData = useRecoilValue(setResponse); // 로그인 정보를 받아옴
 
   const getAlarmModalData = () => {
-    fetch(`http://10.133.5.8:8000/notifications/admin`, {
+    fetch(`${IP}notifications/admin`, {
       method: 'GET',
       headers: { Authorization: responseData.access_token },
     })
@@ -48,6 +49,7 @@ const AdminNav = () => {
         <DealerName />
         <CenterLine>|</CenterLine>
         <DealerLogout onClick={Logout}>로그아웃</DealerLogout>
+        {/* // 알람 모달 창
         {alarmModal ? (
           <VscBellDot className="bell" onClick={onClickToggleModal} />
         ) : (
@@ -55,7 +57,9 @@ const AdminNav = () => {
         )}
         {isOpenAlarmModal && (
           <AdminAlarmModal onClickToggleModal={onClickToggleModal} />
-        )}
+        )} */}
+
+        <VscBell className="bell" />
       </DealerInfo>
     </NavBox>
   );

@@ -15,6 +15,7 @@ import {
 import { useRecoilState, useRecoilValue } from 'recoil';
 import ModalHeader from './ModalHeader';
 import ModalMenu from './ModalMenu';
+import { IP } from '../../../config';
 
 const Modal = ({ onClickToggleModal, id }) => {
   const getProgress = useRecoilValue(setSelectProgress);
@@ -51,7 +52,7 @@ const Modal = ({ onClickToggleModal, id }) => {
 
   // 서버 열렸을때 가져올거임
   const getModalData = () => {
-    fetch(`http://10.133.5.8:8000/dealers/estimate/${id}`, {
+    fetch(`${IP}dealers/estimate/${id}`, {
       method: 'GET',
       headers: { Authorization: responseData.access_token },
     })
@@ -67,7 +68,7 @@ const Modal = ({ onClickToggleModal, id }) => {
   }, []);
   // backend에 보낼 함수임!
   const handlePostDealer = e => {
-    fetch(`http://10.133.5.8:8000/dealers/consulting`, {
+    fetch(`${IP}dealers/consulting`, {
       method: 'POST',
       headers: { Authorization: responseData.access_token },
       body: JSON.stringify({
@@ -91,7 +92,7 @@ const Modal = ({ onClickToggleModal, id }) => {
     if (name !== currentModalDealer) {
       alert('담당딜러가 아닙니다.');
     } else {
-      fetch(`http://10.133.5.8:8000/dealers/consulting`, {
+      fetch(`${IP}dealers/consulting`, {
         method: 'PATCH',
         headers: { Authorization: responseData.access_token },
         body: JSON.stringify({

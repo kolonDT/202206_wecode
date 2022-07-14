@@ -124,6 +124,7 @@ const PreviousButton = styled.div`
 `;
 
 const HeaderTitle = styled.h2`
+  margin: 0 auto;
   font-size: medium;
   font-weight: 600;
   color: #383838;
