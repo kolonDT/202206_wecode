@@ -1,26 +1,59 @@
-# 내 차 팔기 서비스
+# Selling my car
 
-시간과 장소에 구애받지 않고 언제 어디서든, 사용자의 자동차 시세를 측정하고, 담당 딜러를 배정하여 판매까지 이어지는 서비스를 제공합니다.  
-
-사용자는 자신의 차량번호 조회만으로 모든 서비스를 누릴 수 있습니다.
+> 자동차 번호 입력으로 등록 된 차량 정보와 시세 정보를 불러오며 판매까지 이어지는 서비스를 제공합니다. <br/>
+> 접수 된 견적은 관리자 페이지를 통해 지점 별 딜러 배정 및 견적 상태 관리가 가능합니다.
 
 <br/>
 
+<p align="right"> Supported by <a href="https://wecode.co.kr/"><img src="https://raw.githubusercontent.com/NexClipper/exporterhub.io/master/assets/wecode_logo.jpg" width= 120></a></p>
 
-## 👋 Introduction
-- 내 차 팔기 서비스를 제공하는 KOLON X WECODE 프로젝트
-- 진행 기간 : 2022.06.20 ~ 2022.07.14
-- 개발은 Docker 기반으로 진행하였으며, 기능별 application을 생성해 개별적으로 관리하였습니다. 
+## 📜 Contents
+* [Demo Video](https://github.com/kolonDT/202206_wecode#-demo-video)
+* [Features](https://github.com/kolonDT/202206_wecode#-features)
+* [How to install](https://github.com/kolonDT/202206_wecode#-how-to-install)
+* [Need to know](https://github.com/kolonDT/202206_wecode#-need-to-know)
+* [Main Service Flow](https://github.com/kolonDT/202206_wecode#-main-service-flow)
+* [DataBase Modeling](https://github.com/kolonDT/202206_wecode#-database-modeling)
 
+<br/>
 
+## 🎥 Demo Video
+
+~~
+
+<br/>
+
+## 🔑 Features 
+<!--lint disable no-undefined-references-->
+* [x] 차량 번호를 통한 회원 확인
+* [x] 카카오 로그인 인증 및 회원가입
+* [x] 차량 정보 조회
+  * [x] DB 내 차량 정보 호출 (car365 api 대체)
+  * [x] 차량 시세 조회 및 그래프 출력
+* [x] 차량 변동 정보 입력
+  * [ ] 차량 사진 압축 업로드
+* [x] 개인 정보 입력
+  * [ ] 카카오 맵 마커를 이용한 현재 위치 이동
+* [x] 내 견적 확인
+* [ ] 견적 상태 알림
 
 <br/>
 
 ## 🛠 How to install
 
 ```
-* ~~
+*
 ```
+
+<br/>
+
+## 💡 Need to know
+
+> ### 2회 차 카카오 로그인 테스트 시
+> 1. [카카오 계정 관리](https://accounts.kakao.com/weblogin/account/partner#pageConnectedOpenAppList)에 가입하였던 카카오 계정으로 로그인
+> 2. 연결 된 서비스 관리 중 'Wecode_Kolon'을 해제
+> 3. 테스트 웹 페이지에서 local storage에 저장되어 있는 정보 삭제
+> 4. 내 차 팔기 서비스 카카오 로그인 인증
 
 <br/>
 
@@ -30,42 +63,7 @@
 <br/>
 
 
-## DataBase Modeling
+## 💾 DataBase Modeling
 ![2](https://user-images.githubusercontent.com/21071903/171773721-b6c65832-322d-4090-8aae-7dbf142ff070.png)
-
-<br/>
-
-## Demo Video
-
-~~
-
-<br/>
-
-## 주요 기능 
-  
-#### 1. 카카오 소셜 로그인 API
-```
-* 로그인 회원가입시 사용자 DB를 조회해서, 기존 사용자가 아니라면, 카카오톡 로그인
-  API를 활용하여 쉽게 회원가입을 진행할 수 있게 하는 기능
-```
-  
-#### 2. 견적서 조회, 작성, 수정, 삭제 API
-```
-* 견적서 작성 여부에 따라 조회 혹은 작성 불가능하도록 설계.
- (ex. 기존에 작성한 견적서 있을 경우: '작성' 불가)
- (ex. 기존에 작성한 견적서 없을 경우: '조회' 불가)
-* 견적서 최종 상태가 "신청 완료"일 경우, 판매 프로세스 시작.
-```
-  
-#### 3. 견적서에 사용자의 로컬 이미지 등록, 수정, 삭제 API
-```
-* 사용자의 로컬에 있는 이미지 파일을 견적서 데이터베이스에 등록, 삭제 기능
-```
-  
-#### 4. 견적 진행 상황에 따라 사용자에게 알림 전송 API
-```
-* 견적 진행 상황에 따라 사용자 계정에 알림 전송 기능 구현.
-* 사용자가 알림을 조회하면 읽음 표시 기능 구현
-``` 
 
 <br/>
