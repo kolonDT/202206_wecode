@@ -1,4 +1,4 @@
-# Selling my car [![Npm package version](https://img.shields.io/npm/v/eslint-config-prettier)](https://img.shields.io/npm/v/eslint-config-prettier) [![GitHub latest commit](https://img.shields.io/github/last-commit/kolonDT/202206_wecode)](https://img.shields.io/github/last-commit/kolonDT/202206_wecode/commit/) ![Generic badge](https://img.shields.io/badge/PRs-welcome-orange.svg)
+# Selling my car [![Npm package version](https://img.shields.io/npm/v/eslint-config-prettier)](https://img.shields.io/npm/v/eslint-config-prettier) [![GitHub latest commit](https://img.shields.io/github/last-commit/kolonDT/202206_wecode)](https://github.com/kolonDT/202206_wecode/commit) ![Generic badge](https://img.shields.io/badge/PRs-welcome-orange.svg)
 
 > 자동차 번호 입력으로 등록 된 차량 정보와 시세 정보를 불러오며 판매까지 이어지는 서비스를 제공합니다. <br/>
 > 접수 된 견적은 관리자 페이지를 통해 지점 별 딜러 배정 및 견적 상태 관리가 가능합니다.
