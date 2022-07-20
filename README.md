@@ -1,16 +1,7 @@
-# Selling my car 
+# Selling my car [![Npm package version](https://img.shields.io/npm/v/eslint-config-prettier)](https://img.shields.io/npm/v/eslint-config-prettier) [![GitHub latest commit](https://badgen.net/github/last-commit/Naereen/Strapdown.js)](https://GitHub.com/Naereen/StrapDown.js/commit/) ![Generic badge](https://img.shields.io/badge/PRs-welcome-orange.svg)
+
 > 자동차 번호 입력으로 등록 된 차량 정보와 시세 정보를 불러오며 판매까지 이어지는 서비스를 제공합니다. <br/>
 > 접수 된 견적은 관리자 페이지를 통해 지점 별 딜러 배정 및 견적 상태 관리가 가능합니다.
-
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-<img src="https://img.shields.io/badge/recoil-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=white">
-![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
-<br/>
-[![Npm package version](https://img.shields.io/npm/v/eslint-config-prettier)](https://img.shields.io/npm/v/eslint-config-prettier)
-[![GitHub latest commit](https://badgen.net/github/last-commit/Naereen/Strapdown.js)](https://GitHub.com/Naereen/StrapDown.js/commit/)
-![Generic badge](https://img.shields.io/badge/PRs-welcome-orange.svg)
 
 <br/>
 <a href="https://github.com/kolonDT/202206_wecode/graphs/contributors">
@@ -18,6 +9,8 @@
 </a>
 
 <p align="right"> Supported by <a href="https://wecode.co.kr/"><img src="https://raw.githubusercontent.com/NexClipper/exporterhub.io/master/assets/wecode_logo.jpg" width= 120></a></p>
+
+<br/>
 
 ## 📜 Table of Contents
 * [Demo Video](https://github.com/kolonDT/202206_wecode#-demo-video)
